@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 2.8)
+project(Generic-fortran)
+message("BEFORE")
+include_directories(${SEPINCDIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/../base)
+message(${CMAKE_CURRENT_BINARY_DIR}/../base)
+add_library(genForSEP sep_param.f90  sep_reg_file.f90)

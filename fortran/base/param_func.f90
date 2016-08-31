@@ -1,20 +1,21 @@
 module param_func_mod
   implicit none
   type,abstract  :: param_func
+  
     contains
-      procedure(getIntN), deferred,pass :: get_intN
-      procedure(getIntD), deferred,pass :: get_intD
-      procedure(getFloatN),deferred,pass :: get_floatN
-      procedure(getFloatD),deferred,pass :: get_floatD
-      procedure(getStringN),deferred,pass :: get_StringN
-      procedure(getStringD),deferred,pass :: get_StringD
-      procedure(getBoolN),deferred,pass :: get_boolN
-      procedure(getBoolD),deferred,pass :: get_boolD
-      procedure(getIntsN),deferred,pass :: get_IntsN
-      procedure(getIntsD),deferred,pass :: get_IntsD
-      procedure(getFloatsN),deferred,pass :: get_floatsN
-      procedure(getFloatsD),deferred,pass :: get_floatsD
-      procedure(error), deferred,pass:: err
+      procedure(getIntN), deferred :: get_intN
+      procedure(getIntD), deferred :: get_intD
+      procedure(getFloatN),deferred:: get_floatN
+      procedure(getFloatD),deferred :: get_floatD
+      procedure(getStringN),deferred :: get_StringN
+      procedure(getStringD),deferred :: get_StringD
+      procedure(getBoolN),deferred :: get_boolN
+      procedure(getBoolD),deferred :: get_boolD
+      procedure(getIntsN),deferred :: get_IntsN
+      procedure(getIntsD),deferred :: get_IntsD
+      procedure(getFloatsN),deferred :: get_floatsN
+      procedure(getFloatsD),deferred :: get_floatsD
+      procedure(error), deferred:: err
       generic:: getInt=>get_intN,get_intD
       generic:: getReal=>get_floatN,get_floatD
       generic:: getLogical=>get_boolN,get_boolD
@@ -26,7 +27,7 @@ module param_func_mod
     function getintN(struct,arg)
       import param_func
       class(param_func) :: struct
-      integer :: get_intN
+      integer :: getintN
       character(len=*) :: arg
     end function
     function getintD(struct,arg,def)
@@ -41,12 +42,14 @@ module param_func_mod
       real :: getfloatN
       character(len=*) :: arg
     end function
+    
         function getstringD(struct,arg,def)
       import param_func
           class(param_func) :: struct
       character(len=1024) :: getStringD
       character(len=*) :: arg,def
     end function
+    
     function getStringN(struct,arg)
       import param_func
           class(param_func) :: struct
@@ -77,24 +80,31 @@ module param_func_mod
       integer,pointer,dimension(:) :: getintsN
       character(len=*) :: arg
     end function
+    
     function getintsD(struct,arg,def)
       import param_func
           class(param_func) :: struct
-      integer,pointer,dimension(:) :: getintsD,def
+      integer,pointer,dimension(:) :: getintsD
+      integer :: def(:)
       character(len=*) :: arg
     end function   
+    
+    
     function getfloatsN(struct,arg)
       import param_func
           class(param_func) :: struct
       real,pointer,dimension(:) :: getfloatsN
       character(len=*) :: arg
     end function
+    
     function getfloatsD(struct,arg,def)
       import param_func
           class(param_func) :: struct
-      real,pointer,dimension(:) :: getfloatsD,def
+      real :: def(:)
+      real,pointer,dimension(:) :: getfloatsD
       character(len=*) :: arg
     end function  
+    
     subroutine error(struct,arg)
       import param_func
           class(param_func) :: struct

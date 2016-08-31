@@ -1,19 +1,18 @@
-module hypercube_mod
+module hypercubeGen_mod
   use axis_mod
   implicit none
   integer,parameter :: longlong = selected_int_kind(15)
   type hypercube
-    private
     
-      integer(kind=longlong) :: n123
-      type(axis),dimension(:),allocatable :: axes
+      integer(kind=longlong),private :: n123
+      type(axis),dimension(:),allocatable,private :: axes
     contains
     procedure, pass :: set_axes
     procedure, pass :: set_axis
     procedure, pass :: get_axis
     procedure, pass :: get_axes
     procedure, pass :: get_n123
-    procedure, pass :: get_ndim
+    procedure, pass :: getNdim=>get_ndim
     procedure, pass :: same_size
     procedure, pass :: return_ns
     procedure, pass :: get_ndim_g1
@@ -23,6 +22,7 @@ module hypercube_mod
   interface createHypercube
     module procedure hyp_hyp,hyp_ns,hyp_axes
   end interface
+  
   
    
   contains
@@ -35,7 +35,7 @@ module hypercube_mod
   end function
   function hyp_axes(axes)
     type(hypercube) :: hyp_axes
-    type(axis),allocatable :: axes(:)
+    type(axis) :: axes(:)
     call hyp_axes%set_axes(axes)
   end function
   function hyp_ns(ns)

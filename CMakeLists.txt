@@ -22,8 +22,14 @@ find_library(LIBSEP3D sep3d /usr/local/SEP/lib /usr/local/SEP/SEP8.0/lib /opt/SE
 #!if (SEPINCDIR AND LIBSEP AND LIBSEP3D)
 if (SEPINCDIR)
   set(USE_SEP true)
+  set(IOTYPE SEP)
 else()
 endif()
+
+configure_file (
+  "${PROJECT_SOURCE_DIR}/genericIO.h.in"
+  "${PROJECT_BINARY_DIR}/genericIO.h"
+ )
 
 add_subdirectory(cpp)
 add_subdirectory(fortran)

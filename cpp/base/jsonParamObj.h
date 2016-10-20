@@ -1,12 +1,11 @@
-#ifndef SEP_PARAM_FUNC_H
-#define SEP_PARAM_FUNC_H 1
+#ifndef JSON_PARAM_OBJ
+#define JSON_PARAM_OBJ 1
+#include "json.h"
 #include "paramObj.h"
-#include<string>
-#include<stdbool.h>
-
-class sepParam: public paramObj{
+#include <memory>
+class jsonParamObj: public paramObj{
   public:
-    sepParam(const int argc, char **argv);
+    jsonParamObj(std::shared_ptr<Json::Value> inp);
     virtual int getInt(const std::string arg);
     virtual int getInt(const std::string arg, const int def);
    
@@ -27,16 +26,12 @@ class sepParam: public paramObj{
     virtual std::vector<float> getFloats(const std::string arg,int nvals);
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
        
-    virtual void err(const std::string errm) ;
-    
+    virtual void error(const std::string err) ;
 
-    
-
-
-
-
-
+  protected:
+   std::shared_ptr<Json::Value> jsonArgs;
 
 };
+
 
 #endif

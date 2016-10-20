@@ -1,15 +1,47 @@
-#ifndef SEP_REGFILE_FUNC_H
-#define SEP_REGFILE_FUNC_H 1
+#ifndef rsf_REGFILE_FUNC_H
+#define rsf_REGFILE_FUNC_H 1
 #include<string>
 #include<stdbool.h>
 #include "genericFile.h"
+#include "basicIO.h"
+#define  NO_BLAS 1
+extern "C" {
+#include <rsf.h>
+}
 
-class sepRegFile: public genericRegFile{
+class rsfBasic: public basicIO{
+ public:
+  rsfBasic(sf_file file){_file=file;}
+  virtual inline void seekToPos(long long pos){
+       long long ft=ftell(_myf);
+       long long bg=1024*1024*1024;
+       long long diff=pos-ft;
+       while(diff!=0){    
+         long long dst;   
+         if(diff>0) dst=std::min(bg,diff);
+         else dst=-std::min(-diff,bg);
+         sf_seek(_file,dst,SEEK_CUR);
+         diff-=dst;
+      }  
+  }
+  virtual void readStream(long long sz, void *data){
+      sf_ucharread((unsigned char*)data,sz,_file);
+  
+  }
+  virtual void writeStream(long long sz, void *data){
+  
+        sf_ucharwrite((unsigned char*)data,sz,_file);
+
+  }
+  ~rsfBasic(){ sf_fileclose(_file);}
+  sf_file _file;
+};
+class rsfRegFile: public genericRegFile{
   public:
   
- // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
+ // rsfRegFile::rsfRegFile(const std::string tag,usage_code usage){
 
-    sepRegFile(std::string tg, usage_code usage);
+    rsfRegFile(std::string tg, usage_code usage);
     virtual int getInt(const std::string arg);
     virtual int getInt(const std::string arg, const int def);
    
@@ -24,13 +56,13 @@ class sepRegFile: public genericRegFile{
     virtual bool getBool(const std::string);
    
    
-    virtual std::vector<int> getInts(const std::string arg,int nvals);
+    virtual std::vector<int> getInts(const std::string arg,int num);
     virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs);
      
-    virtual std::vector<float> getFloats(const std::string arg,int nvals);
+    virtual std::vector<float> getFloats(const std::string arg,int num);
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
        
-    virtual void error(const std::string err) ;
+    virtual void err(const std::string err) ;
     
     virtual void readFloatStream(float *array,const long long npts);
     virtual void readUCharStream(unsigned char *array,const long long npts);
@@ -51,9 +83,24 @@ class sepRegFile: public genericRegFile{
     virtual void putBool(const std::string par, const bool val);
     virtual void putInts(const std::string par, const  std::vector<int> val);
     virtual void putFloats(const std::string par, const std::vector<float> val) ;
+    ~rsfRegFile(){
+       if(myio!=0) delete myio;
+    }
+
   private:
+    usage_code _usage;
     std::string _tag;
+    sf_file _file;
+    rsfBasic *myio;
+    int _esize;
 };
+
+
+
+
+
+
+
 
 
 #endif

@@ -24,10 +24,10 @@ class sepRegFile: public genericRegFile{
     virtual bool getBool(const std::string);
    
    
-    virtual std::vector<int> getInts(const std::string arg,int nvals);
+    virtual std::vector<int> getInts(const std::string arg);
     virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs);
      
-    virtual std::vector<float> getFloats(const std::string arg,int nvals);
+    virtual std::vector<float> getFloats(const std::string arg);
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
        
     virtual void error(const std::string err) ;
@@ -45,6 +45,7 @@ class sepRegFile: public genericRegFile{
       const std::vector<int> jw,  float *array);
      virtual void readDescription();
     virtual void writeDescription();
+    virtual void err(std::string a);
      virtual void putInt(const std::string par, const int val) ;
     virtual void putFloat(const std::string par, const float val);
     virtual void putString(const std::string par, const std::string val);
@@ -54,6 +55,13 @@ class sepRegFile: public genericRegFile{
   private:
     std::string _tag;
 };
+
+
+
+
+
+
+
 
 
 #endif

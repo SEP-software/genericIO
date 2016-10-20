@@ -1,2 +1,2 @@
-#include "param_func.h"
-int param_func::get_int(const std::string arg){ if(arg==""){;} return 0;}
+#include "paramObj.h"
+int paramObj::getInt(const std::string arg){ if(arg==""){;} return 0;}

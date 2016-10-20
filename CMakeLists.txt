@@ -18,11 +18,16 @@ enable_language(Fortran C CXX)
 find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.0/include /opt/SEP/include /opt/SEP/SEP8.0/include)
 find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.0/lib /opt/SEP/lib /opt/SEP/SEP8.0/lib)
 find_library(LIBSEP3D sep3d /usr/local/SEP/lib /usr/local/SEP/SEP8.0/lib /opt/SEP/lib /opt/SEP/SEP8.0/lib)
+find_path(RSFINCDIR rsf.h /opt/RSF/1.7/include /opt/RSF/include)
+
+if (RSFINCDIR)
+  set(USE_RSF true)
+else()
+endif()
 
 #!if (SEPINCDIR AND LIBSEP AND LIBSEP3D)
 if (SEPINCDIR)
   set(USE_SEP true)
-  set(IOTYPE SEP)
 else()
 endif()
 

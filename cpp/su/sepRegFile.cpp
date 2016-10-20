@@ -24,7 +24,7 @@ sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 int sepRegFile::getInt(const std::string arg){
     int x;
     if(0==auxpar(arg.c_str(),"d",&x,_tag.c_str()))
-      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+      err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
 int sepRegFile::getInt(const std::string arg, const int def){
@@ -42,14 +42,14 @@ float sepRegFile::getFloat(const std::string arg, const float def){
 float sepRegFile::getFloat(const std::string arg){
   float x;
   if(0==auxpar(arg.c_str(),"f",&x,_tag.c_str()))
-     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+     err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
 std::string sepRegFile::getString(const std::string arg){
   char buf[10000];
   if(0==auxpar(arg.c_str(),"s",buf,_tag.c_str()))
-      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+      err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return std::string(buf);
 
 
@@ -72,18 +72,18 @@ bool sepRegFile::getBool(const std::string arg, const bool def){
 bool sepRegFile::getBool(const std::string arg){
  bool x;
   if(0==auxpar(arg.c_str(),"l",&x,_tag.c_str())){
-    error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+    err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   }
   return x;
 
 }
    
    
-std::vector<int> sepRegFile::getInts(const std::string arg,int num){
+std::vector<int> sepRegFile::getInts(const std::string arg){
   int tmp[10000];
   int ierr=auxpar(arg.c_str(),"d",tmp,_tag.c_str());
   if(ierr==0) 
-     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+     err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   std::vector<int> x;
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
@@ -94,8 +94,7 @@ std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs
     tmp[i]=defs[i];
   }
   int ierr=auxpar(arg.c_str(),"d",tmp,_tag.c_str());
-  if(ierr==0) 
-     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+ 
   std::vector<int> x;
   if(ierr>0){  
     for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
@@ -106,11 +105,11 @@ std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs
   return x;
 }
      
-std::vector<float> sepRegFile::getFloats(const std::string arg, int num){
+std::vector<float> sepRegFile::getFloats(const std::string arg){
   float tmp[10000];
   int ierr=auxpar(arg.c_str(),"f",tmp,_tag.c_str());
   if(ierr==0) 
-     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+     err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   std::vector<float> x;
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
@@ -125,7 +124,7 @@ std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float
   }
   int ierr=auxpar(arg.c_str(),"f",tmp,_tag.c_str());
   if(ierr==0) 
-     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+     err(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   std::vector<float> x;
   if(ierr>0){  
     for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
@@ -137,7 +136,7 @@ std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float
 }
 
 
-void sepRegFile::error(const std::string err){
+void sepRegFile::err(const std::string err){
    seperr(err.c_str());
 }
     
@@ -182,7 +181,7 @@ void sepRegFile::readFloatStream( float *array,const long long npts){
       int ierr=sreed(_tag.c_str(),&array[nread],(int)toReadL);
       nread+=(long long)ierr;
       if(ierr!=toReadL)
-        error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
+        err(std::string("Trouble reading from ")+_tag+std::string(" after ")+
           std::to_string(nread)+std::string(" bytes"));
   }   
 
@@ -195,7 +194,7 @@ void sepRegFile::readUCharStream( unsigned char *array,const long long npts){
       int ierr=sreed(_tag.c_str(),&array[nread],(int)toReadL);
       nread+=(long long)ierr;
       if(ierr!=toReadL)
-        error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
+        err(std::string("Trouble reading from ")+_tag+std::string(" after ")+
           std::to_string(nread)+std::string(" bytes"));
   }   
 
@@ -210,64 +209,64 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
       int ierr=sreed(_tag.c_str(),(void*)(array+nwrite),(int)toWriteL);
       nwrite+=(long long)ierr;
       if(ierr!=toWriteL)
-        error(std::string("Trouble reading from ")+_tag+std::string(" after ")+std::to_string(nwrite)+std::string(" bytes"));
+        err(std::string("Trouble reading from ")+_tag+std::string(" after ")+std::to_string(nwrite)+std::string(" bytes"));
   }   
 
 }
  void sepRegFile::readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float *array){
-  std::shared_ptr<hypercube> hyper=getHyper();
+  hypercube *hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
-      if(ng[i]>1) error("number of dimension does not equal data size");
+      if(ng[i]>1) err("number of dimension does not equal data size");
     }
   }
   if(nw.size()< ng.size() || fw.size() < ng.size() || jw.size()< jw.size()){
-     error("number of dimensions does not equal data size");
+     err("number of dimensions does not equal data size");
   }
   int ndim=ng.size();
   if(0!=sreed_window(_tag.c_str(),&ndim,ng.data(),nw.data(),fw.data(),
     jw.data(),4,array))
-   error(std::string("trouble reading data from tag ")+_tag);
+   err(std::string("trouble reading data from tag ")+_tag);
     
 }
 
  void sepRegFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  unsigned char *array){
-  std::shared_ptr<hypercube> hyper=getHyper();
+  hypercube *hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
-      if(ng[i]>1) error("number of dimension does not equal data size");
+      if(ng[i]>1) err("number of dimension does not equal data size");
     }
   }
   if(nw.size()< ng.size() || fw.size() < ng.size() || jw.size()< jw.size()){
-     error("number of dimensions does not equal data size");
+     err("number of dimensions does not equal data size");
   }
   int ndim=ng.size();
   if(0!=sreed_window(_tag.c_str(),&ndim,ng.data(),nw.data(),fw.data(),
     jw.data(),1,array))
-   error(std::string("trouble reading data from tag ")+_tag);
+   err(std::string("trouble reading data from tag ")+_tag);
     
 }
  void sepRegFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw, float *array){
       
-  std::shared_ptr<hypercube> hyper=getHyper();
+        hypercube *hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
-      if(ng[i]>1) error("number of dimension does not equal data size");
+      if(ng[i]>1) err("number of dimension does not equal data size");
     }
   }
   if(nw.size()< ng.size() || fw.size() < ng.size() || jw.size()< jw.size()){
-     error("number of dimensions does not equal data size");
+     err("number of dimensions does not equal data size");
   }
   int ndim=ng.size();
   if(0!=srite_window(_tag.c_str(),&ndim,ng.data(),nw.data(),fw.data(),
     jw.data(),4,array))
-   error(std::string("trouble writing data to tag ")+_tag);  
+   err(std::string("trouble writing data to tag ")+_tag);  
       
 }
 void sepRegFile::readDescription(){
@@ -281,11 +280,16 @@ void sepRegFile::readDescription(){
     sep_get_data_axis_par(_tag.c_str(),&i,&n,&o,&d,label);
     axes.push_back(axis(n,o,d,std::string(label)));
   }
-  std::shared_ptr<hypercube> hyper(new hypercube(axes));
+  hypercube *hyper=new hypercube(axes);
   setHyper(hyper);
+  delete hyper;
+}
+void sepRegFile::err(std::string e){
+
+  seperr(e.c_str());
 }
 void sepRegFile::writeDescription(){
-  std::shared_ptr<hypercube> hyper=getHyper();
+  hypercube *hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){
      int n=axes[i].n; float o=axes[i].o; float d=axes[i].d;

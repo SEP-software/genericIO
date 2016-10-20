@@ -9,25 +9,25 @@ class hypercube{
     hypercube(){}
     hypercube(hypercube *hyper);
     hypercube(std::vector<axis>axes);
-    void set_axes(std::vector<axis> axes);
-    void set_axis(int idim, axis myaxis);
-    axis get_axis(int idim);
-    std::vector<axis> get_axes() const;
-    long long get_n123(){return n123;}
-    std::vector<int> return_ns();
-     void deallocate(){
+    void setAxes(std::vector<axis> axes);
+    void setAxis(int idim, axis myaxis);
+    axis getAxis(int idim);
+    std::vector<axis> getAxes() const;
+    long long getN123(){return n123;}
+    std::vector<int> returnNs();
+    void deallocate(){
          axes.clear();
-       }
-     ~hypercube(){
+    }
+    ~hypercube(){
        this->deallocate();
-      }
+    }
     
-    void init_nd(std::vector<axis> axes);
-    std::vector<axis> return_axes(int nmax) const;
-    int get_ndim(){return axes.size();}
-    int get_ndim_g1();
-    std::vector<axis> get_axes();
-    bool same_size(hypercube *other);
+    void initNd(std::vector<axis> axes);
+    std::vector<axis> returnAxes(int nmax) const;
+    int getNdim(){return axes.size();}
+    int getNdimG1();
+    std::vector<axis> getAxes();
+    bool sameSize(hypercube *other);
     
   protected:
     long long n123;

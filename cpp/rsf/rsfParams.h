@@ -1,12 +1,12 @@
-#ifndef SEP_PARAM_FUNC_H
-#define SEP_PARAM_FUNC_H 1
+#ifndef rsf_PARAM_FUNC_H
+#define rsf_PARAM_FUNC_H 1
 #include "paramObj.h"
 #include<string>
 #include<stdbool.h>
-
-class sepParam: public paramObj{
+#define  NO_BLAS 1
+class rsfParam: public paramObj{
   public:
-    sepParam(const int argc, char **argv);
+    rsfParam(const int argc, char **argv);
     virtual int getInt(const std::string arg);
     virtual int getInt(const std::string arg, const int def);
    
@@ -27,7 +27,7 @@ class sepParam: public paramObj{
     virtual std::vector<float> getFloats(const std::string arg,int nvals);
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
        
-    virtual void err(const std::string errm) ;
+    virtual void error(const std::string err) ;
     
 
     

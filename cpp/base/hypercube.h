@@ -1,20 +1,20 @@
 #ifndef HYPERCUBE_H
 #define HYPERCUBE_H 1
 #include<axis.h>
+#include<memory>
 #include <vector>
 
 class hypercube{
 
   public:
     hypercube(){}
-    hypercube(hypercube *hyper);
-    hypercube(std::vector<axis>axes);
-    void setAxes(std::vector<axis> axes);
-    void setAxis(int idim, axis myaxis);
-    axis getAxis(int idim);
-    std::vector<axis> getAxes() const;
-    long long getN123(){return n123;}
-    std::vector<int> returnNs();
+    hypercube(const hypercube *hyper);
+    hypercube(const std::vector<axis>axes);
+    void setAxes(const std::vector<axis> axes) ;
+    void setAxis(const int idim, const axis myaxis);
+    axis getAxis(int idim) const;
+    long long getN123() const {return n123;}
+    std::vector<int> returnNs() const;
     void deallocate(){
          axes.clear();
     }
@@ -22,13 +22,15 @@ class hypercube{
        this->deallocate();
     }
     
-    void initNd(std::vector<axis> axes);
-    std::vector<axis> returnAxes(int nmax) const;
-    int getNdim(){return axes.size();}
-    int getNdimG1();
-    std::vector<axis> getAxes();
-    bool sameSize(hypercube *other);
-    
+    void initNd(const std::vector<axis> axes);
+    std::vector<axis> returnAxes(const int nmax) const;
+    int getNdim() const {return axes.size();}
+    int getNdimG1() const;
+    std::vector<axis> getAxes() const;
+    std::vector<axis> getAxes(const int nmin)const;
+    bool sameSize(const hypercube &other) const;
+    bool sameSize(const std::shared_ptr<hypercube>other) const;
+
   protected:
     long long n123;
     std::vector<axis> axes;

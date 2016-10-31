@@ -210,6 +210,7 @@ void myFileIO::readStream(long long sz, void *data){
      assert(sz==fread(data,1,sz,_myf));        
   }
 void myFileIO::writeStream(long long sz,const void *data){
+
      assert(sz==fwrite(data,1,sz,_myf));
   }
 void basicIO::blockToParts(std::vector<int> nwo, std::vector<int> fwo, std::vector<int> jwo, void *in, void *out, void *head){

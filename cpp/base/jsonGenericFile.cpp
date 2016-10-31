@@ -219,7 +219,8 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
    long long maxsize=10000000;
    long long nwrite=0;
    long long nptsT=npts*4;
-   
+     setDataType(dataFloat);
+
    if(!myio){
      std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,getHyper()));
      myio=iox;
@@ -268,7 +269,8 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
 }
  void jsonGenericFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw, float *array){
-      
+        setDataType(dataFloat);
+
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){

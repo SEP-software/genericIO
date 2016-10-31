@@ -1,5 +1,5 @@
-#ifndef PARAM_FUNC_H
-#define PARAM_FUNC_H 1
+#ifndef PARAM_OBJ_H
+#define PARAM_OBJ_H 1
 #include<string>
 #include<stdbool.h>
 #include<vector>
@@ -18,21 +18,21 @@ class paramObj {
    
     virtual std::string getString(const std::string arg){if(arg==""){;}; return "A";}
     virtual std::string getString(const std::string arg, const std::string def){
-      if(arg=="" && def=="") return "A";}
+      if(arg=="" && def=="" ) {;} return "A";}
    
     virtual bool getBool(const std::string arg, const bool def) { if(arg=="" && def){;};return 0.;}
     virtual bool getBool(const std::string arg ) { if(arg==""){;}; return 0.;}
    
    
     virtual std::vector<int> getInts(const std::string arg,int nvals){
-       if(arg=="" ) ;}
+       if(arg=="" && nvals==0) {;}  std::vector<int> a; return a;}
     virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs){
-       if(arg==""  && defs[0]==0) ;}      
+       if(arg==""  && defs[0]==0 ) {;} std::vector<int> a; return a;}      
      
     virtual std::vector<float> getFloats(const std::string arg,int nvals){
-       if(arg=="" ) ;}
+       if(arg==""  && nvals==0) {;} std::vector<float> a; return a;;}
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs){
-       if(arg==""  && defs[0]==0.) ;}   
+       if(arg==""  && defs[0]==0.) {;}std::vector<float> a; return a;}   
     virtual void error(std::string);
 
        

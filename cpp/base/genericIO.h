@@ -8,10 +8,10 @@ class genericIO{
   public:
     genericIO(){;}
     virtual std::shared_ptr<genericRegFile> getRegFile(std::string name,usage_code usage){
-       assert(1==2);
+        assert(name==std::string("") || usage==usageIn);
     }
     virtual std::shared_ptr<genericIrregFile> getIrregFile(std::string name, usage_code usage){
-      assert(1==2);
+     assert(name==std::string("") || usage==usageIn);
     }
     virtual std::shared_ptr<paramObj>  getParamObj(){
       return _param;

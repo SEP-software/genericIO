@@ -1,16 +1,16 @@
-#ifndef SEP_REGFILE_FUNC_H
-#define SEP_REGFILE_FUNC_H 1
+#ifndef SEP_3D_FUNC_H
+#define SEP_3D_FUNC_H 1
 #include<string>
 #include<stdbool.h>
 #include "genericFile.h"
-
-class sepRegFile: public genericRegFile{
+extern "C" {
+#include "seplib.h"
+}
+class sep3dFile: public genericIrregFile{
   public:
-  
- // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
-
-    sepRegFile(std::string tg, usage_code usage);
-    virtual int getInt(const std::string arg);
+  sep3dFile(){;}
+  sep3dFile(const std::string tag,usage_code usage);
+      virtual int getInt(const std::string arg);
     virtual int getInt(const std::string arg, const int def);
    
     virtual float getFloat(const std::string, const float def);
@@ -24,36 +24,25 @@ class sepRegFile: public genericRegFile{
     virtual bool getBool(const std::string);
    
    
-    virtual std::vector<int> getInts(const std::string arg,int nvals);
+    virtual std::vector<int> getInts(const std::string arg,int num);
     virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs);
      
-    virtual std::vector<float> getFloats(const std::string arg,int nvals);
+    virtual std::vector<float> getFloats(const std::string arg,int num);
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
        
     virtual void error(const std::string err) ;
     
-    virtual void readUCharStream(unsigned char *array,const long long npts);
-    
-        virtual void readComplexStream(float _Complex *array,const long long npts);
-    virtual void writeComplexStream( const float _Complex *array,const long long npts);
-    
     virtual void readFloatStream(float *array,const long long npts);
+    virtual void readUCharStream(unsigned char *array,const long long npts);
+
     virtual void writeFloatStream( const float *array,const long long npts);
-    
     virtual void readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  unsigned char *array);
-    
     virtual void readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float *array);
 
     virtual void writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float *array);
-        virtual void readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float  _Complex*array);
-
-    virtual void writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex *array);
-      
      virtual void readDescription();
     virtual void writeDescription();
      virtual void putInt(const std::string par, const int val) ;
@@ -62,9 +51,13 @@ class sepRegFile: public genericRegFile{
     virtual void putBool(const std::string par, const bool val);
     virtual void putInts(const std::string par, const  std::vector<int> val);
     virtual void putFloats(const std::string par, const std::vector<float> val) ;
+    virtual int getHeaderIndex(std::string keyname);
+    virtual std::vector<headerType> getTraceHeader(long long index);
+    virtual std::vector<std::string> getHeaderTypes();
+    virtual void close(){
+      auxclose(_tag.c_str());
+    }
   private:
     std::string _tag;
 };
-
-
 #endif

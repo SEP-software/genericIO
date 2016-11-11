@@ -13,6 +13,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
 
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)

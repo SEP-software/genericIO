@@ -259,7 +259,7 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   if(!myio){
     std::shared_ptr<rsfBasic> i(new rsfBasic(_file));
     myio=i;
-    myio->setFileParams(_tag,_usage,0,0,4,getHyper());
+    myio->setFileParams(_tag,_usage,0,0,4,false,getHyper());
   }
   myio->readWindow(nw,fw,jw,array);
 
@@ -282,7 +282,7 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   if(!myio){
     std::shared_ptr<rsfBasic> i(new rsfBasic(_file));
     myio=i;
-    myio->setFileParams(_tag,_usage,0,0,8,getHyper());
+    myio->setFileParams(_tag,_usage,0,0,8,false,getHyper());
   }
   myio->readWindow(nw,fw,jw,array);
 
@@ -305,7 +305,7 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   if(!myio){
     std::shared_ptr<rsfBasic> i(new rsfBasic(_file));
     myio=i;
-    myio->setFileParams(_tag,_usage,0,0,8,getHyper());
+    myio->setFileParams(_tag,_usage,0,0,8,false,getHyper());
   }
   myio->writeWindow(nw,fw,jw,array);
       
@@ -325,7 +325,7 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   if(!myio){
     std::shared_ptr<rsfBasic> i(new rsfBasic(_file));
     myio=i;
-    myio->setFileParams(_tag,_usage,0,0,1,getHyper());
+    myio->setFileParams(_tag,_usage,0,0,1,false,getHyper());
   }
   myio->readWindow(nw,fw,jw,array);
     
@@ -347,7 +347,7 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   if(!myio){
     std::shared_ptr<rsfBasic> i(new rsfBasic(_file));
     myio=i;
-    myio->setFileParams(_tag,_usage,0,0,4,getHyper());
+    myio->setFileParams(_tag,_usage,0,0,4,false,getHyper());
   }
   myio->writeWindow(nw,fw,jw,array);
       

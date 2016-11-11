@@ -4,6 +4,7 @@
 sepIO::sepIO( int argc,  char **argv){
  std::shared_ptr<sepParam> x(new sepParam(argc,argv));
   _param=x;
+  setValid(true);
 }
 
 

@@ -42,6 +42,8 @@ class genericIO{
          _param->error(std::string("Requested unknown file ")+x);
       return _irregFiles[x]; 
    }
+   void setValid(const bool x){_valid=x;}
+   bool getValid(){ return _valid;}
      
     virtual void close(){
       filesClose();
@@ -54,5 +56,6 @@ class genericIO{
     std::map<std::string,std::shared_ptr<genericRegFile>> _regFiles;
     std::map<std::string, std::shared_ptr<genericIrregFile>> _irregFiles;
     std::shared_ptr<paramObj> _param;
-};
+    bool _valid;
+    };
 #endif

@@ -4,6 +4,7 @@
 rsfIO::rsfIO(int argc,  char **argv){
   std::shared_ptr<rsfParam> x(new rsfParam(argc,argv));
   _param=x;
+  setValid(true);
 }
 
 

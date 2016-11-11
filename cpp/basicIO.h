@@ -8,30 +8,32 @@
 class basicIO{
   public:
     basicIO(){;}
-    void readWindow(std::vector<int> nw, std::vector<int> fw, std::vector<int> jw,void *data, void *head=0);
-    void writeWindow(std::vector<int> nw, std::vector<int> fw, std::vector<int> jw,void *data, void *head=0);
-    virtual void readStream(long long sz, const void *data){assert(1==2);}
-    virtual void writeStream(long long sz, const void *dat){assert(1==2);}
-    virtual void readTraceStream(long long sz, void *dat, void *head=0);
-    virtual void writeTraceStream(long long sz, const void *dat, const void *head=0);
-    virtual void writeReelHead(void *reelH);
-    void readBlocks(std::vector<int> nwo, std::vector<int> fwo, std::vector<int> jwo, 
-    std::vector<int> nwi, std::vector<int> fwi, std::vector<int> jwi,
-    long long buf, void *data,void *head);
-        void writeBlocks(std::vector<int> nwo, std::vector<int> fwo, std::vector<int> jwo, 
-    std::vector<int> nwi, std::vector<int> fwi, std::vector<int> jwi,
-    long long buf, void *data,void *head);
-    virtual void partsToBlock(std::vector<int> nw, std::vector<int> fw, std::vector<int> jw, void *in, void *out, void *head);
-        virtual void blockToParts(std::vector<int> nw, std::vector<int> fw, std::vector<int> jw, void *in, void *out, void *head);
+    void readWindow(const std::vector<int> nw, const std::vector<int> fw,const  std::vector<int> jw,void *data, void *head=0);
+    void writeWindow(const std::vector<int> nw, const std::vector<int> fw,const  std::vector<int> jw,const void *data, void *head=0);
+    virtual void readStream(const long long sz,  void *data){assert(1==2);}
+    virtual void writeStream(const long long sz, const void *dat){assert(1==2);}
+    virtual void readTraceStream(const long long sz, void *dat, void *head=0);
+    virtual void writeTraceStream(const long long sz, const void *dat, const void *head=0);
+    virtual void writeReelHead(const void *reelH);
+    void readBlocks(const std::vector<int> nwo,const  std::vector<int> fwo, const std::vector<int> jwo, 
+    const std::vector<int> nwi, const std::vector<int> fwi, const std::vector<int> jwi,
+    const long long buf, void *data,void *head);
+        void writeBlocks(const std::vector<int> nwo,const  std::vector<int> fwo,const std::vector<int> jwo, 
+    std::vector<int> nwi, std::vector<int> fwi,const  std::vector<int> jwi,
+    long long buf,const void *data,const void *head);
+    virtual void partsToBlock(const std::vector<int> nw, const std::vector<int> fw, const std::vector<int> jw,  void *in, const void *out,const  void *head);
+        virtual void blockToParts(const std::vector<int> nw,const  std::vector<int> fw, const std::vector<int> jw, const  void *in, void *out, void *head);
     long long getCurrentPos(){assert(1==2);}
-    inline void seekToPos(long long pos){ assert(1==2);
+      void swap_float_bytes(int n, float *buf);
+    virtual inline void seekToPos(long long pos){ assert(1==2);
 
     }  
-   void setFileParams(std::string nm,  usage_code usage, int reelH, int traceH, 
-   int esize, std::shared_ptr<hypercube> hyper);
+   void setFileParams(const std::string nm, const  usage_code usage,const  int reelH, const int traceH, 
+   const int esize, const bool swapData,std::shared_ptr<hypercube> hyper);
   protected:
     usage_code _usage;
     FILE *_myf;
+    bool _swapData=false;
     long long _reelH,_traceH;
     long long _esize;
     std::string _nm;
@@ -39,8 +41,8 @@ class basicIO{
 };
 class myFileIO: public basicIO{
  public:
-   myFileIO(std::string nm, usage_code usage,int reelH, int traceH,int esize,std::shared_ptr<hypercube> hyper);
-  virtual inline void seekToPos(long long pos){
+   myFileIO(const std::string nm,const  usage_code usage,const int reelH, const int traceH,const int esize,const bool swapData,std::shared_ptr<hypercube> hyper);
+  virtual inline void seekToPos(const long long pos){
        long long ft=getCurrentPos();
        long long bg=1024*1024*1024;
        long long diff=pos-ft;
@@ -55,8 +57,8 @@ class myFileIO: public basicIO{
   virtual long long getCurrentPos(){
     return ftell(_myf);
   }
-  virtual void readStream(long long sz, void *data);
-  virtual void writeStream(long long sz,const void *data);
+  virtual void readStream(const long long sz,  void *data) ;
+  virtual void writeStream(const long long sz,const void *data) ;
   virtual void close(){ fclose(myf);}
   ~myFileIO(){ close();}
   FILE *myf;

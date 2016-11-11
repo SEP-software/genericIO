@@ -12,7 +12,7 @@ extern "C" {
 class rsfBasic: public basicIO{
  public:
   rsfBasic(sf_file file){_file=file;}
-  virtual inline void seekToPos(long long pos){
+  virtual inline void seekToPos(const long long pos){
        long long ft=ftell(_myf);
        long long bg=1024*1024*1024;
        long long diff=pos-ft;
@@ -24,11 +24,11 @@ class rsfBasic: public basicIO{
          diff-=dst;
       }  
   }
-  virtual void readStream(long long sz, void *data){
+  virtual void readStream(const long long sz, void *data){
       sf_ucharread((unsigned char*)data,sz,_file);
   
   }
-  virtual void writeStream(long long sz, void *data){
+  virtual void writeStream(const long long sz, const void *data){
   
         sf_ucharwrite((unsigned char*)data,sz,_file);
 

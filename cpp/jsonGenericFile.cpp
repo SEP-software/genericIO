@@ -11,7 +11,7 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code us
   if(usage==usageIn){
     readDescription();
     std::shared_ptr<myFileIO> x(new myFileIO(getFileName(),usage,reelH,traceH,
-     jsonArgs.get("esize",4).asInt(),getHyper()));
+     jsonArgs.get("esize",4).asInt(),jsonArgs.get("swapData",false).asBool(),getHyper()));
     myio=x;  
   }
   else{
@@ -30,7 +30,7 @@ std::string jsonGenericFile::getFileName(){
 
  if(jsonArgs["filename"].isNull())
        error(std::string("filename is not set in for tag ")+_tag);
-  jsonArgs.get("filename","null").asString();
+ return jsonArgs.get("filename","null").asString();
 }
 int jsonGenericFile::getInt(const std::string arg){
     int x;
@@ -40,6 +40,7 @@ int jsonGenericFile::getInt(const std::string arg){
     return x;
 }
 int jsonGenericFile::getInt(const std::string arg, const int def){
+
    int x=jsonArgs.get(arg,def).asInt();
    return x;
 }
@@ -158,10 +159,11 @@ void jsonGenericFile::readDescription(){
     std::string tmp;
     int n=getInt("n"+std::to_string(iax),1);
     if(n>1)  breakIt=true;
-    iax--;
+    else iax--;
   }
   if(iax==0) error("couldn't find any axes");
   ndim=iax;
+
   std::vector<axis> axes;
   for(int i=1; i <= ndim; i++){
     int n=getInt(std::string("n")+std::to_string(i),1);
@@ -171,7 +173,14 @@ void jsonGenericFile::readDescription(){
     axes.push_back(axis(n,o,d,label));
     
   }
+  std::string dtyp=getString(std::string("dataType"),std::string("FLOAT"));
+  if(dtyp==std::string("FLOAT")) setDataType(dataFloat);
+  else if(dtyp==std::string("COMPLEX")) setDataType(dataComplex);
+  else if(dtyp==std::string("INTEGER")) setDataType(dataInt);
+  else if(dtyp==std::string("BYTE")) setDataType(dataByte);
+
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
+  
   setHyper(hyper);
 }
 void jsonGenericFile::writeDescription(){
@@ -196,7 +205,7 @@ void jsonGenericFile::readFloatStream( float *array,const long long npts){
    long long nread=0;
    long long nptsT=npts*4;
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->readTraceStream(npts,array);
@@ -207,7 +216,7 @@ void jsonGenericFile::readUCharStream( unsigned char *array,const long long npts
    long long maxsize=10000000;
    long long nread=0;
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,1,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,1,false,getHyper()));
      myio=iox;
   }
   myio->readTraceStream(npts,array);
@@ -222,7 +231,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      setDataType(dataFloat);
 
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->writeTraceStream(npts,array);
@@ -240,7 +249,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      error("number of dimensions does not equal data size");
   }
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->readWindow(nw,fw,jw,array);
@@ -261,7 +270,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      error("number of dimensions does not equal data size");
   }
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,1,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,1,false,getHyper()));
      myio=iox;
   }
   myio->readWindow(nw,fw,jw,array);
@@ -282,7 +291,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      error("number of dimensions does not equal data size");
   }
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->writeWindow(nw,fw,jw,array);
@@ -298,7 +307,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
         setDataType(dataComplex);
 
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->readTraceStream(npts,array);
@@ -312,7 +321,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
         setDataType(dataComplex);
 
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->writeTraceStream(npts,array);
@@ -332,7 +341,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
      error("number of dimensions does not equal data size");
   }
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->readWindow(nw,fw,jw,array);
@@ -354,7 +363,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
      error("number of dimensions does not equal data size");
   }
    if(!myio){
-     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,getHyper()));
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,8,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
   myio->writeWindow(nw,fw,jw,array);

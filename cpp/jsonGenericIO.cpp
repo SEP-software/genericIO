@@ -4,32 +4,52 @@
 #include <exception>
 
 void jsonGenericIO::initJsonPars(  int argc,  char **argv){
- if(argc!=3) {
-      std::cerr<<std::string("Expecting two arguments, JSON in and out files")<<std::endl;
+
+  setValid(false);
+  bool foundIn=false, foundOut=false;
+  std::string fileIn,fileOut;
+  int i=0;
+  /*Looking for jsonIn and jsonOut"*/
+  while(i < argc && (!foundIn || !foundOut)){
+     std::string arg=std::string(argv[i]);
+     if(arg.length() > 8){
+       if(arg.substr(0,7)==std::string("jsonIn=")){
+         fileIn=arg.substr(7); foundIn=true;
+       }
+       else if(arg.substr(0,8)==std::string("jsonOut=")){
+         fileOut=arg.substr(8); foundOut=true;
+       }
+      }
+    i++;
+  }
+  if(!foundIn || !foundOut){
+   return;
+    std::cerr<<std::string("Expecting jsonIn=file jsonOut=file on the command line")<<std::endl;
        throw std::exception();
   }
-  inps.open(argv[1],std::ifstream::in);
+  inps.open(fileIn,std::ifstream::in);
   std::shared_ptr<Json::Value> v(new Json::Value());
   jsonArgs=v;
   if(!inps){
-       std::cerr<<std::string("Trouble opening "+std::string(argv[1]))<<std::endl;
+       std::cerr<<std::string("Trouble opening "+std::string(fileIn))<<std::endl;
        throw std::exception();
    }
    try{
       inps>>(*jsonArgs); 
    }
    catch(int x){
-     std::cerr<<std::string("Trouble parsing JSON file "+std::string(argv[1]))<<std::endl;
+     std::cerr<<std::string("Trouble parsing JSON file "+std::string(fileIn))<<std::endl;
      throw std::exception();
      
    }
-   outs.open(argv[2],std::ofstream::out);
-   if(outs) {
-     std::cerr<<std::string("Trouble opening file "+std::string(argv[2]))<<std::endl;
+   outs.open(fileOut,std::ofstream::out);
+   if(!outs) {
+     std::cerr<<std::string("Trouble opening file "+std::string(fileOut))<<std::endl;
         throw std::exception();
     }
     std::shared_ptr<jsonParamObj> x(new jsonParamObj(jsonArgs));
    _param=x;
+   setValid(true);
 }
 std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string name,const usage_code usage){
 

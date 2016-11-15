@@ -41,7 +41,8 @@ int sepRegFile::getInt(const std::string arg, const int def){
 }
    
 float sepRegFile::getFloat(const std::string arg, const float def){
-  float x;
+  float x=def;
+fprintf(stderr,"in this %s %s \n",arg.c_str(),_tag.c_str());
   int i=auxpar(arg.c_str(),"f",&x,_tag.c_str());
   return x;
 

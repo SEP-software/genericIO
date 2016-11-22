@@ -35,7 +35,7 @@ import
 
   character(c_char), dimension(*),intent(in) :: par
   integer(c_int),intent(inout) :: val
-  logical(c_bool) ,value :: def
+  logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
 subroutine getParamFloatC(par,val,def) bind(c,name="getParFloat")
@@ -50,8 +50,8 @@ subroutine getParamBoolC(par,val,def) bind(c,name="getParamBool")
 import
 
   character(c_char), dimension(*),intent(in) :: par
-  logical(c_bool),intent(in) :: val
-  logical(c_bool),value  :: def
+  logical(c_bool) :: val
+  logical(c_bool),intent(in),value  :: def
 end subroutine
 
 subroutine getParamStringC(par,val,def) bind(c,name="getParamString")

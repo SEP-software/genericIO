@@ -23,7 +23,7 @@ class paramObj {
    
     virtual bool getBool(const std::string arg, const bool def) const { if(arg=="" && def){;};return 0.;}
     virtual bool getBool(const std::string arg )const  { if(arg==""){;}; return 0.;}
-   
+    
    
     virtual std::vector<int> getInts(const std::string arg,int nvals)const {
        if(arg=="" && nvals==0) {;}  std::vector<int> a; return a;}
@@ -35,7 +35,7 @@ class paramObj {
     virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const {
        if(arg==""  && defs[0]==0.) {;}std::vector<float> a; return a;}   
     virtual void error(std::string)const {;}
-
+    virtual void message(const std::string)const{;}
        
 };
 

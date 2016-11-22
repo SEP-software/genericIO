@@ -1,4 +1,0 @@
-/homes/sep/bob/Src/genericIO/x/cpp/base/CMakeFiles/genCppBase.dir
-/homes/sep/bob/Src/genericIO/x/cpp/sep/CMakeFiles/genCppSep.dir
-/homes/sep/bob/Src/genericIO/x/fortran/base/CMakeFiles/genForBase.dir
-/homes/sep/bob/Src/genericIO/x/fortran/sep/CMakeFiles/genForSEP.dir

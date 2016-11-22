@@ -21,32 +21,32 @@ rsfRegFile::rsfRegFile(const std::string tag,usage_code usage){
  
 }
 
-int rsfRegFile::getInt(const std::string arg){
+int rsfRegFile::getInt(const std::string arg)const{
     int x;
     if(!sf_histint(_file,arg.c_str(),&x))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int rsfRegFile::getInt(const std::string arg, const int def){
+int rsfRegFile::getInt(const std::string arg, const int def)const{
    int x=def;
    sf_histint(_file,arg.c_str(),&x);
    return x;
 }
    
-float rsfRegFile::getFloat(const std::string arg, const float def){
+float rsfRegFile::getFloat(const std::string arg, const float def)const{
   float x;
    sf_histfloat(_file,arg.c_str(),&x);
   return x;
 
 }
-float rsfRegFile::getFloat(const std::string arg){
+float rsfRegFile::getFloat(const std::string arg)const{
   float x;
   if(! sf_histfloat(_file,arg.c_str(),&x))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
-std::string rsfRegFile::getString(const std::string arg){
+std::string rsfRegFile::getString(const std::string arg)const{
    char *buf;
    
    buf=sf_histstring(_file,arg.c_str());
@@ -57,7 +57,7 @@ std::string rsfRegFile::getString(const std::string arg){
   return y;
 
 }
-std::string rsfRegFile::getString(const std::string arg, const std::string def){
+std::string rsfRegFile::getString(const std::string arg, const std::string def)const{
 
   char *buf=sf_histstring(_file,arg.c_str());
   if(buf==NULL) return def;
@@ -67,13 +67,13 @@ std::string rsfRegFile::getString(const std::string arg, const std::string def){
   return y;
 }
  
-bool rsfRegFile::getBool(const std::string arg, const bool def){
+bool rsfRegFile::getBool(const std::string arg, const bool def)const{
   bool x=def;
   sf_histbool(_file,arg.c_str(),&x);
   return x;
 
 }
-bool rsfRegFile::getBool(const std::string arg){
+bool rsfRegFile::getBool(const std::string arg)const{
  bool x;
   if(!sf_histbool(_file,arg.c_str(),&x)){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -83,7 +83,7 @@ bool rsfRegFile::getBool(const std::string arg){
 }
    
    
-std::vector<int> rsfRegFile::getInts(const std::string arg,int n){
+std::vector<int> rsfRegFile::getInts(const std::string arg,int n)const{
   int tmp[10000];
   bool ierr=sf_histints(_file,arg.c_str(),tmp,n);
   if(!ierr) 
@@ -92,7 +92,7 @@ std::vector<int> rsfRegFile::getInts(const std::string arg,int n){
   for(int i=0; i < n; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> rsfRegFile::getInts(const std::string arg,std::vector<int> defs){
+std::vector<int> rsfRegFile::getInts(const std::string arg,std::vector<int> defs)const{
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -108,7 +108,7 @@ std::vector<int> rsfRegFile::getInts(const std::string arg,std::vector<int> defs
   return x;
 }
      
-std::vector<float> rsfRegFile::getFloats(const std::string arg,int n){
+std::vector<float> rsfRegFile::getFloats(const std::string arg,int n)const{
   float tmp[10000];
   bool ierr=sf_histfloats(_file,arg.c_str(),tmp,n);
   if(!ierr) 
@@ -119,7 +119,7 @@ std::vector<float> rsfRegFile::getFloats(const std::string arg,int n){
 
 
 }
-std::vector<float> rsfRegFile::getFloats(const std::string arg,std::vector<float> defs){
+std::vector<float> rsfRegFile::getFloats(const std::string arg,std::vector<float> defs)const{
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -138,7 +138,7 @@ std::vector<float> rsfRegFile::getFloats(const std::string arg,std::vector<float
 }
 
 
-void rsfRegFile::error(const std::string err){
+void rsfRegFile::error(const std::string err)const{
    sf_error(err.c_str());
 }
     

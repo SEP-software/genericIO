@@ -32,32 +32,32 @@ std::string jsonGenericFile::getFileName(){
        error(std::string("filename is not set in for tag ")+_tag);
  return jsonArgs.get("filename","null").asString();
 }
-int jsonGenericFile::getInt(const std::string arg){
+int jsonGenericFile::getInt(const std::string arg)const{
     int x;
     if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
      x=jsonArgs.get(arg,1).asInt();
     return x;
 }
-int jsonGenericFile::getInt(const std::string arg, const int def){
+int jsonGenericFile::getInt(const std::string arg, const int def)const{
 
    int x=jsonArgs.get(arg,def).asInt();
    return x;
 }
-float jsonGenericFile::getFloat(const std::string arg, const float def){
+float jsonGenericFile::getFloat(const std::string arg, const float def)const{
   float x;
   x= jsonArgs.get(arg,def).asFloat();
   return x;
 
 }
-float jsonGenericFile::getFloat(const std::string arg){
+float jsonGenericFile::getFloat(const std::string arg)const{
   float x;
  if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   x=jsonArgs.get(arg,1.).asFloat();
   return x;
 }
-std::string jsonGenericFile::getString(const std::string arg){
+std::string jsonGenericFile::getString(const std::string arg)const{
    if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
  
@@ -65,20 +65,20 @@ std::string jsonGenericFile::getString(const std::string arg){
 
 
 }
-std::string jsonGenericFile::getString(const std::string arg, const std::string def){
+std::string jsonGenericFile::getString(const std::string arg, const std::string def)const{
 
   return  jsonArgs.get(arg,def).asString();
 
 }
-bool jsonGenericFile::getBool(const std::string arg,  bool def){
+bool jsonGenericFile::getBool(const std::string arg,  bool def)const{
  return  jsonArgs.get(arg,def).asBool();
 }
-bool jsonGenericFile::getBool(const std::string arg){
+bool jsonGenericFile::getBool(const std::string arg)const{
   if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   jsonArgs.get(arg,false).asBool();
 }
-std::vector<int> jsonGenericFile::getInts(const std::string arg,int nvals){
+std::vector<int> jsonGenericFile::getInts(const std::string arg,int nvals)const{
    if(jsonArgs[arg].isNull())  
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   const Json::Value vals = jsonArgs[arg];
@@ -87,7 +87,7 @@ std::vector<int> jsonGenericFile::getInts(const std::string arg,int nvals){
   for(int i=0; i < nvals; i++) x.push_back(vals[i].asInt());
   return x;
 }
-std::vector<int> jsonGenericFile::getInts(const std::string arg,std::vector<int> defs){
+std::vector<int> jsonGenericFile::getInts(const std::string arg,std::vector<int> defs)const{
   std::vector<int> x;
    if(jsonArgs[arg].isNull())  {
      for(int i=0; i < defs.size(); i++) x.push_back(defs[i]);
@@ -98,7 +98,7 @@ std::vector<int> jsonGenericFile::getInts(const std::string arg,std::vector<int>
   }
   return x;
 } 
-std::vector<float> jsonGenericFile::getFloats(const std::string arg,int nvals){
+std::vector<float> jsonGenericFile::getFloats(const std::string arg,int nvals)const{
   if(jsonArgs[arg].isNull())    
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   const Json::Value vals = jsonArgs[arg];
@@ -108,7 +108,7 @@ std::vector<float> jsonGenericFile::getFloats(const std::string arg,int nvals){
   return x;
 
 }
-std::vector<float> jsonGenericFile::getFloats(const std::string arg,std::vector<float> defs){
+std::vector<float> jsonGenericFile::getFloats(const std::string arg,std::vector<float> defs)const{
   std::vector<float> x;
    if(jsonArgs[arg].isNull())   {
      for(int i=0; i < defs.size(); i++) x.push_back(defs[i]);
@@ -120,7 +120,7 @@ std::vector<float> jsonGenericFile::getFloats(const std::string arg,std::vector<
   return x;
 
 }
-void jsonGenericFile::error(const std::string errm){
+void jsonGenericFile::error(const std::string errm)const{
    std::cerr<<errm<<std::endl;
    throw std::exception();
 }
@@ -195,7 +195,7 @@ void jsonGenericFile::writeDescription(){
 
 
 }
-void jsonGenericFile::close(){
+void jsonGenericFile::close()const{
 
   myio->close();
 

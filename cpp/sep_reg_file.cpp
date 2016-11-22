@@ -28,33 +28,32 @@ sepRegFile::sepRegFile(const std::string tag,usage_code usage){
  
 }
 
-int sepRegFile::getInt(const std::string arg){
+int sepRegFile::getInt(const std::string arg)const{
     int x;
     if(0==auxpar(arg.c_str(),"d",&x,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int sepRegFile::getInt(const std::string arg, const int def){
+int sepRegFile::getInt(const std::string arg, const int def)const{
    int x=def;
    int i=auxpar(arg.c_str(),"d",&x,_tag.c_str());
    return x;
 }
    
-float sepRegFile::getFloat(const std::string arg, const float def){
+float sepRegFile::getFloat(const std::string arg, const float def)const{
   float x=def;
-fprintf(stderr,"in this %s %s \n",arg.c_str(),_tag.c_str());
   int i=auxpar(arg.c_str(),"f",&x,_tag.c_str());
   return x;
 
 }
-float sepRegFile::getFloat(const std::string arg){
+float sepRegFile::getFloat(const std::string arg)const{
   float x;
   if(0==auxpar(arg.c_str(),"f",&x,_tag.c_str()))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
-std::string sepRegFile::getString(const std::string arg){
+std::string sepRegFile::getString(const std::string arg)const{
   char buf[10000];
   if(0==auxpar(arg.c_str(),"s",buf,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -62,7 +61,7 @@ std::string sepRegFile::getString(const std::string arg){
 
 
 }
-std::string sepRegFile::getString(const std::string arg, const std::string def){
+std::string sepRegFile::getString(const std::string arg, const std::string def)const{
 
   char buf[10000];
   std::copy(def.begin(), def.end(), buf);
@@ -71,13 +70,13 @@ std::string sepRegFile::getString(const std::string arg, const std::string def){
 
 }
  
-bool sepRegFile::getBool(const std::string arg, const bool def){
+bool sepRegFile::getBool(const std::string arg, const bool def)const{
   bool x=def;
   int i=auxpar(arg.c_str(),"l",&x,_tag.c_str());
   return x;
 
 }
-bool sepRegFile::getBool(const std::string arg){
+bool sepRegFile::getBool(const std::string arg)const{
  bool x;
   if(0==auxpar(arg.c_str(),"l",&x,_tag.c_str())){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -87,7 +86,7 @@ bool sepRegFile::getBool(const std::string arg){
 }
    
    
-std::vector<int> sepRegFile::getInts(const std::string arg,int num){
+std::vector<int> sepRegFile::getInts(const std::string arg,int num)const{
   int tmp[10000];
   int ierr=auxpar(arg.c_str(),"d",tmp,_tag.c_str());
   if(ierr==0) 
@@ -96,7 +95,7 @@ std::vector<int> sepRegFile::getInts(const std::string arg,int num){
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs){
+std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs)const{
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -114,7 +113,7 @@ std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs
   return x;
 }
      
-std::vector<float> sepRegFile::getFloats(const std::string arg, int num){
+std::vector<float> sepRegFile::getFloats(const std::string arg, int num)const{
   float tmp[10000];
   int ierr=auxpar(arg.c_str(),"f",tmp,_tag.c_str());
   if(ierr==0) 
@@ -125,7 +124,7 @@ std::vector<float> sepRegFile::getFloats(const std::string arg, int num){
 
 
 }
-std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float> defs){
+std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float> defs)const{
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -145,7 +144,7 @@ std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float
 }
 
 
-void sepRegFile::error(const std::string err){
+void sepRegFile::error(const std::string err)const {
    seperr(err.c_str());
 }
     

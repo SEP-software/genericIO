@@ -31,7 +31,12 @@ float sepParam::getFloat(const std::string arg)const {
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
-   
+void sepParam::message(const std::string arg)const{
+
+  sepwarn(0,arg.c_str());
+
+}
+
 std::string sepParam::getString(const std::string arg)const {
   char buf[10000];
   if(0==getch(arg.c_str(),"s",buf))

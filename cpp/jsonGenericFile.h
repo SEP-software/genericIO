@@ -13,30 +13,30 @@ class jsonGenericFile: public genericIrregFile{
     jsonGenericFile(){;}
     jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code usage,std::string tag, int reelH,int traceH);
     void setupJson(std::shared_ptr<Json::Value> jsonArgs,std::string tag);
-    virtual int getInt(const std::string arg);
-    virtual int getInt(const std::string arg, const int def);
+    virtual int getInt(const std::string arg)const;
+    virtual int getInt(const std::string arg, const int def)const;
    
-    virtual float getFloat(const std::string, const float def);
-    virtual float getFloat(const std::string) ;
+    virtual float getFloat(const std::string, const float def)const;
+    virtual float getFloat(const std::string)const ;
    
-    virtual std::string getString(const std::string arg);
-    virtual std::string getString(const std::string arg, const std::string def);
+    virtual std::string getString(const std::string arg)const;
+    virtual std::string getString(const std::string arg, const std::string def)const;
   
    
-    virtual bool getBool(const std::string, const bool def);
-    virtual bool getBool(const std::string);
+    virtual bool getBool(const std::string, const bool def)const;
+    virtual bool getBool(const std::string)const;
    
    
-    virtual std::vector<int> getInts(const std::string arg,int nvals);
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs);
+    virtual std::vector<int> getInts(const std::string arg,int nvals)const;
+    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const;
      
-    virtual std::vector<float> getFloats(const std::string arg,int nvals);
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
+    virtual std::vector<float> getFloats(const std::string arg,int nvals)const;
+    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const;
        
-    virtual void error(const std::string err) ;
+    virtual void error(const std::string err) const;
     Json::Value getArgs(){ return jsonArgs;}
     std::string getTag(){ return _tag;}
-    virtual void close();
+    virtual void close()const;
     std::string getFileName();
     virtual void readDescription();
     virtual void writeDescription();

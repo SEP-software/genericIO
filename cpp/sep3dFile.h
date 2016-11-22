@@ -10,27 +10,27 @@ class sep3dFile: public genericIrregFile{
   public:
   sep3dFile(){;}
   sep3dFile(const std::string tag,usage_code usage);
-      virtual int getInt(const std::string arg);
-    virtual int getInt(const std::string arg, const int def);
+      virtual int getInt(const std::string arg)const;
+    virtual int getInt(const std::string arg, const int def)const;
    
-    virtual float getFloat(const std::string, const float def);
-    virtual float getFloat(const std::string) ;
+    virtual float getFloat(const std::string, const float def)const;
+    virtual float getFloat(const std::string)const ;
    
-    virtual std::string getString(const std::string arg);
-    virtual std::string getString(const std::string arg, const std::string def);
+    virtual std::string getString(const std::string arg)const;
+    virtual std::string getString(const std::string arg, const std::string def)const;
   
    
-    virtual bool getBool(const std::string, const bool def);
-    virtual bool getBool(const std::string);
+    virtual bool getBool(const std::string, const bool def)const;
+    virtual bool getBool(const std::string)const;
    
    
-    virtual std::vector<int> getInts(const std::string arg,int num);
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs);
+    virtual std::vector<int> getInts(const std::string arg,int num)const;
+    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const;
      
-    virtual std::vector<float> getFloats(const std::string arg,int num);
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs);
+    virtual std::vector<float> getFloats(const std::string arg,int num)const;
+    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const;
        
-    virtual void error(const std::string err) ;
+    virtual void error(const std::string err) const;
     
     virtual void readFloatStream(float *array,const long long npts);
     virtual void readUCharStream(unsigned char *array,const long long npts);
@@ -45,16 +45,16 @@ class sep3dFile: public genericIrregFile{
       const std::vector<int> jw,  float *array);
      virtual void readDescription();
     virtual void writeDescription();
-     virtual void putInt(const std::string par, const int val) ;
-    virtual void putFloat(const std::string par, const float val);
-    virtual void putString(const std::string par, const std::string val);
-    virtual void putBool(const std::string par, const bool val);
-    virtual void putInts(const std::string par, const  std::vector<int> val);
-    virtual void putFloats(const std::string par, const std::vector<float> val) ;
-    virtual int getHeaderIndex(std::string keyname);
-    virtual std::vector<headerType> getTraceHeader(long long index);
-    virtual std::vector<std::string> getHeaderTypes();
-    virtual void close(){
+     virtual void putInt(const std::string par, const int val)const ;
+    virtual void putFloat(const std::string par, const float val)const;
+    virtual void putString(const std::string par, const std::string val)const;
+    virtual void putBool(const std::string par, const bool val)const;
+    virtual void putInts(const std::string par, const  std::vector<int> val)const;
+    virtual void putFloats(const std::string par, const std::vector<float> val)const ;
+    virtual int getHeaderIndex(std::string keyname)const;
+    virtual std::vector<headerType> getTraceHeader(long long index)const;
+    virtual std::vector<std::string> getHeaderTypes()const;
+    virtual void close()const{
       auxclose(_tag.c_str());
     }
   private:

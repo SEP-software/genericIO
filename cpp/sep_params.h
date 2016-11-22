@@ -29,6 +29,7 @@ class sepParam: public paramObj{
        
     virtual void error(const std::string errm)const  ;
     
+    virtual void message(const std::string)const;
 
     
 

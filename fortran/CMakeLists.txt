@@ -4,9 +4,8 @@ project(Generic-fortran Fortran)
 set(SOURCE c_stubs.f90 cIO.f90 c_regfile.f90 c_param.f90 axis.f90 hypercube.f90  param_func.f90 genericFile.f90 genericIO.f90)
 
 if (USE_SEP)
-include_directories(${SEPINCDIR})
+include_directories(${SEPlib_DIRNAME_include})
    set(SOURCE ${SOURCE} sepIO.f90  sep_param.f90  sep_reg_file.f90)
-  include_directories(${SEPINCDIR})
 endif (USE_SEP)
 
 if(USE_RSF)
@@ -15,4 +14,4 @@ if(USE_RSF)
 endif (USE_RSF)
 add_library(genericFor ${SOURCE})
 
-install(TARGETS genericFor DESTINATION lib)
+install(TARGETS genericFor DESTINATION lib EXPORT genericIOExports)

@@ -8,7 +8,7 @@ set(INCLUDES axis.h	 genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h hype
 set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h json.h ioModes.h segyIO.h)
 
 if(USE_SEP)
-include_directories(${SEPINCDIR})
+include_directories(${SEPlib_DIRNAME_include})
   set(SOURCES  ${SOURCES} sepIO.cpp  sep3dFile.cpp sep_reg_file.cpp  sep_params.cpp )
   set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)
 endif(USE_SEP)
@@ -21,4 +21,4 @@ endif(USE_RSF)
 
 add_library(genericCpp ${SOURCES} ${INCLUDES})
 install(FILES ${INCLUDES} DESTINATION include)
-install(TARGETS genericCpp DESTINATION lib)
+install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)

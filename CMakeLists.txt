@@ -4,7 +4,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 # configure a header file to pass some of the CMake settings
 
-
+set(genericIO_MAJOR_VERSION 8)
+set(genericIO_MINOR_VERSION 1)
+set(genericIO_VERSION_STRING
+  ${genericIO_MAJOR_VERSION}.${genericIO_MINOR_VERSION})
 
 
 
@@ -29,23 +32,41 @@ endif()
 enable_language(Fortran C CXX)
 
 
+FIND_PACKAGE(SEPlib NO_MODULE)
 
-find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.1/include /opt/SEP/include /opt/SEP/SEP8.1/include)
-find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
-find_library(LIBSEP3D sep3d /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
-find_path(RSFINCDIR rsf.h /opt/RSF/1.7/include /opt/RSF/include)
 
-set(CMAKE_Fortran_MODULE_DIRECTORY  ${CMAKE_INSTALL_PREFIX}/include)
+
+message("CHECK ${RSF}")
+#find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.1/include /opt/SEP/include /opt/SEP/SEP8.1/include)
+#find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
+#find_library(LIBSEP3D sep3d /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
+find_path(RSFINCDIR rsf.h ${RSF_DIR}/include )
+set(GENERIC_EXPORT_INC_DIRS ".")
+set(GENERIC_EXPORT_LIB_DIRS ".")
+
 
 if (RSFINCDIR)
+  MESSAGE("INSTALLING WITH RSF")
   set(USE_RSF true)
+  set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${RSFINCDIR}")
+  set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};")
+  STRING(REGEX REPLACE "include\$" "lib" luse "${RSFINCDIR}")
+  set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${luse}")
+  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS} librsf")
 else()
+  MESSAGE("NOT INSTALLING WITH RSF")
 endif()
 
 #!if (SEPINCDIR AND LIBSEP AND LIBSEP3D)
-if (SEPINCDIR)
+if (SEPlib_FOUND)
+  MESSAGE("INSTALLING WITH SEPlib")
   set(USE_SEP true)
+  set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${SEPlib_DIRNAME_include}")
+  set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${SEPlib_DIRNAME_lib}")
+  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS} libsep3d libsep")
+
 else()
+  MESSAGE("NOT INSTALLING WITH SEPlib")
 endif()
 
 if(USE_SEP)
@@ -61,6 +82,22 @@ configure_file (
   "${PROJECT_SOURCE_DIR}/ioConfig.h.in"
   "${PROJECT_BINARY_DIR}/ioConfig.h"
   )
+ SET(genericIO_DIRNAME_lib     "lib")
+ SET(genericIO_DIRNAME_include "include")
+  INCLUDE(CMakePackageConfigHelpers)
+
+  CONFIGURE_PACKAGE_CONFIG_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/genericIOConfig.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
+  INSTALL_DESTINATION
+    ${genericIO_DIRNAME_lib}
+  PATH_VARS
+    genericIO_DIRNAME_include
+  )
+  
+  
+  
+  
 add_subdirectory(cpp)
 add_subdirectory(fortran)
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)

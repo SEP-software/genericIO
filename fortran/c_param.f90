@@ -30,7 +30,7 @@ subroutine sGetInt(struct,arg,val,def)
    integer :: x
    x=0
    if(present(def)) then
-     if(val) x=1;
+     x=1;
    end if
 
    call getParamIntC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);

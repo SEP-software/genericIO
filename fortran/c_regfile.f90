@@ -500,7 +500,8 @@ subroutine sGetString(struct,arg,val,def)
      x=1
       val=def
    end if
-   call getFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,size(val),val,x)
+   call getFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,&
+     trim(arg)//C_NULL_CHAR,size(val),val,x)
  end subroutine
  
 
@@ -513,7 +514,8 @@ subroutine sGetString(struct,arg,val,def)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
   
-   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,&
+     trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
   
 
 end subroutine

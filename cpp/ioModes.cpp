@@ -9,7 +9,6 @@
 #endif 
 
 void ioModes::setup( int argc,  char **argv){
-
 std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc,argv));
 _ios["JSON"]=a; 
 std::shared_ptr<segyIO> d(new segyIO(argc,argv));
@@ -19,8 +18,10 @@ std::shared_ptr<rsfIO> b(new rsfIO(argc,argv));
 _ios["RSF"]=b; 
 #endif
 #ifdef USE_SEP
+
 std::shared_ptr<sepIO> c(new sepIO(argc,argv));
 _ios["SEP"]=c;
+#else
 #endif
 _defaultType=DEFAULTIO;
 _defaultIO=_ios[_defaultType];
@@ -29,12 +30,13 @@ _defaultIO=_ios[_defaultType];
 }
    std::shared_ptr<genericIO>  ioModes::getDefaultIO(){
    
+     
        return getIO(_defaultType);
    }
 
 std::shared_ptr<genericIO> ioModes::getIO(std::string def){
 
-   if(_ios.count(def)==0)
+   if(_ios.count(def)!=1)
      _par->error(def+" io has not been defined and/or built");
    return _ios[def];
 
@@ -56,8 +58,8 @@ std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(std::string name,usag
    _defaultIO->getRegFile(name,usage);
    
 }
-
+std::shared_ptr<ioModesFortran> ioModesFortran::instance = nullptr;
 void ioModesFortran::setup(int argc, char **argv){
    std::shared_ptr<ioModes> x(new ioModes(argc,argv));
-   getIO()=x;
+   _io=x;
 }

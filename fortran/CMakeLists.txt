@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(Generic-fortran Fortran)
+set(CMAKE_Fortran_MODULE_DIRECTORY  ${CMAKE_INSTALL_PREFIX}/include)
 
-set(SOURCE c_stubs.f90 cIO.f90 c_regfile.f90 c_param.f90 axis.f90 hypercube.f90  param_func.f90 genericFile.f90 genericIO.f90)
+set(SOURCE c_stubs.f90 cIO.f90 c_regfile.f90 c_param.f90 axis.f90 hypercube.f90  param_func.f90 genericFile.f90 genericIO.f90 ioModes.f90)
 
 if (USE_SEP)
 include_directories(${SEPlib_DIRNAME_include})
@@ -15,3 +16,5 @@ endif (USE_RSF)
 add_library(genericFor ${SOURCE})
 
 install(TARGETS genericFor DESTINATION lib EXPORT genericIOExports)
+
+

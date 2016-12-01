@@ -12,7 +12,8 @@ module sepio_mod
  end type
  
  contains
-    subroutine sepInit(struct)
+    subroutine sepInit(struct,IO)
+      character(len=*) ::IO
       class(sepIO) :: struct
       type(sepFile) :: dumF
       type(sepParam) :: dumP

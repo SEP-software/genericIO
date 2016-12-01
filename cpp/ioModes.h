@@ -26,31 +26,27 @@ class ioModesFortran{
   private:
 
  
-    ioModesFortran();
+    ioModesFortran(){;}
     ioModesFortran(const ioModesFortran& rs);
     ioModesFortran& operator = (const ioModesFortran& rs);
- 
+        static std::shared_ptr<ioModesFortran> instance;
+
+    std::shared_ptr<ioModes> _io;
   public:
-    ~ioModesFortran();
-    static std::shared_ptr<ioModes> getIO(){
-       static std::shared_ptr<ioModes> _io(new ioModes());
+      void setup( int argc, char **argv);
+    ~ioModesFortran(){;}
+    std::shared_ptr<ioModes> getIOModes(){
        return _io;
     }
-    static void setup( int argc, char **argv);
-        static std::shared_ptr<ioModes> _io;
 
- 
   static std::shared_ptr<ioModesFortran>& getInstance()
   {
-    static std::shared_ptr<ioModesFortran> instance = nullptr;
  
-    if (!instance)
-    {
 
  
       if (!instance) {
       instance.reset(new ioModesFortran());
-      }
+      instance->_io.reset(new ioModes());
     }
  
   return instance;

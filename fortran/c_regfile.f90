@@ -87,7 +87,7 @@ subroutine initFileC(struct,tag,mode)
   integer :: ierr
   
   call struct%setFileName(tag)
-  call openRegFile(tag,mode)
+  call openRegFile(trim(struct%myIOName)//C_NULL_CHAR,trim(tag)//C_NULL_CHAR,mode)
   if(trim(mode)=="IN") call struct%readDescription()
   
 
@@ -101,7 +101,7 @@ subroutine sfrwind1(struct,vals,nw,fw,jw)
   integer ,intent(in):: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call readFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call readFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 
 
@@ -111,14 +111,14 @@ subroutine sfrwind2(struct,vals,nw,fw,jw)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call readFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call readFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 subroutine sfrwind3(struct,vals,nw,fw,jw)
   class(cFile) :: struct
   real ,intent(out):: vals(:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call readFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call readFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 
 subroutine sfrwind4(struct,vals,nw,fw,jw)
@@ -126,7 +126,7 @@ subroutine sfrwind4(struct,vals,nw,fw,jw)
   real,intent(out) :: vals(:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call readFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call readFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 
 subroutine sfrwind5(struct,vals,nw,fw,jw)
@@ -134,7 +134,7 @@ subroutine sfrwind5(struct,vals,nw,fw,jw)
   real,intent(out):: vals(:,:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call readFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call readFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 
 subroutine sfwwind1(struct,vals,nw,fw,jw)
@@ -142,7 +142,7 @@ subroutine sfwwind1(struct,vals,nw,fw,jw)
   real,intent(in) :: vals(:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 end subroutine
 
 
@@ -152,7 +152,7 @@ subroutine sfwwind2(struct,vals,nw,fw,jw)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call  writeFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -163,7 +163,7 @@ subroutine sfwwind3(struct,vals,nw,fw,jw)
   integer ,intent(in):: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call  writeFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -173,7 +173,7 @@ subroutine sfwwind4(struct,vals,nw,fw,jw)
   real ,intent(in):: vals(:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -183,7 +183,7 @@ subroutine sfwwind5(struct,vals,nw,fw,jw)
   real,intent(in) :: vals(:,:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeFloatWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeFloatWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -197,7 +197,7 @@ subroutine sfwriteF1(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 
 end subroutine
 
@@ -211,7 +211,7 @@ subroutine sfwriteF2(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine sfwriteF3(struct,vals,sz)
@@ -224,7 +224,7 @@ subroutine sfwriteF3(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine sfwriteF4(struct,vals,sz)
@@ -237,7 +237,7 @@ subroutine sfwriteF4(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine sfwriteF5(struct,vals,sz)
@@ -250,7 +250,7 @@ subroutine sfwriteF5(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -264,7 +264,7 @@ subroutine sfreadF1(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -278,7 +278,7 @@ subroutine sfreadF2(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -293,7 +293,7 @@ subroutine sfreadF3(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -307,7 +307,7 @@ subroutine sfreadF4(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -321,7 +321,7 @@ subroutine sfreadF5(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readFloatStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readFloatStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -330,7 +330,7 @@ subroutine sfPutLogical(struct,arg,val)
   character(len=*),intent(in) :: arg
   logical ,intent(in) :: val
   
-  call putFileBool(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
+  call putFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
 
 end subroutine
 
@@ -338,7 +338,7 @@ subroutine sfPutString(struct,arg,val)
   class(cFile) :: struct
   character(len=*) ,intent(in):: arg
   character(len=*),intent(in) :: val
-  call putFileString(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
+  call putFileString(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
 
 end subroutine
 
@@ -347,15 +347,16 @@ subroutine sfPutInt(struct,arg,val)
   class(cFile) :: struct
   character(len=*),intent(in) :: arg
   integer,intent(in) :: val
-  call putFileInt(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
+  call putFileInt(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
 
 end subroutine
 
 subroutine sfPutReal(struct,arg,val)
   class(cFile) :: struct
+  
   character(len=*),intent(in) :: arg
   real,intent(in) :: val
-  call putFileFloat(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
+  call putFileFloat(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
 
 end subroutine
 
@@ -365,7 +366,7 @@ subroutine sfPutReals(struct,arg,val)
   real,intent(in) :: val(:)
   integer :: nsz
   nsz=size(val)
-  call putFileFloats(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,nsz,val)
+  call putFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,nsz,val)
 
 end subroutine
 
@@ -375,20 +376,21 @@ subroutine sfPutInts(struct,arg,val)
   integer,intent(in) :: val(:)
   integer :: nsz
   nsz=size(val)
-  call putFileInts(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,nsz,val)
+  call putFileInts(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,nsz,val)
 
 end subroutine
 
    subroutine sfError(struct,arg)
    class(cFile) :: struct
    character(len=*),intent(in) :: arg
-   call Cerr(arg)
+   call cError(trim(struct%myIOName)//C_NULL_CHAR,arg)
  end subroutine
 
 subroutine sfWriteDescription(struct)
  class(cFile) :: struct
 
- call writeDescriptionC(trim(struct%getFileName())//c_NULL_CHAR)
+  write(0,*) "ABOUT TO WRITE DESCRIPTION"
+ call writeDescriptionC(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR)
  
 
  end subroutine
@@ -398,7 +400,7 @@ subroutine sfReadDescription(struct)
  class(cFile) :: struct
  type(hypercube) :: hyper
 
-  call readDescriptionC(trim(struct%getFileName())//c_NULL_CHAR)
+  call readDescriptionC(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR)
 end subroutine
 
 subroutine sGetInt(struct,arg,val,def)
@@ -408,7 +410,7 @@ subroutine sGetInt(struct,arg,val,def)
    integer,optional :: def
 
    if(present(def)) val=def
-   call getFileInt(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   call getFileInt(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
 
  end subroutine
  
@@ -417,8 +419,11 @@ subroutine sGetInt(struct,arg,val,def)
    character(len=*) ,intent(in) :: arg
    real,intent(inout) :: val
    real, optional :: def
+   logical ::x
    if(present(def)) val=def
-   call getFileFloat(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   x=.false.
+   x=present(def)
+   call getFileFloat(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x)
  end subroutine
 
 
@@ -429,7 +434,7 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(inout) :: val
    character(len=*), optional :: def
    if(present(def)) val=def
-   call getFileString(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   call getFileString(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)
@@ -438,7 +443,7 @@ subroutine sGetString(struct,arg,val,def)
    logical ,intent(inout):: val
    logical, optional :: def
    if(present(def)) val=def
-   call getFileBool(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   call getFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
  end subroutine
 
 
@@ -450,7 +455,7 @@ subroutine sGetString(struct,arg,val,def)
    integer :: sz
    sz=size(val)
    if(present(def)) val=def
-   call getFileInts(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,&
+   call getFileInts(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,&
      sz,val,present(def))
 
  end subroutine
@@ -463,7 +468,7 @@ subroutine sGetString(struct,arg,val,def)
    real ,intent(inout):: val(:)
    real,optional ::  def(:)
    if(present(def)) val=def
-   call getFileInt(trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,size(val),val,present(def))
+   call getFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,size(val),val,present(def))
  end subroutine
  
 
@@ -476,7 +481,7 @@ subroutine sGetString(struct,arg,val,def)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
   
-   call  readComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
   
 
 end subroutine
@@ -486,7 +491,7 @@ subroutine scrwind2(struct,vals,nw,fw,jw)
   complex,intent(out) :: vals(:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  readComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 subroutine scrwind3(struct,vals,nw,fw,jw)
@@ -495,7 +500,7 @@ subroutine scrwind3(struct,vals,nw,fw,jw)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call  readComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -504,7 +509,7 @@ subroutine scrwind4(struct,vals,nw,fw,jw)
   complex,intent(out) :: vals(:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  readComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -513,7 +518,7 @@ subroutine scrwind5(struct,vals,nw,fw,jw)
   complex,intent(out) :: vals(:,:,:,:,:)
   integer ,intent(in):: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  readComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  readComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -522,7 +527,7 @@ subroutine scwwind1(struct,vals,nw,fw,jw)
   complex,intent(in) :: vals(:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -533,7 +538,7 @@ subroutine scwwind2(struct,vals,nw,fw,jw)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
   integer,allocatable :: ng(:)
-   call  writeComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -543,7 +548,7 @@ subroutine scwwind3(struct,vals,nw,fw,jw)
   complex,intent(in) :: vals(:,:,:)
   integer ,intent(in):: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -553,7 +558,7 @@ subroutine scwwind4(struct,vals,nw,fw,jw)
   complex,intent(in) :: vals(:,:,:,:)
   integer ,intent(in):: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -563,7 +568,7 @@ subroutine scwwind5(struct,vals,nw,fw,jw)
   complex ,intent(in):: vals(:,:,:,:,:)
   integer,intent(in) :: nw(:),fw(:),jw(:)
   type(hypercube) :: hy
-   call  writeComplexWindow(trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
+   call  writeComplexWindow(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,nw,fw,jw,vals)
 
 end subroutine
 
@@ -577,7 +582,7 @@ subroutine scwriteF1(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine scwriteF2(struct,vals,sz)
@@ -590,7 +595,7 @@ subroutine scwriteF2(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine scwriteF3(struct,vals,sz)
@@ -603,7 +608,7 @@ subroutine scwriteF3(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine scwriteF4(struct,vals,sz)
@@ -616,7 +621,7 @@ subroutine scwriteF4(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 subroutine scwriteF5(struct,vals,sz)
@@ -629,7 +634,7 @@ subroutine scwriteF5(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  writeComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  writeComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -643,7 +648,7 @@ subroutine screadF1(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -657,7 +662,7 @@ subroutine screadF2(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -672,7 +677,7 @@ subroutine screadF3(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -686,7 +691,7 @@ subroutine screadF4(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
 
@@ -700,38 +705,36 @@ subroutine screadF5(struct,vals,sz)
    else
      sz2=size(vals)
    end if
-   call  readComplexStream(trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
+   call  readComplexStream(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,sz2,vals)
 end subroutine
 
-  subroutine to1DCharArray(two,ns1,ns2,one)
-    integer,intent(in) :: ns1,ns2
-    character(len=ns1),dimension(ns2),intent(in) :: two
-    character(len=ns1*ns2) :: one
-    integer i1,i2,ii,ib,ie
-    
-    do i2=1,ns2
-      ib=(i2-1)*ns1+1
-      ie=i2*ns1;
-      ii=(i2-1)*ns1+len_trim(two(i2))
-      one(ib:ii)=trim(two(i2))
-      one(ii+1:ie)=c_NULL_CHAR
+  subroutine to1DCharArray(two,nlens,nelem,one)
+    integer,intent(in) :: nelem
+    character(len=*),dimension(:),intent(in) :: two
+    integer,intent(out) :: nlens(:)
+    character(len=*) :: one
+    integer i2,ipos
+    ipos=0
+    do i2=1,nelem
+      nlens(i2)=len_trim(two(i2))
+      one(ipos+1:ipos+nlens(i2))=trim(two(i2))
+      ipos=ipos+nlens(i2)
     end do
     
   end subroutine
   
-  subroutine from1DCharArray(one,ns1,ns2,two)
-    integer,intent(in) :: ns1,ns2
-    integer :: i1,i2
-    character(len=ns1),dimension(ns2),intent(out) :: two
-    character(len=ns1*ns2), intent(in) :: one
+  subroutine from1DCharArray(one,nelem,nlens,two)
+    integer,intent(in) :: nelem
+    integer,intent(in) :: nlens(:)
+    integer :: ipos,i2
+    character(len=*),dimension(:),intent(out) :: two
+    character(len=*), intent(in) :: one
     
-    do i2=1,ns2
-      i1=1;
-      do while(one((i2-1)*ns1+i1:(i2-1)*ns1+i1)/=C_NULL_CHAR)
-        i1=i1+1;
-      end do
-      two(i2)=one((i2-1)*ns1:(i2-1)*ns1+i1-1)
-    end do
+    ipos=0;
+    do i2=1,nelem
+      two(i2)=one(ipos+1:ipos+nlens(i2))
+      ipos=ipos+nlens(i2)
+   end do
 
  end subroutine 
  function sGetHyper(struct) result(hyper)
@@ -741,13 +744,14 @@ end subroutine
     real,dimension(15) :: o,d
     character(len=1000), dimension(15) :: label
     type(axis),dimension(:),allocatable :: axes
+    integer :: lens(99)
     character(len=15000) :: tmp
     integer ::ndimout
     integer :: i
 
 
-    call getHyper(trim(struct%getFileName())//c_NULL_CHAR,15,ndimout,n,o,d,1000,15,tmp)
-    call from1DCharArray(tmp,1000,15,label)
+    call getHyper(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,15,ndimout,n,o,d,lens,tmp)
+    call from1DCharArray(tmp,ndimout,lens,label)
     allocate(axes(ndimout))
     do i=1,ndimout
       axes(i)=createaxis(n(i),o(i),d(i),label(i))
@@ -761,7 +765,7 @@ end subroutine
     class(cFile) :: struct
     type(hypercube) :: hyp
     integer :: ndim
-     integer :: n(15)
+     integer :: n(15),nlens(99)
     real,dimension(15) :: o,d
     integer :: i
     type(axis) :: ax
@@ -775,9 +779,8 @@ end subroutine
          d(i)=ax%d
          label(i)=ax%label
     end do
-    call to1DCharArray(label,1000,hyp%getNdim(),tmp)
-    call setHyper(trim(struct%getFileName())//c_NULL_CHAR,ndim,n,o,d,1000,ndim,tmp)
-    
+    call to1DCharArray(label,nlens,hyp%getNdim(),tmp)
+    call setHyper(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,ndim,n,o,d,nlens,tmp)
   end subroutine    
      
  

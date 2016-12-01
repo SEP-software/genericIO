@@ -4,25 +4,25 @@ implicit none
 
 
 interface
-subroutine initializeIO(argc,ns1,ns2,argv) bind(c,name="initializeIO")
+subroutine initializeIO(nargs,nlens,argv) bind(c,name="initializeIO")
 import
-integer(c_int),intent(in) :: argc
-integer(c_int),intent(in) :: ns1,ns2
+integer(c_int),intent(in),value :: nargs
+integer(c_int),intent(in),dimension(*) :: nlens
 character(c_char),dimension(*),intent(in) :: argv
 
 end subroutine
 
 
-subroutine openRegFile(tag,usg) bind(c,name="openRegFile")
+subroutine openRegFile(ioType,tag,usg) bind(c,name="openRegFile")
  import
 
- character(c_char), dimension(*),intent(in) :: tag,usg
+ character(c_char), dimension(*),intent(in) :: tag,usg,ioType
 end subroutine
    
-subroutine openIrregFile(tag,usg) bind(c,name="openIrregFile")
+subroutine openIrregFile(ioType,tag,usg) bind(c,name="openIrregFile")
 import
 
-  character(c_char), dimension(*),intent(in) :: tag,usg
+  character(c_char), dimension(*),intent(in) :: tag,usg,ioType
 end subroutine
  
 subroutine closeIO() bind(c,name="closeIO")
@@ -30,191 +30,197 @@ import
 
 end subroutine
 
-subroutine getParamIntC(par,val,def) bind(c,name="getParamInt")
+subroutine getParamIntC(ioType,par,val,def) bind(c,name="getParamInt")
 import
 
-  character(c_char), dimension(*),intent(in) :: par
+  character(c_char), dimension(*),intent(in) :: par,ioType
   integer(c_int),intent(inout) :: val
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getParamFloatC(par,val,def) bind(c,name="getParFloat")
+subroutine getParamFloatC(ioType,par,val,def) bind(c,name="getParamFloat")
 import
 
-  character(c_char), dimension(*),intent(in) :: par
+  character(c_char), dimension(*),intent(in) :: par,ioType
   real(c_float) ,intent(inout):: val
   logical(c_bool),value,intent(in)  :: def
 end subroutine
 
-subroutine getParamBoolC(par,val,def) bind(c,name="getParamBool")
+subroutine getParamBoolC(ioType,par,val,def) bind(c,name="getParamBool")
 import
 
-  character(c_char), dimension(*),intent(in) :: par
+  character(c_char), dimension(*),intent(in) :: par,ioType
   logical(c_bool) :: val
   logical(c_bool),intent(in),value  :: def
 end subroutine
 
-subroutine getParamStringC(par,val,def) bind(c,name="getParamString")
+subroutine getParamStringC(ioType,par,val,def) bind(c,name="getParamString")
 import
 
-  character(c_char), intent(in),dimension(*) :: par
+  character(c_char), intent(in),dimension(*) :: par,ioType
   character(c_char) ,dimension(*),intent(inout):: val
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getParamIntsC(par,val,def) bind(c,name="getParamInts")
+subroutine getParamIntsC(ioType,par,val,def) bind(c,name="getParamInts")
 import
 
-  character(c_char), dimension(*),intent(in) :: par
+  character(c_char), dimension(*),intent(in) :: par,ioType
   integer(c_int),intent(inout),dimension(*) :: val
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getParamFloatsC(par,val,def) bind(c,name="getParFloats")
+subroutine getParamFloatsC(ioType,par,val,def) bind(c,name="getParamFloats")
 import
 
-  character(c_char), dimension(*),intent(in) :: par
+  character(c_char), dimension(*),intent(in) :: par,ioType
   real(c_float) ,intent(inout),dimension(*):: val
   logical(c_bool),value,intent(in)  :: def
 end subroutine
 
-subroutine tFileInt(myf,par,val,def) bind(c,name="getFileInt")
+subroutine getFileInt(ioType,myf,par,val,def) bind(c,name="getFileInt")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(inout) :: val
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getFileFloat(myf,par,val,def) bind(c,name="getFileFloat")
+subroutine getFileFloat(ioType,myf,par,val,def) bind(c,name="getFileFloat")
 
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   real(c_float) ,intent(inout):: val
   logical(c_bool),value,intent(in)  :: def
 end subroutine
 
-subroutine getFileBool(myf,par,val,def) bind(c,name="getFileBool")
+subroutine getFileBool(ioType,myf,par,val,def) bind(c,name="getFileBool")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   logical(c_bool),intent(in) :: val
   logical(c_bool),value  :: def
 end subroutine
 
-subroutine getFileString(myf,par,val,def) bind(c,name="getFileString")
+subroutine getDefaultIOName(ioType) bind(c,name="getDefaultIOName")
 import
-  character(c_char), intent(in),dimension(*) :: myf,par
+  character(c_char), dimension(*),intent(out) :: ioType
+end subroutine
+
+subroutine getFileString(ioType,myf,par,val,def) bind(c,name="getFileString")
+import
+  character(c_char), intent(in),dimension(*) :: myf,par,ioType
   character(c_char) ,dimension(*),intent(inout):: val
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getFileInts(myf,par,nsz,val,def) bind(c,name="getFileInts")
+subroutine getFileInts(ioType,myf,par,nsz,val,def) bind(c,name="getFileInts")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(inout),dimension(*) :: val
   integer,intent(in) :: nsz
   logical(c_bool) ,value,intent(in) :: def
 end subroutine
 
-subroutine getFileFloats(myf,par,nsz,val,def) bind(c,name="getFileFloats")
+subroutine getFileFloats(ioType,myf,par,nsz,val,def) bind(c,name="getFileFloats")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer,intent(in) :: nsz
   real(c_float) ,intent(inout),dimension(*):: val
   logical(c_bool),value,intent(in)  :: def
 end subroutine
 
-subroutine putFileInt(myf,par,val) bind(c,name="putFileInt")
+subroutine putFileInt(ioType,myf,par,val) bind(c,name="putFileInt")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(in) :: val
 end subroutine
 
-subroutine putFileFloat(myf,par,val) bind(c,name="putFileFloat")
+subroutine putFileFloat(ioType,myf,par,val) bind(c,name="putFileFloat")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   real(c_float) ,intent(in):: val
 end subroutine
 
-subroutine putFileBool(myf,par,val) bind(c,name="putFileBool")
+subroutine putFileBool(ioType,myf,par,val) bind(c,name="putFileBool")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   logical(c_bool),intent(in) :: val
 end subroutine
 
-subroutine putFileString(myf,par,val) bind(c,name="putFileString")
+subroutine putFileString(ioType,myf,par,val) bind(c,name="putFileString")
 import
-  character(c_char), intent(in),dimension(*) :: myf,par
+  character(c_char), intent(in),dimension(*) :: myf,par,ioType
   character(c_char) ,dimension(*),intent(in):: val
 end subroutine
 
-subroutine putFileInts(myf,par,num,val) bind(c,name="putFileInts")
+subroutine putFileInts(ioType,myf,par,num,val) bind(c,name="putFileInts")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(in),dimension(*) :: val
-  integer,intent(in) :: num
+  integer,intent(in),value :: num
 end subroutine
 
-subroutine putFileFloats(myf,par,num,val) bind(c,name="putFileFloats")
+subroutine putFileFloats(ioType,myf,par,num,val) bind(c,name="putFileFloats")
 import
-  character(c_char), dimension(*),intent(in) :: myf,par
+  character(c_char), dimension(*),intent(in) :: myf,par,ioType
   real(c_float) ,intent(in),dimension(*):: val
-  integer,intent(in) :: num
+  integer,intent(in) ,value:: num
 end subroutine
 
-subroutine readFloatStream(myf,nsz,val) bind(c,name="readFloatStream")
+
+subroutine readFloatStream(ioType,myf,nsz,val) bind(c,name="readFloatStream")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(out),dimension(*):: val
  integer(c_long_long) , intent(in) :: nsz
 end subroutine
 
-subroutine writeFloatStream(myf,nsz,val) bind(c,name="writeFloatStream")
+subroutine writeFloatStream(ioType,myf,nsz,val) bind(c,name="writeFloatStream")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(in),dimension(*):: val
  integer(c_long_long) , intent(in) :: nsz
 end subroutine
 
-subroutine writeFloatWindow(myf,nw,fw,jw,val) bind(c,name="writeFloatWindow")
+subroutine writeFloatWindow(ioType,myf,nw,fw,jw,val) bind(c,name="writeFloatWindow")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(in),dimension(*):: val
   integer(c_int),intent(in),dimension(*) :: nw,fw,jw
 end subroutine
 
-subroutine readFloatWindow(myf,nw,fw,jw,val) bind(c,name="readFloatWindow")
+subroutine readFloatWindow(ioType,myf,nw,fw,jw,val) bind(c,name="readFloatWindow")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(out),dimension(*):: val
   integer(c_int),intent(in),dimension(*) :: nw,fw,jw
 end subroutine
 
 
 
-subroutine readComplexStream(myf,nsz,val) bind(c,name="readComplexStream")
+subroutine readComplexStream(ioType,myf,nsz,val) bind(c,name="readComplexStream")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(out),dimension(*):: val
  integer(c_long_long) , intent(in) :: nsz
 end subroutine
 
-subroutine writeComplexStream(myf,nsz,val) bind(c,name="writeComplexStream")
+subroutine writeComplexStream(ioType,myf,nsz,val) bind(c,name="writeComplexStream")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(in),dimension(*):: val
  integer(c_long_long) , intent(in) :: nsz
 end subroutine
 
-subroutine writeComplexWindow(myf,nw,fw,jw,val) bind(c,name="writeComplexWindow")
+subroutine writeComplexWindow(ioType,myf,nw,fw,jw,val) bind(c,name="writeComplexWindow")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(in),dimension(*):: val
   integer(c_int),intent(in),dimension(*) :: nw,fw,jw
 end subroutine
 
-subroutine readComplexWindow(myf,nw,fw,jw,val) bind(c,name="readComplexWindow")
+subroutine readComplexWindow(ioType,myf,nw,fw,jw,val) bind(c,name="readComplexWindow")
 import
-  character(c_char), dimension(*),intent(in) :: myf
+  character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(out),dimension(*):: val
   integer(c_int),intent(in),dimension(*) :: nw,fw,jw
 end subroutine
@@ -223,53 +229,51 @@ end subroutine
 
 
 
-subroutine readDescriptionC(name) bind(c,name="readDescription")
+subroutine readDescriptionC(ioType,name) bind(c,name="readDescription")
 import
- character(c_char), dimension(*),intent(in) :: name
+ character(c_char), dimension(*),intent(in) :: name,ioType
 end subroutine
 
 
-subroutine writeDescriptionC(name) bind(c,name="writeDescription")
+subroutine writeDescriptionC(ioType,name) bind(c,name="writeDescription")
 import
- character(c_char), dimension(*),intent(in) :: name
+ character(c_char), dimension(*),intent(in) :: name,ioType
 end subroutine
 
-subroutine getDataType(name,typ) bind(c,name="getDataType")
+subroutine getDataType(ioType,name,typ) bind(c,name="getDataType")
 import
- character(c_char), dimension(*),intent(in) :: name
+ character(c_char), dimension(*),intent(in) :: name,ioType
   character(c_char), dimension(*),intent(out) :: typ
 
 end subroutine
 
-subroutine setDataType(name,typ) bind(c,name="setDataType")
+subroutine setDataType(ioType,name,typ) bind(c,name="setDataType")
 import
- character(c_char), dimension(*),intent(in) :: name,typ
+ character(c_char), dimension(*),intent(in) :: name,typ,ioType
 end subroutine
-subroutine cerror(er) bind(c,name="cerror")
+subroutine cerror(ioName,er) bind(c,name="cError")
 import
- character(c_char), dimension(*),intent(in) :: er
+ character(c_char), dimension(*),intent(in) :: er,ioName
 end subroutine
 
 
-subroutine getHyper(tag,ndimin,ndimout,n,o,d,ns1,ns2,label) bind(c,name="getHyper")
+subroutine getHyper(ioType,tag,ndimin,ndimout,n,o,d,nlens,label) bind(c,name="getHyper")
 import
-integer(c_int),intent(in),value :: ns1,ns2
-character(c_char),intent(in) :: tag
+character(c_char),intent(in) :: tag,ioType
 character(c_char),dimension(*),intent(out) :: label
 real(c_float),dimension(*),intent(out) :: o,d
-integer(c_int),dimension(*), intent(out) :: n
+integer(c_int),dimension(*), intent(out) :: n,nlens
 integer(c_int),intent(out)  ::ndimout
 integer(c_int),value,intent(in) :: ndimin
 end subroutine
 
 
 
-subroutine setHyper(tag,ndimout,n,o,d,ns1,ns2,label) bind(c,name="setHyper")
+subroutine setHyper(ioType,tag,ndimout,n,o,d,nlens,label) bind(c,name="setHyper")
 import
-character(c_char),dimension(*),intent(in) :: label,tag
+character(c_char),dimension(*),intent(in) :: label,tag,ioType
 real(c_float),dimension(*),intent(in) :: o,d
-integer(c_int),dimension(*), intent(in) :: n
-integer(c_int), intent(in),value :: ns1,ns2
+integer(c_int),dimension(*), intent(in) :: n,nlens
 integer(c_int),value,intent(in)  ::ndimout
 end subroutine
 end interface

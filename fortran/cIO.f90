@@ -9,28 +9,24 @@ module cio_mod
  
  type,extends(genericIO) :: cio
    contains
-    procedure init=>cInit
+    procedure  :: init=>cInit
  end type
  
  contains
-    subroutine cInit(struct)
+    subroutine cInit(struct,IO)
       class(cIO) :: struct
+      character(len=*) IO
       type(cFile) :: dumF
       type(cParam) :: dumP
-      character(len=1000) ,allocatable :: ar(:)
-      character(len=99000) :: tmp
-      integer :: narg,i
-      
-      narg=command_argument_count()
-      allocate(ar(narg));
-      do i=1,narg
-        call get_command_argument(i,ar(i))
-      end do
-      call to1DCharArray(ar,1000,narg,tmp)
-      call initializeIO(narg,1000,narg,ar)
+ 
+       struct%myType=IO
       allocate(struct%regFile,source=dumF)
       allocate(struct%param,source=dumP)
+      struct%param%myIOName=IO
+      struct%regFile%myIOName=IO
     end subroutine
+    
+
     
 
 

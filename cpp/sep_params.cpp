@@ -10,7 +10,7 @@ sepParam::sepParam(const int argc, char **argv) {
 int sepParam::getInt(const std::string arg)const {
     int x;
     if(0==getch(arg.c_str(),"d",&x))
-      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
+      error(std::string("1trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
 int sepParam::getInt(const std::string arg, const int def)const {

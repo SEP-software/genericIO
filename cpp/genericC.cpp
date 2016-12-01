@@ -2,24 +2,27 @@
 #include"genericC.h"
 #include "ioModes.h"
 #include <string.h>
-void initializeIO(int argc,  const int ns1, const int ns2,char *ar){
+void initializeIO(const int nargs, const int *nlens,const char *ar){
 
-  std::vector<std::string> aout=fromChar1D(ns1,ns2,ar);
-  char **argv=new char* [argc];
-  for(int i=0; i < argc; i++){
+  std::vector<int> lens;
+  for(int i=0;i < nargs; i++) lens.push_back(nlens[i]);
+  std::vector<std::string> aout=fromChar1D(lens,ar);
+  char **argv=new char* [nargs];
+  for(int i=0; i < nargs; i++){
     argv[i]=new char[aout[i].length()+1];
     std::copy(aout[i].begin(),aout[i].end(),argv[i]);
   }
-  
-ioModesFortran::setup(argc,argv);
- for(int i=0; i < argc; i++){
+ std::shared_ptr<ioModesFortran> x=ioModesFortran::getInstance();
+ x->setup(nargs,argv);
+ /* SEPlib acts stupid
+ for(int i=0; i < nargs; i++){
     delete [] argv[i];
   }
   delete [] argv;
-
+  */
 }
-void openRegFile(const char *name,const  char *usg){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void openRegFile(const char *ioName, const char *name,const  char *usg){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     usage_code x;
     if(strcmp("INOUT",usg)==0) x=usageInOut;
     else if(strcmp("OUT",usg)==0) x=usageOut;
@@ -27,8 +30,8 @@ void openRegFile(const char *name,const  char *usg){
     else if(strcmp("SCRATCH",usg)==0) x=usageScr;
     std::shared_ptr<genericRegFile> fle=io->getRegFile(std::string(name),x);
 }
-void openIrregFile(const char *name, const char *usg){
-    std::shared_ptr<genericIO>io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void openIrregFile(const char *ioName, const char *name, const char *usg){
+    std::shared_ptr<genericIO>io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     usage_code x;
     if(strcmp("INOUT",usg)==0) x=usageInOut;
     else if(strcmp("OUT",usg)==0) x=usageOut;
@@ -36,36 +39,36 @@ void openIrregFile(const char *name, const char *usg){
     else if(strcmp("SCRATCH",usg)==0) x=usageScr;
     std::shared_ptr<genericIrregFile> fle=io->getIrregFile(std::string(name),x);
 }
-void closeIO(){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void closeIO(const char *ioName){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     io->close();
 }
-void getParamInt(const char *name, int *val,const  bool def){
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+void getParamInt(const char *ioName, const char *name, int *val,const  bool def){
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
     if(def) *val=par->getInt(std::string(name),*val);
     else *val=par->getInt(std::string(name));
 }
-void getParamFloat(const char *name, float *val,const  bool def){
+void getParamFloat(const char *ioName, const char *name, float *val,const  bool def){
 
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
     if(def) *val=par->getFloat(std::string(name),*val);
     else *val=par->getFloat(std::string(name));
 }
-void getParamString(const char *name, char *val, const bool def){
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+void getParamString(const char *ioName, const char *name, char *val, const bool def){
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
     std::string x;
     if(def) x=par->getString(std::string(name),std::string(val));
     else x=par->getString(std::string(name));
     std::copy(x.begin(), x.end(), val);
 }
-void getParamBool(const char *name, bool *val, const bool def){
+void getParamBool(const char *ioName, const char *name, bool *val, const bool def){
 
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
     if(def) *val=par->getBool(std::string(name),*val);
     else *val=par->getBool(std::string(name));
 }
-void getParamInts(const char *name, const int num, int *val, const bool def){
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+void getParamInts(const char *ioName, const char *name, const int num, int *val, const bool def){
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
 
    if(def){
       std::vector<int> x(val,val+num);
@@ -78,9 +81,9 @@ void getParamInts(const char *name, const int num, int *val, const bool def){
    }
 
 }
-void getParamFloats(const char *name,const int num, float *val,const  bool def){
+void getParamFloats(const char *ioName, const char *name,const int num, float *val,const  bool def){
 
-    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj();
+    std::shared_ptr<paramObj> par=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj();
 
    if(def){
       std::vector<float> x(val,val+num);
@@ -92,8 +95,8 @@ void getParamFloats(const char *name,const int num, float *val,const  bool def){
       for(int i=0; i < std::min((int)y.size(),num); i++) val[i]=y[i];
    }
 }
-void getFileInt(const char *tag, const char *name, int *val,const  bool def){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void getFileInt(const char *ioName, const char *tag, const char *name, int *val,const  bool def){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       if(def) *val=par->getInt(std::string(name),*val);
@@ -107,8 +110,8 @@ void getFileInt(const char *tag, const char *name, int *val,const  bool def){
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void getFileFloat(const char *tag,const  char *name, float *val, const bool def){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void getFileFloat(const char *ioName, const char *tag,const  char *name, float *val, const bool def){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       if(def) *val=par->getFloat(std::string(name),*val);
@@ -123,9 +126,9 @@ void getFileFloat(const char *tag,const  char *name, float *val, const bool def)
 
 
 }
-void getFileString(const char *tag, const char *name, char *val,const  bool def){
+void getFileString(const char *ioName, const char *tag,  const char *name, char *val,const  bool def){
 
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       std::string x;
@@ -145,8 +148,12 @@ void getFileString(const char *tag, const char *name, char *val,const  bool def)
 
 
 }
-void getFileBool(const char *tag, const char *name, bool *val, const bool def){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void getDefaultIOName(char *ioName){
+  std::string nm=ioModesFortran::getInstance()->getIOModes()->getDefaultType();
+  std::copy(nm.begin(),nm.end(),ioName);
+}
+void getFileBool(const char *ioName, const char *tag,  const char *name, bool *val, const bool def){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       if(def) *val=par->getBool(std::string(name),*val);
@@ -162,9 +169,9 @@ void getFileBool(const char *tag, const char *name, bool *val, const bool def){
 
 
 }
-void getFileInts(const char *tag, const char *name, const int num, int *val, const bool def){
+void getFileInts(const char *ioName, const char *tag,  const char *name, const int num, int *val, const bool def){
 
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
        std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
        if(def){
@@ -192,9 +199,9 @@ void getFileInts(const char *tag, const char *name, const int num, int *val, con
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void getFileFloats(const char *file,const char *name, const int num, float *val,const  bool def){
+void getFileFloats(const char *ioName, const char *file, const char *name, const int num, float *val,const  bool def){
 
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
        std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
        if(def){
@@ -221,8 +228,8 @@ void getFileFloats(const char *file,const char *name, const int num, float *val,
    }
    else io->getParamObj()->error(std::string(file)+std::string(" has not been initialized"));
 }
-void putFileInt(const char *tag,const  char *name, const int val){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void putFileInt(const char *ioName, const char *tag,const  char *name, const int val){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putInt(std::string(name),val);
@@ -238,9 +245,9 @@ void putFileInt(const char *tag,const  char *name, const int val){
 
 
 }
-void putFileFloat(const char *tag, const char *name,const  float val){
+void putFileFloat(const char *ioName, const char *tag, const char *name,const  float val){
 
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putFloat(std::string(name),val);
@@ -257,9 +264,9 @@ void putFileFloat(const char *tag, const char *name,const  float val){
 
 
 }
-void putFileString(const char *tag,const  char *name,const  char *val){
+void putFileString(const char *ioName, const char *tag,const  char *name,const  char *val){
 
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putString(std::string(name),std::string(val));
@@ -271,8 +278,8 @@ void putFileString(const char *tag,const  char *name,const  char *val){
    }
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void putFileBool(const char *tag,const  char *name, bool val){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void putFileBool(const char *ioName, const char *tag,const  char *name, bool val){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putBool(std::string(name),val);
@@ -287,10 +294,10 @@ void putFileBool(const char *tag,const  char *name, bool val){
 
 
 }
-void putFileInts(const char *tag,const  char *name, const int num, int *val){
+void putFileInts(const char *ioName, const char *tag,const  char *name, const int num, const int *val){
 
     std::vector<int> v(val,val+num);
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putInts(std::string(name),v);
@@ -303,10 +310,10 @@ void putFileInts(const char *tag,const  char *name, const int num, int *val){
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void puFileFloats(const char *file,const char *name,const int num, float *val){
+void putFileFloats(const char *ioName, const char *file, const char *name,const int num, const float *val){
 
     std::vector<float> v(val,val+num);
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(name))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(name));
       par->putFloats(std::string(name),v);
@@ -320,8 +327,8 @@ void puFileFloats(const char *file,const char *name,const int num, float *val){
 
 }
 
-void readFloatStream(const char *tag,const  long long npts, float *array){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void readFloatStream(const char *ioName, const char *tag,const  long long npts, float *array){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
@@ -337,8 +344,8 @@ void readFloatStream(const char *tag,const  long long npts, float *array){
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void writeFloatStream(const char *tag,const  long long npts, const float *array){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void writeFloatStream(const char *ioName, const char *tag,const  long long npts, const float *array){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
@@ -354,11 +361,11 @@ void writeFloatStream(const char *tag,const  long long npts, const float *array)
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void readFloatWindow(const char *tag,const  int ndim,const  int *nw,const  int *fw, const int *jw, float *ar){
+void readFloatWindow(const char *ioName, const char *tag,const  int ndim,const  int *nw,const  int *fw, const int *jw, float *ar){
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim);
   std::vector<int>  j_w(jw,jw+ndim);
 
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
       par->readFloatWindow(n_w,f_w,j_w,ar);
@@ -374,10 +381,10 @@ void readFloatWindow(const char *tag,const  int ndim,const  int *nw,const  int *
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void writeFloatWindow(const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const float *ar){
+void writeFloatWindow(const char *ioName, const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const float *ar){
 
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim), j_w(jw,jw+ndim);
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
       par->writeFloatWindow(n_w,f_w,j_w,ar);
@@ -390,8 +397,8 @@ void writeFloatWindow(const char *tag, const int ndim,const  int *nw,const  int 
    }
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void readDescription(const char *tag){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void readDescription(const char *ioName, const char *tag){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
    if(io->regFileExists(std::string(tag))){
       io->getRegFile(std::string(tag))->readDescription();
@@ -402,10 +409,11 @@ void readDescription(const char *tag){
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void writeDescription(const char *tag){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void writeDescription(const char *ioName, const char *tag){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
    if(io->regFileExists(std::string(tag))){
+  fprintf(stderr,"ABOUT GET REGFILE WWRITE DEAC");
       io->getRegFile(std::string(tag))->writeDescription();
       
    }
@@ -414,8 +422,8 @@ void writeDescription(const char *tag){
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void getDataType(const char *tag, char *typ){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void getDataType(const char *ioName, const char *tag, char *typ){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
    dataType x;
    if(io->regFileExists(std::string(tag))){
@@ -449,8 +457,8 @@ void getDataType(const char *tag, char *typ){
   }
 
 }
-void setDataType(const char *tag, const char *typ){
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void setDataType(const char *ioName, const char *tag, const char *typ){
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
   dataType t;
   if(strcmp(typ,"Float")==0)  t=dataFloat;
@@ -469,14 +477,15 @@ void setDataType(const char *tag, const char *typ){
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
       
   }
-void cError( const char *err){
-     ioModesFortran::getInstance()->getIO()->getDefaultIO()->getParamObj()->error(std::string(err));
+void cError(const char *ioName,  const char *err){
+     ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName))->getParamObj()->error(std::string(err));
 
 
   }
-void getHyper(const char *tag,const int ndimin, int *ndimout, int *n, float *o, float *d, const int ns1, const int ns2, char *big){
 
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void getHyper(const char *ioName, const char *tag,const int ndimin, int *ndimout, int *n, float *o, float *d,  int *nlens, char *big){
+
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
      std::shared_ptr<hypercube> h;
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
@@ -496,19 +505,25 @@ void getHyper(const char *tag,const int ndimin, int *ndimout, int *n, float *o, 
      n[i]=a.n; o[i]=a.o; d[i]=a.d;
      labels.push_back(a.label);
    }
-   toChar1D(labels,ns1,ns2,big);
+   
+   std::vector<int> lens;
+   for(int i=0; i< ndim; i++) lens.push_back(nlens[i]);
+   toChar1D(labels,ndim,lens,big);
    *ndimout=ndim;
 }
-void setHyper(const char *tag,const int ndim,const  int *n,const  float *o, const float *d,const  int ns1, const int ns2, const char *lin){
+
+void setHyper(const char *ioName, const char *tag,const int ndim,const  int *n,const  float *o, const float *d,const int *nlens, 
+  const char *lin){
    std::vector<axis> axes;
    
-   
-   std::vector<std::string> label=fromChar1D(ns1,ns2,lin);
+   std::vector<int> lens;
+   for(int i=0;i <ndim; i++) lens.push_back(nlens[i]);
+   std::vector<std::string> label=fromChar1D(lens,lin);
    
    for(int i=0; i < ndim; i++)
       axes.push_back(axis(n[i],o[i],d[i],std::string(label[i])));
    std::shared_ptr<hypercube> h(new hypercube(axes));
-   std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+   std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
    if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
       par->setHyper(h);
@@ -519,25 +534,30 @@ void setHyper(const char *tag,const int ndim,const  int *n,const  float *o, cons
    }
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-std::vector<std::string> fromChar1D(const int n1,const  int n2,const  char *val){
+std::vector<std::string> fromChar1D(const std::vector<int> &lens,const  char *val){
    std::vector<std::string> out;
-   for(int i2=0; i2< n2;i2++){
-    int i1=0; while(val[i2*n1+i1]!='\0') i1++;
-    out.push_back(std::string(val+i2*n1,val+i2*n1+i1));
+   
+   int ipos=0;
+   for(int i2=0; i2< lens.size();i2++){
+     out.push_back(std::string(val+ipos,val+ipos+lens[i2]));
+     ipos+=lens[i2];
    }
    return out;
 
 }
-void toChar1D(const std::vector<std::string> in,const  int n1,const  int n2, char *val){
-   for(int i2=0; i2 < n2;i2++){
-      std::copy(in[i2].begin(),in[i2].end(),&val[i2*n1]);
-      for(int i1=i2*n1+in[i2].length(); i2 < n1+i2*n1; i2++) val[i1]='\0';
+
+void toChar1D(const std::vector<std::string> in,const  int nargs, std::vector<int> &lens, char *val){
+   int ipos=0;
+   for(int i2=0; i2 < nargs;i2++){
+      std::copy(in[i2].begin(),in[i2].end(),&val[ipos]);
+      lens[i2]=in[i2].length();
+      ipos+=lens[i2];
     }
 
 }
 
-void readComplexStream(const char *tag,const  long long npts, float  _Complex *array){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void readComplexStream(const char *ioName, const char *tag,const  long long npts, float  _Complex *array){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
             
 
     if(io->regFileExists(std::string(tag))){
@@ -552,8 +572,8 @@ void readComplexStream(const char *tag,const  long long npts, float  _Complex *a
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void writeComplexStream(const char *tag,const  long long npts, const float  _Complex *array){
-    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+void writeComplexStream(const char *ioName, const char *tag,const  long long npts, const float  _Complex *array){
+    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
            
 
@@ -568,11 +588,11 @@ void writeComplexStream(const char *tag,const  long long npts, const float  _Com
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void readComplexWindow(const char *tag,const  int ndim,const  int *nw,const  int *fw, const int *jw, float  _Complex *ar){
+void readComplexWindow(const char *ioName, const char *tag,const  int ndim,const  int *nw,const  int *fw, const int *jw, float  _Complex *ar){
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim);
   std::vector<int>  j_w(jw,jw+ndim);
 
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
       par->readComplexWindow(n_w,f_w,j_w,ar);
@@ -588,10 +608,10 @@ void readComplexWindow(const char *tag,const  int ndim,const  int *nw,const  int
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void writeComplexWindow(const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const float _Complex *ar){
+void writeComplexWindow(const char *ioName, const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const float _Complex *ar){
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim), j_w(jw,jw+ndim);
 
-     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIO()->getDefaultIO();
+     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
       par->writeComplexWindow(n_w,f_w,j_w,ar);

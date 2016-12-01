@@ -13,7 +13,8 @@ module rsfio_mod
  end type
  
  contains
-    subroutine sepInit(struct)
+    subroutine sepInit(struct,IO)
+      character(len=*) ::IO
       class(rsfIO) :: struct
       type(rsfFile) :: dumF
       type(rsfParam) :: dumP

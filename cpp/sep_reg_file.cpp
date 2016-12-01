@@ -388,6 +388,7 @@ void sepRegFile::readDescription(){
     error(std::string("Only know about esize=4 or 1"));
 }
 void sepRegFile::writeDescription(){
+fprintf(stderr, "In regile write desc");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){

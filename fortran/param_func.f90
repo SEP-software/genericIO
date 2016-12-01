@@ -3,7 +3,7 @@ module param_func_mod
 
   implicit none
   type,abstract  :: genericParamObj
-  
+    character(len=128) :: myIOName
     contains
       procedure(getInt), deferred :: get_int
       procedure(getFloat),deferred :: get_float

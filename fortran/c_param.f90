@@ -31,7 +31,7 @@ subroutine sGetInt(struct,arg,val,def)
    
    x=present(def)
    if(present(def)) val=def;
-   call getParamIntC(trim(arg)//C_NULL_CHAR,val,x);
+   call getParamIntC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
   
  end subroutine
  
@@ -41,7 +41,7 @@ subroutine sGetInt(struct,arg,val,def)
    real,intent(inout) :: val
    real, optional :: def
    if(present(def)) val=def;
-   call getParamFloatC(trim(arg)//C_NULL_CHAR,val,present(def));
+   call getParamFloatC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
  end subroutine
 
 
@@ -53,7 +53,7 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*), optional :: def
 
    if(present(def)) val=def;
-   call getParamStringC(trim(arg)//C_NULL_CHAR,val,present(def));
+   call getParamStringC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)
@@ -62,7 +62,7 @@ subroutine sGetString(struct,arg,val,def)
    logical ,intent(inout):: val
    logical, optional :: def
    if(present(def)) val=def;
-   call getParamBoolC(trim(arg)//C_NULL_CHAR,val,present(def));
+   call getParamBoolC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
  end subroutine
 
 
@@ -72,7 +72,7 @@ subroutine sGetString(struct,arg,val,def)
    integer, dimension(:),intent(inout):: val
    integer, optional :: def(:)
    if(present(def)) val=def;
-   call getParamIntsC(trim(arg)//C_NULL_CHAR,val,present(def));
+   call getParamIntsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
 
  end subroutine
  
@@ -84,19 +84,16 @@ subroutine sGetString(struct,arg,val,def)
    real ,intent(inout):: val(:)
    real,optional ::  def(:)
    if(present(def)) val=def;
-   call getParamFloatsC(trim(arg)//C_NULL_CHAR,val,present(def));
+   call getParamFloatsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
  end subroutine
  
  subroutine sError(struct,arg)
    class(cParam) :: struct
    character(len=*),intent(in) :: arg
-   call cerror(trim(arg)//C_NULL_CHAR)
+   call cerror(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR)
  end subroutine
    
    
- subroutine initSEP(struct)
-   class(cParam) :: struct
-   call initPar()
- end subroutine
+
 end module  
 

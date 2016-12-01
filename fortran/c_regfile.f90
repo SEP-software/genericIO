@@ -329,8 +329,10 @@ subroutine sfPutLogical(struct,arg,val)
   class(cFile) :: struct
   character(len=*),intent(in) :: arg
   logical ,intent(in) :: val
-  
-  call putFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val)
+  integer ::x 
+  x=0
+  if(val) x=1
+  call putFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,x)
 
 end subroutine
 
@@ -408,9 +410,11 @@ subroutine sGetInt(struct,arg,val,def)
    character(len=*) ,intent(in):: arg
    integer,intent(inout):: val
    integer,optional :: def
-
+   integer :: x
+   x=0
+   if(present(def)) x=1
    if(present(def)) val=def
-   call getFileInt(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   call getFileInt(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x)
 
  end subroutine
  
@@ -419,10 +423,13 @@ subroutine sGetInt(struct,arg,val,def)
    character(len=*) ,intent(in) :: arg
    real,intent(inout) :: val
    real, optional :: def
-   logical ::x
-   if(present(def)) val=def
-   x=.false.
-   x=present(def)
+   integer ::x
+   x=0;
+   if(present(def)) then  
+      val=def
+      x=1
+   end if
+
    call getFileFloat(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x)
  end subroutine
 
@@ -433,8 +440,13 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    character(len=*),intent(inout) :: val
    character(len=*), optional :: def
-   if(present(def)) val=def
-   call getFileString(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   integer :: x
+   x=0;
+   if(present(def)) then
+     x=1
+      val=def
+   end if
+   call getFileString(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x)
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)
@@ -442,8 +454,18 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    logical ,intent(inout):: val
    logical, optional :: def
-   if(present(def)) val=def
-   call getFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def))
+   integer :: x,x2
+   x=0;
+   if(present(def)) then
+     x=1
+     x2=0
+     if(def) x2=1;
+      val=def
+   end if
+   call getFileBool(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,x2,x)
+   val=.false.
+   if(x2==1) val=.true.
+   
  end subroutine
 
 
@@ -453,10 +475,15 @@ subroutine sGetString(struct,arg,val,def)
    integer, dimension(:),intent(inout):: val
    integer, optional :: def(:)
    integer :: sz
+      integer :: x
+   x=0;
+   if(present(def)) then
+     x=1
+      val=def
+   end if
    sz=size(val)
-   if(present(def)) val=def
    call getFileInts(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,&
-     sz,val,present(def))
+     sz,val,x)
 
  end subroutine
  
@@ -467,8 +494,13 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    real ,intent(inout):: val(:)
    real,optional ::  def(:)
-   if(present(def)) val=def
-   call getFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,size(val),val,present(def))
+   integer :: x
+   x=0;
+   if(present(def)) then
+     x=1
+      val=def
+   end if
+   call getFileFloats(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,size(val),val,x)
  end subroutine
  
 

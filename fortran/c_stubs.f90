@@ -35,7 +35,7 @@ import
 
   character(c_char), dimension(*),intent(in) :: par,ioType
   integer(c_int),intent(inout) :: val
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getParamFloatC(ioType,par,val,def) bind(c,name="getParamFloat")
@@ -43,15 +43,15 @@ import
 
   character(c_char), dimension(*),intent(in) :: par,ioType
   real(c_float) ,intent(inout):: val
-  logical(c_bool),value,intent(in)  :: def
+  integer(c_int),value,intent(in)  :: def
 end subroutine
 
 subroutine getParamBoolC(ioType,par,val,def) bind(c,name="getParamBool")
 import
 
   character(c_char), dimension(*),intent(in) :: par,ioType
-  logical(c_bool) :: val
-  logical(c_bool),intent(in),value  :: def
+  integer(c_int) :: val
+  integer(c_int),intent(in),value  :: def
 end subroutine
 
 subroutine getParamStringC(ioType,par,val,def) bind(c,name="getParamString")
@@ -59,7 +59,7 @@ import
 
   character(c_char), intent(in),dimension(*) :: par,ioType
   character(c_char) ,dimension(*),intent(inout):: val
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getParamIntsC(ioType,par,val,def) bind(c,name="getParamInts")
@@ -67,7 +67,7 @@ import
 
   character(c_char), dimension(*),intent(in) :: par,ioType
   integer(c_int),intent(inout),dimension(*) :: val
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getParamFloatsC(ioType,par,val,def) bind(c,name="getParamFloats")
@@ -75,14 +75,14 @@ import
 
   character(c_char), dimension(*),intent(in) :: par,ioType
   real(c_float) ,intent(inout),dimension(*):: val
-  logical(c_bool),value,intent(in)  :: def
+  integer(c_int),value,intent(in)  :: def
 end subroutine
 
 subroutine getFileInt(ioType,myf,par,val,def) bind(c,name="getFileInt")
 import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(inout) :: val
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getFileFloat(ioType,myf,par,val,def) bind(c,name="getFileFloat")
@@ -90,14 +90,14 @@ subroutine getFileFloat(ioType,myf,par,val,def) bind(c,name="getFileFloat")
 import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
   real(c_float) ,intent(inout):: val
-  logical(c_bool),value,intent(in)  :: def
+  integer(c_int),value,intent(in)  :: def
 end subroutine
 
 subroutine getFileBool(ioType,myf,par,val,def) bind(c,name="getFileBool")
 import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
-  logical(c_bool),intent(in) :: val
-  logical(c_bool),value  :: def
+  integer(c_int),intent(in) :: val
+  integer(c_int),value  :: def
 end subroutine
 
 subroutine getDefaultIOName(ioType) bind(c,name="getDefaultIOName")
@@ -109,7 +109,7 @@ subroutine getFileString(ioType,myf,par,val,def) bind(c,name="getFileString")
 import
   character(c_char), intent(in),dimension(*) :: myf,par,ioType
   character(c_char) ,dimension(*),intent(inout):: val
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getFileInts(ioType,myf,par,nsz,val,def) bind(c,name="getFileInts")
@@ -117,7 +117,7 @@ import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer(c_int),intent(inout),dimension(*) :: val
   integer,intent(in) :: nsz
-  logical(c_bool) ,value,intent(in) :: def
+  integer(c_int) ,value,intent(in) :: def
 end subroutine
 
 subroutine getFileFloats(ioType,myf,par,nsz,val,def) bind(c,name="getFileFloats")
@@ -125,7 +125,7 @@ import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
   integer,intent(in) :: nsz
   real(c_float) ,intent(inout),dimension(*):: val
-  logical(c_bool),value,intent(in)  :: def
+  integer(c_int),value,intent(in)  :: def
 end subroutine
 
 subroutine putFileInt(ioType,myf,par,val) bind(c,name="putFileInt")
@@ -143,7 +143,7 @@ end subroutine
 subroutine putFileBool(ioType,myf,par,val) bind(c,name="putFileBool")
 import
   character(c_char), dimension(*),intent(in) :: myf,par,ioType
-  logical(c_bool),intent(in) :: val
+  integer(c_int),intent(in) :: val
 end subroutine
 
 subroutine putFileString(ioType,myf,par,val) bind(c,name="putFileString")

@@ -7,24 +7,24 @@ extern "C"{
  void openRegFile(const char *ioName, const char *name, const char *usg);
  void openIrregFile(const char *ioName, const char *name, const char *usg);
  void closeIO(const char *ioName);
- void getParamInt(const char *ioName, const char *name, int *val,const  bool def);
- void getParamFloat(const char *ioName, const char *name, float *val, const bool def);
- void getParamString(const char *ioName, const char *name, char *val,const  bool def);
- void getParamBool(const char *ioName, const char *name, bool *val,const  bool def);
- void getParamInts(const char *ioName, const char *name, const int num, int *val, const bool def);
- void getParamFloats(const char *ioName, const char *name,const int num, float *val,const  bool defs);
+ void getParamInt(const char *ioName, const char *name, int *val,const  int def);
+ void getParamFloat(const char *ioName, const char *name, float *val, const int def);
+ void getParamString(const char *ioName, const char *name, char *val,const  int def);
+ void getParamBool(const char *ioName, const char *name, int *val,const  int def);
+ void getParamInts(const char *ioName, const char *name, const int num, int *val, const int def);
+ void getParamFloats(const char *ioName, const char *name,const int num, float *val,const  int defs);
 
- void getFileInt(const char *ioName, const char *tag, const char *name, int *val,const  bool def);
- void getFileFloat(const char *ioName, const char *tag,const  char *name, float *val,const  bool def);
- void getFileString(const char *ioName, const char *tag, const char *name, char *val, const bool def);
- void getFileBool(const char *ioName, const char *tag,  const char *name, bool *val,const  bool def);
- void getFileInts(const char *ioName, const char *tag,  const char *name,const int num, int *val,const  bool def);
- void getFileFloats(const char *ioName, const char *file, const char *name, const int num,float *val,const  bool defs);
+ void getFileInt(const char *ioName, const char *tag, const char *name, int *val,const  int def);
+ void getFileFloat(const char *ioName, const char *tag,const  char *name, float *val,const  int def);
+ void getFileString(const char *ioName, const char *tag, const char *name, char *val, const int def);
+ void getFileBool(const char *ioName, const char *tag,  const char *name, int *val,const  int def);
+ void getFileInts(const char *ioName, const char *tag,  const char *name,const int num, int *val,const  int def);
+ void getFileFloats(const char *ioName, const char *file, const char *name, const int num,float *val,const  int defs);
 
  void putFileInt(const char *ioName, const char *tag,const  char *name,const  int val);
  void putFileFloat(const char *ioName, const char *tag,const  char *name,const  float val);
  void putFileString(const char *ioName, const char *tag,  const char *name,const  char *val);
- void putFileBool(const char *ioName, const char *tag,  const char *name,const  bool val);
+ void putFileBool(const char *ioName, const char *tag,  const char *name,const  int val);
  void putFileInts(const char *ioName, const char *tag,  const char *name,const  int num,const int *val);
  void putFileFloats(const char *ioName, const char *file, const char *name, const int num,const float *val);
 

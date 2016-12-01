@@ -27,12 +27,14 @@ subroutine sGetInt(struct,arg,val,def)
    character(len=*) ,intent(in):: arg
    integer,intent(inout):: val
    integer,optional :: def
-   logical :: x
-   
-   x=present(def)
-   if(present(def)) val=def;
+   integer :: x
+   x=0
+   if(present(def)) then
+     if(val) x=1;
+   end if
+
    call getParamIntC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
-  
+   
  end subroutine
  
  subroutine sGetFloat(struct,arg,val,def)
@@ -40,8 +42,12 @@ subroutine sGetInt(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    real,intent(inout) :: val
    real, optional :: def
-   if(present(def)) val=def;
-   call getParamFloatC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
+   integer :: x
+   x=0
+   if(present(def)) then
+     x=1;
+   end if
+   call getParamFloatC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
  end subroutine
 
 
@@ -51,18 +57,30 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    character(len=*), intent(inout) :: val
    character(len=*), optional :: def
-
-   if(present(def)) val=def;
-   call getParamStringC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
+   integer :: x
+   x=0
+   if(present(def)) then
+      x=1;
+   end if
+   call getParamStringC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)
    class(cParam) :: struct
    character(len=*),intent(in) :: arg
    logical ,intent(inout):: val
-   logical, optional :: def
-   if(present(def)) val=def;
-   call getParamBoolC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
+   logical,optional :: def
+   integer :: x,xuse
+   x=0
+   if(present(def)) then
+     x=1
+     xuse=0;
+     if(def) xuse=1;
+   end if
+
+   call getParamBoolC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,xuse,x);
+   val=.false.
+   if(xuse==1) val=.true.
  end subroutine
 
 
@@ -71,8 +89,10 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*) ,intent(in):: arg
    integer, dimension(:),intent(inout):: val
    integer, optional :: def(:)
-   if(present(def)) val=def;
-   call getParamIntsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
+      integer :: x
+   x=0
+   if(present(def)) x=1
+   call getParamIntsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
 
  end subroutine
  
@@ -83,8 +103,10 @@ subroutine sGetString(struct,arg,val,def)
    character(len=*),intent(in) :: arg
    real ,intent(inout):: val(:)
    real,optional ::  def(:)
-   if(present(def)) val=def;
-   call getParamFloatsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,present(def));
+    integer :: x
+   x=0
+   if(present(def)) x=1
+   call getParamFloatsC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
  end subroutine
  
  subroutine sError(struct,arg)

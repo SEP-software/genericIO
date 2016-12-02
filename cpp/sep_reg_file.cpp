@@ -158,6 +158,9 @@ void sepRegFile::putFloat(const std::string par, const float val){
    auxputch(par.c_str(),"f",&val,_tag.c_str());
 }
 void sepRegFile::putString(const std::string par, const std::string val){
+ char x[9999];
+       std::copy(val.begin(), val.end(), x);
+  x[val.length()]='\0';
   auxputch(par.c_str(),"s",val.c_str(),_tag.c_str());
 }
 
@@ -232,7 +235,7 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
 
    while(nptsT >nwrite){
       long long toWriteL=std::min(maxsize,nptsT-nwrite);
-      int ierr=sreed(_tag.c_str(),(void*)(array+nwrite),(int)toWriteL);
+      int ierr=srite(_tag.c_str(),(void*)(array+nwrite),(int)toWriteL);
       nwrite+=(long long)ierr;
       if(ierr!=toWriteL)
         error(std::string("Trouble reading from ")+_tag+std::string(" after ")+std::to_string(nwrite)+std::string(" bytes"));
@@ -388,12 +391,12 @@ void sepRegFile::readDescription(){
     error(std::string("Only know about esize=4 or 1"));
 }
 void sepRegFile::writeDescription(){
-fprintf(stderr, "In regile write desc");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){
-     int n=axes[i].n; float o=axes[i].o; float d=axes[i].d;
-     char label[1024];  std::copy(axes[i].label.begin(), axes[i].label.end(), label);
+     int n=axes[i-1].n; float o=axes[i-1].o; float d=axes[i-1].d;
+     char label[1024];  std::copy(axes[i-1].label.begin(), axes[i-1].label.end(), label);
+     label[axes[i-1].label.length()]='\0';
      sep_put_data_axis_par(_tag.c_str(),&i,&n,&o,&d,label);
   }
 

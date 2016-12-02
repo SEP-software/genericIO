@@ -184,6 +184,7 @@ void jsonGenericFile::readDescription(){
   setHyper(hyper);
 }
 void jsonGenericFile::writeDescription(){
+fprintf(stderr,"In json wriute descrip \n");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){

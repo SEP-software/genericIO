@@ -22,8 +22,8 @@ module C_regfile_mod
       procedure:: put_string=>sfputString
       procedure:: put_reals=>sfPutReals
       procedure:: put_ints=>sfPutInts
-      procedure:: get_Hyper=>sGetHyper
-      procedure:: set_Hyper=>sSetHyper
+      procedure:: getHyper=>sGetHyper
+      procedure:: setHyper=>sSetHyper
       procedure:: readDescription=>sfReadDescription
       procedure:: writeDescription=>sfWriteDescription
       procedure::  err=>sfError
@@ -391,7 +391,6 @@ end subroutine
 subroutine sfWriteDescription(struct)
  class(cFile) :: struct
 
-  write(0,*) "ABOUT TO WRITE DESCRIPTION"
  call writeDescriptionC(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR)
  
 
@@ -447,6 +446,7 @@ subroutine sGetString(struct,arg,val,def)
       val=def
    end if
    call getFileString(trim(struct%myIOName)//C_NULL_CHAR,trim(struct%getFileName())//c_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x)
+     call c2forstr2(val)
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)
@@ -767,6 +767,7 @@ end subroutine
     ipos=0;
     do i2=1,nelem
       two(i2)=one(ipos+1:ipos+nlens(i2))
+        call c2forstr2(two(i2))
       ipos=ipos+nlens(i2)
    end do
 
@@ -797,7 +798,7 @@ end subroutine
   end function
   subroutine sSetHyper(struct,hyp) 
     class(cFile) :: struct
-    type(hypercube) :: hyp
+    type(hypercube),intent(in) :: hyp
     integer :: ndim
      integer :: n(15),nlens(99)
     real,dimension(15) :: o,d
@@ -805,6 +806,7 @@ end subroutine
     type(axis) :: ax
     character(len=1000), dimension(15) :: label
      character(len=15000) :: tmp
+     
      ndim=hyp%getNdim()
      do i=1,hyp%getNdim()
          ax=hyp%getaxis(i)

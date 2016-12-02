@@ -11,7 +11,6 @@ void jsonGenericIO::initJsonPars(  int argc,  char **argv){
   int i=0;
   /*Looking for jsonIn and jsonOut"*/
   while(i < argc && (!foundIn || !foundOut)){
-    fprintf(stderr,"CGEC ME %d %d  %s \n",i,argc,argv[i]);
      std::string arg=std::string(argv[i]);
      if(arg.length() > 8){
        if(arg.substr(0,7)==std::string("jsonIn=")){

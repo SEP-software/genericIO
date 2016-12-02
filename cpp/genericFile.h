@@ -32,15 +32,18 @@ class genericRegFile: public paramObj{
     virtual void putBool(const std::string par, const bool val){if(par=="" && val==0) {;}}
     virtual void putInts(const std::string par, const  std::vector<int> val){if(par=="" && val[0]==0){;}}
     virtual void putFloats(const std::string par, const std::vector<float> val) {if(par=="" && val[0]==0){;}}
-    virtual void readUCharStream(const long long npts, unsigned char *array){ if(npts==0 && array==0){;}}
-    virtual void readFloatStream(const long long npts, float *array){ if(npts==0 && array==0){;}}
-    virtual void writeFloatStream(const long long npts, const float *array){if(npts==0 && array==0){;}}
+    virtual void readUCharStream(unsigned char *array,const long long npts){ if(npts==0 && array==0){;}}
+    virtual void readFloatStream(float *array,const long long npts){ if(npts==0 && array==0){;}}
+    virtual void writeFloatStream( const float *array,const long long npts){
+    fprintf(stderr,"in write float stream default \n");
+    
+    if(npts==0 && array==0){;}}
     virtual void readUCharWindow(const std::vector<int> nw, const std::vector<int> fw,
       const std::vector<int> jw, unsigned char *array){
               if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}
     } 
-    virtual void readComplexStream(const long long npts, float _Complex *array){ if(npts==0 && array==0){;}}
-    virtual void writeComplexStream(const long long npts, const float _Complex *array){if(npts==0 && array==0){;}}
+    virtual void readComplexStream(float _Complex *array,const long long npts){ if(npts==0 && array==0){;}}
+    virtual void writeComplexStream( const float _Complex *array,const long long npts){if(npts==0 && array==0){;}}
     virtual void readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float _Complex *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
@@ -63,7 +66,7 @@ class genericRegFile: public paramObj{
     dataType getDataType(){return _type;}
     void setDataType(dataType typ){ _type=typ;}
     std::shared_ptr<hypercube> getHyper(){
-      if(!_hyper) readDescription();
+      if(!_hyper) error(std::string("Hypercube has not been setup"));
       return _hyper;
     }
   protected:

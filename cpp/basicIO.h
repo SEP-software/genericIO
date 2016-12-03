@@ -7,7 +7,7 @@
 /*this is very rudimentary class for file io */
 class basicIO{
   public:
-    basicIO(){;}
+    basicIO(){_swapData=false;}
     void readWindow(const std::vector<int> nw, const std::vector<int> fw,const  std::vector<int> jw,void *data, void *head=0);
     void writeWindow(const std::vector<int> nw, const std::vector<int> fw,const  std::vector<int> jw,const void *data, void *head=0);
     virtual void readStream(const long long sz,  void *data){assert(1==2);}

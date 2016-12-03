@@ -35,7 +35,6 @@ _defaultIO=_ios[_defaultType];
    }
 
 std::shared_ptr<genericIO> ioModes::getIO(std::string def){
-
    if(_ios.count(def)!=1)
      _par->error(def+" io has not been defined and/or built");
    return _ios[def];

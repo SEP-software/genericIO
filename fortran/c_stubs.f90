@@ -12,7 +12,10 @@ character(c_char),dimension(*),intent(in) :: argv
 
 end subroutine
 
-
+integer function strlen(strin) bind(c,name="strlen")
+  import
+  character(C_CHAR),dimension(*) :: strin
+end function
 subroutine openRegFile(ioType,tag,usg) bind(c,name="openRegFile")
  import
 
@@ -171,14 +174,14 @@ subroutine readFloatStream(ioType,myf,nsz,val) bind(c,name="readFloatStream")
 import
   character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(out),dimension(*):: val
- integer(c_long_long) , intent(in) :: nsz
+ integer(c_long_long) ,value, intent(in) :: nsz
 end subroutine
 
 subroutine writeFloatStream(ioType,myf,nsz,val) bind(c,name="writeFloatStream")
 import
   character(c_char), dimension(*),intent(in) :: myf,ioType
   real(c_float) ,intent(in),dimension(*):: val
- integer(c_long_long) , intent(in) :: nsz
+ integer(c_long_long) ,value, intent(in) :: nsz
 end subroutine
 
 subroutine writeFloatWindow(ioType,myf,nw,fw,jw,val) bind(c,name="writeFloatWindow")
@@ -201,14 +204,14 @@ subroutine readComplexStream(ioType,myf,nsz,val) bind(c,name="readComplexStream"
 import
   character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(out),dimension(*):: val
- integer(c_long_long) , intent(in) :: nsz
+ integer(c_long_long) ,value, intent(in) :: nsz
 end subroutine
 
 subroutine writeComplexStream(ioType,myf,nsz,val) bind(c,name="writeComplexStream")
 import
   character(c_char), dimension(*),intent(in) :: myf,ioType
   complex(C_FLOAT_COMPLEX) ,intent(in),dimension(*):: val
- integer(c_long_long) , intent(in) :: nsz
+ integer(c_long_long),value , intent(in) :: nsz
 end subroutine
 
 subroutine writeComplexWindow(ioType,myf,nw,fw,jw,val) bind(c,name="writeComplexWindow")
@@ -278,7 +281,16 @@ integer(c_int),value,intent(in)  ::ndimout
 end subroutine
 end interface
 
+contains 
+subroutine c2forstr2(str)
+ character(len=*) :: str
+ integer ::n,i
 
+ n=strlen(str)
+   do i=n+1,len(str)
+     str(i:i)=" "
+   end do
+end subroutine
 
 
 

@@ -19,14 +19,14 @@ module ioModes_mod
       character(len=1000) ,allocatable :: ar(:)
       character(len=99000) :: tmp
       narg=command_argument_count()
-      allocate(ar(narg));
-      allocate(nlens(narg))
-      do i=1,narg
-        call get_command_argument(i,ar(i))
+      allocate(ar(narg+1));
+      allocate(nlens(narg+1))
+      do i=0,narg
+        call get_command_argument(i,ar(i+1))
       end do
 
-      call to1DCharArray(ar,nlens,narg,tmp)
-      call initializeIO(narg,nlens,trim(tmp)//C_NULL_CHAR)
+      call to1DCharArray(ar,nlens,narg+1,tmp)
+      call initializeIO(narg+1,nlens,trim(tmp)//C_NULL_CHAR)
       deallocate(ar)
       deallocate(nlens)
  end subroutine

@@ -63,6 +63,7 @@ subroutine sGetString(struct,arg,val,def)
       x=1;
    end if
    call getParamStringC(trim(struct%myIOName)//C_NULL_CHAR,trim(arg)//C_NULL_CHAR,val,x);
+   call c2forstr2(val)
  end subroutine
  
  subroutine sGetBool(struct,arg,val,def)

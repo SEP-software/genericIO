@@ -344,13 +344,13 @@ void readFloatStream(const char *ioName, const char *tag,const  long long npts, 
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->readFloatStream(npts,array);
+      par->readFloatStream(array,npts);
             par->setDataType(dataFloat);
 
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->readFloatStream(npts,array);
+      par->readFloatStream(array,npts);
             par->setDataType(dataFloat);
 
   }
@@ -361,13 +361,14 @@ void writeFloatStream(const char *ioName, const char *tag,const  long long npts,
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->writeFloatStream(npts,array);
+      par->writeFloatStream(array,npts);
             par->setDataType(dataFloat);
 
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->writeFloatStream(npts,array);
+      
+      par->writeFloatStream(array,npts);
             par->setDataType(dataFloat);
 
   }
@@ -425,7 +426,6 @@ void writeDescription(const char *ioName, const char *tag){
     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
 
    if(io->regFileExists(std::string(tag))){
-  fprintf(stderr,"ABOUT GET REGFILE WWRITE DEAC");
       io->getRegFile(std::string(tag))->writeDescription();
       
    }
@@ -527,13 +527,13 @@ void getHyper(const char *ioName, const char *tag,const int ndimin, int *ndimout
 void setHyper(const char *ioName, const char *tag,const int ndim,const  int *n,const  float *o, const float *d,const int *nlens, 
   const char *lin){
    std::vector<axis> axes;
-   
    std::vector<int> lens;
    for(int i=0;i <ndim; i++) lens.push_back(nlens[i]);
    std::vector<std::string> label=fromChar1D(lens,lin);
    
-   for(int i=0; i < ndim; i++)
+   for(int i=0; i < ndim; i++){
       axes.push_back(axis(n[i],o[i],d[i],std::string(label[i])));
+      }
    std::shared_ptr<hypercube> h(new hypercube(axes));
    std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
    if(io->regFileExists(std::string(tag))){
@@ -574,12 +574,12 @@ void readComplexStream(const char *ioName, const char *tag,const  long long npts
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->readComplexStream(npts,array);
+      par->readComplexStream(array,npts);
       par->setDataType(dataComplex);
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->readComplexStream(npts,array);
+      par->readComplexStream(array,npts);
         par->setDataType(dataComplex);
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
@@ -590,12 +590,12 @@ void writeComplexStream(const char *ioName, const char *tag,const  long long npt
            
 
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->writeComplexStream(npts,array);
+      par->writeComplexStream(array,npts);
       par->setDataType(dataComplex);
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->writeComplexStream(npts,array);
+      par->writeComplexStream(array,npts);
       par->setDataType(dataComplex);
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));

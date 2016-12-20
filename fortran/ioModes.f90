@@ -1,7 +1,7 @@
 module ioModes_mod
   use generic_io_mod
   use cio_mod
-  use sepio_mod
+  !use sepio_mod
    type :: ioModes
 
    contains
@@ -36,12 +36,12 @@ module ioModes_mod
    class(genericIO),pointer :: myIO
    character(len=*) :: nm
     type(cIO)  :: my_CIO
-    type(sepIO)  :: my_SEP
-   if(trim(nm)=="SEP") then
-      allocate(myIO,source=my_SEP)
-   else
+!    type(sepIO)  :: my_SEP
+!   if(trim(nm)=="SEP") then
+!      allocate(myIO,source=my_SEP)
+!   else
       allocate(myIO,source=my_CIO)
-   end if
+!   end if
    call myIO%init(nm)
  end subroutine
  

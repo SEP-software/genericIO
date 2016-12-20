@@ -119,4 +119,5 @@ configure_file (
   
 add_subdirectory(cpp)
 add_subdirectory(fortran)
+add_subdirectory(util)
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)

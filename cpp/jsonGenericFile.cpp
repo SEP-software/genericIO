@@ -257,7 +257,14 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
 
     
 }
+long long jsonGenericFile::getDataSize(){
 
+ if(!myio){
+     std::shared_ptr<myFileIO> iox(new myFileIO(getFileName(),_usage,_reelH,_traceH,1,false,getHyper()));
+     myio=iox;
+  }
+  return myio->getSize();
+}
  void jsonGenericFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  unsigned char *array){
   std::shared_ptr<hypercube> hyper=getHyper();

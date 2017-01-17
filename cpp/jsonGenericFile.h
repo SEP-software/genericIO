@@ -54,7 +54,7 @@ class jsonGenericFile: public genericIrregFile{
       const std::vector<int> jw,  unsigned char *array);
     virtual void readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float *array);
-
+    virtual long long getDataSize();
     virtual void writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float  *array);  
     virtual void readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 

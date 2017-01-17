@@ -16,14 +16,15 @@ class basicIO{
     virtual void writeTraceStream(const long long sz, const void *dat, const void *head=0);
     virtual void writeReelHead(const void *reelH);
     void readBlocks(const std::vector<int> nwo,const  std::vector<int> fwo, const std::vector<int> jwo, 
-    const std::vector<int> nwi, const std::vector<int> fwi, const std::vector<int> jwi,
-    const long long buf, void *data,void *head);
-        void writeBlocks(const std::vector<int> nwo,const  std::vector<int> fwo,const std::vector<int> jwo, 
-    std::vector<int> nwi, std::vector<int> fwi,const  std::vector<int> jwi,
-    long long buf,const void *data,const void *head);
+      const std::vector<int> nwi, const std::vector<int> fwi, const std::vector<int> jwi,
+      const long long buf, void *data,void *head);
+    void writeBlocks(const std::vector<int> nwo,const  std::vector<int> fwo,const std::vector<int> jwo, 
+      std::vector<int> nwi, std::vector<int> fwi,const  std::vector<int> jwi,
+      long long buf,const void *data,const void *head);
     virtual void partsToBlock(const std::vector<int> nw, const std::vector<int> fw, const std::vector<int> jw,  void *in, const void *out,const  void *head);
         virtual void blockToParts(const std::vector<int> nw,const  std::vector<int> fw, const std::vector<int> jw, const  void *in, void *out, void *head);
     long long getCurrentPos(){assert(1==2);}
+    virtual long long getSize();
       void swap_float_bytes(int n, float *buf);
     virtual inline void seekToPos(long long pos){ assert(1==2);
 
@@ -56,6 +57,13 @@ class myFileIO: public basicIO{
   }
   virtual long long getCurrentPos(){
     return ftell(_myf);
+  }
+  virtual long long getSize(){
+     long long cp=getCurrentPos();
+     fseek(_myf,0L,SEEK_END);
+     long long end=getCurrentPos();
+     fseek(_myf,cp,0);
+     return end;
   }
   virtual void readStream(const long long sz,  void *data) ;
   virtual void writeStream(const long long sz,const void *data) ;

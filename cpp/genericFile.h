@@ -1,6 +1,7 @@
 #ifndef GENERIC_FILE 
 #define GENERIC_FILE 1
 #include<vector>
+#include <assert.h>
 #include "paramObj.h"
 #include "hypercube.h"
 #include<memory>
@@ -50,7 +51,9 @@ class genericRegFile: public paramObj{
     virtual void writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw, const float _Complex *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
-    
+    virtual long long getDataSize(){
+       assert(1==2);
+    }
     virtual void readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
       const std::vector<int> jw,  float *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
@@ -65,6 +68,7 @@ class genericRegFile: public paramObj{
     }
     dataType getDataType(){return _type;}
     void setDataType(dataType typ){ _type=typ;}
+    std::string getDataTypeString();
     std::shared_ptr<hypercube> getHyper(){
       if(!_hyper) error(std::string("Hypercube has not been setup"));
       return _hyper;

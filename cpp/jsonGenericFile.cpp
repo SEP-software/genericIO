@@ -184,7 +184,6 @@ void jsonGenericFile::readDescription(){
   setHyper(hyper);
 }
 void jsonGenericFile::writeDescription(){
-fprintf(stderr,"In json wriute descrip \n");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){
@@ -197,9 +196,7 @@ fprintf(stderr,"In json wriute descrip \n");
 
 }
 void jsonGenericFile::close()const{
-
-  myio->close();
-
+ myio->close();
 }
 void jsonGenericFile::readFloatStream( float *array,const long long npts){ 
    long long maxsize=10000000;

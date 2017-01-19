@@ -18,10 +18,10 @@ def getParam(fle,str):
 	return lines[0].strip()
   
 def AxisToJSON(blob,i,n,o,d,label):
-   blob+="  n%d:%d\n"%(i,n)
-   blob+="  o%d:%f\n"%(i,o)
-   blob+="  d%d:%f\n"%(i,d)
-   blob+="  label%d:'%s'\n"%(i,label)
+   blob+='  "n%d":%d,\n'%(i,n)
+   blob+='  "o%d":%f,\n'%(i,o)
+   blob+='  "d%d":%f,\n'%(i,d)
+   blob+='  "label%d":"%s"'%(i,label)
    return blob;
   
 
@@ -56,9 +56,9 @@ def createJSON(sep):
     doc()
   inp=getParam(sep,"in")
   format=getParam(sep,"data_format")
-  json="%s: { \n  filename: %s\n"%(os.path.basename(sep),inp)
+  json='"%s": { \n  "filename":"%s",\n'%(os.path.basename(sep),inp)
   if format=="xdr_float":
-	json+="swapBytes: true\n",
+	json+='"swapBytes": true,\n',
 
   found=0;
   i=9; 
@@ -66,6 +66,10 @@ def createJSON(sep):
     n,o,d,label=getAxis(sep,i)
     if found==1 or n>1:
       json=AxisToJSON(json,i,n,o,d,label)
+      if i!=1:
+        json+=",\n";
+      else:
+        json+="\n";
       found=1; 
     i=i-1
   json+="}\n";

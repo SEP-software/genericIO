@@ -22,11 +22,12 @@ void jsonGenericIO::initJsonPars(  int argc,  char **argv){
       }
     i++;
   }
+  _init=false;
   if(!foundIn || !foundOut){
-   return;
-    std::cerr<<std::string("Expecting jsonIn=file jsonOut=file on the command line")<<std::endl;
-       throw std::exception();
+    return;
+ 
   }
+  _init=true;
   inps.open(fileIn,std::ifstream::in);
   std::shared_ptr<Json::Value> v(new Json::Value());
   jsonArgs=v;
@@ -52,14 +53,43 @@ void jsonGenericIO::initJsonPars(  int argc,  char **argv){
    setValid(true);
 }
 std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string name,const usage_code usage){
-
+   if(!_init){
+      std::cerr<<std::string("Expecting jsonIn=file jsonOut=file on the command line")<<std::endl;
+       throw std::exception();
+   
+   }
+   if((*jsonArgs)[name].isNull())  {
+     std::cerr<<name<<std::string("  does not exist in json file")<<std::endl;
+       throw std::exception();
+   }
+   std::shared_ptr<jsonGenericFile> x(new jsonGenericFile(jsonArgs,usage,name,0,0));
+   addRegFile(name,x);
+    return x;
 
 }
 std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string name, const usage_code usage){
-
-
+   if(!_init){
+      std::cerr<<std::string("Expecting jsonIn=file jsonOut=file on the command line")<<std::endl;
+       throw std::exception();
+   
+   }
+   if((*jsonArgs)[name].isNull())  {
+     std::cerr<<name<<std::string("  does not exist in json file")<<std::endl;
+       throw std::exception();
+   }
+   std::shared_ptr<jsonGenericFile> x(new jsonGenericFile(jsonArgs,usage,name,0,0));
+    addIrregFile(name,x);
+    return x;
 
 }
+std::shared_ptr<paramObj>  jsonGenericIO::getParamObj(){
+   if(!_init){
+      std::cerr<<std::string("Expecting jsonIn=file jsonOut=file on the command line")<<std::endl;
+       throw std::exception();
+   
+   }
+      return _param;
+    }
 void jsonGenericIO::close(){
     for(auto i=_irregFiles.begin(); i !=_irregFiles.end(); ++i){
      std::shared_ptr <jsonGenericFile> x= std::static_pointer_cast<jsonGenericFile>(i->second);

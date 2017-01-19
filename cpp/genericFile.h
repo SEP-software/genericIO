@@ -67,6 +67,7 @@ class genericRegFile: public paramObj{
       _hyper=hyp;
     }
     dataType getDataType(){return _type;}
+    int getDataEsize();
     void setDataType(dataType typ){ _type=typ;}
     std::string getDataTypeString();
     std::shared_ptr<hypercube> getHyper(){

@@ -5,7 +5,6 @@
 myFileIO::myFileIO(const std::string nm,const  usage_code usage,const int reelH,const  int traceH,const int esize,const bool swapData,std::shared_ptr<hypercube>hyper){
   setFileParams(nm,usage,reelH,traceH,esize,swapData,hyper);
   std::string mode;
- 
   if(_usage==usageIn || usage==usageInOut){
   if( access( nm.c_str(), F_OK ) == -1 )
     {

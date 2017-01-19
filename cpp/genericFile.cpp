@@ -11,7 +11,7 @@ std::string genericRegFile::getDataTypeString(){
       return std::string("dataFloat");
       break;
     case dataByte:
-      return std::string("dataBytes");
+      return std::string("dataByte");
       break;
     case dataShort:
       return std::string("dataShort");
@@ -25,4 +25,27 @@ std::string genericRegFile::getDataTypeString(){
     default:
       return std::string("dataUndefined");
   }
-}  
+}
+int genericRegFile::getDataEsize(){
+  dataType x=getDataType();
+  
+  switch(x){
+    case dataFloat:
+      return 4;
+      break;
+    case dataByte:
+      return 1;
+      break;
+    case dataShort:
+      return 2;
+      break;
+    case dataInt:
+      return 4;
+      break;
+    case dataComplex:
+      return 8;
+      break;
+    default:
+      return -1;
+  }
+}    

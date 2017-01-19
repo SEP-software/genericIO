@@ -24,7 +24,9 @@ class basicIO{
     virtual void partsToBlock(const std::vector<int> nw, const std::vector<int> fw, const std::vector<int> jw,  void *in, const void *out,const  void *head);
         virtual void blockToParts(const std::vector<int> nw,const  std::vector<int> fw, const std::vector<int> jw, const  void *in, void *out, void *head);
     long long getCurrentPos(){assert(1==2);}
-    virtual long long getSize();
+    virtual long long getSize(){ 
+      assert(1==2);
+      }
       void swap_float_bytes(int n, float *buf);
     virtual inline void seekToPos(long long pos){ assert(1==2);
 
@@ -67,9 +69,9 @@ class myFileIO: public basicIO{
   }
   virtual void readStream(const long long sz,  void *data) ;
   virtual void writeStream(const long long sz,const void *data) ;
-  virtual void close(){ fclose(myf);}
+  virtual void close(){ if(myf!=0) fclose(myf);}
   ~myFileIO(){ close();}
-  FILE *myf;
+  FILE *myf=0;
 };
 
 

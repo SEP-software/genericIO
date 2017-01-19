@@ -14,11 +14,13 @@ class jsonGenericIO: public genericIO{
     virtual std::shared_ptr<genericRegFile> getRegFile(const std::string name,const usage_code usage);
     virtual std::shared_ptr<genericIrregFile> getIrregFile(const std::string name, const usage_code usage);
     virtual void close();
-    
+    virtual std::shared_ptr<paramObj>  getParamObj();
+
     private:
       std::ifstream inps;
       std::ofstream outs;
       std::shared_ptr<Json::Value> jsonArgs;
+      bool _init;
       
 
 

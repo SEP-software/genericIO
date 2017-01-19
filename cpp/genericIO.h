@@ -48,6 +48,7 @@ class genericIO{
     virtual void close(){
       filesClose();
     }
+    
     ~genericIO(){
       close();
     }

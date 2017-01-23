@@ -18,7 +18,6 @@ class jsonGenericIO: public genericIO{
 
     private:
       std::ifstream inps;
-      std::ofstream outs;
       std::shared_ptr<Json::Value> jsonArgs;
       bool _init;
       

@@ -10,7 +10,7 @@ myFileIO::myFileIO(const std::string nm,const  usage_code usage,const int reelH,
     {
        std::cerr<<std::string("Can not open file ")<<nm<<std::endl;
        assert(1==2);
-    }
+    }sftp://RClapp:@bob-test//home/RClapp/genericIO/cpp/basicIO.cpp
    _myf = fopen(nm.c_str(), "r");
    
   }
@@ -173,7 +173,7 @@ void basicIO::readBlocks(const std::vector<int> nwo, const std::vector<int>fwo,c
   }
 void basicIO::readTraceStream(const long long sz, void *dat, void *head){
    long long cp=getCurrentPos();
-   long long n=_hyper->getAxis(0).n;
+   long long n=_hyper->getAxis(1).n;
    if(_traceH >0){
      assert((cp-(long long)_reelH)%(n+_traceH)==0);
      assert(sz%n==0);
@@ -238,7 +238,7 @@ void basicIO::readTraceStream(const long long sz, void *dat, void *head){
 }
 void basicIO::writeTraceStream(const long long sz, const void *dat, const void *head){
    long long cp=getCurrentPos();
-   long long n=_hyper->getAxis(0).n;
+   long long n=_hyper->getAxis(1).n;
    if(_traceH >0){
      assert((cp-(long long)_reelH)%(n+_traceH)==0);
      assert(sz%n==0);
@@ -258,7 +258,7 @@ void basicIO::writeTraceStream(const long long sz, const void *dat, const void *
     writeStream(sz2,buf);
     delete [] buf;
    }
-   else writeStream(sz,dat);
+   else writeStream(sz*_esize,dat);
 }
 void basicIO::writeReelHead(const void *reelH){
      assert(_reelH==fwrite(reelH,1,_reelH,_myf));
@@ -267,8 +267,8 @@ void myFileIO::readStream(const long long sz, void *data){
      
      float *d2=(float *)data;
      int *d3=(int*) data;
-     assert(sz==fread(data,1,sz,_myf));  
-
+     long long sz2=fread(data,1,sz,_myf);  
+     assert(sz==sz2);
      if(_swapData)
        swap_float_bytes(sz/4,d2); 
         

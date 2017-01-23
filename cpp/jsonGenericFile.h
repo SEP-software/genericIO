@@ -36,8 +36,9 @@ class jsonGenericFile: public genericIrregFile{
     virtual void error(const std::string err) const;
     Json::Value getArgs(){ return jsonArgs;}
     std::string getTag(){ return _tag;}
-    virtual void close()const;
-    std::string getFileName();
+    virtual void close();
+    std::string getJSONFileName() const;
+    std::string getDataFileName() const;
     virtual void readDescription();
     virtual void writeDescription();
     virtual void putInt(const std::string par, const int val) ;
@@ -69,6 +70,7 @@ class jsonGenericFile: public genericIrregFile{
   private:
     std::string _tag;
     usage_code _usage;
+    std::string _jsonFile,_dataFile;
     std::shared_ptr<myFileIO> myio;
     int _reelH,_traceH;
     

@@ -23,7 +23,7 @@ class basicIO{
       long long buf,const void *data,const void *head);
     virtual void partsToBlock(const std::vector<int> nw, const std::vector<int> fw, const std::vector<int> jw,  void *in, const void *out,const  void *head);
         virtual void blockToParts(const std::vector<int> nw,const  std::vector<int> fw, const std::vector<int> jw, const  void *in, void *out, void *head);
-    long long getCurrentPos(){assert(1==2);}
+    virtual long long getCurrentPos() const{assert(1==2);}
     virtual long long getSize(){ 
       assert(1==2);
       }
@@ -57,7 +57,7 @@ class myFileIO: public basicIO{
          diff-=dst;
       }  
   }
-  virtual long long getCurrentPos(){
+  virtual long long getCurrentPos() const{
     return ftell(_myf);
   }
   virtual long long getSize(){

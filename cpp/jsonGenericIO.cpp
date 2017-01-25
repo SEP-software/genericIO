@@ -2,7 +2,7 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include <exception>
-
+using namespace SEP;
 void jsonGenericIO::initJsonPars(  int argc,  char **argv){
 
   setValid(false);

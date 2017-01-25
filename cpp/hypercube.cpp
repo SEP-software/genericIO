@@ -1,5 +1,6 @@
 #include<hypercube.h>
 #include <assert.h>
+using namespace SEP;
 hypercube::hypercube(const hypercube *hyper){
 
   std::vector<axis> axes;

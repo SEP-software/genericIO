@@ -3,17 +3,17 @@
 #include<axis.h>
 #include<memory>
 #include <vector>
-
+namespace SEP{
 class hypercube{
 
   public:
     hypercube(){}
     hypercube(const hypercube *hyper);
     hypercube(const std::shared_ptr<hypercube> hyper);
-    hypercube(const std::vector<axis>axes);
-    void setAxes(const std::vector<axis> axes) ;
-    void setAxis(const int idim, const axis myaxis);
-    axis getAxis(int idim) const;
+    hypercube(const std::vector<SEP::axis>axes);
+    void setAxes(const std::vector<SEP::axis> axes) ;
+    void setAxis(const int idim, const SEP::axis ax);
+    SEP::axis getAxis(int idim) const;
     long long getN123() const {return n123;}
     std::vector<int> returnNs() const;
     void deallocate(){
@@ -23,19 +23,21 @@ class hypercube{
        this->deallocate();
     }
     
-    void initNd(const std::vector<axis> axes);
-    std::vector<axis> returnAxes(const int nmax) const;
+    void initNd(const std::vector<SEP::axis> axes);
+    std::vector<SEP::axis> returnAxes(const int nmax) const;
     int getNdim() const {return axes.size();}
     int getNdimG1() const;
-    std::vector<axis> getAxes() const;
-    std::vector<axis> getAxes(const int nmin)const;
+    std::vector<SEP::axis> getAxes() const;
+    std::vector<SEP::axis> getAxes(const int nmin)const;
     bool sameSize(const hypercube &other) const;
     bool sameSize(const std::shared_ptr<hypercube>other) const;
 
   protected:
     long long n123;
-    std::vector<axis> axes;
+    std::vector<SEP::axis> axes;
  
 };
+
+}
 #endif
 

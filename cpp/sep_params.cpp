@@ -1,4 +1,5 @@
 #include "sep_params.h"
+using namespace SEP;
 extern "C" {
 #include "seplib.h"
 }

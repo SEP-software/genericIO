@@ -4,6 +4,7 @@
 #include "sep_reg_file.h"
 #include "sep3dFile.h"
 #include "sep_params.h"
+namespace SEP{
 class sepIO: public genericIO{
   public:
    sepIO(int argc, char **argv);
@@ -13,4 +14,5 @@ class sepIO: public genericIO{
 
 
 };
+}
 #endif

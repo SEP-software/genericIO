@@ -3,7 +3,7 @@ extern "C" {
 #include "seplib.h"
 #include "sep3d.h"
 }
-
+using namespace SEP;
 sepRegFile::sepRegFile(const std::string tag,usage_code usage){
  _tag=tag;
  switch(usage){

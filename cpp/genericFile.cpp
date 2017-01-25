@@ -1,4 +1,5 @@
 #include "genericFile.h"
+using namespace SEP;
  void genericRegFile::putInt(const std::string par, const int val) {
    if(par=="" && val==0);
    }

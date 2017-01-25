@@ -3,6 +3,7 @@
 #include "genericIO.h"
 #include "jsonGenericIO.h"
 #include<mutex>
+namespace SEP{
 class ioModes{
   public:
     ioModes(){;}
@@ -53,6 +54,6 @@ class ioModesFortran{
   }
  
 };
-
+}
 
 #endif

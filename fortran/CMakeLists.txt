@@ -5,8 +5,8 @@ set(CMAKE_Fortran_MODULE_DIRECTORY  ${CMAKE_INSTALL_PREFIX}/include)
 set(SOURCE c_stubs.f90 cIO.f90 c_regfile.f90 c_param.f90 axis.f90 hypercube.f90  param_func.f90 genericFile.f90 genericIO.f90 ioModes.f90)
 
 if (USE_SEP)
-include_directories(${SEPlib_DIRNAME_include})
-   set(SOURCE ${SOURCE} sepIO.f90  sep_param.f90  sep_reg_file.f90)
+#include_directories(${SEPlib_DIRNAME_include})
+#   set(SOURCE ${SOURCE}  sep_param.f90  sep_reg_file.f90 sepIO.f90)
 endif (USE_SEP)
 
 if(USE_RSF)

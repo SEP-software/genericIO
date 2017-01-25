@@ -1,4 +1,5 @@
 #include<ioModes.h>
+using namespace SEP;
 std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
   std::shared_ptr<hypercube> hyperIn, const std::vector<int> ng,
   std::vector<int>&nw,std::vector<int>&fw,std::vector<int>&jw){

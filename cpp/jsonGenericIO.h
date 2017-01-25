@@ -4,7 +4,7 @@
 #include "jsonGenericFile.h"
 #include "jsonParamObj.h"
 #include <fstream>      // std::ifstream
-
+namespace SEP{
 class jsonGenericIO: public genericIO{
   public:
    jsonGenericIO(){;}
@@ -24,4 +24,5 @@ class jsonGenericIO: public genericIO{
 
 
 };
+}
 #endif

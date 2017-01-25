@@ -1,5 +1,5 @@
 #include "genericIO.h"
-
+using namespace SEP;
 void genericIO::filesClose(){
    fprintf(stderr,"in file close \n");
    for(auto i=_regFiles.begin(); i!=_regFiles.end(); ++i){

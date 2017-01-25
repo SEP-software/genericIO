@@ -3,7 +3,7 @@
 #include "paramObj.h"
 #include<string>
 #include<stdbool.h>
-
+namespace SEP{
 class sepParam: public paramObj{
   public:
     sepParam(const int argc, char **argv);
@@ -39,5 +39,6 @@ class sepParam: public paramObj{
 
 
 };
+}
 
 #endif

@@ -3,6 +3,9 @@
 #include "json.h"
 #include "paramObj.h"
 #include <memory>
+namespace SEP{
+
+
 class jsonParamObj: public paramObj{
   public:
     jsonParamObj(std::shared_ptr<Json::Value> inp) ;
@@ -30,8 +33,11 @@ class jsonParamObj: public paramObj{
 
   protected:
    std::shared_ptr<Json::Value> jsonArgs;
-
 };
+
+
+
+}
 
 
 #endif

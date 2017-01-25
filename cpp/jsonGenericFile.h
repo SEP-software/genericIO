@@ -5,13 +5,14 @@
 #include<stdbool.h>
 #include "genericFile.h"
 #include "basicIO.h"
+namespace SEP{
 class jsonGenericFile: public genericIrregFile{
   public:
   
  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
   
     jsonGenericFile(){;}
-    jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code usage,std::string tag, int reelH,int traceH);
+    jsonGenericFile(std::shared_ptr<Json::Value> arg, SEP::usage_code usage,std::string tag, int reelH,int traceH);
     void setupJson(std::shared_ptr<Json::Value> jsonArgs,std::string tag);
     virtual int getInt(const std::string arg)const;
     virtual int getInt(const std::string arg, const int def)const;
@@ -75,6 +76,6 @@ class jsonGenericFile: public genericIrregFile{
     int _reelH,_traceH;
     
 };
-
+}
 
 #endif

@@ -8,7 +8,7 @@ module sepio_mod
  
  type,extends(genericIO) :: sepIO
    contains
-    procedure init=>sepInit
+    procedure  :: init=>sepInit
  end type
  
  contains

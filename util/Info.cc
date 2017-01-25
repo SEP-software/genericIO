@@ -1,5 +1,6 @@
 #include<ioModes.h>
 #include<math.h>
+using namespace SEP;
 
 int findPow(float x){
   for(int e=31; e >=-32; e--){

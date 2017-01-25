@@ -2,6 +2,7 @@
 #include"genericC.h"
 #include "ioModes.h"
 #include <string.h>
+using namespace SEP;
 void initializeIO(const int nargs, const int *nlens,const char *ar){
 
   std::vector<int> lens;

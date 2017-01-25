@@ -1,5 +1,5 @@
 #include "segyIO.h"
-
+using namespace SEP;
   
 
 std::shared_ptr<genericRegFile> segyIO::getRegFile(const std::string name,const usage_code usage){

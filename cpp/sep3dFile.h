@@ -6,6 +6,7 @@
 extern "C" {
 #include "seplib.h"
 }
+namespace SEP{
 class sep3dFile: public genericIrregFile{
   public:
   sep3dFile(){;}
@@ -60,4 +61,5 @@ class sep3dFile: public genericIrregFile{
   private:
     std::string _tag;
 };
+}
 #endif

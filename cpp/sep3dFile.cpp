@@ -4,6 +4,8 @@ extern "C" {
 #include "sep3d.h"
 }
 #include <assert.h>
+using namespace SEP;
+
 sep3dFile::sep3dFile(const std::string tag,usage_code usage){
  _tag=tag;
  switch(usage){

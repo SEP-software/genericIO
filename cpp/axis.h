@@ -4,6 +4,7 @@
 #include<string>
 #include <stdio.h>
 
+namespace SEP{
 
 class axis{
   public:
@@ -26,6 +27,8 @@ class axis{
     void basic_set(const int n,const float o,const  float d,const  std::string label, const std::string unit);
     
     };
+    
+}
 #endif
 
 

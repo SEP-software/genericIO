@@ -3,7 +3,7 @@
 #include<string>
 #include<stdbool.h>
 #include "genericFile.h"
-
+namespace SEP{
 class sepRegFile: public genericRegFile{
   public:
   
@@ -65,6 +65,6 @@ class sepRegFile: public genericRegFile{
   private:
     std::string _tag;
 };
-
+}
 
 #endif

@@ -5,6 +5,7 @@
 #include "genericFile.h"
 #include <assert.h>
 /*this is very rudimentary class for file io */
+namespace SEP{
 class basicIO{
   public:
     basicIO(){_swapData=false;}
@@ -74,6 +75,6 @@ class myFileIO: public basicIO{
   FILE *myf=0;
 };
 
-
+}
 
 #endif

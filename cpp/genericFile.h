@@ -7,6 +7,8 @@
 #include<memory>
 #include<complex.h>
 
+
+namespace SEP{
 enum usage_code {
     usageIn,
     usageOut,
@@ -63,19 +65,19 @@ class genericRegFile: public paramObj{
     virtual void readDescription(){ ;}
     virtual void writeDescription(){;}
     virtual void close(){;}
-    void setHyper(std::shared_ptr<hypercube> hyp){
+    void setHyper(std::shared_ptr<SEP::hypercube> hyp){
       _hyper=hyp;
     }
     dataType getDataType(){return _type;}
     int getDataEsize();
     void setDataType(dataType typ){ _type=typ;}
     std::string getDataTypeString();
-    std::shared_ptr<hypercube> getHyper(){
+    const std::shared_ptr<SEP::hypercube> getHyper(){
       if(!_hyper) error(std::string("Hypercube has not been setup"));
       return _hyper;
     }
   protected:
-    std::shared_ptr<hypercube> _hyper;
+    std::shared_ptr<SEP::hypercube> _hyper;
     dataType _type;
 };
 
@@ -101,6 +103,6 @@ class genericIrregFile: public genericRegFile{
 
 };
 
-
+}
 
 #endif 

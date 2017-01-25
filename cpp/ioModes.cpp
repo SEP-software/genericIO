@@ -7,7 +7,7 @@
 #ifdef USE_SEP
 #include "sepIO.h"
 #endif 
-
+using namespace SEP;
 void ioModes::setup( int argc,  char **argv){
 std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc,argv));
 _ios["JSON"]=a; 

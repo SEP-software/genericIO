@@ -2,6 +2,8 @@
 #include <iostream>     // std::cout
 #include <fstream>      // std::ifstream
 #include <exception>
+using namespace SEP;
+
 
 jsonParamObj::jsonParamObj(std::shared_ptr<Json::Value> inp){
   jsonArgs=inp;

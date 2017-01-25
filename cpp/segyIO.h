@@ -1,6 +1,7 @@
 #ifndef SEGY_H 
 #define SEGY_H 1
 #include "jsonGenericIO.h"
+namespace SEP{
 class segyIO:public jsonGenericIO{
   public:
   segyIO( int argc,  char **argv){initJsonPars(argc,argv);}
@@ -14,4 +15,6 @@ class segyIO:public jsonGenericIO{
 
 
 };
+
+}
 #endif

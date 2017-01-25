@@ -4,7 +4,7 @@
 #include<stdbool.h>
 #include<vector>
 
-
+namespace SEP{
 class paramObj {
   public:
   
@@ -38,6 +38,7 @@ class paramObj {
     virtual void message(const std::string)const{;}
        
 };
+}
 
 #endif
 

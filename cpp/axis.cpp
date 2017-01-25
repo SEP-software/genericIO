@@ -3,6 +3,7 @@
 #include<math.h>
 
 using std::string;
+using namespace SEP;
 
 axis::axis(const int n,const  float o, const float d,const  string label) {
   string unit="Undefined";

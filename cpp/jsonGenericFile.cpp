@@ -3,7 +3,7 @@
 #include <fstream>      // std::ifstream
 #include <exception>
 #include <cstdlib>
-
+using namespace SEP;
 jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code usage,std::string tag, int reelH,int traceH){
   _usage=usage;
   setupJson(arg,tag);

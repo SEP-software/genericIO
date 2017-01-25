@@ -5,6 +5,7 @@
 #include<memory>
 #include<map>
 #include <assert.h>
+namespace SEP{
 class genericIO{
   public:
     genericIO(){;}
@@ -59,4 +60,6 @@ class genericIO{
     std::shared_ptr<paramObj> _param;
     bool _valid;
     };
+    
+}
 #endif

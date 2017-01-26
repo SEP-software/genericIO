@@ -218,7 +218,6 @@ void jsonGenericFile::writeDescription(){
 
 }
 void jsonGenericFile::close(){
-fprintf(stderr,"in close \n");
  myio->close();
  if(_usage==usageOut || _usage==usageInOut){
    std::ofstream outps;

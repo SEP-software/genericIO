@@ -57,7 +57,11 @@ void basicIO::readWindow(const std::vector<int> &nw,const  std::vector<int> &fw,
      nwo[i-naxes]=nw[i];
 
   }
+for(int i=0; i< 3; i++){
+  fprintf(stderr,"IN READ i=%d fi=%d ni=%d fo=%d no=%d \n",fwi[i],nwi[i],fwo[i],nwo[i]);
+  
 
+}
   readBlocks(naxes,nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
 
 }
@@ -133,6 +137,7 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
                     seekToPos(pti+_reelH);
               
                     readStream(sz,buf);
+                    fprintf(stderr,"about to distribute to point start at %d \n",pto);
                     blockToParts(nwi,fwi,jwi,buf,&(((char*)(dat))[pto]),head);
                     float *d2=(float*) dat;
                     pto+=szNoHead;
@@ -322,7 +327,7 @@ void basicIO::blockToParts(const std::vector<int>& nwo, const std::vector<int> &
                   ih+=_traceH;
                 }
                 pt1+=_traceH;
-
+               
                 for(int i0=0; i0 < nwo[0]; i0++,id+=_esize){
                   memcpy(&outH[id],&inH[pt1+(fwo[0]+jwo[0]*i0)*blk[0]],_esize); 
                 }

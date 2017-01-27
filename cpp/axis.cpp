@@ -5,18 +5,18 @@
 using std::string;
 using namespace SEP;
 
-axis::axis(const int n,const  float o, const float d,const  string label) {
+axis::axis(const int n,const  float o, const float d,const  string& label) {
   string unit="Undefined";
   this->basic_set(n,o,d,label,unit);
 }
-axis::axis(const int n,const  float o,const  float d, const string label,const string unit){
+axis::axis(const int n,const  float o,const  float d, const string &label,const string &unit){
   this->basic_set(n,o,d,label,unit);
   }
 axis::axis(const int n,const  float o,const  float d){  
   string unit="Undefined",label="Undefined";
   this->basic_set(n,o,d,label,unit);
 }
-bool axis::same_axis(const axis ax)const {
+bool axis::same_axis(const axis& ax)const {
    bool match=true;  
   assert(this->d > 1e-7) ;
   if(this->n !=ax.n) match=false;;
@@ -28,7 +28,7 @@ axis::axis(const int n){
      string unit="Undefined",label="Undefined";
   this->basic_set(n,0.,1,label,unit);
  }
-  void axis::basic_set(const int n,const  float o,const  float d,const  string label,const  string unit)
+  void axis::basic_set(const int n,const  float o,const  float d,const  string& label,const  string& unit)
   {
   this->n=n;
   this->o=o;

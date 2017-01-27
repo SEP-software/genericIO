@@ -8,7 +8,7 @@
 #include "sepIO.h"
 #endif 
 using namespace SEP;
-void ioModes::setup( int argc,  char **argv){
+void ioModes::setup(const int argc, char **argv){
 std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc,argv));
 _ios["JSON"]=a; 
 std::shared_ptr<segyIO> d(new segyIO(argc,argv));
@@ -34,14 +34,14 @@ _defaultIO=_ios[_defaultType];
        return getIO(_defaultType);
    }
 
-std::shared_ptr<genericIO> ioModes::getIO(std::string def){
+std::shared_ptr<genericIO> ioModes::getIO(const std::string& def){
    if(_ios.count(def)!=1)
      _par->error(def+" io has not been defined and/or built");
    return _ios[def];
 
    
 }
-std::shared_ptr<genericRegFile> ioModes::getRegFile(std::string def,std::string name,
+std::shared_ptr<genericRegFile> ioModes::getRegFile(const std::string &def,const std::string &name,
    usage_code usage){
    
     if(_ios.count(def)==0)
@@ -52,13 +52,13 @@ std::shared_ptr<genericRegFile> ioModes::getRegFile(std::string def,std::string 
    
    
 }
-std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(std::string name,usage_code usage){
+std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(const std::string &name,const usage_code usage){
    
    _defaultIO->getRegFile(name,usage);
    
 }
 std::shared_ptr<ioModesFortran> ioModesFortran::instance = nullptr;
-void ioModesFortran::setup(int argc, char **argv){
+void ioModesFortran::setup(const int argc,  char **argv){
    std::shared_ptr<ioModes> x(new ioModes(argc,argv));
    _io=x;
 }

@@ -4,7 +4,7 @@ extern "C" {
 
 }
 #include "basicIO.h"
-rsfRegFile::rsfRegFile(const std::string tag,usage_code usage){
+rsfRegFile::rsfRegFile(const std::string& tag,usage_code usage){
  _tag=tag;
  switch(usage){
     case usageIn:
@@ -21,32 +21,32 @@ rsfRegFile::rsfRegFile(const std::string tag,usage_code usage){
  
 }
 
-int rsfRegFile::getInt(const std::string arg)const{
+int rsfRegFile::getInt(const std::string& arg)const{
     int x;
     if(!sf_histint(_file,arg.c_str(),&x))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int rsfRegFile::getInt(const std::string arg, const int def)const{
+int rsfRegFile::getInt(const sd::string &arg, const int def)const{
    int x=def;
    sf_histint(_file,arg.c_str(),&x);
    return x;
 }
    
-float rsfRegFile::getFloat(const std::string arg, const float def)const{
+float rsfRegFile::getFloat(const sd::string &arg, const float def)const{
   float x;
    sf_histfloat(_file,arg.c_str(),&x);
   return x;
 
 }
-float rsfRegFile::getFloat(const std::string arg)const{
+float rsfRegFile::getFloat(const sd::string &arg)const{
   float x;
   if(! sf_histfloat(_file,arg.c_str(),&x))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
-std::string rsfRegFile::getString(const std::string arg)const{
+std::string rsfRegFile::getString(const sd::string &arg)const{
    char *buf;
    
    buf=sf_histstring(_file,arg.c_str());
@@ -57,7 +57,7 @@ std::string rsfRegFile::getString(const std::string arg)const{
   return y;
 
 }
-std::string rsfRegFile::getString(const std::string arg, const std::string def)const{
+std::string rsfRegFile::getString(const sd::string &arg, const std::string& def)const{
 
   char *buf=sf_histstring(_file,arg.c_str());
   if(buf==NULL) return def;
@@ -67,13 +67,13 @@ std::string rsfRegFile::getString(const std::string arg, const std::string def)c
   return y;
 }
  
-bool rsfRegFile::getBool(const std::string arg, const bool def)const{
+bool rsfRegFile::getBool(const sd::string &arg, const bool def)const{
   bool x=def;
   sf_histbool(_file,arg.c_str(),&x);
   return x;
 
 }
-bool rsfRegFile::getBool(const std::string arg)const{
+bool rsfRegFile::getBool(const sd::string &arg)const{
  bool x;
   if(!sf_histbool(_file,arg.c_str(),&x)){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -83,7 +83,7 @@ bool rsfRegFile::getBool(const std::string arg)const{
 }
    
    
-std::vector<int> rsfRegFile::getInts(const std::string arg,int n)const{
+std::vector<int> rsfRegFile::getInts(const sd::string &arg,int n)const{
   int tmp[10000];
   bool ierr=sf_histints(_file,arg.c_str(),tmp,n);
   if(!ierr) 
@@ -92,7 +92,7 @@ std::vector<int> rsfRegFile::getInts(const std::string arg,int n)const{
   for(int i=0; i < n; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> rsfRegFile::getInts(const std::string arg,std::vector<int> defs)const{
+std::vector<int> rsfRegFile::getInts(const sd::string &arg,std::vector<int> &defs)const{
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -108,7 +108,7 @@ std::vector<int> rsfRegFile::getInts(const std::string arg,std::vector<int> defs
   return x;
 }
      
-std::vector<float> rsfRegFile::getFloats(const std::string arg,int n)const{
+std::vector<float> rsfRegFile::getFloats(const sd::string &arg,int n)const{
   float tmp[10000];
   bool ierr=sf_histfloats(_file,arg.c_str(),tmp,n);
   if(!ierr) 
@@ -119,7 +119,7 @@ std::vector<float> rsfRegFile::getFloats(const std::string arg,int n)const{
 
 
 }
-std::vector<float> rsfRegFile::getFloats(const std::string arg,std::vector<float> defs)const{
+std::vector<float> rsfRegFile::getFloats(const sd::string &arg,std::vector<float>& defs)const{
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -138,30 +138,30 @@ std::vector<float> rsfRegFile::getFloats(const std::string arg,std::vector<float
 }
 
 
-void rsfRegFile::error(const std::string err)const{
+void rsfRegFile::error(const std::string &err)const{
    sf_error(err.c_str());
 }
     
-void rsfRegFile::putInt(const std::string par, const int val){
+void rsfRegFile::putInt(const std::string &par, const int val){
    sf_putint(_file,par.c_str(),val);
 
 }
-void rsfRegFile::putFloat(const std::string par, const float val){
+void rsfRegFile::putFloat(const std::string &par, const float val){
 
    sf_putfloat(_file,par.c_str(),val);
 }
-void rsfRegFile::putString(const std::string par, const std::string val){
+void rsfRegFile::putString(const std::string &par, const std::string &val){
    sf_putstring(_file,par.c_str(),val.c_str());
 }
 
-void rsfRegFile::putBool(const std::string par, const bool val){
+void rsfRegFile::putBool(const std::string &par, const bool val){
       int i=1;
       if(!val) i=0;
       sf_putint(_file,par.c_str(),i);
   
 
 }
-void rsfRegFile::putInts(const std::string par, const  std::vector<int> val){
+void rsfRegFile::putInts(const std::string& par, const  std::vector<int>& val){
 
 /*
    int *tmp=new int[val.size()];
@@ -170,7 +170,7 @@ void rsfRegFile::putInts(const std::string par, const  std::vector<int> val){
    delete [] tmp;
    */
 }
-void rsfRegFile::putFloats(const std::string par, const std::vector<float> val){
+void rsfRegFile::putFloats(const std::string &par, const std::vector<float>& val){
    
    /*
    float *tmp=new float[val.size()];
@@ -244,8 +244,8 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   }   
 
 }
- void rsfRegFile::readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array){
+ void rsfRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw,  float *array){
   std::shared_ptr< hypercube>hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
@@ -265,8 +265,8 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
 
     
 }
- void rsfRegFile::readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex *array){
+ void rsfRegFile::readComplexWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw,  float _Complex *array){
   std::shared_ptr< hypercube>hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
        setDataType(dataComplex);
@@ -288,8 +288,8 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
 
     
 }
- void rsfRegFile::writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float _Complex *array){
+ void rsfRegFile::writeComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw, float _Complex *array){
         setDataType(dataComplex);
 
   std::shared_ptr<hypercube>hyper=getHyper();
@@ -310,8 +310,8 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   myio->writeWindow(nw,fw,jw,array);
       
 }
- void rsfRegFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  unsigned char *array){
+ void rsfRegFile::readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  unsigned char *array){
   std::shared_ptr<hypercube>hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
@@ -330,8 +330,8 @@ void rsfRegFile::writeFloatStream( const float *array,const long long npts){
   myio->readWindow(nw,fw,jw,array);
     
 }
- void rsfRegFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float *array){
+ void rsfRegFile::writeFloatWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw, float *array){
         setDataType(dataFloat);
 
   std::shared_ptr<hypercube>hyper=getHyper();

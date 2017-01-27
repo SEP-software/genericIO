@@ -22,10 +22,10 @@ class rsfParam: public paramObj{
    
    
     virtual std::vector<int> getInts(const std::string arg,const int nvals)const ;
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const ;
+    virtual std::vector<int> getInts(const std::string arg,std::vector<int>& defs)const ;
      
     virtual std::vector<float> getFloats(const std::string arg,const int nvals)const ;
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const ;
+    virtual std::vector<float> getFloats(const std::string arg,std::vector<float>& defs)const ;
        
     virtual void error(const std::string err) const ;
     

@@ -52,7 +52,7 @@ def splitList(com):
     if space>999: 
       com=""
     else:
-      com=com[space+1].strip();
+      com=com[space+1:].strip();
   return list      
 
 def getIndex(com,char,beg):
@@ -105,7 +105,6 @@ def findStdout(com):
 
 
 def runCommand(com):
-  print com
   p=subprocess.Popen(com,stderr=subprocess.PIPE)
   for line in iter(p.stderr.readline, b''):
     print(">>> " + line.rstrip())
@@ -118,6 +117,16 @@ def buildJSON(prog,args):
   lines=[]
   for k,v in args.items():
     if v:
+      num=0
+      try:
+        v=float(v)
+        num=1
+      except ValueError:
+        num=0
+      try:
+        v=int(v)
+      except ValueError:
+        num=0
       if isinstance(v, basestring):
         lines.append("\"%s\":\"%s\""%(k,v))
       else:
@@ -128,7 +137,7 @@ def buildJSON(prog,args):
   tfile.write("{\n")
   last=lines.pop()
   for line in lines:
-    tfile.write("%s,"%line)
+    tfile.write("%s,\n"%line)
   tfile.write("%s\n}\n"%last)
   tfile.close()
   com=[prog, "json=%s"%filename]

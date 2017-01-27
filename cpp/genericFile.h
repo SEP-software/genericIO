@@ -29,38 +29,38 @@ class genericRegFile: public paramObj{
   public:
     genericRegFile(){ _type=dataUndefined;}
     
-    virtual void putInt(const std::string par, const int val) ;
-    virtual void putFloat(const std::string par, const float val){if(par=="" && val==0){;}}
-    virtual void putString(const std::string par, const std::string val){if(par=="" && val==""){;}}
-    virtual void putBool(const std::string par, const bool val){if(par=="" && val==0) {;}}
-    virtual void putInts(const std::string par, const  std::vector<int> val){if(par=="" && val[0]==0){;}}
-    virtual void putFloats(const std::string par, const std::vector<float> val) {if(par=="" && val[0]==0){;}}
+    virtual void putInt(const std::string &par, const int val) ;
+    virtual void putFloat(const std::string &par, const float val){if(par=="" && val==0){;}}
+    virtual void putString(const std::string &par, const std::string val){if(par=="" && val==""){;}}
+    virtual void putBool(const std::string &par, const bool val){if(par=="" && val==0) {;}}
+    virtual void putInts(const std::string &par, const  std::vector<int> val){if(par=="" && val[0]==0){;}}
+    virtual void putFloats(const std::string &par, const std::vector<float> val) {if(par=="" && val[0]==0){;}}
     virtual void readUCharStream(unsigned char *array,const long long npts){ if(npts==0 && array==0){;}}
     virtual void readFloatStream(float *array,const long long npts){ if(npts==0 && array==0){;}}
     virtual void writeFloatStream( const float *array,const long long npts){
     fprintf(stderr,"in write float stream default \n");
     
     if(npts==0 && array==0){;}}
-    virtual void readUCharWindow(const std::vector<int> nw, const std::vector<int> fw,
-      const std::vector<int> jw, unsigned char *array){
+    virtual void readUCharWindow(const std::vector<int>& nw, const std::vector<int>& fw,
+      const std::vector<int>& jw, unsigned char *array){
               if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}
     } 
     virtual void readComplexStream(float _Complex *array,const long long npts){ if(npts==0 && array==0){;}}
     virtual void writeComplexStream( const float _Complex *array,const long long npts){if(npts==0 && array==0){;}}
-    virtual void readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
+    virtual void readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
       const std::vector<int> jw,  float _Complex *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
-    virtual void writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, const float _Complex *array){
+    virtual void writeComplexWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw, const float _Complex *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
     virtual long long getDataSize(){
        assert(1==2);
     }
-    virtual void readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array){
+    virtual void readFloatWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
+      const std::vector<int> &jw,  float *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
-    virtual void writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, const float *array){
+    virtual void writeFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw, const float *array){
         if(nw[0]==0 && fw[0]==0 && jw[0]==0 && array==0){;}}
     virtual void readDescription(){ ;}
     virtual void writeDescription(){;}

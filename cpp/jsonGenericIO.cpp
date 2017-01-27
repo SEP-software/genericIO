@@ -3,7 +3,7 @@
 #include <fstream>      // std::ifstream
 #include <exception>
 using namespace SEP;
-void jsonGenericIO::initJsonPars(  int argc,  char **argv){
+void jsonGenericIO::initJsonPars( const int argc,  char **argv){
 
   setValid(false);
   bool foundIn=false;
@@ -46,7 +46,7 @@ void jsonGenericIO::initJsonPars(  int argc,  char **argv){
    _param=x;
    setValid(true);
 }
-std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string name,const usage_code usage){
+std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string &name,const usage_code usage){
    if(!_init){
       std::cerr<<std::string("Expecting json=file on the command line")<<std::endl;
        throw std::exception();
@@ -63,9 +63,9 @@ std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string nam
     return x;
 
 }
-std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string name, const usage_code usage){
+std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string &name, const usage_code usage){
    if(!_init){
-      std::cerr<<std::string("Expecting jsonIn=file  on the command line")<<std::endl;
+      std::cerr<<std::string("Expecting json=file  on the command line")<<std::endl;
        throw std::exception();
    
    }
@@ -82,7 +82,7 @@ std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string
 }
 std::shared_ptr<paramObj>  jsonGenericIO::getParamObj(){
    if(!_init){
-      std::cerr<<std::string("Expecting jsonIn=file  on the command line")<<std::endl;
+      std::cerr<<std::string("Expecting json=file  on the command line")<<std::endl;
        throw std::exception();
    
    }

@@ -9,33 +9,22 @@ class paramObj {
   public:
   
     paramObj(){;}
-    virtual int getInt(const std::string arg) const ;
-    virtual int getInt(const std::string arg, const int def) const 
-       {if(arg=="" && def==0){;}; return 0;}
+    virtual int getInt(const std::string &arg) const =0;
+    virtual int getInt(const std::string& arg, const int def) const=0;
    
-    virtual float getFloat(const std::string arg, const  float def)const { 
-    if(arg=="" && def==0.){;};return 0.;}
-    virtual float getFloat(const std::string arg)const  { if(arg==""){;}; return 0.;}
-   
-    virtual std::string getString(const std::string arg)const {if(arg==""){;}; return "A";}
-    virtual std::string getString(const std::string arg, const std::string def)const {
-      if(arg=="" && def=="" ) {;} return "A";}
-   
-    virtual bool getBool(const std::string arg, const bool def) const { if(arg=="" && def){;};return 0.;}
-    virtual bool getBool(const std::string arg )const  { if(arg==""){;}; return 0.;}
-    
-   
-    virtual std::vector<int> getInts(const std::string arg,int nvals)const {
-       if(arg=="" && nvals==0) {;}  std::vector<int> a; return a;}
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const {
-       if(arg==""  && defs[0]==0 ) {;} std::vector<int> a; return a;}      
+    virtual float getFloat(const std::string& arg, const  float def)const =0;
+    virtual float getFloat(const std::string& arg)const =0;
+    virtual std::string getString(const std::string &arg)const =0;
+    virtual std::string getString(const std::string &arg, const std::string &def)const=0;
+    virtual bool getBool(const std::string &arg, const bool def) const =0;
+    virtual bool getBool(const std::string& arg )const  =0;
+    virtual std::vector<int> getInts(const std::string &arg,const int nvals)const =0;
+    virtual std::vector<int> getInts(const std::string& arg,std::vector<int>& defs)const =0;     
      
-    virtual std::vector<float> getFloats(const std::string arg,int nvals)const {
-       if(arg==""  && nvals==0) {;} std::vector<float> a; return a;;}
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const {
-       if(arg==""  && defs[0]==0.) {;}std::vector<float> a; return a;}   
-    virtual void error(std::string)const {;}
-    virtual void message(const std::string)const{;}
+    virtual std::vector<float> getFloats(const std::string &arg,int nvals)const =0;
+    virtual std::vector<float> getFloats(const std::string& arg,std::vector<float>& defs)const =0;
+    virtual void error(const std::string&)const =0;
+    virtual void message(const std::string&)const=0;
        
 };
 }

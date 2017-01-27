@@ -4,7 +4,7 @@ extern "C" {
 #include "sep3d.h"
 }
 using namespace SEP;
-sepRegFile::sepRegFile(const std::string tag,usage_code usage){
+sepRegFile::sepRegFile(const std::string& tag,usage_code usage){
  _tag=tag;
  switch(usage){
     case usageIn:
@@ -28,32 +28,32 @@ sepRegFile::sepRegFile(const std::string tag,usage_code usage){
  
 }
 
-int sepRegFile::getInt(const std::string arg)const{
+int sepRegFile::getInt(const sd::string &arg)const{
     int x;
     if(0==auxpar(arg.c_str(),"d",&x,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int sepRegFile::getInt(const std::string arg, const int def)const{
+int sepRegFile::getInt(const sd::string &arg, const int def)const{
    int x=def;
    int i=auxpar(arg.c_str(),"d",&x,_tag.c_str());
    return x;
 }
    
-float sepRegFile::getFloat(const std::string arg, const float def)const{
+float sepRegFile::getFloat(const sd::string &arg, const float def)const{
   float x=def;
   int i=auxpar(arg.c_str(),"f",&x,_tag.c_str());
   return x;
 
 }
-float sepRegFile::getFloat(const std::string arg)const{
+float sepRegFile::getFloat(const sd::string &arg)const{
   float x;
   if(0==auxpar(arg.c_str(),"f",&x,_tag.c_str()))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
-std::string sepRegFile::getString(const std::string arg)const{
+std::string sepRegFile::getString(const sd::string &arg)const{
   char buf[10000];
   if(0==auxpar(arg.c_str(),"s",buf,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -61,7 +61,7 @@ std::string sepRegFile::getString(const std::string arg)const{
 
 
 }
-std::string sepRegFile::getString(const std::string arg, const std::string def)const{
+std::string sepRegFile::getString(const sd::string &arg, const std::string& def)const{
 
   char buf[10000];
   std::copy(def.begin(), def.end(), buf);
@@ -70,13 +70,13 @@ std::string sepRegFile::getString(const std::string arg, const std::string def)c
 
 }
  
-bool sepRegFile::getBool(const std::string arg, const bool def)const{
+bool sepRegFile::getBool(const sd::string &arg, const bool def)const{
   bool x=def;
   int i=auxpar(arg.c_str(),"l",&x,_tag.c_str());
   return x;
 
 }
-bool sepRegFile::getBool(const std::string arg)const{
+bool sepRegFile::getBool(const sd::string &arg)const{
  bool x;
   if(0==auxpar(arg.c_str(),"l",&x,_tag.c_str())){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -86,7 +86,7 @@ bool sepRegFile::getBool(const std::string arg)const{
 }
    
    
-std::vector<int> sepRegFile::getInts(const std::string arg,int num)const{
+std::vector<int> sepRegFile::getInts(const sd::string &arg,int num)const{
   int tmp[10000];
   int ierr=auxpar(arg.c_str(),"d",tmp,_tag.c_str());
   if(ierr==0) 
@@ -95,7 +95,7 @@ std::vector<int> sepRegFile::getInts(const std::string arg,int num)const{
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs)const{
+std::vector<int> sepRegFile::getInts(const sd::string &arg,std::vector<int> defs)const{
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -113,7 +113,7 @@ std::vector<int> sepRegFile::getInts(const std::string arg,std::vector<int> defs
   return x;
 }
      
-std::vector<float> sepRegFile::getFloats(const std::string arg, int num)const{
+std::vector<float> sepRegFile::getFloats(const sd::string &arg, int num)const{
   float tmp[10000];
   int ierr=auxpar(arg.c_str(),"f",tmp,_tag.c_str());
   if(ierr==0) 
@@ -124,7 +124,7 @@ std::vector<float> sepRegFile::getFloats(const std::string arg, int num)const{
 
 
 }
-std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float> defs)const{
+std::vector<float> sepRegFile::getFloats(const sd::string &arg,std::vector<float>& defs)const{
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -144,39 +144,39 @@ std::vector<float> sepRegFile::getFloats(const std::string arg,std::vector<float
 }
 
 
-void sepRegFile::error(const std::string err)const {
+void sepRegFile::error(const std::string &err)const {
    seperr(err.c_str());
 }
     
-void sepRegFile::putInt(const std::string par, const int val){
+void sepRegFile::putInt(const std::string &par, const int val){
 
    auxputch(par.c_str(),"d",&val,_tag.c_str());
 
 }
-void sepRegFile::putFloat(const std::string par, const float val){
+void sepRegFile::putFloat(const std::string &par, const float val){
 
    auxputch(par.c_str(),"f",&val,_tag.c_str());
 }
-void sepRegFile::putString(const std::string par, const std::string val){
+void sepRegFile::putString(const std::string& par, const std::string& val){
  char x[9999];
        std::copy(val.begin(), val.end(), x);
   x[val.length()]='\0';
   auxputch(par.c_str(),"s",val.c_str(),_tag.c_str());
 }
 
-void sepRegFile::putBool(const std::string par, const bool val){
+void sepRegFile::putBool(const std::string &par, const bool val){
    int x=0;
    if(val) x=1;
    auxputch(par.c_str(),"l",&x,_tag.c_str());    
 
 }
-void sepRegFile::putInts(const std::string par, const  std::vector<int> val){
+void sepRegFile::putInts(const std::string &par, const  std::vector<int> &val){
    int *tmp=new int[val.size()];
    for(int i=0; i < val.size(); i++) tmp[i]=val[i];
    auxputch(par.c_str(),"d",tmp,_tag.c_str());
    delete [] tmp;
 }
-void sepRegFile::putFloats(const std::string par, const std::vector<float> val){
+void sepRegFile::putFloats(const std::string& par, const std::vector<float> &val){
    float *tmp=new float[val.size()];
    for(int i=0; i < val.size(); i++) tmp[i]=val[i];
    auxputch(par.c_str(),"f",tmp,_tag.c_str());
@@ -242,8 +242,8 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
   }   
 
 }
- void sepRegFile::readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array){
+ void sepRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  float *array){
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   
@@ -265,8 +265,8 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
     
 }
 
- void sepRegFile::readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex *array){
+ void sepRegFile::readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  float _Complex *array){
   std::shared_ptr<hypercube> hyper=getHyper();
        setDataType(dataComplex);
 
@@ -303,8 +303,8 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
 
 }
 
- void sepRegFile::writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float _Complex *array){
+ void sepRegFile::writeComplexWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
+      const std::vector<int> &jw, float _Complex *array){
         setDataType(dataComplex);
 
   std::shared_ptr<hypercube> hyper=getHyper();
@@ -324,8 +324,8 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
       
 }
 
- void sepRegFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  unsigned char *array){
+ void sepRegFile::readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  unsigned char *array){
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
@@ -342,8 +342,8 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
    error(std::string("trouble reading data from tag ")+_tag);
     
 }
- void sepRegFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float *array){
+ void sepRegFile::writeFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw, float *array){
         setDataType(dataFloat);
 
   std::shared_ptr<hypercube> hyper=getHyper();

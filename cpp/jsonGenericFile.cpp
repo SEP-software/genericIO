@@ -4,11 +4,12 @@
 #include <exception>
 #include <cstdlib>
 using namespace SEP;
-jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code usage,std::string tag, int reelH,int traceH){
+jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,const  usage_code usage,const std::string &tag, const int reelH,const int traceH){
   _usage=usage;
   setupJson(arg,tag);
   _reelH=reelH;
   _traceH=traceH;
+  fprintf(stderr,"chreated generic file opb \n");
   if(usage==usageIn){
     readDescription();
     std::shared_ptr<myFileIO> x(new myFileIO(getDataFileName(),usage,reelH,traceH,
@@ -23,12 +24,15 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg, usage_code us
   }
   
 }
-void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,std::string tag){
-
-   if((*arg)[tag].isNull())
-     error(std::string("can't find tag "+tag+" in JSON parameters"));
+void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,const std::string &tag){
    _tag=tag;
-   _jsonFile=(*arg)[tag].asString();
+
+   if((*arg)[tag].isNull()){
+     _jsonFile=_tag;
+   }
+   else{   
+     _jsonFile=(*arg)[tag].asString();
+   }
    if(_usage==usageIn || _usage==usageInOut){
      std::ifstream inps;
      inps.open(getJSONFileName(),std::ifstream::in);
@@ -55,32 +59,32 @@ std::string jsonGenericFile::getDataFileName() const{
 
  return _dataFile;
 }
-int jsonGenericFile::getInt(const std::string arg)const{
+int jsonGenericFile::getInt(const std::string& arg)const{
     int x;
     if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
      x=jsonArgs.get(arg,1).asInt();
     return x;
 }
-int jsonGenericFile::getInt(const std::string arg, const int def)const{
+int jsonGenericFile::getInt(const std::string &arg, const int def)const{
 
    int x=jsonArgs.get(arg,def).asInt();
    return x;
 }
-float jsonGenericFile::getFloat(const std::string arg, const float def)const{
+float jsonGenericFile::getFloat(const std::string &arg, const float def)const{
   float x;
   x= jsonArgs.get(arg,def).asFloat();
   return x;
 
 }
-float jsonGenericFile::getFloat(const std::string arg)const{
+float jsonGenericFile::getFloat(const std::string &arg)const{
   float x;
  if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   x=jsonArgs.get(arg,1.).asFloat();
   return x;
 }
-std::string jsonGenericFile::getString(const std::string arg)const{
+std::string jsonGenericFile::getString(const std::string &arg)const{
    if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
  
@@ -88,20 +92,20 @@ std::string jsonGenericFile::getString(const std::string arg)const{
 
 
 }
-std::string jsonGenericFile::getString(const std::string arg, const std::string def)const{
+std::string jsonGenericFile::getString(const std::string &arg, const std::string &def)const{
 
   return  jsonArgs.get(arg,def).asString();
 
 }
-bool jsonGenericFile::getBool(const std::string arg,  bool def)const{
+bool jsonGenericFile::getBool(const std::string &arg,  bool def)const{
  return  jsonArgs.get(arg,def).asBool();
 }
-bool jsonGenericFile::getBool(const std::string arg)const{
+bool jsonGenericFile::getBool(const std::string& arg)const{
   if(jsonArgs[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   jsonArgs.get(arg,false).asBool();
 }
-std::vector<int> jsonGenericFile::getInts(const std::string arg,int nvals)const{
+std::vector<int> jsonGenericFile::getInts(const std::string &arg,int nvals)const{
    if(jsonArgs[arg].isNull())  
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   const Json::Value vals = jsonArgs[arg];
@@ -110,7 +114,7 @@ std::vector<int> jsonGenericFile::getInts(const std::string arg,int nvals)const{
   for(int i=0; i < nvals; i++) x.push_back(vals[i].asInt());
   return x;
 }
-std::vector<int> jsonGenericFile::getInts(const std::string arg,std::vector<int> defs)const{
+std::vector<int> jsonGenericFile::getInts(const std::string &arg,std::vector<int> &defs)const{
   std::vector<int> x;
    if(jsonArgs[arg].isNull())  {
      for(int i=0; i < defs.size(); i++) x.push_back(defs[i]);
@@ -121,7 +125,7 @@ std::vector<int> jsonGenericFile::getInts(const std::string arg,std::vector<int>
   }
   return x;
 } 
-std::vector<float> jsonGenericFile::getFloats(const std::string arg,int nvals)const{
+std::vector<float> jsonGenericFile::getFloats(const std::string &arg,int nvals)const{
   if(jsonArgs[arg].isNull())    
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   const Json::Value vals = jsonArgs[arg];
@@ -131,7 +135,7 @@ std::vector<float> jsonGenericFile::getFloats(const std::string arg,int nvals)co
   return x;
 
 }
-std::vector<float> jsonGenericFile::getFloats(const std::string arg,std::vector<float> defs)const{
+std::vector<float> jsonGenericFile::getFloats(const std::string &arg,std::vector<float>& defs)const{
   std::vector<float> x;
    if(jsonArgs[arg].isNull())   {
      for(int i=0; i < defs.size(); i++) x.push_back(defs[i]);
@@ -143,33 +147,30 @@ std::vector<float> jsonGenericFile::getFloats(const std::string arg,std::vector<
   return x;
 
 }
-void jsonGenericFile::error(const std::string errm)const{
-   std::cerr<<errm<<std::endl;
-   throw std::exception();
-}
-void jsonGenericFile::putInt(const std::string par, const int val){
+
+void jsonGenericFile::putInt(const std::string &par, const int val){
    jsonArgs[par]=val;
 }
-void jsonGenericFile::putFloat(const std::string par, const float val){
+void jsonGenericFile::putFloat(const std::string& par, const float val){
    jsonArgs[par]=val;
 
 }
-void jsonGenericFile::putString(const std::string par, const std::string val){
+void jsonGenericFile::putString(const std::string& par, const std::string &val){
    jsonArgs[par]=val;
 
 }
-void jsonGenericFile::putBool(const std::string par, const bool val){
+void jsonGenericFile::putBool(const std::string &par, const bool val){
    jsonArgs[par]=val;
 
 
 }
-void jsonGenericFile::putInts(const std::string par, const  std::vector<int> val){
+void jsonGenericFile::putInts(const std::string& par, const  std::vector<int>& val){
    Json::Value vals;
    for(int i =0; i < val.size(); i++) vals.append(val[i]);
    jsonArgs[par]=vals;
 
 }
-void jsonGenericFile::putFloats(const std::string par, const std::vector<float> val){
+void jsonGenericFile::putFloats(const std::string &par, const std::vector<float>& val){
    Json::Value vals;
    for(int i =0; i < val.size(); i++) vals.append(val[i]);
    jsonArgs[par]=vals;
@@ -221,7 +222,6 @@ void jsonGenericFile::close(){
  myio->close();
  if(_usage==usageOut || _usage==usageInOut){
    std::ofstream outps;
-     fprintf(stderr,"in this \n");
      outps.open(getJSONFileName(),std::ofstream::out);
      if(!outps){
        std::cerr<<std::string("Trouble opening for write")+getJSONFileName()<<std::endl;
@@ -246,6 +246,7 @@ void jsonGenericFile::readFloatStream( float *array,const long long npts){
      std::shared_ptr<myFileIO> iox(new myFileIO(getDataFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
+
   myio->readTraceStream(npts,array);
 
 
@@ -274,10 +275,12 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
   }
   myio->writeTraceStream(npts,array);
 }
- void jsonGenericFile::readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array){
+ void jsonGenericFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int> &jw,  float *array){
+      fprintf(stderr,"what is going on \n");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
+  fprintf(stderr,"about efdsfjksd \n");
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -290,6 +293,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      std::shared_ptr<myFileIO> iox(new myFileIO(getDataFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
+  fprintf(stderr,"abvou to do read \n");
   myio->readWindow(nw,fw,jw,array);
 
     
@@ -302,8 +306,8 @@ long long jsonGenericFile::getDataSize(){
   }
   return myio->getSize();
 }
- void jsonGenericFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  unsigned char *array){
+ void jsonGenericFile::readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  unsigned char *array){
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
   if(ng.size() >nw.size()){
@@ -321,8 +325,8 @@ long long jsonGenericFile::getDataSize(){
   myio->readWindow(nw,fw,jw,array);
     
 }
- void jsonGenericFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float *array){
+ void jsonGenericFile::writeFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int> &jw, const float *array){
         setDataType(dataFloat);
 
   std::shared_ptr<hypercube> hyper=getHyper();
@@ -371,8 +375,8 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
   }
   myio->writeTraceStream(npts,array);
 }
- void jsonGenericFile::readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex  *array){
+ void jsonGenericFile::readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  float _Complex  *array){
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
           setDataType(dataComplex);
@@ -393,8 +397,8 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
 
     
 }
- void jsonGenericFile::writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw, float  _Complex *array){
+ void jsonGenericFile::writeComplexWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw, const float  _Complex *array){
         setDataType(dataComplex);
 
   std::shared_ptr<hypercube> hyper=getHyper();
@@ -414,3 +418,12 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
   myio->writeWindow(nw,fw,jw,array);
       
 }
+
+void jsonGenericFile::message(const std::string &errm)const {
+   std::cerr<<errm<<std::endl;
+}
+void jsonGenericFile::error(const std::string &errm)const {
+   std::cerr<<errm<<std::endl;
+   throw std::exception();
+}
+    

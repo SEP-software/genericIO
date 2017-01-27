@@ -6,7 +6,7 @@ extern "C" {
 #include <assert.h>
 using namespace SEP;
 
-sep3dFile::sep3dFile(const std::string tag,usage_code usage){
+sep3dFile::sep3dFile(const std::string tag,const usage_code usage){
  _tag=tag;
  switch(usage){
     case usageIn:
@@ -162,13 +162,13 @@ void sep3dFile::putBool(const std::string par, const bool val)const{
    auxputch(par.c_str(),"l",&x,_tag.c_str());    
 
 }
-void sep3dFile::putInts(const std::string par, const  std::vector<int> val)const{
+void sep3dFile::putInts(const std::string par, const  std::vector<int>& val)const{
    int *tmp=new int[val.size()];
    for(int i=0; i < val.size(); i++) tmp[i]=val[i];
    auxputch(par.c_str(),"d",tmp,_tag.c_str());
    delete [] tmp;
 }
-void sep3dFile::putFloats(const std::string par, const std::vector<float> val)const{
+void sep3dFile::putFloats(const std::string par, const std::vector<float> &val)const{
    float *tmp=new float[val.size()];
    for(int i=0; i < val.size(); i++) tmp[i]=val[i];
    auxputch(par.c_str(),"f",tmp,_tag.c_str());
@@ -189,20 +189,20 @@ void sep3dFile::writeFloatStream( const float *array,const long long npts){
   assert(1==-1); 
 
 }
- void sep3dFile::readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array){
+ void sep3dFile::readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  float *array){
    assert(1==-1);
     
 }
 
- void sep3dFile::readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  unsigned char *array){
+ void sep3dFile::readUCharWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw,  unsigned char *array){
   assert(1==-1);
     
 }
- void sep3dFile::writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
+ void sep3dFile::writeFloatWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
 
-      const std::vector<int> jw, float *array){
+      const std::vector<int>& jw, float *array){
         setDataType(dataFloat);
 
   assert(1==-1);
@@ -259,10 +259,10 @@ fprintf(stderr,"in sep3d \n");
    }
 
 }
-int sep3dFile::getHeaderIndex(std::string keyname)const{
+int sep3dFile::getHeaderIndex(const std::string keyname)const{
   assert(1==-1);
   }
-std::vector<headerType> sep3dFile::getTraceHeader(long long index)const{
+std::vector<headerType> sep3dFile::getTraceHeader(const long long index)const{
 
 assert(1==-1);
 }

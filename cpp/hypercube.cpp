@@ -1,24 +1,24 @@
 #include<hypercube.h>
 #include <assert.h>
 using namespace SEP;
-hypercube::hypercube(const hypercube *hyper){
+hypercube::hypercube(const hypercube &hyper){
+
+  std::vector<axis> axes;
+  axes=hyper.getAxes();
+  initNd(axes);
+
+}
+hypercube::hypercube(const std::shared_ptr<hypercube>& hyper){
 
   std::vector<axis> axes;
   axes=hyper->getAxes();
   initNd(axes);
 
 }
-hypercube::hypercube(const std::shared_ptr<hypercube> hyper){
-
-  std::vector<axis> axes;
-  axes=hyper->getAxes();
-  initNd(axes);
-
-}
-hypercube::hypercube(const std::vector<axis> axes){
+hypercube::hypercube(const std::vector<axis> &axes){
   initNd(axes);
 }
-void hypercube::initNd(const std::vector<axis> ax){
+void hypercube::initNd(const std::vector<axis>& ax){
 
   this->n123=1;
   for(int i=0; i < ax.size(); i++){   
@@ -32,14 +32,14 @@ std::vector<axis> hypercube::getAxes(const int nmin) const{
    return ax;
 
 }
-void hypercube::setAxis(const int idim, const axis myaxis){
+void hypercube::setAxis(const int idim, const axis& myaxis){
   if(idim<1 || idim>axes.size()) {
     fprintf(stderr,"IDIM=%d axes.size()=%d \n",idim,(int)axes.size());
     assert(1==2);
   }
   this->axes[idim-1]=myaxis;
 }
-void hypercube::setAxes(const std::vector<axis> axes){
+void hypercube::setAxes(const std::vector<axis> &axes){
   this->initNd(axes);
 }
 std::vector<axis> hypercube::returnAxes(const int nmax) const{
@@ -91,7 +91,7 @@ bool hypercube::sameSize(const hypercube &other)const {
   }
   return true;
 }
-bool hypercube::sameSize(const std::shared_ptr<hypercube> other)const {
+bool hypercube::sameSize(const std::shared_ptr<hypercube> &other)const {
   if(this->getNdim() != other->getNdim()) return false;
   for(int i=0; i < this->getNdim(); i++){
     axis ax1=this->getAxis(i+1);

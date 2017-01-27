@@ -7,12 +7,12 @@ namespace SEP{
 class ioModes{
   public:
     ioModes(){;}
-    ioModes(int argc,  char **argv){ setup(argc,argv);}
-    void setup(int argc, char**argv);
+    ioModes(const int argc, char **argv){ setup(argc,argv);}
+    void setup(const int argc, char**argv);
    std::shared_ptr<genericIO> getDefaultIO();
-   std::shared_ptr<genericIO> getIO(std::string def);
-   std::shared_ptr<genericRegFile> getRegFile(const std::string def,std::string name,const usage_code usage);
-   std::shared_ptr<genericRegFile> getGenericRegFile(const std::string name,const usage_code usage);
+   std::shared_ptr<genericIO> getIO(const std::string &def);
+   std::shared_ptr<genericRegFile> getRegFile(const std::string &def,const std::string &name,const usage_code usage);
+   std::shared_ptr<genericRegFile> getGenericRegFile(const std::string &name,const usage_code usage);
    std::string getDefaultType(){ return _defaultType;}
   private:
     std::shared_ptr<genericIO> _defaultIO;
@@ -34,7 +34,7 @@ class ioModesFortran{
 
     std::shared_ptr<ioModes> _io;
   public:
-      void setup( int argc, char **argv);
+      void setup( const int argc,char **argv);
     ~ioModesFortran(){;}
     std::shared_ptr<ioModes> getIOModes(){
        return _io;

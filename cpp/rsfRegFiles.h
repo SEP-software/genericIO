@@ -58,10 +58,10 @@ class rsfRegFile: public genericRegFile{
    
    
     virtual std::vector<int> getInts(const std::string arg,int num)const;
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const;
+    virtual std::vector<int> getInts(const std::string arg,std::vector<int> &defs)const;
      
     virtual std::vector<float> getFloats(const std::string arg,int num)const;
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> defs)const;
+    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> &defs)const;
        
     virtual void error(const std::string err)const ;
         virtual void readComplexStream(float _Complex*array,const long long npts);
@@ -70,20 +70,20 @@ class rsfRegFile: public genericRegFile{
     virtual void writeComplexStream( const float _Complex *array,const long long npts);
 
     virtual void writeFloatStream( const float *array,const long long npts);
-    virtual void readUCharWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  unsigned char *array);
+    virtual void readUCharWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw,  unsigned char *array);
  
-     virtual void readComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex  *array);
+     virtual void readComplexWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
+      const std::vector<int> &jw,  float _Complex  *array);
 
-    virtual void writeComplexWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float _Complex *array);
+    virtual void writeComplexWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int>& jw,  float _Complex *array);
  
-    virtual void readFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array);
+    virtual void readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
+      const std::vector<int>& jw,  float *array);
 
-    virtual void writeFloatWindow(const std::vector<int> nw, const std::vector<int> fw, 
-      const std::vector<int> jw,  float *array);
+    virtual void writeFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
+      const std::vector<int> &jw,  float *array);
      virtual void readDescription();
     virtual void writeDescription();
      virtual void putInt(const std::string par, const int val) ;

@@ -7,10 +7,10 @@ std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
   int ndim=(int)ng.size();
   std::vector<axis> axes;
   for(int idim=0,i=1; idim<ndim; idim++,i++){
-    axis ain=hyperIn->getAxis(idim);
+    axis ain=hyperIn->getAxis(i);
     nw[idim]=par->getInt(std::string("n")+std::to_string(i),nw[idim]);
-    fw[idim]=par->getInt(std::string("f")+std::to_string(i),nw[idim]);
-    jw[idim]=par->getInt(std::string("j")+std::to_string(i),nw[idim]);
+    fw[idim]=par->getInt(std::string("f")+std::to_string(i),0);
+    jw[idim]=par->getInt(std::string("j")+std::to_string(i),1);
     if(fw[idim] >= ng[idim]) par->error(std::string("Invalid f")+
      std::to_string(i));
     if(nw[idim] > ng[idim]) par->error(std::string("Invalid n")+
@@ -23,9 +23,10 @@ std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
       nw[idim]=(ng[idim]-1-fw[idim])/jw[idim]+1;
     }
     else if(fw[idim]==-1) fw[idim]=0;
-    if(ng[idim] < 1+ fw[idim] +jw[idim]*(nw[idim]-1))
+    if(ng[idim] < 1+ fw[idim] +jw[idim]*(nw[idim]-1)){
+       fprintf(stderr,"f=%d j=%d n=%d ng=%d \n",fw[idim],jw[idim],nw[idim],ng[idim]);
        par->error(std::string("Invalid window parameters axis ")+std::to_string(i));
-
+     }
     float o=fw[idim]*ain.d+ain.o;
     float d=jw[idim]*ain.d;
     axes.push_back(axis(nw[idim],o,d,ain.label));
@@ -40,8 +41,8 @@ int main(int argc, char **argv){
   std::shared_ptr<genericIO>  io=modes.getDefaultIO();
   std::shared_ptr<paramObj> par=io->getParamObj();
 
-  std::string in=par->getString(std::string("input"));
-  std::string out=par->getString(std::string("output"));
+  std::string in=par->getString(std::string("in"));
+  std::string out=par->getString(std::string("out"));
   std::shared_ptr<genericRegFile> inp=io->getRegFile(in,usageIn);
   std::shared_ptr<hypercube> hyperIn=inp->getHyper();
   std::vector<int> ng=hyperIn->returnNs();
@@ -71,7 +72,9 @@ int main(int argc, char **argv){
      nloop[iaxis]=nw[iaxis];
      iaxis--;
    }
+   fprintf(stderr,"CHECK %lld n123 \n",n123);
    float *buf=new float[n123];
+   fprintf(stderr,"where do i die \n");
    for(int i8=0; i8 < nloop[7]; i8++){
      fsend[7]=i8*jw[7]+fw[7]; nsend[7]=1;
    for(int i7=0; i7 < nloop[6]; i7++){
@@ -86,7 +89,9 @@ int main(int argc, char **argv){
      fsend[2]=i3*jw[2]+fw[2];  nsend[2]=1;
    for(int i2=0; i2 < nloop[1]; i2++){
      fsend[1]=i2*jw[1]+fw[1]; nsend[1]=1;
+     fprintf(stderr,"before read 2\n");
      inp->readFloatWindow(nsend,fsend,jsend,buf); 
+     fprintf(stderr,"after read \n");
      outp->writeFloatStream(buf,n123);
    }}}}}}}
 

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 using namespace SEP;
-myFileIO::myFileIO(const std::string nm,const  usage_code usage,const int reelH,const  int traceH,const int esize,const bool swapData,std::shared_ptr<hypercube>hyper){
+myFileIO::myFileIO(const std::string &nm,const  usage_code usage,const int reelH,const  int traceH,const int esize,const bool swapData,std::shared_ptr<hypercube>hyper){
   setFileParams(nm,usage,reelH,traceH,esize,swapData,hyper);
   std::string mode;
   if(_usage==usageIn || usage==usageInOut){
@@ -17,13 +17,15 @@ myFileIO::myFileIO(const std::string nm,const  usage_code usage,const int reelH,
   }
   else _myf=fopen(nm.c_str(),"w+");
 }
-void basicIO::readWindow(const std::vector<int> nw,const  std::vector<int> fw,const  std::vector<int> jw, void *data, void *head){
+void basicIO::readWindow(const std::vector<int> &nw,const  std::vector<int> &fw,const  std::vector<int> &jw, void *data, void *head){
   long long optMin=256*1024,optMax=10*1024*1024;
   std::vector<axis> axes=_hyper->returnAxes(8);
   if(_traceH+axes[0].n*_esize>optMin) optMin=_traceH+axes[0].n*_esize;
   long long blk=_esize*axes[0].n+_traceH;
   int naxes=1;
   bool breakL=false;
+ 
+  fprintf(stderr,"inread window \n");
   while(naxes< nw.size()&& !breakL){
     long long btest=blk*(long long) axes[naxes].n;
     if(btest < optMin){
@@ -41,6 +43,7 @@ void basicIO::readWindow(const std::vector<int> nw,const  std::vector<int> fw,co
     }
     else breakL=true;
   }
+ 
   std::vector<int> nwi,fwi,jwi,nwo,fwo,jwo;
   nwi.assign(7,1); nwo.assign(7,1);
   jwi.assign(7,1); jwo.assign(7,1);
@@ -49,14 +52,16 @@ void basicIO::readWindow(const std::vector<int> nw,const  std::vector<int> fw,co
     fwi[i]=fw[i]; jwi[i]=jw[i]; nwi[i]=nw[i];
   }
   for(int i=naxes; i< 8; i++){
-     fwo[i-1]=fw[i];
-     jwo[i-1]=jw[i];
-     nwo[i-1]=nw[i];
+     fwo[i-naxes]=fw[i];
+     jwo[i-naxes]=jw[i];
+     nwo[i-naxes]=nw[i];
+
   }
-  readBlocks(nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
+
+  readBlocks(naxes,nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
 
 }
-void basicIO::writeWindow(const std::vector<int> nw,const  std::vector<int> fw,const  std::vector<int> jw,const  void *data, void *head){
+void basicIO::writeWindow(const std::vector<int>& nw,const  std::vector<int> &fw,const  std::vector<int>& jw,const  void *data, void *head){
   long long optMin=256*1024,optMax=10*1024*1024;
   std::vector<axis> axes=_hyper->returnAxes(9);
   if(_traceH+axes[0].n*_esize>optMin) optMin=_traceH+axes[0].n*_esize;
@@ -92,18 +97,23 @@ void basicIO::writeWindow(const std::vector<int> nw,const  std::vector<int> fw,c
     fwo[i-naxes]=fw[i]; jwo[i-naxes]=jw[i]; nwo[i-naxes]=nw[i];
   }
 
-  writeBlocks(nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
+  writeBlocks(naxes,nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
 
 
 }
-void basicIO::readBlocks(const std::vector<int> nwo, const std::vector<int>fwo,const  std::vector<int> jwo,const  std::vector<int> nwi,
-  const std::vector<int> fwi, const std::vector<int> jwi, const long long sz, void *dat, void *head){
+void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std::vector<int>&fwo,const  std::vector<int> &jwo,const  std::vector<int> &nwi,
+ 
+  
+  const std::vector<int>& fwi, const std::vector<int>& jwi, const long long sz, void *dat, void *head){
+    fprintf(stderr,"allocate buf sz %lld \n",sz);
     char *buf=new char[sz];
     long long szNoHead=sz/(nwi[0]*_esize+_traceH)*(nwi[0]*_esize);
-    std::vector<axis> axes=_hyper->returnAxes(7);
+    std::vector<axis> axes=_hyper->returnAxes(7+naxes);
     long long pto=0;
     std::vector<long long> blk(8,1);blk[0]=sz;
-    for(int i=0;i < 7; i++) blk[i+1]=blk[i]*(long long)axes[i].n;
+    for(int i=0;i < 7; i++) blk[i+1]=blk[i]*(long long)axes[i+naxes].n;
+    
+  
     for(long long i6=0; i6 < nwo[6]; i6++){
       long long pt6=((long long)(fwo[6]+jwo[6]*i6))*blk[6];
       for(long long i5=0; i5 < nwo[5]; i5++){
@@ -117,10 +127,11 @@ void basicIO::readBlocks(const std::vector<int> nwo, const std::vector<int>fwo,c
               for(long long i1=0; i1< nwo[1]; i1++){
                 long long pt1=pt2+((long long)(fwo[1]+jwo[1]*i1))*blk[1];
                 for(long long i0=0; i0< nwo[0]; i0++){
+                  
                   long long pti=pt1+((long long)(fwo[0]+jwo[0]*i0))*blk[0];
                     //seekToPos(pti+_reelH);
                     seekToPos(pti+_reelH);
-                    
+              
                     readStream(sz,buf);
                     blockToParts(nwi,fwi,jwi,buf,&(((char*)(dat))[pto]),head);
                     float *d2=(float*) dat;
@@ -135,14 +146,20 @@ void basicIO::readBlocks(const std::vector<int> nwo, const std::vector<int>fwo,c
     }
     delete [] buf;
   }
-  void basicIO::writeBlocks(const std::vector<int> nwo, const std::vector<int>fwo, const std::vector<int> jwo,const  std::vector<int> nwi,
-  const std::vector<int> fwi, const std::vector<int> jwi, const long long sz,const  void *dat,const  void *head){
+  
+  void basicIO::writeBlocks(const int naxes,const std::vector<int> &nwo, const std::vector<int>&fwo, 
+  const std::vector<int> &jwo,const  std::vector<int>& nwi,
+  const std::vector<int>& fwi, const std::vector<int> &jwi, const long long sz,const  void *dat,const  void *head){
+  
+  
+     
+      
     char *buf=new char[sz];
-    std::vector<axis> axes=_hyper->returnAxes(7);
+    std::vector<axis> axes=_hyper->returnAxes(7+naxes);
     long long pto=0;
     long long eachBlock=_esize; for(int i=0; i < 7; i++) eachBlock*=nwi[i];
     std::vector<long long> blk(8,1);blk[0]=sz;
-    for(int i=0;i < 7; i++) blk[i+1]=blk[i]*(long long)axes[i].n;
+    for(int i=0;i < 7; i++) blk[i+1]=blk[i]*(long long)axes[i+naxes].n;
     for(long long i6=0; i6 < nwo[6]; i6++){
       long long pt6=((long long)(fwo[6]+jwo[6]*i6))*blk[6];
       for(long long i5=0; i5 < nwo[5]; i5++){
@@ -193,7 +210,7 @@ void basicIO::readTraceStream(const long long sz, void *dat, void *head){
     delete [] buf;
 
 }
-   else readStream(sz,dat);
+   else readStream(sz*_esize,dat);
 }
  void basicIO:: swap_float_bytes(int n, float *buf){
  
@@ -280,7 +297,7 @@ void myFileIO::writeStream(const long long sz,const void *data){
 
      assert(sz==fwrite(data,1,sz,_myf));
   }
-void basicIO::blockToParts(const std::vector<int> nwo, const std::vector<int> fwo, const std::vector<int> jwo, const  void *in, void *out, void *head){
+void basicIO::blockToParts(const std::vector<int>& nwo, const std::vector<int> &fwo, const std::vector<int>& jwo, const  void *in, void *out, void *head){
    std::vector<axis> axes=_hyper->returnAxes(8);
    char *inH=(char*)in, *outH=(char*)out, *headH=(char*)head;
    long long ih=0,id=0;
@@ -316,7 +333,7 @@ void basicIO::blockToParts(const std::vector<int> nwo, const std::vector<int> fw
       }
    }
 }
-void basicIO::partsToBlock(const std::vector<int> nwo, const std::vector<int> fwo, const std::vector<int> jwo,  void *in, const void *out,const  void *head){
+void basicIO::partsToBlock(const std::vector<int> &nwo, const std::vector<int> &fwo, const std::vector<int> &jwo,  void *in, const void *out,const  void *head){
    std::vector<axis> axes=_hyper->returnAxes(8);
    char *inH=(char*)in, *outH=(char*)out, *headH=(char*)head;
    long long ih=0,id=0;

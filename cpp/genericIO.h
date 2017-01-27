@@ -9,10 +9,10 @@ namespace SEP{
 class genericIO{
   public:
     genericIO(){;}
-    virtual std::shared_ptr<genericRegFile> getRegFile(std::string name,usage_code usage){
+    virtual std::shared_ptr<genericRegFile> getRegFile(const std::string name,const usage_code usage){
         assert(name==std::string("") || usage==usageIn);
     }
-    virtual std::shared_ptr<genericIrregFile> getIrregFile(std::string name, usage_code usage){
+    virtual std::shared_ptr<genericIrregFile> getIrregFile(const std::string name,const usage_code usage){
      assert(name==std::string("") || usage==usageIn);
     }
     virtual std::shared_ptr<paramObj>  getParamObj(){

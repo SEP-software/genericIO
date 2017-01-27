@@ -4,7 +4,7 @@ extern "C" {
 #include "seplib.h"
 }
 #include<string.h>
-sepParam::sepParam(const int argc, char **argv) {
+sepParam::sepParam(const int argc, const char **argv) {
  initpar(argc,argv);
 }
 
@@ -82,7 +82,7 @@ std::vector<int> sepParam::getInts(const std::string arg,const int nvals )const 
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> sepParam::getInts(const std::string arg,std::vector<int> defs)const {
+std::vector<int> sepParam::getInts(const std::string arg,std::vector<int>& defs)const {
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -110,7 +110,7 @@ std::vector<float> sepParam::getFloats(const std::string arg,const int nvals)con
 
 
 }
-std::vector<float> sepParam::getFloats(const std::string arg,std::vector<float> defs)const {
+std::vector<float> sepParam::getFloats(const std::string arg,std::vector<float> &defs)const {
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){

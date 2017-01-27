@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(Generic-cpp)
 
-set(SOURCES axis.cpp basicIO.cpp hypercube.cpp genericFile.cpp paramObj.cpp jsoncpp.cpp)
+set(SOURCES axis.cpp basicIO.cpp hypercube.cpp genericFile.cpp  jsoncpp.cpp)
 set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp genericC.cpp)
 set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp)
 set(INCLUDES axis.h	 genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h hypercube.h genericC.h)

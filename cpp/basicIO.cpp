@@ -117,7 +117,10 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
     std::vector<long long> blk(8,1);blk[0]=sz;
     for(int i=0;i < 7; i++) blk[i+1]=blk[i]*(long long)axes[i+naxes].n;
     
-  
+    long long add=_esize;
+    for(int i=0; i < naxes; i++) add*=nwi[i];
+      fprintf(stderr,"NAXES-- %d \n",naxes);
+
     for(long long i6=0; i6 < nwo[6]; i6++){
       long long pt6=((long long)(fwo[6]+jwo[6]*i6))*blk[6];
       for(long long i5=0; i5 < nwo[5]; i5++){
@@ -140,7 +143,7 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
                     fprintf(stderr,"about to distribute to point start at %d \n",pto);
                     blockToParts(nwi,fwi,jwi,buf,&(((char*)(dat))[pto]),head);
                     float *d2=(float*) dat;
-                    pto+=szNoHead;
+                    pto+=add;
                     //assert(1==2);
                 }
               }
@@ -158,7 +161,8 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
   
   
      
-      
+        long long add=_esize;
+    for(int i=0; i < naxes; i++) add*=nwi[i];
     char *buf=new char[sz];
     std::vector<axis> axes=_hyper->returnAxes(7+naxes);
     long long pto=0;
@@ -180,7 +184,7 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
                 for(long long i0=0; i0< nwo[0]; i0++){
                   long long pti=pt1+((long long)(fwo[0]+jwo[0]*i0))*blk[0];
                     partsToBlock(nwi,fwi,jwi,buf,(char*)dat+pto,head);
-                    pto+=eachBlock;
+                    pto+=add;
                     
                     
                     seekToPos(pti+_reelH);

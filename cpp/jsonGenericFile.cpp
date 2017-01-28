@@ -9,7 +9,6 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,const  usage_c
   setupJson(arg,tag);
   _reelH=reelH;
   _traceH=traceH;
-  fprintf(stderr,"chreated generic file opb \n");
   if(usage==usageIn){
     readDescription();
     std::shared_ptr<myFileIO> x(new myFileIO(getDataFileName(),usage,reelH,traceH,
@@ -277,10 +276,8 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
 }
  void jsonGenericFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
       const std::vector<int> &jw,  float *array){
-      fprintf(stderr,"what is going on \n");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<int> ng=hyper->returnNs();
-  fprintf(stderr,"about efdsfjksd \n");
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -293,7 +290,6 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
      std::shared_ptr<myFileIO> iox(new myFileIO(getDataFileName(),_usage,_reelH,_traceH,4,jsonArgs.get("swapData",false).asBool(),getHyper()));
      myio=iox;
   }
-  fprintf(stderr,"abvou to do read \n");
   myio->readWindow(nw,fw,jw,array);
 
     

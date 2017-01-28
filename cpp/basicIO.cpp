@@ -25,7 +25,6 @@ void basicIO::readWindow(const std::vector<int> &nw,const  std::vector<int> &fw,
   int naxes=1;
   bool breakL=false;
  
-  fprintf(stderr,"inread window \n");
   while(naxes< nw.size()&& !breakL){
     long long btest=blk*(long long) axes[naxes].n;
     if(btest < optMin){
@@ -57,9 +56,6 @@ void basicIO::readWindow(const std::vector<int> &nw,const  std::vector<int> &fw,
      nwo[i-naxes]=nw[i];
 
   }
-for(int i=0; i< 3; i++){
-  fprintf(stderr,"IN READ i=%d fi=%d ni=%d fo=%d no=%d \n",fwi[i],nwi[i],fwo[i],nwo[i]);
-  
 
 }
   readBlocks(naxes,nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
@@ -109,7 +105,6 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
  
   
   const std::vector<int>& fwi, const std::vector<int>& jwi, const long long sz, void *dat, void *head){
-    fprintf(stderr,"allocate buf sz %lld \n",sz);
     char *buf=new char[sz];
     long long szNoHead=sz/(nwi[0]*_esize+_traceH)*(nwi[0]*_esize);
     std::vector<axis> axes=_hyper->returnAxes(7+naxes);
@@ -119,7 +114,6 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
     
     long long add=_esize;
     for(int i=0; i < naxes; i++) add*=nwi[i];
-      fprintf(stderr,"NAXES-- %d \n",naxes);
 
     for(long long i6=0; i6 < nwo[6]; i6++){
       long long pt6=((long long)(fwo[6]+jwo[6]*i6))*blk[6];
@@ -140,7 +134,6 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo, const std
                     seekToPos(pti+_reelH);
               
                     readStream(sz,buf);
-                    fprintf(stderr,"about to distribute to point start at %d \n",pto);
                     blockToParts(nwi,fwi,jwi,buf,&(((char*)(dat))[pto]),head);
                     float *d2=(float*) dat;
                     pto+=add;

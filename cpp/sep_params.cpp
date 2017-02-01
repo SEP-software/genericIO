@@ -4,41 +4,41 @@ extern "C" {
 #include "seplib.h"
 }
 #include<string.h>
-sepParam::sepParam(const int argc, const char **argv) {
+sepParam::sepParam(const int argc,  char **argv) {
  initpar(argc,argv);
 }
 
-int sepParam::getInt(const std::string arg)const {
+int sepParam::getInt(const std::string &arg)const {
     int x;
     if(0==getch(arg.c_str(),"d",&x))
       error(std::string("1trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int sepParam::getInt(const std::string arg, const int def)const {
+int sepParam::getInt(const std::string &arg, const int def)const {
    int x=def;
    int i=getch(arg.c_str(),"d",&x);
    return x;
 }
    
-float sepParam::getFloat(const std::string arg, const float def)const {
+float sepParam::getFloat(const std::string & arg, const float def)const {
   float x=def;
   int i=getch(arg.c_str(),"f",&x);
   return x;
 
 }
-float sepParam::getFloat(const std::string arg)const {
+float sepParam::getFloat(const std::string  &arg)const {
   float x;
   if(0==getch(arg.c_str(),"f",&x))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
-void sepParam::message(const std::string arg)const{
+void sepParam::message(const std::string& arg)const{
 
   sepwarn(0,arg.c_str());
 
 }
 
-std::string sepParam::getString(const std::string arg)const {
+std::string sepParam::getString(const std::string & arg)const {
   char buf[10000];
   if(0==getch(arg.c_str(),"s",buf))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -46,7 +46,7 @@ std::string sepParam::getString(const std::string arg)const {
 
 
 }
-std::string sepParam::getString(const std::string arg, const std::string def)const {
+std::string sepParam::getString(const std::string &arg, const std::string &def)const {
 
   char buf[10000];
   strcpy(buf,def.c_str());
@@ -57,13 +57,13 @@ std::string sepParam::getString(const std::string arg, const std::string def)con
 
 }
  
-bool sepParam::getBool(const std::string arg,  bool def)const {
+bool sepParam::getBool(const std::string &arg,  bool def)const {
   bool x=def;
   int i=getch(arg.c_str(),"l",&x);
   return x;
 
 }
-bool sepParam::getBool(const std::string arg)const {
+bool sepParam::getBool(const std::string &arg)const {
  bool x;
   if(0==getch(arg.c_str(),"l",&x)){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -73,7 +73,7 @@ bool sepParam::getBool(const std::string arg)const {
 }
    
    
-std::vector<int> sepParam::getInts(const std::string arg,const int nvals )const {
+std::vector<int> sepParam::getInts(const std::string &arg,const int nvals )const {
   int tmp[10000];
   int ierr=getch(arg.c_str(),"d",tmp);
   if(ierr==0) 
@@ -82,7 +82,7 @@ std::vector<int> sepParam::getInts(const std::string arg,const int nvals )const 
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> sepParam::getInts(const std::string arg,std::vector<int>& defs)const {
+std::vector<int> sepParam::getInts(const std::string &arg,std::vector<int>& defs)const {
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -99,7 +99,7 @@ std::vector<int> sepParam::getInts(const std::string arg,std::vector<int>& defs)
   return x;
 }
      
-std::vector<float> sepParam::getFloats(const std::string arg,const int nvals)const {
+std::vector<float> sepParam::getFloats(const std::string &arg,const int nvals)const {
   float tmp[10000];
   int ierr=getch(arg.c_str(),"f",tmp);
   if(ierr==0) 
@@ -110,7 +110,7 @@ std::vector<float> sepParam::getFloats(const std::string arg,const int nvals)con
 
 
 }
-std::vector<float> sepParam::getFloats(const std::string arg,std::vector<float> &defs)const {
+std::vector<float> sepParam::getFloats(const std::string  &arg,std::vector<float> &defs)const {
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -128,7 +128,7 @@ std::vector<float> sepParam::getFloats(const std::string arg,std::vector<float> 
 }
 
 
-void sepParam::error(const std::string errm)const {;
+void sepParam::error(const std::string &errm)const {;
    seperr(errm.c_str());
 }
     

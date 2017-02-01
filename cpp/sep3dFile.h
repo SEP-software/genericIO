@@ -10,26 +10,26 @@ namespace SEP{
 class sep3dFile: public genericIrregFile{
   public:
   sep3dFile(){;}
-  sep3dFile(const std::string tag,const usage_code usage);
-      virtual int getInt(const std::string arg)const;
-    virtual int getInt(const std::string arg, const int def)const;
+  sep3dFile(const std::string & tag,const SEP::usage_code usage);
+      virtual int getInt(const std::string &arg)const;
+    virtual int getInt(const std::string &rg, const int def)const;
    
-    virtual float getFloat(const std::string, const float def)const;
-    virtual float getFloat(const std::string)const ;
+    virtual float getFloat(const std::string &, const float def)const;
+    virtual float getFloat(const std::string&)const ;
    
-    virtual std::string getString(const std::string arg)const;
-    virtual std::string getString(const std::string arg, const std::string def)const;
+    virtual std::string getString(const std::string &rg)const;
+    virtual std::string getString(const std::string &rg, const std::string &def)const;
   
    
-    virtual bool getBool(const std::string, const bool def)const;
-    virtual bool getBool(const std::string)const;
+    virtual bool getBool(const std::string&, const bool def)const;
+    virtual bool getBool(const std::string&)const;
    
    
-    virtual std::vector<int> getInts(const std::string arg,int num)const;
-    virtual std::vector<int> getInts(const std::string arg,std::vector<int> defs)const;
+    virtual std::vector<int> getInts(const std::string &rg,int num)const;
+    virtual std::vector<int> getInts(const std::string &rg,std::vector<int> &defs)const;
      
-    virtual std::vector<float> getFloats(const std::string arg,int num)const;
-    virtual std::vector<float> getFloats(const std::string arg,std::vector<float> &defs)const;
+    virtual std::vector<float> getFloats(const std::string &rg,int num)const;
+    virtual std::vector<float> getFloats(const std::string &rg,std::vector<float> &defs)const;
        
     virtual void error(const std::string err) const;
     
@@ -38,9 +38,9 @@ class sep3dFile: public genericIrregFile{
 
     virtual void writeFloatStream( const float *array,const long long npts);
     virtual void readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
-      const std::vector<int> jw,  unsigned char *array);
+      const std::vector<int>& jw,  unsigned char *array);
     virtual void readFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
-      const std::vector<int>& jw, const  float *array);
+      const std::vector<int>& jw,   float *array);
 
     virtual void writeFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
       const std::vector<int>& jw, const float *array);

@@ -57,7 +57,6 @@ void basicIO::readWindow(const std::vector<int> &nw,const  std::vector<int> &fw,
 
   }
 
-}
   readBlocks(naxes,nwo,fwo,jwo,nwi,fwi,jwi,blk,data,head);
 
 }

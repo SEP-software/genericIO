@@ -58,7 +58,7 @@ def createJSON(sep):
   format=getParam(sep,"data_format")
   json='"%s": { \n  "filename":"%s",\n'%(os.path.basename(sep),inp)
   if format=="xdr_float":
-	json+='"swapBytes": true,\n',
+	json+="\"swapBytes\": true,\n"
 
   found=0;
   i=9; 

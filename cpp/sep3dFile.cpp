@@ -6,7 +6,7 @@ extern "C" {
 #include <assert.h>
 using namespace SEP;
 
-sep3dFile::sep3dFile(const std::string tag,const usage_code usage){
+sep3dFile::sep3dFile(const std::string  &tag,const SEP::usage_code usage){
  _tag=tag;
  switch(usage){
     case usageIn:
@@ -23,32 +23,32 @@ sep3dFile::sep3dFile(const std::string tag,const usage_code usage){
  
 }
 
-int sep3dFile::getInt(const std::string arg)const{
+int sep3dFile::getInt(const std::string &arg)const{
     int x;
     if(0==auxpar(arg.c_str(),"d",&x,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
-int sep3dFile::getInt(const std::string arg, const int def)const{
+int sep3dFile::getInt(const std::string &arg, const int def)const{
    int x=def;
    int i=auxpar(arg.c_str(),"d",&x,_tag.c_str());
    return x;
 }
    
-float sep3dFile::getFloat(const std::string arg, const float def)const{
+float sep3dFile::getFloat(const std::string &arg, const float def)const{
   float x;
   int i=auxpar(arg.c_str(),"f",&x,_tag.c_str());
   return x;
 
 }
-float sep3dFile::getFloat(const std::string arg)const{
+float sep3dFile::getFloat(const std::string &arg)const{
   float x;
   if(0==auxpar(arg.c_str(),"f",&x,_tag.c_str()))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
    
-std::string sep3dFile::getString(const std::string arg)const{
+std::string sep3dFile::getString(const std::string &arg)const{
   char buf[10000];
   if(0==auxpar(arg.c_str(),"s",buf,_tag.c_str()))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -56,7 +56,7 @@ std::string sep3dFile::getString(const std::string arg)const{
 
 
 }
-std::string sep3dFile::getString(const std::string arg, const std::string def)const{
+std::string sep3dFile::getString(const std::string &arg, const std::string &def)const{
 
   char buf[10000];
   std::copy(def.begin(), def.end(), buf);
@@ -65,13 +65,13 @@ std::string sep3dFile::getString(const std::string arg, const std::string def)co
 
 }
  
-bool sep3dFile::getBool(const std::string arg, const bool def)const{
+bool sep3dFile::getBool(const std::string &arg, const bool def)const{
   bool x=def;
   int i=auxpar(arg.c_str(),"l",&x,_tag.c_str());
   return x;
 
 }
-bool sep3dFile::getBool(const std::string arg)const{
+bool sep3dFile::getBool(const std::string &arg)const{
  bool x;
   if(0==auxpar(arg.c_str(),"l",&x,_tag.c_str())){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
@@ -81,7 +81,7 @@ bool sep3dFile::getBool(const std::string arg)const{
 }
    
    
-std::vector<int> sep3dFile::getInts(const std::string arg,int nval)const{
+std::vector<int> sep3dFile::getInts(const std::string &arg,int nval)const{
   int tmp[10000];
   int ierr=auxpar(arg.c_str(),"d",tmp,_tag.c_str());
   if(ierr==0) 
@@ -90,7 +90,7 @@ std::vector<int> sep3dFile::getInts(const std::string arg,int nval)const{
   for(int i=0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
-std::vector<int> sep3dFile::getInts(const std::string arg,std::vector<int> defs)const{
+std::vector<int> sep3dFile::getInts(const std::string &arg,std::vector<int> &defs)const{
   int tmp[10000];
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
@@ -108,7 +108,7 @@ std::vector<int> sep3dFile::getInts(const std::string arg,std::vector<int> defs)
   return x;
 }
      
-std::vector<float> sep3dFile::getFloats(const std::string arg,int nvals)const{
+std::vector<float> sep3dFile::getFloats(const std::string &arg,int nvals)const{
   float tmp[10000];
   int ierr=auxpar(arg.c_str(),"f",tmp,_tag.c_str());
   if(ierr==0) 
@@ -119,7 +119,7 @@ std::vector<float> sep3dFile::getFloats(const std::string arg,int nvals)const{
 
 
 }
-std::vector<float> sep3dFile::getFloats(const std::string arg,std::vector<float> defs)const{
+std::vector<float> sep3dFile::getFloats(const std::string &arg,std::vector<float>  &defs)const{
 
   float tmp[10000];
   for(int i=0; i < defs.size(); i++){
@@ -202,7 +202,7 @@ void sep3dFile::writeFloatStream( const float *array,const long long npts){
 }
  void sep3dFile::writeFloatWindow(const std::vector<int> &nw, const std::vector<int>& fw, 
 
-      const std::vector<int>& jw, float *array){
+      const std::vector<int>& jw,const float *array){
         setDataType(dataFloat);
 
   assert(1==-1);

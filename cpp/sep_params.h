@@ -4,7 +4,7 @@
 #include<string>
 #include<stdbool.h>
 namespace SEP{
-class sepParam: public paramObj{
+class sepParam: public SEP::paramObj{
   public:
     sepParam(const int argc, char **argv);
     virtual int getInt(const std::string &arg)const ;
@@ -28,8 +28,9 @@ class sepParam: public paramObj{
     virtual std::vector<float> getFloats(const std::string &arg,std::vector<float> &defs)const ;
        
     virtual void error(const std::string &errm)const  ;
-    
-    virtual void message(const std::string&)const;
+    virtual void message(const std::string&msg)const;
+
+
 
     
 

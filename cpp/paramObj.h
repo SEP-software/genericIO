@@ -23,8 +23,8 @@ class paramObj {
      
     virtual std::vector<float> getFloats(const std::string &arg,int nvals)const =0;
     virtual std::vector<float> getFloats(const std::string& arg,std::vector<float>& defs)const =0;
-    virtual void error(const std::string&)const =0;
-    virtual void message(const std::string&)const=0;
+    virtual void error(const std::string&err)const =0;
+    virtual void message(const std::string&msg)const=0;
        
 };
 }

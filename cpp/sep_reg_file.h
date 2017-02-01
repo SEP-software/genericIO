@@ -4,16 +4,16 @@
 #include<stdbool.h>
 #include "genericFile.h"
 namespace SEP{
-class sepRegFile: public genericRegFile{
+class sepRegFile: public SEP::genericRegFile{
   public:
   
  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
-    sepRegFile(std::string tg, usage_code usage);
+    sepRegFile(const std::string & tg, const SEP::usage_code usage);
     virtual int getInt(const std::string &arg) const;
     virtual int getInt(const std::string &arg, const int def) const;
    
-    virtual float getFloat(const std::string&, const float &def) const;
+    virtual float getFloat(const std::string&, const float def) const;
     virtual float getFloat(const std::string&) const ;
    
     virtual std::string getString(const std::string &arg) const;
@@ -30,7 +30,8 @@ class sepRegFile: public genericRegFile{
     virtual std::vector<float> getFloats(const std::string &arg,int nvals) const;
     virtual std::vector<float> getFloats(const std::string &arg,std::vector<float>& defs) const;
        
-    virtual void error(const std::string err) const ;
+    virtual void message(const std::string &err) const ;
+    virtual void error(const std::string &err) const ;
     
     virtual void readUCharStream(unsigned char *array,const long long npts) ;
     

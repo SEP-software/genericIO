@@ -63,7 +63,7 @@ int main(int argc, char **argv){
   std::shared_ptr<genericRegFile> inp=io->getRegFile(std::string("in"),usageIn);
 
   std::shared_ptr<hypercube> hyperIn=inp->getHyper();
-  std::vector<int> ng=hyperIn->returnNs();
+  std::vector<int> ng=hyperIn->getNs();
   std::string dataT=inp->getDataTypeString();
   long long n123=hyperIn->getN123();
   

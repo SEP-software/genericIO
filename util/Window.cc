@@ -28,7 +28,6 @@ std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
        fprintf(stderr,"f=%d j=%d n=%d ng=%d \n",fw[idim],jw[idim],nw[idim],ng[idim]);
        par->error(std::string("Invalid window parameters axis ")+std::to_string(i));
      }
-     fprintf(stderr,"F %d %d %d \n",fw[idim],jw[idim],nw[idim]);
     float o=fw[idim]*ain.d+ain.o;
     float d=jw[idim]*ain.d;
     axes.push_back(axis(nw[idim],o,d,ain.label));
@@ -41,7 +40,6 @@ std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
 }
 int main(int argc, char **argv){
 
-fprintf(stderr,"dying 1 \n");
   ioModes modes(argc,argv);
 
 
@@ -59,7 +57,7 @@ fprintf(stderr,"dying 1 \n");
 
 
   std::shared_ptr<hypercube> hyperIn=inp->getHyper();
-  std::vector<int> ng=hyperIn->returnNs();
+  std::vector<int> ng=hyperIn->getNs();
 
   int ndim=(int)ng.size();
 
@@ -71,17 +69,13 @@ fprintf(stderr,"dying 1 \n");
   std::shared_ptr<genericRegFile> outp=io->getRegFile(out,usageOut);
   outp->setHyper(hyperOut);
   outp->writeDescription();
-fprintf(stderr,"dying 1 %d %d %d %d \n",nw[0],nw[1],nw[2],nw[3]);
 
   int maxSize=par->getInt(std::string("maxsize"),8);
   long long maxS=(long long) maxSize*1024*1024*1024;
    
   std::vector<int> nloop(8,1);
   std::vector<int> fsend=fw,jsend=jw,nsend=nw;
-fprintf(stderr,"dying 1 %d %d %d %d \n",nw[0],nw[1],nw[2],nw[3]);
-fprintf(stderr,"dying 1 %d %d %d %d \n",nsend[0],nsend[1],nsend[2],nsend[3]);
 
-fprintf(stderr,"dying 1 \n");
 
   long long n123= hyperOut->getN123();
    int iaxis=ndim-1; 
@@ -89,16 +83,12 @@ fprintf(stderr,"dying 1 \n");
      n123=n123/(long long) ng[iaxis]; 
      nloop[iaxis]=nw[iaxis];
      iaxis--;
-     fprintf(stderr,"XXX %d %d %d \n",n123,maxS,iaxis);
    }
    for(int i=iaxis+1; i<8; i++){
       fsend[i]=0; jsend[i]=1; nsend[i]=1;
     }
-    fprintf(stderr,"dying 2 %d %d %d %d \n",nsend[0],nsend[1],nsend[2],nsend[3]);
 
-   fprintf(stderr,"CHECK %lld n123 iaxis=%d\n",n123,iaxis);
    float *buf=new float[n123];
-   fprintf(stderr,"where do i die \n");
    for(int i8=0; i8 < nloop[7]; i8++){
      if(iaxis<7){fsend[7]=i8*jw[7]+fw[7]; nsend[7]=1;}
    for(int i7=0; i7 < nloop[6]; i7++){
@@ -113,11 +103,8 @@ fprintf(stderr,"dying 1 \n");
      if(iaxis<2){fsend[2]=i3*jw[2]+fw[2];  nsend[2]=1;}
    for(int i2=0; i2 < nloop[1]; i2++){
      if(iaxis<1){ fsend[1]=i2*jw[1]+fw[1]; nsend[1]=1;}
-     fprintf(stderr,"before read   2\n");
-     for(int i=0;i < 4; i++) fprintf(stderr,"2m=%d n=%d f=%d j=%d ng=%d \n",i,nsend[i],
-       fsend[i],jsend[i],ng[i]);
+  
      inp->readFloatWindow(nsend,fsend,jsend,buf); 
-     fprintf(stderr,"after read \n");
      outp->writeFloatStream(buf,n123);
    }}}}}}}
   delete [] buf;

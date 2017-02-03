@@ -277,7 +277,7 @@ void jsonGenericFile::writeFloatStream( const float *array,const long long npts)
  void jsonGenericFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int>& fw, 
       const std::vector<int> &jw,  float *array){
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -305,7 +305,7 @@ long long jsonGenericFile::getDataSize(){
  void jsonGenericFile::readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
       const std::vector<int>& jw,  unsigned char *array){
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -326,7 +326,7 @@ long long jsonGenericFile::getDataSize(){
         setDataType(dataFloat);
 
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -374,7 +374,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
  void jsonGenericFile::readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw, 
       const std::vector<int>& jw,  float _Complex  *array){
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
           setDataType(dataComplex);
 
   if(ng.size() >nw.size()){
@@ -398,7 +398,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
         setDataType(dataComplex);
 
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");

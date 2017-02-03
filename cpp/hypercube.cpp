@@ -76,7 +76,7 @@ for(int i=this->axes.size()-1; i>=0; i--){
 std::vector<axis> hypercube::getAxes()const {
   return returnAxes(axes.size());
 }
-std::vector<int> hypercube::returnNs()const {
+std::vector<int> hypercube::getNs()const {
   int i;
   std::vector<int> n;
   for(i=0; i < this->axes.size(); i++) n.push_back(axes[i].n);

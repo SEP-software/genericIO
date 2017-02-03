@@ -15,7 +15,7 @@ class hypercube{
     void setAxis(const int idim, const SEP::axis &ax);
     SEP::axis getAxis(int idim) const;
     long long getN123() const {return n123;}
-    std::vector<int> returnNs() const;
+    std::vector<int> getNs() const;
     void deallocate(){
          axes.clear();
     }

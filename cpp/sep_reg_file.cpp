@@ -245,7 +245,7 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
  void sepRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
       const std::vector<int>& jw,  float *array){
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   
        setDataType(dataFloat);
 
@@ -270,7 +270,7 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
   std::shared_ptr<hypercube> hyper=getHyper();
        setDataType(dataComplex);
 
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -308,7 +308,7 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
         setDataType(dataComplex);
 
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -327,7 +327,7 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
  void sepRegFile::readUCharWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
       const std::vector<int>& jw,  unsigned char *array){
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");
@@ -347,7 +347,7 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
         setDataType(dataFloat);
 
   std::shared_ptr<hypercube> hyper=getHyper();
-  std::vector<int> ng=hyper->returnNs();
+  std::vector<int> ng=hyper->getNs();
   if(ng.size() >nw.size()){
     for(int i=nw.size(); i < ng.size(); i++){
       if(ng[i]>1) error("number of dimension does not equal data size");

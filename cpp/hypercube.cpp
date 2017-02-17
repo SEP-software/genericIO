@@ -15,6 +15,7 @@ hypercube::hypercube(const std::shared_ptr<hypercube>& hyper){
   initNd(axes);
 
 }
+
 hypercube::hypercube(const std::vector<axis> &axes){
   initNd(axes);
 }
@@ -54,8 +55,15 @@ std::vector<axis> hypercube::returnAxes(const int nmax) const{
   }
   return ax;
 }
-axis hypercube::getAxis(const int idim)const {
+void hypercube::info(std::stringstream &x){
 
+  for(int i=0; i < (int)axes.size(); i++){
+    x<<"Axis "<<std::to_string(i+1);
+    axes[i].info(x);
+    x<<"\n";
+  }
+}
+axis hypercube::getAxis(const int idim)const {
   if(idim<1 || idim >this->axes.size()) {
     fprintf(stderr,"IDIM=%d axes.size()=%d \n",idim,(int)this->axes.size());
     assert(1==2);

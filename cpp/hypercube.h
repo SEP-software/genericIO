@@ -3,6 +3,7 @@
 #include<axis.h>
 #include<memory>
 #include <vector>
+#include <sstream>
 namespace SEP{
 class hypercube{
 
@@ -15,6 +16,7 @@ class hypercube{
     void setAxis(const int idim, const SEP::axis &ax);
     SEP::axis getAxis(int idim) const;
     long long getN123() const {return n123;}
+    void info(std::stringstream &x);
     std::vector<int> getNs() const;
     void deallocate(){
          axes.clear();

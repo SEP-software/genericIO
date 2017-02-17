@@ -3,6 +3,7 @@
 #include<iostream>
 #include<string>
 #include <stdio.h>
+#include<sstream>
 
 namespace SEP{
 
@@ -13,10 +14,8 @@ class axis{
     axis(const int n, float o, float d,const  std::string& label);
     axis(const int n, float o, float d);
     axis(const int n);
-    void print_info(const int i)const {
-      fprintf(stderr, "AXIS %d %d %f %f \n",i,n,o,d);
-     }
-
+    void info(std::stringstream &x);
+  
     bool same_axis(const axis &ax)const ;
     int n;
     float o,d;

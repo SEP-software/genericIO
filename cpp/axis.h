@@ -14,7 +14,7 @@ class axis{
     axis(const int n, float o, float d,const  std::string& label);
     axis(const int n, float o, float d);
     axis(const int n);
-    void info(std::stringstream &x);
+    void infoStream(std::stringstream &x);
   
     bool same_axis(const axis &ax)const ;
     int n;

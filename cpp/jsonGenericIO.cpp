@@ -46,7 +46,7 @@ void jsonGenericIO::initJsonPars( const int argc,  char **argv){
    _param=x;
    setValid(true);
 }
-std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string &name,const usage_code usage){
+std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFileTag(const std::string &tag,const std::string &name,const usage_code usage){
    if(!_init){
       std::cerr<<std::string("Expecting json=file on the command line")<<std::endl;
        throw std::exception();
@@ -57,13 +57,13 @@ std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFile(const std::string &na
      std::cerr<<name<<std::string("  does not exist in json file")<<std::endl;
        throw std::exception();
    }
-   */
+   */ 
    std::shared_ptr<jsonGenericFile> x(new jsonGenericFile(jsonArgs,usage,name,0,0));
-   addRegFile(name,x);
+   addRegFile(tag,x);
     return x;
 
 }
-std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string &name, const usage_code usage){
+std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFileTag(const std::string &tag,const std::string &name, const usage_code usage){
    if(!_init){
       std::cerr<<std::string("Expecting json=file  on the command line")<<std::endl;
        throw std::exception();
@@ -76,7 +76,7 @@ std::shared_ptr<genericIrregFile>  jsonGenericIO::getIrregFile(const std::string
    }
    */
    std::shared_ptr<jsonGenericFile> x(new jsonGenericFile(jsonArgs,usage,name,0,0));
-    addIrregFile(name,x);
+    addIrregFile(tag,x);
     return x;
 
 }

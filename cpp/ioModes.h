@@ -11,7 +11,7 @@ class ioModes{
     void setup(const int argc, char**argv);
    std::shared_ptr<genericIO> getDefaultIO();
    std::shared_ptr<genericIO> getIO(const std::string &def);
-   std::shared_ptr<genericRegFile> getRegFile(const std::string &def,const std::string &name,const usage_code usage);
+   std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag,const std::string &def,const std::string &name,const usage_code usage);
    std::shared_ptr<genericRegFile> getGenericRegFile(const std::string &name,const usage_code usage);
    std::string getDefaultType(){ return _defaultType;}
   private:

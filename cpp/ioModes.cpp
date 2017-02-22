@@ -41,7 +41,7 @@ std::shared_ptr<genericIO> ioModes::getIO(const std::string& def){
 
    
 }
-std::shared_ptr<genericRegFile> ioModes::getRegFile(const std::string &def,const std::string &name,
+std::shared_ptr<genericRegFile> ioModes::getRegFileTag(const std::string &tag,const std::string &def,const std::string &name,
    usage_code usage){
    
     if(_ios.count(def)==0)

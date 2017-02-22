@@ -55,11 +55,11 @@ std::vector<axis> hypercube::returnAxes(const int nmax) const{
   }
   return ax;
 }
-void hypercube::info(std::stringstream &x){
+void hypercube::infoStream(std::stringstream &x){
 
   for(int i=0; i < (int)axes.size(); i++){
     x<<"Axis "<<std::to_string(i+1);
-    axes[i].info(x);
+    axes[i].infoStream(x);
     x<<"\n";
   }
 }

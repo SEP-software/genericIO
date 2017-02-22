@@ -184,62 +184,37 @@ void sepRegFile::putFloats(const std::string& par, const std::vector<float> &val
 
 }
 void sepRegFile::readFloatStream( float *array,const long long npts){ 
-   long long maxsize=10000000;
-   long long nread=0;
    long long nptsT=npts*4;
-   while(nptsT >nread){
-      long long toReadL=std::min(maxsize,nptsT-nread);
-      int ierr=sreed(_tag.c_str(),&array[nread],(int)toReadL);
-      nread+=(long long)ierr;
-      if(ierr!=toReadL)
+      long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+      if(ierr!=nptsT)
         error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
-          std::to_string(nread)+std::string(" bytes"));
-  }   
+          std::to_string(ierr)+std::string(" bytes"));
+     
 
 }
 void sepRegFile::readComplexStream( float _Complex *array,const long long npts){ 
-   long long maxsize=10000000;
-   long long nread=0;
-   long long nptsT=npts*8;
-        setDataType(dataComplex);
-
-   while(nptsT >nread){
-      long long toReadL=std::min(maxsize,nptsT-nread);
-      int ierr=sreed(_tag.c_str(),&array[nread],(int)toReadL);
-      nread+=(long long)ierr;
-      if(ierr!=toReadL)
+  long long nptsT=npts*8;
+      long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+      if(ierr!=nptsT)
         error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
-          std::to_string(nread)+std::string(" bytes"));
-  }   
-
+          std::to_string(ierr)+std::string(" bytes"));
 }
 void sepRegFile::readUCharStream( unsigned char *array,const long long npts){ 
-   long long maxsize=10000000;
-   long long nread=0;
-   while(npts >nread){
-      long long toReadL=std::min(maxsize,npts-nread);
-      int ierr=sreed(_tag.c_str(),&array[nread],(int)toReadL);
-      nread+=(long long)ierr;
-      if(ierr!=toReadL)
+    long long nptsT=npts*1;
+     long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+      if(ierr!=nptsT)
         error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
-          std::to_string(nread)+std::string(" bytes"));
-  }   
+          std::to_string(ierr)+std::string(" bytes"));
 
 }
 
 void sepRegFile::writeFloatStream( const float *array,const long long npts){
-   long long maxsize=10000000;
-   long long nwrite=0;
-   long long nptsT=npts*4;
-     setDataType(dataFloat);
 
-   while(nptsT >nwrite){
-      long long toWriteL=std::min(maxsize,nptsT-nwrite);
-      int ierr=srite(_tag.c_str(),(void*)(array+nwrite),(int)toWriteL);
-      nwrite+=(long long)ierr;
-      if(ierr!=toWriteL)
-        error(std::string("Trouble reading from ")+_tag+std::string(" after ")+std::to_string(nwrite)+std::string(" bytes"));
-  }   
+   long long nptsT=npts*4;
+      long long ierr=sritell(_tag.c_str(),(void*)array,(int)nptsT);
+      if(ierr!=nptsT)
+        error(std::string("Trouble write from ")+_tag+std::string(" after ")+
+          std::to_string(ierr)+std::string(" bytes"));
 
 }
  void sepRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<int> &fw, 
@@ -288,18 +263,11 @@ void sepRegFile::writeFloatStream( const float *array,const long long npts){
 }
 
 void sepRegFile::writeComplexStream( const float _Complex *array,const long long npts){
-   long long maxsize=10000000;
-   long long nwrite=0;
    long long nptsT=npts*8;
-     setDataType(dataComplex);
-
-   while(nptsT >nwrite){
-      long long toWriteL=std::min(maxsize,nptsT-nwrite);
-      int ierr=sreed(_tag.c_str(),(void*)(array+nwrite),(int)toWriteL);
-      nwrite+=(long long)ierr;
-      if(ierr!=toWriteL)
-        error(std::string("Trouble reading from ")+_tag+std::string(" after ")+std::to_string(nwrite)+std::string(" bytes"));
-  }   
+      long long ierr=sritell(_tag.c_str(),(void*)array,(int)nptsT);
+      if(ierr!=nptsT)
+        error(std::string("Trouble write from ")+_tag+std::string(" after ")+
+          std::to_string(ierr)+std::string(" bytes"));
 
 }
 

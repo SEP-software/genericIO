@@ -37,9 +37,9 @@ axis::axis(const int n){
   this->unit=unit;
   }
  
-void axis::info(std::stringstream &x){
+void axis::infoStream(std::stringstream &x){
 
- x <<std::string("n=")<<std::to_string(n)<<std::string(" o=")<<std::to_string(o);
+ x <<std::string(" n=")<<std::to_string(n)<<std::string(" o=")<<std::to_string(o);
  x<<std::string("d=")<<std::to_string(d)<<std::string(" label=")<<label;
 
 }

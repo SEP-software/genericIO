@@ -11,8 +11,8 @@ class jsonGenericIO: public genericIO{
    jsonGenericIO( const int argc,   char **argv){ initJsonPars(argc,argv);}
    void initJsonPars( const int argc,  char **argv);
    std::shared_ptr<Json::Value> getArgs(){ return jsonArgs;}
-    virtual std::shared_ptr<genericRegFile> getRegFile(const std::string& name,const usage_code usage);
-    virtual std::shared_ptr<genericIrregFile> getIrregFile(const std::string &name, const usage_code usage);
+    virtual std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag, const std::string& name,const usage_code usage);
+    virtual std::shared_ptr<genericIrregFile> getIrregFileTag(const std::string &tag,const std::string &name, const usage_code usage);
     virtual void close();
     virtual std::shared_ptr<paramObj>  getParamObj();
 

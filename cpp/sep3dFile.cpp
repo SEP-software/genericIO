@@ -1,3 +1,4 @@
+#include<string.h>
 #include "sep3dFile.h"
 extern "C" {
 #include "seplib.h"
@@ -238,12 +239,17 @@ void sep3dFile::readDescription(){
   setHyper(hyper);
 }
 void sep3dFile::writeDescription(){
-fprintf(stderr,"in sep3d \n");
   std::shared_ptr<hypercube> hyper=getHyper();
   std::vector<axis> axes=hyper->returnAxes(hyper->getNdim());
   for(int i=1; i <= axes.size(); i++){
      int n=axes[i].n; float o=axes[i].o; float d=axes[i].d;
      char label[1024];  std::copy(axes[i].label.begin(), axes[i].label.end(), label);
+     sep_put_data_axis_par(_tag.c_str(),&i,&n,&o,&d,label);
+  }
+  for(int i=axes.size()+1; i< 9; i++){
+     int n=1; float o=0.,d=1.;
+     char label[1024];  
+     strcpy(label,"none");
      sep_put_data_axis_par(_tag.c_str(),&i,&n,&o,&d,label);
   }
   dataType fmt=getDataType();

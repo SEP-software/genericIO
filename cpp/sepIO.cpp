@@ -10,7 +10,7 @@ sepIO::sepIO( int argc,  char **argv){
 
 std::shared_ptr<genericRegFile> sepIO::getRegFileTag(const std::string &tag, const std::string & name,const SEP::usage_code usage){
     std::shared_ptr<sepRegFile> x(new sepRegFile(name,usage));
-    addRegFile(tag,x);
+   addRegFile(tag,x);
     return x;
     
 }

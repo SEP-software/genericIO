@@ -11,6 +11,15 @@ class hypercube{
     hypercube(){}
     hypercube(const hypercube &hyper);
     hypercube(const std::shared_ptr<hypercube>& hyper);
+    hypercube(const SEP::axis &a1){ std::vector<SEP::axis> as; as.push_back(a1); setAxes(as);}
+    hypercube(const SEP::axis &a1,SEP::axis &a2){ 
+        std::vector<SEP::axis> as; as.push_back(a1); as.push_back(a2) ;setAxes(as);
+    }
+    hypercube(const SEP::axis &a1,SEP::axis &a2,SEP::axis &a3){ 
+        std::vector<SEP::axis> as; as.push_back(a1); as.push_back(a2) ;
+       as.push_back(a3);
+       setAxes(as);
+    }
     hypercube(const std::vector<SEP::axis>&axes);
     void setAxes(const std::vector<SEP::axis>& axes) ;
     void setAxis(const int idim, const SEP::axis &ax);

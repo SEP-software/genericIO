@@ -27,6 +27,10 @@ class hypercube{
     long long getN123() const {return n123;}
     void infoStream(std::stringstream &x);
     std::vector<int> getNs() const;
+    void shrinkDimension(const int nmax){
+       axes.resize(nmax);
+    }
+    
     void addAxis(axis & a){
        axes.push_back(a);
     }

@@ -81,6 +81,7 @@ for(int i=this->axes.size()-1; i>=0; i--){
  return nd;
 
 }
+
 std::vector<axis> hypercube::getAxes()const {
   return returnAxes(axes.size());
 }

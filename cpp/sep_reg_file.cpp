@@ -367,6 +367,11 @@ void sepRegFile::writeDescription(){
      label[axes[i-1].label.length()]='\0';
      sep_put_data_axis_par(_tag.c_str(),&i,&n,&o,&d,label);
   }
+  for(int i=axes.size()+1; i <= 8; i++){
+     int n=1; float o=0.,d=1.;
+     sep_put_data_axis_par(_tag.c_str(),&i,&n,&o,&d,"none");
+  }
+ 
 
 
 }

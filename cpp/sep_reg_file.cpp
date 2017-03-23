@@ -381,5 +381,5 @@ void sepRegFile::message(const std::string& arg) const {
 
 }
 void sepRegFile::seekTo(const long long iv,const int whence){
-	seek(_tag,iv,whence);
+	sseek(_tag.c_str(),iv,whence);
 }

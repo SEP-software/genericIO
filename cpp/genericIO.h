@@ -10,6 +10,7 @@ namespace SEP {
 class genericIO {
 public:
 genericIO(){
+	_type="NONE";
 	;
 }
 
@@ -65,6 +66,8 @@ virtual void close(){
 	close();
 }
 virtual void filesClose();
+std::string _type;
+
 protected:
 std::map<std::string,std::shared_ptr<genericRegFile> > _regFiles;
 std::map<std::string, std::shared_ptr<genericIrregFile> > _irregFiles;

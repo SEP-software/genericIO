@@ -82,6 +82,7 @@ usage_code _usage;
 std::string _jsonFile,_dataFile;
 std::shared_ptr<myFileIO> myio;
 int _reelH,_traceH;
+bool _newFile;
 
 };
 }

@@ -9,7 +9,8 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,const usage_co
 	setupJson(arg,tag);
 	_reelH=reelH;
 	_traceH=traceH;
-	if(usage==usageIn) {
+
+	if(!_newFile) {
 		readDescription();
 		std::shared_ptr<myFileIO> x(new myFileIO(getDataFileName(),usage,reelH,traceH,
 				jsonArgs.get("esize",4).asInt(),jsonArgs.get("swapData",false).asBool(),getHyper()));
@@ -32,7 +33,15 @@ void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,const std::stri
 	else{
 		_jsonFile=(*arg)[tag].asString();
 	}
-	if(_usage==usageIn || _usage==usageInOut) {
+	_newFile=true;
+	if(_usage==usageIn) _newFile=false;
+	else if(_usage==usageInOut) {
+		std::ifstream f(getJSONFileName());
+		_newFile=!f.good();
+		f.close();
+	}
+
+	if(_usage==usageIn || !_newFile) {
 		std::ifstream inps;
 		inps.open(getJSONFileName(),std::ifstream::in);
 		if(!inps) {
@@ -181,7 +190,9 @@ void jsonGenericFile::readDescription(){
 	while(iax >=1 && !breakIt) {
 		std::string tmp;
 		int n=getInt("n"+std::to_string(iax),1);
-		if(n>1) breakIt=true;
+		float o=getFloat("o"+std::to_string(iax),0.);
+
+		if(n>1 || fabsf(o) >1e-4) breakIt=true;
 		else iax--;
 	}
 	if(iax==0) error("couldn't find any axes");
@@ -203,7 +214,6 @@ void jsonGenericFile::readDescription(){
 	else if(dtyp==std::string("BYTE")) setDataType(dataByte);
 
 	std::shared_ptr<hypercube> hyper(new hypercube(axes));
-
 	setHyper(hyper);
 }
 void jsonGenericFile::writeDescription(){

@@ -11,10 +11,9 @@ myFileIO::myFileIO(const std::string &nm,const usage_code usage,const int reelH,
 		{
 			std::cerr<<std::string("Can not open file ")<<nm<<std::endl;
 			if(_usage==usageIn) assert(1==2);
-			std::cerr<<std::string("Createing file");
-			_myf=fopen(nm.c_str(),"rw+");
+			_myf=fopen(nm.c_str(),"w+");
 		}
-		_myf = fopen(nm.c_str(), "r");
+		else _myf = fopen(nm.c_str(), "r+");
 
 	}
 	else _myf=fopen(nm.c_str(),"w+");
@@ -297,8 +296,9 @@ void myFileIO::readStream(const long long sz, void *data){
 void myFileIO::writeStream(const long long sz,const void *data){
 	float *d2=(float*)data;
 	if(_swapData) swap_float_bytes(sz/4,(float*)d2);
+	int ierr=fwrite(data,1,sz,_myf);
 
-	assert(sz==fwrite(data,1,sz,_myf));
+	assert(sz==ierr);
 }
 void basicIO::blockToParts(const std::vector<int>& nwo, const std::vector<int> &fwo, const std::vector<int>& jwo, const void *in, void *out, void *head){
 	std::vector<axis> axes=_hyper->returnAxes(8);

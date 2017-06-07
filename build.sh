@@ -2,6 +2,6 @@
 rm -rf build
 mkdir build
 cd build
-cmake  -DCMAKE_INSTALL_PREFIX=/opt/genericIO ..
+cmake  -DCMAKE_INSTALL_PREFIX=/sep/bob/genericIO ..
 make
 make install

@@ -60,10 +60,8 @@ std::shared_ptr<genericRegFile>  jsonGenericIO::getRegFileTag(const std::string 
 	    throw std::exception();
 	   }
 	 */
-	fprintf(stderr,"in get regfile \n");
 	std::shared_ptr<jsonGenericFile> x(new jsonGenericFile(jsonArgs,usage,name,0,0));
 	addRegFile(tag,x);
-	fprintf(stderr,"added \n");
 	return x;
 
 }

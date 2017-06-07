@@ -10,7 +10,6 @@
 using namespace SEP;
 void ioModes::setup(const int argc, char **argv){
 
-	fprintf(stderr,"in io\n");
 	std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc,argv));
 	_ios["JSON"]=a;
 	std::shared_ptr<segyIO> d(new segyIO(argc,argv));

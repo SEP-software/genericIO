@@ -10,13 +10,20 @@ myFileIO::myFileIO(const std::string &nm,const usage_code usage,const int reelH,
 		if( access( nm.c_str(), F_OK ) == -1 )
 		{
 			std::cerr<<std::string("Can not open file ")<<nm<<std::endl;
+fprintf(stderr,"what is going on 1\n");
 			if(_usage==usageIn) assert(1==2);
 			_myf=fopen(nm.c_str(),"w+");
 		}
-		else _myf = fopen(nm.c_str(), "r+");
+		else{
+fprintf(stderr,"what is going on 2 \n");
+   _myf = fopen(nm.c_str(), "r+");
+}
 
 	}
-	else _myf=fopen(nm.c_str(),"w+");
+	else{
+fprintf(stderr,"createing a write only %s \n",nm.c_str());
+ _myf=fopen(nm.c_str(),"w+");
+}
 }
 void basicIO::readWindow(const std::vector<int> &nw,const std::vector<int> &fw,const std::vector<int> &jw, void *data, void *head){
 	long long optMin=256*1024,optMax=10*1024*1024;
@@ -296,8 +303,7 @@ void myFileIO::readStream(const long long sz, void *data){
 void myFileIO::writeStream(const long long sz,const void *data){
 	float *d2=(float*)data;
 	if(_swapData) swap_float_bytes(sz/4,(float*)d2);
-	int ierr=fwrite(data,1,sz,_myf);
-
+	long long ierr=fwrite(data,1,sz,_myf);
 	assert(sz==ierr);
 }
 void basicIO::blockToParts(const std::vector<int>& nwo, const std::vector<int> &fwo, const std::vector<int>& jwo, const void *in, void *out, void *head){

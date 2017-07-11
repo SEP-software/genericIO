@@ -185,7 +185,7 @@ void sepRegFile::putFloats(const std::string& par, const std::vector<float> &val
 }
 void sepRegFile::readFloatStream( float *array,const long long npts){
 	long long nptsT=npts*4;
-	long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+	long long ierr=sreed_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
 		error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
 			std::to_string(ierr)+std::string(" bytes"));
@@ -194,14 +194,14 @@ void sepRegFile::readFloatStream( float *array,const long long npts){
 }
 void sepRegFile::readComplexStream( float _Complex *array,const long long npts){
 	long long nptsT=npts*8;
-	long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+	long long ierr=sreed_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
 		error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
 			std::to_string(ierr)+std::string(" bytes"));
 }
 void sepRegFile::readUCharStream( unsigned char *array,const long long npts){
 	long long nptsT=npts*1;
-	long long ierr=sreedll(_tag.c_str(),(void*)array,(int)nptsT);
+	long long ierr=sreed_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
 		error(std::string("Trouble reading from ")+_tag+std::string(" after ")+
 			std::to_string(ierr)+std::string(" bytes"));
@@ -211,7 +211,7 @@ void sepRegFile::readUCharStream( unsigned char *array,const long long npts){
 void sepRegFile::writeFloatStream( const float *array,const long long npts){
 
 	long long nptsT=npts*4;
-	long long ierr=sritell(_tag.c_str(),(void*)array,(int)nptsT);
+	long long ierr=srite_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
 		error(std::string("Trouble write from ")+_tag+std::string(" after ")+
 			std::to_string(ierr)+std::string(" bytes"));
@@ -264,7 +264,7 @@ void sepRegFile::readComplexWindow(const std::vector<int> &nw, const std::vector
 
 void sepRegFile::writeComplexStream( const float _Complex *array,const long long npts){
 	long long nptsT=npts*8;
-	long long ierr=sritell(_tag.c_str(),(void*)array,(int)nptsT);
+	long long ierr=srite_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
 		error(std::string("Trouble write from ")+_tag+std::string(" after ")+
 			std::to_string(ierr)+std::string(" bytes"));

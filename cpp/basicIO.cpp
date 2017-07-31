@@ -10,18 +10,15 @@ myFileIO::myFileIO(const std::string &nm,const usage_code usage,const int reelH,
 		if( access( nm.c_str(), F_OK ) == -1 )
 		{
 			std::cerr<<std::string("Can not open file ")<<nm<<std::endl;
-fprintf(stderr,"what is going on 1\n");
 			if(_usage==usageIn) assert(1==2);
 			_myf=fopen(nm.c_str(),"w+");
 		}
 		else{
-fprintf(stderr,"what is going on 2 \n");
    _myf = fopen(nm.c_str(), "r+");
 }
 
 	}
 	else{
-fprintf(stderr,"createing a write only %s \n",nm.c_str());
  _myf=fopen(nm.c_str(),"w+");
 }
 }
@@ -295,6 +292,10 @@ void myFileIO::readStream(const long long sz, void *data){
 	float *d2=(float *)data;
 	int *d3=(int*) data;
 	long long sz2=fread(data,1,sz,_myf);
+        if(sz!=sz2){
+          fprintf(stderr,"tried to read %d bytes, read %d \n",
+             sz2,sz);
+        }
 	assert(sz==sz2);
 	if(_swapData)
 		swap_float_bytes(sz/4,d2);

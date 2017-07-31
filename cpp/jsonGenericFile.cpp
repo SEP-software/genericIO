@@ -17,7 +17,7 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,const usage_co
 		myio=x;
 	}
 	else{
-		std::string datapath=std::string("/tmp/");
+		std::string datapath=std::string("./");
 		if(const char* env_p = std::getenv("DATAPATH")) datapath=std::string(env_p);
 		_dataFile=datapath+std::string("/")+getJSONFileName()+std::string(".dat");
 		jsonArgs["filename"]=_dataFile;

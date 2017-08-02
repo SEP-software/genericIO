@@ -117,6 +117,12 @@ configure_file (
   )
   
 add_subdirectory(cpp)
-add_subdirectory(fortran)
+
+
+option(BUILD_FORTRAN "Build fortran support" OFF)
+if(BUILD_FORTRAN)
+  add_subdirectory(fortran)
+endif(BUILD_FORTRAN)
+
 add_subdirectory(util)
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)

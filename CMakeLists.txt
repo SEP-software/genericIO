@@ -119,7 +119,7 @@ configure_file (
 add_subdirectory(cpp)
 
 
-option(BUILD_FORTRAN "Build fortran support" OFF)
+option(BUILD_FORTRAN "Build fortran support" ON)
 if(BUILD_FORTRAN)
   add_subdirectory(fortran)
 endif(BUILD_FORTRAN)

@@ -18,9 +18,6 @@ ENDFOREACH(inc)
 set_target_properties(genericCpp PROPERTIES
 IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
 )
-set_target_properties(genericFor PROPERTIES
-IMPORTED_LINK_INTERFACE_LANGUAGES "Fortran"
-)
 FOREACH(libd ${GENERIC_EXPORT_LIB_DIRS})
   link_directories(${libd})
 ENDFOREACH(libd)

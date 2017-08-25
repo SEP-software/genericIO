@@ -11,7 +11,7 @@ set(genericIO_VERSION_STRING
 
 
 
- 
+
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
@@ -27,9 +27,10 @@ else()
         message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-enable_language(Fortran C CXX)
+enable_language(C CXX)
 
 
+FIND_PACKAGE(hypercube)
 FIND_PACKAGE(SEPlib NO_MODULE)
 
 
@@ -119,8 +120,10 @@ configure_file (
 add_subdirectory(cpp)
 
 
-option(BUILD_FORTRAN "Build fortran support" ON)
+option(BUILD_FORTRAN "Build fortran support" OFF)
+
 if(BUILD_FORTRAN)
+  enable_language(FORTRAN)
   add_subdirectory(fortran)
 endif(BUILD_FORTRAN)
 

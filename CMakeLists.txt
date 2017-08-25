@@ -16,7 +16,7 @@ set(genericIO_VERSION_STRING
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -30,10 +30,11 @@ endif()
 enable_language(C CXX)
 
 
-FIND_PACKAGE(hypercube)
+FIND_PACKAGE(hypercube NO_MODULE REQUIRED)
+INCLUDE_DIRECTORIES(${hypercube_DIRNAME_include})
+
+
 FIND_PACKAGE(SEPlib NO_MODULE)
-
-
 
 #find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.1/include /opt/SEP/include /opt/SEP/SEP8.1/include)
 #find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)

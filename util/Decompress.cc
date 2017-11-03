@@ -153,7 +153,9 @@ int main(int argc, char** argv) {
     /* decompress data */
     if (!zfp_decompress(zfp, field))
       par->error(std::string("decompression failed\n"));
+std::cerr<<"before write"<<std::endl;
     outp->writeFloatStream((float*)fo, n123);
+std::cerr<<"after write"<<std::endl;
 
     /* free allocated storage */
     zfp_field_free(field);

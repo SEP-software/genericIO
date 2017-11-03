@@ -8,16 +8,19 @@
      #  ZFP_LIBRARY, where to find the ZFP library.
      
  FIND_PATH(ZFP_INCLUDE_DIR zfp.h
- ${ZFP_ROOT_DIR}/include
+PATHS
+ $ENV{ZFP_ROOT_DIR}/include
  /opt/zfp/include
- 
+  
  )
  
  SET(ZFP_NAMES ${ZFP_NAMES} zfp)
  FIND_LIBRARY(ZFP_LIBRARY
    NAMES ${ZFP_NAMES}
-   PATHS {ZFP_ROOT_DIR}/include /opt/zfp/lib
+   PATHS $ENV{ZFP_ROOT_DIR}/lib /opt/zfp/lib
    )
+
+MESSAGE(${ZFP_INCLUDE_DIR} ${ZFP_ROOT_DIR} ${ZFP_LIBRARY} "ZFP")
  
  IF (ZFP_LIBRARY AND ZFP_INCLUDE_DIR)
      SET(ZFP_LIBRARIES ${ZFP_LIBRARY})

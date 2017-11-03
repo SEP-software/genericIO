@@ -21,6 +21,7 @@ find_package(Boost COMPONENTS  filesystem system REQUIRED)
 message("MESSAGE " ${Boost_LIBRARIES} ${Boost_LIBRARY_DIRS})
 
 if(Boost_FOUND)
+message("Found boost")
 if(ZFP_LIBRARIES)
 message("INstalling compress decompress")
   INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})

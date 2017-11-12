@@ -1,4 +1,4 @@
-#include <boost/filesystem.hpp>
+//#include <boost/filesystem.hpp>
 
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 
   std::string outDir = par->getString(std::string("outdir"));
 
-  assert(boost::filesystem::create_directories(outDir));
+//  assert(boost::filesystem::create_directories(outDir));
   Json::Value jsonArgs;
   std::shared_ptr<genericRegFile> inp = io->getRegFile(in, usageIn);
 

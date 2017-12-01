@@ -1,13 +1,14 @@
 #include "genericFile.h"
 using namespace SEP;
- void genericRegFile::putInt(const std::string &par, const int val) {
-   if(par=="" && val==0);
-   }
-   
-std::string genericRegFile::getDataTypeString(){
-  dataType x=getDataType();
-  
-  switch(x){
+void genericRegFile::putInt(const std::string &par, const int val) {
+  if (par == "" && val == 0)
+    ;
+}
+
+std::string genericRegFile::getDataTypeString() {
+  dataType x = getDataType();
+
+  switch (x) {
     case dataFloat:
       return std::string("dataFloat");
       break;
@@ -27,10 +28,11 @@ std::string genericRegFile::getDataTypeString(){
       return std::string("dataUndefined");
   }
 }
-int genericRegFile::getDataEsize(){
-  dataType x=getDataType();
-  
-  switch(x){
+
+int genericRegFile::getDataEsize() {
+  dataType x = getDataType();
+
+  switch (x) {
     case dataFloat:
       return 4;
       break;
@@ -49,4 +51,4 @@ int genericRegFile::getDataEsize(){
     default:
       return -1;
   }
-}    
+}

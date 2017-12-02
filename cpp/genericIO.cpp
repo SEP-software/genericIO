@@ -31,5 +31,5 @@ void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
   std::shared_ptr<SEP::genericRegFile> fle = getRegFile(nm, SEP::usageOut);
   fle->setHyper(hyper2);
   fle->writeDescription();
-  fle->writeFloatStream(data, n1, n2);
+  fle->writeFloatStream(data, (long long)n1 * (long long)n2);
 }

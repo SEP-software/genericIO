@@ -22,7 +22,7 @@ if(ZFP_LIBRARIES)
 message("INstalling compress decompress")
   INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
 
-set(UTILSZ  Decompress)
+set(UTILSZ Compress  Decompress)
 
 foreach(util ${UTILSZ})
 

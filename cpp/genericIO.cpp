@@ -21,14 +21,15 @@ std::shared_ptr<SEP::genericIrregFile> genericIO::getIrregFile(
 
   return getIrregFileTag(name, filename, usage);
 }
-void genericIO::fileDebug(const std::string nm, const int n1, const int n2) {
+void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
+                          const int n2) {
   std::vector<SEP::axis> axs;
   axs.push_back(SEP::axis(n1));
   axs.push_back(SEP::axis(n2));
   std::shared_ptr<hypercube> hyper2(new hypercube(axs));
 
-  std::shared_ptr<SEP::genericRegFile> fle = _io->getRegFile(nm, SEP::usageOut);
+  std::shared_ptr<SEP::genericRegFile> fle = getRegFile(nm, SEP::usageOut);
   fle->setHyper(hyper2);
   fle->writeDescription();
-  fle->writeFloatStream(shift->data(), n1,n2;
+  fle->writeFloatStream(data, n1,n2;
 }

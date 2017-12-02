@@ -49,7 +49,8 @@ class genericIO {
     if (_irregFiles.count(name) == 0) return false;
     return true;
   }
-  void fileDebug(const std::string, const int n1, const int n2);
+  void fileDebug(const std::string, const float *data, const int n1,
+                 const int n2);
 
   std::shared_ptr<genericIrregFile> getIrregFile(const std::string x) {
     if (_irregFiles.count(x) == 0)

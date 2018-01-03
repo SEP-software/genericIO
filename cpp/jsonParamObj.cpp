@@ -56,7 +56,7 @@ bool jsonParamObj::getBool(const std::string &arg, const  bool def)const {
 bool jsonParamObj::getBool(const std::string &arg)const {
   if((*jsonArgs)[arg].isNull())  
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
-  jsonArgs->get(arg,false).asBool();
+  return  jsonArgs->get(arg,false).asBool();
 }
    
    

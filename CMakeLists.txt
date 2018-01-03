@@ -17,7 +17,6 @@ set(genericIO_VERSION_STRING
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -pg")
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -128,6 +127,7 @@ if(BUILD_FORTRAN)
   enable_language(FORTRAN)
   add_subdirectory(fortran)
 endif(BUILD_FORTRAN)
-
+add_subdirectory(python)
 add_subdirectory(util)
+
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)

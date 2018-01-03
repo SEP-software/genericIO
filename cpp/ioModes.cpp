@@ -54,8 +54,9 @@ std::shared_ptr<genericRegFile> ioModes::getRegFileTag(const std::string &tag,co
 }
 std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(const std::string &name,const usage_code usage){
 
-	_defaultIO->getRegFile(name,usage);
+return	_defaultIO->getRegFile(name,usage);
 
+    
 }
 std::shared_ptr<ioModesFortran> ioModesFortran::instance = nullptr;
 void ioModesFortran::setup(const int argc,  char **argv){

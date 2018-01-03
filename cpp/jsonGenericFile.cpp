@@ -111,7 +111,8 @@ bool jsonGenericFile::getBool(const std::string &arg,  bool def) const {
 bool jsonGenericFile::getBool(const std::string& arg) const {
 	if(jsonArgs[arg].isNull())
 		error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
-	jsonArgs.get(arg,false).asBool();
+return	jsonArgs.get(arg,false).asBool();
+       
 }
 std::vector<int> jsonGenericFile::getInts(const std::string &arg,int nvals) const {
 	if(jsonArgs[arg].isNull())
@@ -363,7 +364,7 @@ void jsonGenericFile::writeFloatWindow(const std::vector<int>& nw, const std::ve
 
 
 
-void jsonGenericFile::readComplexStream( float _Complex *array,const long long npts){
+void jsonGenericFile::readComplexStream( std::complex<float> *array,const long long npts){
 	long long maxsize=10000000;
 	long long nread=0;
 	long long nptsT=npts*4;
@@ -377,7 +378,7 @@ void jsonGenericFile::readComplexStream( float _Complex *array,const long long n
 
 
 }
-void jsonGenericFile::writeComplexStream( const float _Complex *array,const long long npts){
+void jsonGenericFile::writeComplexStream( const std::complex<float> *array,const long long npts){
 	long long maxsize=10000000;
 	long long nwrite=0;
 	long long nptsT=npts*4;
@@ -390,7 +391,7 @@ void jsonGenericFile::writeComplexStream( const float _Complex *array,const long
 	myio->writeTraceStream(npts,array);
 }
 void jsonGenericFile::readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-	const std::vector<int>& jw,  float _Complex  *array){
+	const std::vector<int>& jw,  std::complex<float>  *array){
 	std::shared_ptr<hypercube> hyper=getHyper();
 	std::vector<int> ng=hyper->getNs();
 	setDataType(dataComplex);
@@ -412,7 +413,7 @@ void jsonGenericFile::readComplexWindow(const std::vector<int> &nw, const std::v
 
 }
 void jsonGenericFile::writeComplexWindow(const std::vector<int>& nw, const std::vector<int> &fw,
-	const std::vector<int>& jw, const float _Complex *array){
+	const std::vector<int>& jw, const std::complex<float> *array){
 	setDataType(dataComplex);
 
 	std::shared_ptr<hypercube> hyper=getHyper();

@@ -192,7 +192,7 @@ void sepRegFile::readFloatStream( float *array,const long long npts){
 
 
 }
-void sepRegFile::readComplexStream( float _Complex *array,const long long npts){
+void sepRegFile::readComplexStream( std::complex<float> *array,const long long npts){
 	long long nptsT=npts*8;
 	long long ierr=sreed_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
@@ -241,7 +241,7 @@ void sepRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<i
 }
 
 void sepRegFile::readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-	const std::vector<int>& jw,  float _Complex *array){
+	const std::vector<int>& jw,  std::complex<float> *array){
 	std::shared_ptr<hypercube> hyper=getHyper();
 	setDataType(dataComplex);
 
@@ -262,7 +262,7 @@ void sepRegFile::readComplexWindow(const std::vector<int> &nw, const std::vector
 
 }
 
-void sepRegFile::writeComplexStream( const float _Complex *array,const long long npts){
+void sepRegFile::writeComplexStream( const std::complex<float> *array,const long long npts){
 	long long nptsT=npts*8;
 	long long ierr=srite_big(_tag.c_str(),(void*)array,(int)nptsT);
 	if(ierr!=nptsT)
@@ -272,7 +272,7 @@ void sepRegFile::writeComplexStream( const float _Complex *array,const long long
 }
 
 void sepRegFile::writeComplexWindow(const std::vector<int> &nw, const std::vector<int>& fw,
-	const std::vector<int> &jw, float _Complex *array){
+	const std::vector<int> &jw, std::complex<float> *array){
 	setDataType(dataComplex);
 
 	std::shared_ptr<hypercube> hyper=getHyper();

@@ -67,20 +67,20 @@ virtual std::vector<float> getFloats(const std::string arg,int num) const;
 virtual std::vector<float> getFloats(const std::string arg,std::vector<float> &defs) const;
 
 virtual void error(const std::string err) const;
-virtual void readComplexStream(float _Complex*array,const long long npts);
+virtual void readComplexStream(std::complex<float> *array,const long long npts);
 virtual void readFloatStream(float *array,const long long npts);
 virtual void readUCharStream(unsigned char *array,const long long npts);
-virtual void writeComplexStream( const float _Complex *array,const long long npts);
+virtual void writeComplexStream( const std::complex<float> *array,const long long npts);
 
 virtual void writeFloatStream( const float *array,const long long npts);
 virtual void readUCharWindow(const std::vector<int>& nw, const std::vector<int>& fw,
 	const std::vector<int>& jw,  unsigned char *array);
 
 virtual void readComplexWindow(const std::vector<int>& nw, const std::vector<int> &fw,
-	const std::vector<int> &jw,  float _Complex  *array);
+	const std::vector<int> &jw,  std::complex<float>  *array);
 
 virtual void writeComplexWindow(const std::vector<int>& nw, const std::vector<int>& fw,
-	const std::vector<int>& jw,  float _Complex *array);
+	const std::vector<int>& jw,  std::complex<float> *array);
 
 virtual void readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
 	const std::vector<int>& jw,  float *array);

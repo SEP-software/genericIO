@@ -26,6 +26,21 @@ class genericIO {
   virtual std::shared_ptr<SEP::genericRegFile> getRegFileTag(
       const std::string &tag, const std::string &name,
       const SEP::usage_code usage) = 0;
+  virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
+      const std::string &name, const std::string usage) {
+
+   SEP::usage_code code;
+   if(usage==std::string("UsageIn")) code=usageIn;
+   else if(usage==std::string("UsageInOut")) code=usageInOut;
+   else if (usage==std::string("UsageOut")) code=usageOut;
+   else if(usage==std::string("usageScr")) code=usageScr;
+   else
+      _param->error(std::string("Unknown code ")+usage);
+    return getRegFile(name,code);
+
+  }
+
+
   virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
       const std::string &tag, const std::string &name,
       const SEP::usage_code usage) = 0;

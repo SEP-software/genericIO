@@ -250,7 +250,7 @@ void basicIO::swap_float_bytes(int n, float *buf) {
      }
    */
   int *buf2 = (int *)buf;
-  register int fconv, fmant, i, t;
+   int fconv, fmant, i, t;
   int myendian = 0;
   for (i = 0; i < n; ++i) {
     fconv = buf2[i];
@@ -318,7 +318,7 @@ void myFileIO::readStream(const long long sz, void *data) {
   int *d3 = (int *)data;
   long long sz2 = fread(data, 1, sz, _myf);
   if (sz != sz2) {
-    fprintf(stderr, "tried to read %d bytes, read %d \n", sz2, sz);
+    fprintf(stderr, "tried to read %lld bytes, read %lld \n", sz2, sz);
   }
   assert(sz == sz2);
   if (_swapData) swap_float_bytes(sz / 4, d2);

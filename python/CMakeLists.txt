@@ -1,0 +1,39 @@
+project(Generic-IO)
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
+
+
+
+# This is a CMake example for Python
+
+FIND_PACKAGE(SWIG REQUIRED)
+if(SWIG_FOUND)
+MESSAGE("found SWIG building python interface")
+INCLUDE(${SWIG_USE_FILE})
+
+FIND_PACKAGE(PythonLibs)
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
+INCLUDE_DIRECTORIES(${GENERIC_EXPORT_INC_DIRS})
+
+SET(CMAKE_SWIG_FLAGS "")
+
+SET_SOURCE_FILES_PROPERTIES(genericIO.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_MODULE(genericIO python genericIO.i ../cpp/genericIO.cpp)
+SWIG_LINK_LIBRARIES(genericIO hypercube ${PYTHON_LIBRARIES})
+
+SET_SOURCE_FILES_PROPERTIES(genericFile.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_MODULE(genericFile python genericFile.i ../cpp/genericFile.cpp)
+SWIG_LINK_LIBRARIES(genericFile hypercube  ${PYTHON_LIBRARIES})
+
+SET_SOURCE_FILES_PROPERTIES(ioModes.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_MODULE(ioModes python ioModes.i ../cpp/ioModes.cpp)
+  MESSAGE("INSTALLING WITH RSF")
+
+SWIG_LINK_LIBRARIES(ioModes genericCpp hypercube ${GENERIC_EXPORT_LIBS} ${PYTHON_LIBRARIES})
+
+else(SWIG_FOUND)
+MESSAGE("Did not find SWIG, not building python interface")
+endif(SWIG_FOUND)

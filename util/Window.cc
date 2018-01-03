@@ -19,7 +19,7 @@ std::shared_ptr<hypercube> calc_params(std::shared_ptr<paramObj> par,
     if(jw[idim] ==-1) jw[idim]=1;
     if(nw[idim] ==-1) {
       if(fw[idim]==-1){
-        fw[idim]==0;
+        fw[idim]=0;
       }
       nw[idim]=(ng[idim]-1-fw[idim])/jw[idim]+1;
     }

@@ -78,12 +78,12 @@ class genericRegFile : public paramObj {
       ;
     }
   }
-  virtual void readComplexStream(float _Complex *array, const long long npts) {
+  virtual void readComplexStream(std::complex<float> *array, const long long npts) {
     if (npts == 0 && array == 0) {
       ;
     }
   }
-  virtual void writeComplexStream(const float _Complex *array,
+  virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) {
     if (npts == 0 && array == 0) {
       ;
@@ -92,7 +92,7 @@ class genericRegFile : public paramObj {
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> jw,
-                                 float _Complex *array) {
+                                 std::complex<float> *array) {
     if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
       ;
     }
@@ -100,7 +100,7 @@ class genericRegFile : public paramObj {
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
-                                  const float _Complex *array) {
+                                  const std::complex<float> *array) {
     if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
       ;
     }

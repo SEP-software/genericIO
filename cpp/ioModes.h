@@ -2,11 +2,25 @@
 #define IOMODES 1
 #include "genericIO.h"
 #include "jsonGenericIO.h"
+#include <string.h>
 #include<mutex>
 namespace SEP{
 class ioModes{
   public:
     ioModes(){;}
+    ioModes(std::vector<std::string> args){
+      char **argv=new char*[args.size()];
+      for(auto i=0; i < args.size(); i++){
+        argv[i]=new char[args[i].size()+1];
+        strcpy(argv[i],args[i].c_str());
+      }
+      setup(args.size(),argv);
+      for(auto i=0; i < args.size(); i++){
+        delete [] argv[i];
+      }
+      delete [] argv;
+
+    }
     ioModes(const int argc, char **argv){ setup(argc,argv);}
     void setup(const int argc, char**argv);
    std::shared_ptr<genericIO> getDefaultIO();

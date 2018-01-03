@@ -569,34 +569,37 @@ void toChar1D(const std::vector<std::string> in,const  int nargs, std::vector<in
 
 }
 
-void readComplexStream(const char *ioName, const char *tag,const  long long npts, float  _Complex *array){
+void readComplexStream(const char *ioName, const char *tag,const  long long npts, std::complex<float> *array){
     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
             
+          std::complex<float> *ar2 =(std::complex<float> *)array;
 
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->readComplexStream(array,npts);
+      par->readComplexStream(ar2,npts);
       par->setDataType(dataComplex);
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->readComplexStream(array,npts);
+      par->readComplexStream(ar2,npts);
         par->setDataType(dataComplex);
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 }
-void writeComplexStream(const char *ioName, const char *tag,const  long long npts, const float  _Complex *array){
+void writeComplexStream(const char *ioName, const char *tag,const  long long npts, const std::complex<float>*array){
     std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
+          std::complex<float> *ar2 =(std::complex<float> *)array;
+
     if(io->regFileExists(std::string(tag))){
            
 
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->writeComplexStream(array,npts);
+      par->writeComplexStream(ar2,npts);
       par->setDataType(dataComplex);
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->writeComplexStream(array,npts);
+      par->writeComplexStream(ar2,npts);
       par->setDataType(dataComplex);
   }
   else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
@@ -604,36 +607,38 @@ void writeComplexStream(const char *ioName, const char *tag,const  long long npt
 void readComplexWindow(const char *ioName, const char *tag,const  int ndim,const  int *nw,const  int *fw, const int *jw, float  _Complex *ar){
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim);
   std::vector<int>  j_w(jw,jw+ndim);
+      std::complex<float> *ar2 =(std::complex<float> *)ar;
 
      std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->readComplexWindow(n_w,f_w,j_w,ar);
+      par->readComplexWindow(n_w,f_w,j_w,ar2);
       par->setDataType(dataComplex);
 
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->readComplexWindow(n_w,f_w,j_w,ar); 
+      par->readComplexWindow(n_w,f_w,j_w,ar2); 
             par->setDataType(dataComplex);
   
    }
    else io->getParamObj()->error(std::string(tag)+std::string(" has not been initialized"));
 
 }
-void writeComplexWindow(const char *ioName, const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const float _Complex *ar){
+void writeComplexWindow(const char *ioName, const char *tag, const int ndim,const  int *nw,const  int *fw, const int *jw, const std::complex<float> *ar){
   std::vector<int> n_w(nw,nw+ndim),f_w(fw,fw+ndim), j_w(jw,jw+ndim);
+      std::complex<float> *ar2 =(std::complex<float> *)ar;
 
      std::shared_ptr<genericIO> io=ioModesFortran::getInstance()->getIOModes()->getIO(std::string(ioName));
     if(io->regFileExists(std::string(tag))){
       std::shared_ptr<genericRegFile> par=io->getRegFile(std::string(tag));
-      par->writeComplexWindow(n_w,f_w,j_w,ar);
+      par->writeComplexWindow(n_w,f_w,j_w,ar2);
             par->setDataType(dataComplex);
 
    }
     else if(io->irregFileExists(std::string(tag))){
       std::shared_ptr<genericIrregFile> par=io->getIrregFile(std::string(tag));
-      par->writeComplexWindow(n_w,f_w,j_w,ar);   
+      par->writeComplexWindow(n_w,f_w,j_w,ar2);   
             par->setDataType(dataComplex);
 
    }

@@ -10,25 +10,29 @@ sepParam::sepParam(const int argc,  char **argv) {
 
 int sepParam::getInt(const std::string &arg)const {
     int x;
-    if(0==getch(arg.c_str(),"d",&x))
+  char fmt[3]; strcpy(fmt,"d");
+    if(0==getch(arg.c_str(),fmt,&x))
       error(std::string("1trouble grabbing parameter ")+arg+std::string(" from parameters"));
     return x;
 }
 int sepParam::getInt(const std::string &arg, const int def)const {
    int x=def;
-   int i=getch(arg.c_str(),"d",&x);
+  char fmt[3]; strcpy(fmt,"d");
+   int i=getch(arg.c_str(),fmt,&x);
    return x;
 }
    
 float sepParam::getFloat(const std::string & arg, const float def)const {
   float x=def;
-  int i=getch(arg.c_str(),"f",&x);
+  char fmt[3]; strcpy(fmt,"s");
+  int i=getch(arg.c_str(),fmt,&x);
   return x;
 
 }
 float sepParam::getFloat(const std::string  &arg)const {
   float x;
-  if(0==getch(arg.c_str(),"f",&x))
+  char fmt[3]; strcpy(fmt,"s");
+  if(0==getch(arg.c_str(),fmt,&x))
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return x;
 }
@@ -40,7 +44,8 @@ void sepParam::message(const std::string& arg)const{
 
 std::string sepParam::getString(const std::string & arg)const {
   char buf[10000];
-  if(0==getch(arg.c_str(),"s",buf))
+  char fmt[3]; strcpy(fmt,"s");
+  if(0==getch(arg.c_str(),fmt,buf))
       error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   return std::string(buf);
 
@@ -51,7 +56,8 @@ std::string sepParam::getString(const std::string &arg, const std::string &def)c
   char buf[10000];
   strcpy(buf,def.c_str());
  // std::copy(def.begin(), def.end(), buf);
-  int i=getch(arg.c_str(),"s",buf);
+  char fmt[3]; strcpy(fmt,"s");
+  int i=getch(arg.c_str(),fmt,buf);
 
   return std::string(buf);
 
@@ -59,13 +65,16 @@ std::string sepParam::getString(const std::string &arg, const std::string &def)c
  
 bool sepParam::getBool(const std::string &arg,  bool def)const {
   bool x=def;
-  int i=getch(arg.c_str(),"l",&x);
+  char fmt[3]; strcpy(fmt,"l");
+  int i=getch(arg.c_str(),fmt,&x);
   return x;
 
 }
 bool sepParam::getBool(const std::string &arg)const {
  bool x;
-  if(0==getch(arg.c_str(),"l",&x)){
+
+  char fmt[3]; strcpy(fmt,"l");
+  if(0==getch(arg.c_str(),fmt,&x)){
     error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   }
   return x;
@@ -75,7 +84,8 @@ bool sepParam::getBool(const std::string &arg)const {
    
 std::vector<int> sepParam::getInts(const std::string &arg,const int nvals )const {
   int tmp[10000];
-  int ierr=getch(arg.c_str(),"d",tmp);
+  char fmt[3]; strcpy(fmt,"d");
+  int ierr=getch(arg.c_str(),fmt,tmp);
   if(ierr==0) 
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   std::vector<int> x;
@@ -87,7 +97,8 @@ std::vector<int> sepParam::getInts(const std::string &arg,std::vector<int>& defs
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
   }
-  int ierr=getch(arg.c_str(),"d",tmp);
+  char fmt[3]; strcpy(fmt,"d");
+  int ierr=getch(arg.c_str(),fmt,tmp);
  
   std::vector<int> x;
   if(ierr>0){  
@@ -101,7 +112,8 @@ std::vector<int> sepParam::getInts(const std::string &arg,std::vector<int>& defs
      
 std::vector<float> sepParam::getFloats(const std::string &arg,const int nvals)const {
   float tmp[10000];
-  int ierr=getch(arg.c_str(),"f",tmp);
+  char fmt[3]; strcpy(fmt,"f");
+  int ierr=getch(arg.c_str(),fmt,tmp);
   if(ierr==0) 
      error(std::string("trouble grabbing parameter ")+arg+std::string(" from parameters"));
   std::vector<float> x;
@@ -116,7 +128,8 @@ std::vector<float> sepParam::getFloats(const std::string  &arg,std::vector<float
   for(int i=0; i < defs.size(); i++){
     tmp[i]=defs[i];
   }
-  int ierr=getch(arg.c_str(),"f",tmp);
+  char fmt[3]; strcpy(fmt,"f");
+  int ierr=getch(arg.c_str(),fmt,tmp);
   std::vector<float> x;
   if(ierr>0){  
     for(int i=0; i < ierr; i++) x.push_back(tmp[i]);

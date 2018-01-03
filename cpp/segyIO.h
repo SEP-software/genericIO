@@ -9,7 +9,7 @@ class segyIO:public jsonGenericIO{
     virtual std::shared_ptr<genericIrregFile> getIrregFileTag(const std::string &tag,const std::string &name, const usage_code usage){
        assert(1==2);
     }
-  
+    ~segyIO(){;}
 
 
 

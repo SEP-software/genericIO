@@ -208,7 +208,7 @@ void rsfRegFile::readUCharStream( unsigned char *array,const long long npts){
 	}
 
 }
-void rsfRegFile::readComplexStream( float _Complex *array,const long long npts){
+void rsfRegFile::readComplexStream( std::complex<float> *array,const long long npts){
 	long long maxsize=10000000;
 	long long nread=0;
 	long long nptsT=npts*8;
@@ -222,7 +222,7 @@ void rsfRegFile::readComplexStream( float _Complex *array,const long long npts){
 	}
 
 }
-void rsfRegFile::writeComplexStream( const float _Complex *array,const long long npts){
+void rsfRegFile::writeComplexStream( const std::complex<float> *array,const long long npts){
 	long long maxsize=10000000;
 	long long nwrite=0;
 	long long nptsT=npts*8;
@@ -271,7 +271,7 @@ void rsfRegFile::readFloatWindow(const std::vector<int>& nw, const std::vector<i
 
 }
 void rsfRegFile::readComplexWindow(const std::vector<int>& nw, const std::vector<int>& fw,
-	const std::vector<int>& jw,  float _Complex *array){
+	const std::vector<int>& jw,  std::complex<float> *array){
 	std::shared_ptr< hypercube>hyper=getHyper();
 	std::vector<int> ng=hyper->returnNs();
 	setDataType(dataComplex);
@@ -294,7 +294,7 @@ void rsfRegFile::readComplexWindow(const std::vector<int>& nw, const std::vector
 
 }
 void rsfRegFile::writeComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-	const std::vector<int>& jw, float _Complex *array){
+	const std::vector<int>& jw, std::complex<float> *array){
 	setDataType(dataComplex);
 
 	std::shared_ptr<hypercube>hyper=getHyper();

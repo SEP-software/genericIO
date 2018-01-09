@@ -19,18 +19,20 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
 INCLUDE_DIRECTORIES(${GENERIC_EXPORT_INC_DIRS})
 
 SET(CMAKE_SWIG_FLAGS "")
+SET_SOURCE_FILES_PROPERTIES(ioModes.i PROPERTIES CPLUSPLUS ON)
+SET_SOURCE_FILES_PROPERTIES(genericFile.i PROPERTIES CPLUSPLUS ON)
 
 SET_SOURCE_FILES_PROPERTIES(genericIO.i PROPERTIES CPLUSPLUS ON)
 SWIG_ADD_MODULE(genericFile_int   python  genericFile.i ../cpp/genericFile.cpp)
 SWIG_ADD_MODULE(genericIO_int   python  genericIO.i ../cpp/genericIO.cpp)
 SWIG_ADD_MODULE(ioModes_int   python  ioModes.i ../cpp/ioModes.cpp)
+
 #SWIG_ADD_LIBRARY(genericIO_int LANGUAGE python TYPE MODULE SOURCES genericIO.i ../cpp/genericIO.cpp)
 #SWIG_ADD_LIBRARY(genericFile_int LANGUAGE python TYPE MODULE SOURCES genericFile.i ../cpp/genericFile.cpp)
 #SWIG_ADD_LIBRARY(ioModes_int LANGUAGE python TYPE MODULE SOURCES ioModes.i ../cpp/ioModes.cpp)
 
 SWIG_LINK_LIBRARIES(genericIO_int hypercube ${PYTHON_LIBRARIES})
 
-SET_SOURCE_FILES_PROPERTIES(genericFile.i PROPERTIES CPLUSPLUS ON)
 
 
 
@@ -38,7 +40,6 @@ SWIG_LINK_LIBRARIES(ioModes_int genericCpp hypercube ${GENERIC_EXPORT_LIBS} ${PY
 
 SWIG_LINK_LIBRARIES(genericFile_int hypercube  ${PYTHON_LIBRARIES})
 
-SET_SOURCE_FILES_PROPERTIES(ioModes.i PROPERTIES CPLUSPLUS ON)
 
 
 install( TARGETS _ioModes_int _genericFile_int _genericIO_int DESTINATION lib)

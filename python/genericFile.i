@@ -1,4 +1,4 @@
-%module genericFile
+%module genericFile_int
 %{ 
     #define SWIG_FILE_WITH_INIT
 #include <complex.h>

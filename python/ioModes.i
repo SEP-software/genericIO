@@ -1,4 +1,4 @@
-%module ioModes
+%module ioModes_int
 %{ 
     #define SWIG_FILE_WITH_INIT
     #include "ioModes.h"

@@ -18,6 +18,7 @@ set(genericIO_VERSION_STRING
 include_directories("${PROJECT_BINARY_DIR}")
 
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpic")
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
 CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
@@ -129,5 +130,6 @@ if(BUILD_FORTRAN)
 endif(BUILD_FORTRAN)
 add_subdirectory(python)
 add_subdirectory(util)
+add_subdirectory(env-modules)
 
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)

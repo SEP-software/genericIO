@@ -1,7 +1,7 @@
 From debian:latest
 MAINTAINER Bob Clapp <bob@sep.stanford.edu>
 RUN apt-get -y update &&\
-    apt-get -y  install  libboost-all-dev  libboost-dev g++ git make cmake gcc &&\
+    apt-get -y  install python-dev swig  libboost-all-dev  libboost-dev g++ git make cmake gcc &&\
   apt-get -y clean
 RUN git clone http://zapad.Stanford.EDU/bob/hypercube.git   /opt/hypercube/src && \
     mkdir /opt/hypercube/build && \
@@ -9,6 +9,12 @@ RUN git clone http://zapad.Stanford.EDU/bob/hypercube.git   /opt/hypercube/src &
     cmake -DCMAKE_INSTALL_PREFIX=/opt/hypercube ../src &&\
     make install &&\
     rm -rf /opt/hypercube/build
+RUN git clone http://zapad.Stanford.EDU/bob/sepVector.git   /opt/sepVector/src && \
+    mkdir /opt/sepVector/build && \
+    cd /opt/sepVector/build &&\
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/sepVector ../src &&\
+    make install &&\
+    rm -rf /opt/sepVector/build
 RUN git clone https://github.com/LLNL/zfp /opt/zfp/src &&\
  mkdir -p /opt/zfp/build  &&\
   cd /opt/zfp/build  && \
@@ -19,6 +25,6 @@ ENV ZFP_BASE /opt/zfp
 RUN git clone http://zapad.Stanford.EDU/bob/genericIO.git /opt/genericIO/src && \
     mkdir /opt/genericIO/build &&\
     cd /opt/genericIO/build &&\
-    cmake  -Dhypercube_DIR=/opt/hypercube/lib  -DCMAKE_INSTALL_PREFIX=/opt/genericIO ../src &&\
+    cmake  -Dhypercube_DIR=/opt/hypercube/lib -DsepVector_DIR=/opt/sepVector/lib  -DCMAKE_INSTALL_PREFIX=/opt/genericIO ../src &&\
     make install 
 

@@ -12,7 +12,7 @@ RUN git clone http://zapad.Stanford.EDU/bob/hypercube.git   /opt/hypercube/src &
 RUN git clone http://zapad.Stanford.EDU/bob/sepVector.git   /opt/sepVector/src && \
     mkdir /opt/sepVector/build && \
     cd /opt/sepVector/build &&\
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/sepVector ../src &&\
+    cmake  -Dhypercube_DIR=/opt/hypercube/lib -DCMAKE_INSTALL_PREFIX=/opt/sepVector ../src &&\
     make install &&\
     rm -rf /opt/sepVector/build
 RUN git clone https://github.com/LLNL/zfp /opt/zfp/src &&\

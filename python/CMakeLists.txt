@@ -42,8 +42,8 @@ SWIG_LINK_LIBRARIES(genericFile_int hypercube  ${PYTHON_LIBRARIES})
 
 
 
-install( TARGETS _ioModes_int _genericFile_int _genericIO_int DESTINATION lib)
-install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/__init__.py ${CMAKE_CURRENT_BINARY_DIR}/ioModes_int.py  ${CMAKE_CURRENT_BINARY_DIR}/genericFile_int.py  ${CMAKE_CURRENT_BINARY_DIR}/genericIO_int.py DESTINATION lib/python/SEP)
+install( TARGETS _ioModes_int _genericFile_int _genericIO_int DESTINATION lib/python)
+install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/ioModes_int.py  ${CMAKE_CURRENT_BINARY_DIR}/genericFile_int.py  ${CMAKE_CURRENT_BINARY_DIR}/genericIO_int.py DESTINATION lib/python)
 
 
 

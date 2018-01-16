@@ -128,7 +128,7 @@ if(BUILD_FORTRAN)
   enable_language(FORTRAN)
   add_subdirectory(fortran)
 endif(BUILD_FORTRAN)
-add_subdirectory(python)
+#add_subdirectory(python)
 add_subdirectory(util)
 add_subdirectory(env-modules)
 

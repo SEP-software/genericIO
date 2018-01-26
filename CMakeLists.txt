@@ -36,6 +36,7 @@ INCLUDE_DIRECTORIES(${hypercube_DIRNAME_include})
 
 
 FIND_PACKAGE(SEPlib NO_MODULE)
+FIND_PACKAGE(SEPVector NO_MODULE)
 
 #find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.1/include /opt/SEP/include /opt/SEP/SEP8.1/include)
 #find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
@@ -43,6 +44,21 @@ FIND_PACKAGE(SEPlib NO_MODULE)
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include )
 
 
+if (SEPVector_FOUND)
+MESSAGE("Installing with SEP VECTOR")
+  set(USE_SEPVECTOR true)
+  include_directories(${sepVector_DIRNAME_include})
+  set(GENERIC_EXPORT_LIBS "sepVector;${GENERIC_EXPORT_LIBS}")
+  if(DEFINED GENERIC_EXPORT_INC_DIRS)
+    set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${sepVector_DIRNAME_include}")
+    set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${sepVector_DIRNAME_lib}")
+   else()
+     set(GENERIC_EXPORT_INC_DIRS "${sepVector_DIRNAME_include}")
+     set(GENERIC_EXPORT_LIB_DIRS "${sepVector_DIRNAME_lib}")
+   endif()
+else(SEPVector_FOUND)
+MESSAGE("Not installing with SEP VECTOR additions")
+endif(SEPVector_FOUND)
 
 if (RSFINCDIR)
   MESSAGE("INSTALLING WITH RSF")
@@ -60,12 +76,15 @@ else()
   MESSAGE("NOT INSTALLING WITH RSF")
 endif()
 
+
+
+
 #!if (SEPINCDIR AND LIBSEP AND LIBSEP3D)
 
 if (SEPlib_FOUND)
   MESSAGE("INSTALLING WITH SEPlib")
   set(USE_SEP true)
-  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};sep3d;sep ")
+  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};sep3d;sep")
   if(DEFINED GENERIC_EXPORT_INC_DIRS)
     set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${SEPlib_DIRNAME_include}")
     set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${SEPlib_DIRNAME_lib}")
@@ -76,6 +95,18 @@ if (SEPlib_FOUND)
 else()
   MESSAGE("NOT INSTALLING WITH SEPlib")
 endif()
+
+  set(USE_SEP true)
+  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};hypercube ")
+  if(DEFINED GENERIC_EXPORT_INC_DIRS)
+  MESSAGE("HYPERCUBE DIRNAME "${GENERIC_EXPORT_LIBS})
+    set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${hypercube_DIRNAME_include}")
+    set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${hpercube_DIRNAME_lib}")
+   else()
+     set(GENERIC_EXPORT_INC_DIRS "${hypercube_DIRNAME_include}")
+     set(GENERIC_EXPORT_LIB_DIRS "${hpercube_DIRNAME_lib}")
+   endif()
+
 
 string(STRIP "${GENERIC_EXPORT_LIBS}" GENERIC_EXPORT_LIBS)
 if(USE_SEP)
@@ -128,7 +159,7 @@ if(BUILD_FORTRAN)
   enable_language(FORTRAN)
   add_subdirectory(fortran)
 endif(BUILD_FORTRAN)
-#add_subdirectory(python)
+add_subdirectory(python)
 add_subdirectory(util)
 add_subdirectory(env-modules)
 

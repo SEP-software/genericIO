@@ -21,7 +21,8 @@ std::shared_ptr<SEP::genericIrregFile> genericIO::getIrregFile(
 
   return getIrregFileTag(name, filename, usage);
 }
-void genericIO::fileDebug(const std::string nm, const float* data, const int n1, const int n2, const int n3) {
+void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
+                          const int n2, const int n3) {
   std::vector<SEP::axis> axs;
   axs.push_back(SEP::axis(n1));
   axs.push_back(SEP::axis(n2));
@@ -31,7 +32,7 @@ void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
   std::shared_ptr<SEP::genericRegFile> fle = getRegFile(nm, SEP::usageOut);
   fle->setHyper(hyper2);
   fle->writeDescription();
-  fle->writeFloatStream(data, (long long)n1 * (long long)n2* (long long) n3);
+  fle->writeFloatStream(data, (long long)n1 * (long long)n2 * (long long)n3);
 }
 void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
                           const int n2) {

@@ -52,3 +52,64 @@ int genericRegFile::getDataEsize() {
       return -1;
   }
 }
+#ifdef USE_SEPVECTOR
+bool genericRegFile::readFloatStream(std::shared_ptr<giee::floatHyper> vec) {
+  std::shared_ptr<hypercube> hypV = vec->getHyper();
+  if (vec->getSpaceOnly()) {
+    std::cerr << "Trying to read in to a vector that has not been allocated"
+              << std::endl;
+    return false;
+  }
+  long long n123 = hypV->getN123();
+  if (n123 > getHyper()->getN123()) {
+    std::cerr << "Trying to read beyond specified file size" << std::endl;
+    return false;
+  }
+
+  readFloatStream(vec->getVals(), n123);
+  return true;
+}
+bool genericRegFile::writeFloatStream(
+    const std::shared_ptr<giee::floatHyper> vec) {
+  std::shared_ptr<hypercube> hypV = vec->getHyper();
+  if (vec->getSpaceOnly()) {
+    std::cerr << "Trying to read in to a vector that has not been allocated"
+              << std::endl;
+    return false;
+  }
+  long long n123 = hypV->getN123();
+  if (n123 > getHyper()->getN123()) {
+    std::cerr << "Trying to read beyond specified file size" << std::endl;
+    return false;
+  }
+  writeFloatStream(vec->getVals(), n123);
+  return true;
+}
+bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
+                                     const std::vector<int> &fw,
+                                     const std::vector<int> &jw,
+                                     std::shared_ptr<giee::floatHyper> vec) {
+  std::shared_ptr<hypercube> hypV = vec->getHyper();
+  if (vec->getSpaceOnly()) {
+    std::cerr << "Trying to read in to a vector that has not been allocated"
+              << std::endl;
+    return false;
+  }
+  readFloatWindow(nw, fw, jw, vec->getVals());
+  return true;
+}
+bool genericRegFile::writeFloatWindow(const std::vector<int> &nw,
+                                      const std::vector<int> &fw,
+                                      const std::vector<int> &jw,
+                                      std::shared_ptr<giee::floatHyper> vec) {
+  std::shared_ptr<hypercube> hypV = vec->getHyper();
+  if (vec->getSpaceOnly()) {
+    std::cerr << "Trying to read in to a vector that has not been allocated"
+              << std::endl;
+    return false;
+  }
+  writeFloatWindow(nw, fw, jw, vec->getVals());
+  return true;
+}
+
+#endif

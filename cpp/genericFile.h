@@ -5,7 +5,11 @@
 #include <memory>
 #include <vector>
 #include "hypercube.h"
+#include "ioConfig.h"
 #include "paramObj.h"
+#ifdef USE_SEPVECTOR
+#include "floatHyper.h"
+#endif
 
 namespace SEP {
 enum usage_code { usageIn, usageOut, usageInOut, usageScr };
@@ -28,7 +32,7 @@ class genericRegFile : public paramObj {
       ;
     }
   }
-  virtual void putString(const std::string &par, const std::string val) {
+  virtual void putString(const std::string &par, const std::string &val) {
     if (par == "" && val == "") {
       ;
     }
@@ -38,16 +42,28 @@ class genericRegFile : public paramObj {
       ;
     }
   }
-  virtual void putInts(const std::string &par, const std::vector<int> val) {
+  virtual void putInts(const std::string &par, const std::vector<int> &val) {
     if (par == "" && val[0] == 0) {
       ;
     }
   }
-  virtual void putFloats(const std::string &par, const std::vector<float> val) {
+  virtual void putFloats(const std::string &par,
+                         const std::vector<float> &val) {
     if (par == "" && val[0] == 0) {
       ;
     }
   }
+#ifdef USE_SEPVECTOR
+  bool readFloatStream(std::shared_ptr<giee::floatHyper> hyp);
+  bool writeFloatStream(const std::shared_ptr<giee::floatHyper> hyp);
+  bool readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                       const std::vector<int> &jw,
+                       std::shared_ptr<giee::floatHyper> hyp);
+  bool writeFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                        const std::vector<int> &jw,
+                        std::shared_ptr<giee::floatHyper> hyp);
+
+#endif
   virtual void readUCharStream(unsigned char *array, const long long npts) {
     if (npts == 0 && array == 0) {
       ;
@@ -78,7 +94,8 @@ class genericRegFile : public paramObj {
       ;
     }
   }
-  virtual void readComplexStream(std::complex<float> *array, const long long npts) {
+  virtual void readComplexStream(std::complex<float> *array,
+                                 const long long npts) {
     if (npts == 0 && array == 0) {
       ;
     }
@@ -127,7 +144,7 @@ class genericRegFile : public paramObj {
   void setHyper(std::shared_ptr<SEP::hypercube> hyp) { _hyper = hyp; }
   dataType getDataType() { return _type; }
   int getDataEsize();
-  void setDataType(dataType typ) { _type = typ; }
+  void setDataType(const dataType typ) { _type = typ; }
   std::string getDataTypeString();
   const std::shared_ptr<SEP::hypercube> getHyper() {
     if (!_hyper) error(std::string("Hypercube has not been setup"));
@@ -167,6 +184,6 @@ class genericIrregFile : public genericRegFile {
     return a;
   }
 };
-}
+}  // namespace SEP
 
 #endif

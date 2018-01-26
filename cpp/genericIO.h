@@ -9,10 +9,7 @@ namespace SEP {
 /** Abstract Class for different types IO*/
 class genericIO {
  public:
-  genericIO() {
-    _type = "NONE";
-    ;
-  }
+  genericIO() { _type = "NONE"; }
 
   /**
      @brief Return genericRegFile object for this IO (abstract)
@@ -28,18 +25,20 @@ class genericIO {
       const SEP::usage_code usage) = 0;
   virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
       const std::string &name, const std::string usage) {
-
-   SEP::usage_code code;
-   if(usage==std::string("UsageIn")) code=usageIn;
-   else if(usage==std::string("UsageInOut")) code=usageInOut;
-   else if (usage==std::string("UsageOut")) code=usageOut;
-   else if(usage==std::string("usageScr")) code=usageScr;
-   else
-      _param->error(std::string("Unknown code ")+usage);
-    return getRegFile(name,code);
-
+    SEP::usage_code code;
+    if (usage == std::string("UsageIn")) {
+      code = usageIn;
+    } else if (usage == std::string("UsageInOut"))
+      code = usageInOut;
+    else if (usage == std::string("UsageOut"))
+      code = usageOut;
+    else if (usage == std::string("UsageScr"))
+      code = usageScr;
+    else {
+      _param->error(std::string("Unknown code ") + usage);
+    }
+    return getRegFile(name, code);
   }
-
 
   virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
       const std::string &tag, const std::string &name,
@@ -67,7 +66,7 @@ class genericIO {
   void fileDebug(const std::string, const float *data, const int n1,
                  const int n2);
   void fileDebug(const std::string, const float *data, const int n1,
-                 const int n2,const int n3);
+                 const int n2, const int n3);
 
   std::shared_ptr<genericIrregFile> getIrregFile(const std::string x) {
     if (_irregFiles.count(x) == 0)
@@ -88,6 +87,6 @@ class genericIO {
   std::map<std::string, std::shared_ptr<genericIrregFile> > _irregFiles;
   std::shared_ptr<paramObj> _param;
   bool _valid;
-};
-}
+};  // namespace SEP
+}  // namespace SEP
 #endif

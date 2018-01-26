@@ -5,12 +5,16 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 
 # This is a CMake example for Python
+find_package(pybind11)  
+if (pybind11_FOUND)
 
-FIND_PACKAGE(SWIG REQUIRED)
-if(SWIG_FOUND)
-MESSAGE("found SWIG building python interface")
-INCLUDE(${SWIG_USE_FILE})
+include_directories(${PYTHON_INCLUDE_DIR})
+include_directories(${pybind11_INCLUDE_DIR})
+INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../cpp")
 
+
+MESSAGE("found pybind11 building python interface")
 FIND_PACKAGE(PythonLibs)
 INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
 
@@ -18,36 +22,18 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
 INCLUDE_DIRECTORIES(${GENERIC_EXPORT_INC_DIRS})
 
-SET(CMAKE_SWIG_FLAGS "")
-SET_SOURCE_FILES_PROPERTIES(ioModes.i PROPERTIES CPLUSPLUS ON)
-SET_SOURCE_FILES_PROPERTIES(genericFile.i PROPERTIES CPLUSPLUS ON)
 
-SET_SOURCE_FILES_PROPERTIES(genericIO.i PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_MODULE(genericFile_int   python  genericFile.i ../cpp/genericFile.cpp)
-SWIG_ADD_MODULE(genericIO_int   python  genericIO.i ../cpp/genericIO.cpp)
-SWIG_ADD_MODULE(ioModes_int   python  ioModes.i ../cpp/ioModes.cpp)
+set(JUNK genericCpp hypercube ${GENERIC_EXPORT_LIBS})
 
-#SWIG_ADD_LIBRARY(genericIO_int LANGUAGE python TYPE MODULE SOURCES genericIO.i ../cpp/genericIO.cpp)
-#SWIG_ADD_LIBRARY(genericFile_int LANGUAGE python TYPE MODULE SOURCES genericFile.i ../cpp/genericFile.cpp)
-#SWIG_ADD_LIBRARY(ioModes_int LANGUAGE python TYPE MODULE SOURCES ioModes.i ../cpp/ioModes.cpp)
+MESSAGE(${JUNK})
 
-SWIG_LINK_LIBRARIES(genericIO_int hypercube ${PYTHON_LIBRARIES})
+pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
+target_link_libraries(pyGenericIO PRIVATE  ${JUNK})
 
 
+install( TARGETS pyGenericIO DESTINATION lib/python)
 
 
-SWIG_LINK_LIBRARIES(ioModes_int genericCpp hypercube ${GENERIC_EXPORT_LIBS} ${PYTHON_LIBRARIES})
-
-SWIG_LINK_LIBRARIES(genericFile_int hypercube  ${PYTHON_LIBRARIES})
-
-
-
-install( TARGETS _ioModes_int _genericFile_int _genericIO_int DESTINATION lib/python)
-install( FILES  ${CMAKE_CURRENT_BINARY_DIR}/ioModes_int.py ioModes.py
- ${CMAKE_CURRENT_BINARY_DIR}/genericFile_int.py  ${CMAKE_CURRENT_BINARY_DIR}/genericIO_int.py DESTINATION lib/python)
-
-
-
-else(SWIG_FOUND)
-MESSAGE("Did not find SWIG, not building python interface")
-endif(SWIG_FOUND)
+else(pybind11_FOUND)
+MESSAGE("Did not find pybid11")
+endif(pybind11_FOUND)

@@ -1,3 +1,4 @@
 #cmakedefine USE_SEP
 #cmakedefine USE_RSF
+#cmakedefine USE_SEPVECTOR
 #define DEFAULTIO "@DEFAULTIO@"

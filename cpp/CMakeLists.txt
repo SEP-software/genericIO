@@ -8,6 +8,7 @@ set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h  genericC.h
 set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h json.h ioModes.h segyIO.h)
 
 if(USE_SEP)
+MESSAGE("ADDING SEP STUFF")
 include_directories(${SEPlib_DIRNAME_include})
   set(SOURCES  ${SOURCES} sepIO.cpp  sep3dFile.cpp sep_reg_file.cpp  sep_params.cpp )
   set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)

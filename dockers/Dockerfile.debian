@@ -1,19 +1,27 @@
 From debian:latest
 MAINTAINER Bob Clapp <bob@sep.stanford.edu>
 RUN apt-get -y update &&\
-    apt-get -y  install python-dev swig  libboost-all-dev  libboost-dev g++ git make cmake gcc &&\
+    apt-get -y  install g++ python3-numpy git make gcc libboost-all-dev  libboost-dev &&\
+    apt-get -y install  cmake python3-dev python3-pytest python3-numpy-dbg && \
   apt-get -y clean
+
+RUN git clone https://github.com/pybind/pybind11.git /opt/pybind11/src && \
+  mkdir /opt/pybind11/build &&\
+  cd /opt/pybind11/build && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr ../src  &&\
+  make -j 4 install
+
 RUN git clone http://zapad.Stanford.EDU/bob/hypercube.git   /opt/hypercube/src && \
     mkdir /opt/hypercube/build && \
     cd /opt/hypercube/build &&\
-    cmake -DCMAKE_INSTALL_PREFIX=/opt/hypercube ../src &&\
+    cmake -DCMAKE_INSTALL_PREFIX=/opt/SEP ../src &&\
     make install &&\
     rm -rf /opt/hypercube/build
-RUN git clone http://zapad.Stanford.EDU/bob/sepVector.git   /opt/sepVector/src && \
-    mkdir /opt/sepVector/build && \
+RUN git clone http://zapad.Stanford.EDU/bob/sepVector.git /opt/sepVector/src && \
+    mkdir /opt/sepVector/build &&\
     cd /opt/sepVector/build &&\
-    cmake  -Dhypercube_DIR=/opt/hypercube/lib -DCMAKE_INSTALL_PREFIX=/opt/sepVector ../src &&\
-    make install &&\
+    cmake  -DCMAKE_PREFIX_PATH=/opt/SEP/lib  -DPYTHON_NUMPY_INCLUDE_DIR=/usr/lib/python3/dist-packages/numpy/core/include -DCMAKE_INSTALL_PREFIX=/opt/SEP ../src  &&\
+    make install && \
     rm -rf /opt/sepVector/build
 RUN git clone https://github.com/LLNL/zfp /opt/zfp/src &&\
  mkdir -p /opt/zfp/build  &&\
@@ -25,6 +33,5 @@ ENV ZFP_BASE /opt/zfp
 RUN git clone http://zapad.Stanford.EDU/bob/genericIO.git /opt/genericIO/src && \
     mkdir /opt/genericIO/build &&\
     cd /opt/genericIO/build &&\
-    cmake  -Dhypercube_DIR=/opt/hypercube/lib -DsepVector_DIR=/opt/sepVector/lib  -DCMAKE_INSTALL_PREFIX=/opt/genericIO ../src &&\
-    make install 
-
+    cmake  -DCMAKE_PREFIX_PATH=/opt/SEP/lib  -DCMAKE_INSTALL_PREFIX=/opt/SEP ../src &&\
+    make install

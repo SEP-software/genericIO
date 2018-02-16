@@ -149,14 +149,14 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericRegFile ::*)(const float *, const long long)) &
                genericRegFile::writeFloatStream,
            "Write a stream of floats")
-
+      .def("close", (void (genericRegFile ::*)()) & genericRegFile::close,
+           "Close file")
       .def("readUCharWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
                const std::vector<int>, unsigned char *)) &
                genericRegFile::readUCharWindow,
            "Read a window of unsigned chars")
-
       .def("readFloatWindow",
            (void (genericRegFile ::*)(const std::vector<int> &,
                                       const std::vector<int> &,

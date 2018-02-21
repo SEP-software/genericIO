@@ -194,7 +194,6 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int>, std::complex<float> *)) &
                genericRegFile::readComplexWindow,
            "Read a window of complex")
-
       .def("writeFloatWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,

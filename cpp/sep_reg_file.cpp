@@ -362,6 +362,7 @@ void sepRegFile::readDescription() {
 void sepRegFile::writeDescription() {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
+
   for (int i = 1; i <= axes.size(); i++) {
     int n = axes[i - 1].n;
     float o = axes[i - 1].o;
@@ -369,6 +370,7 @@ void sepRegFile::writeDescription() {
     char label[1024];
     std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
     label[axes[i - 1].label.length()] = '\0';
+sep_put_data_axis_par("z.H",&i,&n,&o,&d,"junl");
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
   for (int i = axes.size() + 1; i <= 8; i++) {

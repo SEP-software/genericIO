@@ -15,10 +15,12 @@ class ioModes {
       strcpy(argv[i], args[i].c_str());
     }
     setup(args.size(), argv);
+    /*
     for (auto i = 0; i < args.size(); i++) {
       delete[] argv[i];
     }
     delete[] argv;
+    */
   }
   ioModes(const int argc, char **argv) { setup(argc, argv); }
   void setup(const int argc, char **argv);

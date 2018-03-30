@@ -53,7 +53,7 @@ int genericRegFile::getDataEsize() {
   }
 }
 #ifdef USE_SEPVECTOR
-bool genericRegFile::readFloatStream(std::shared_ptr<giee::floatHyper> vec) {
+bool genericRegFile::readFloatStream(std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -70,7 +70,7 @@ bool genericRegFile::readFloatStream(std::shared_ptr<giee::floatHyper> vec) {
   return true;
 }
 bool genericRegFile::writeFloatStream(
-    const std::shared_ptr<giee::floatHyper> vec) {
+    const std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -88,7 +88,7 @@ bool genericRegFile::writeFloatStream(
 bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
-                                     std::shared_ptr<giee::floatHyper> vec) {
+                                     std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -101,7 +101,7 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
 bool genericRegFile::writeFloatWindow(const std::vector<int> &nw,
                                       const std::vector<int> &fw,
                                       const std::vector<int> &jw,
-                                      std::shared_ptr<giee::floatHyper> vec) {
+                                      std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"

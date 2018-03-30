@@ -54,14 +54,14 @@ class genericRegFile : public paramObj {
     }
   }
 #ifdef USE_SEPVECTOR
-  bool readFloatStream(std::shared_ptr<giee::floatHyper> hyp);
-  bool writeFloatStream(const std::shared_ptr<giee::floatHyper> hyp);
+  bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
+  bool writeFloatStream(const std::shared_ptr<SEP::floatHyper> hyp);
   bool readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
-                       std::shared_ptr<giee::floatHyper> hyp);
+                       std::shared_ptr<SEP::floatHyper> hyp);
   bool writeFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                         const std::vector<int> &jw,
-                        std::shared_ptr<giee::floatHyper> hyp);
+                        std::shared_ptr<SEP::floatHyper> hyp);
 
 #endif
   virtual void readUCharStream(unsigned char *array, const long long npts) {

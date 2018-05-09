@@ -26,7 +26,7 @@ int sepParam::getInt(const std::string &arg, const int def) const {
 float sepParam::getFloat(const std::string &arg, const float def) const {
   float x = def;
   char fmt[3];
-  strcpy(fmt, "s");
+  strcpy(fmt, "f");
   int i = getch(arg.c_str(), fmt, &x);
   return x;
 }

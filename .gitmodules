@@ -1,0 +1,3 @@
+[submodule "external/sepVector"]
+	path = external/sepVector
+	url = git@zapad.Stanford.EDU:bob/sepVector.git

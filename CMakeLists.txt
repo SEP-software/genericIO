@@ -5,17 +5,18 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 # configure a header file to pass some of the CMake settings
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
+find_package(NumPy  REQUIRED)
+FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
+
+
+
+
 set(genericIO_MAJOR_VERSION 0)
-set(genericIO_MINOR_VERSION 2)
+set(genericIO_MINOR_VERSION 3)
 set(genericIO_VERSION_STRING
   ${genericIO_MAJOR_VERSION}.${genericIO_MINOR_VERSION})
 
 
-
-
-# add the binary tree to the search path for include files
-# so that we will find TutorialConfig.h
-include_directories("${PROJECT_BINARY_DIR}")
 
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fpic")
@@ -31,20 +32,63 @@ endif()
 enable_language(C CXX)
 
 
-FIND_PACKAGE(hypercube NO_MODULE REQUIRED)
-INCLUDE_DIRECTORIES(${hypercube_DIRNAME_include})
+
+FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
 
 
-FIND_PACKAGE(SEPlib NO_MODULE)
-FIND_PACKAGE(sepVector NO_MODULE)
+option(INSTSLL_SEPLIB "Install with SEPLIB" OFF)
 
-#find_path(SEPINCDIR seplib.h /usr/local/SEP/include /usr/local/SEP/SEP8.1/include /opt/SEP/include /opt/SEP/SEP8.1/include)
-#find_library(LIBSEP sep /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
-#find_library(LIBSEP3D sep3d /usr/local/SEP/lib /usr/local/SEP/SEP8.1/lib /opt/SEP/lib /opt/SEP/SEP8.1/lib)
+
+include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
+
+FIND_PACKAGE(sepVector)
+if(sepVector_FOUND)
+  message("Found sepVector")
+  include_directories(${sepVector_DIRNAME_include})
+  set(GENERIC_EXPORT_LIBS "sepVector;${GENERIC_EXPORT_LIBS}")  
+else(sepVector_FOUND)
+   message("Unable to find sepVector")
+
+    # we have a submodule setup for foo, assume it is under external/foo
+    # now we need to clone this submodule
+    execute_process(COMMAND git submodule update --init --recursive  -- external/sepVector
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_subdirectory(external/sepVector)
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
+
+endif(sepVector_FOUND)
+
+
+
+
+FIND_PACKAGE(ZFP)
+if(ZFP_FOUND)
+  message("Found ZFP")
+  INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
+else(ZFP_FOUND)
+
+ExternalProject_Add (
+       ZFP_INSTALL
+       CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
+      GIT_REPOSITORY "https://github.com/LLNL/zfp"
+            INSTALL_DIR  ${CMAKE_INSTALL_PREFIX})
+
+   set(ZFP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+   set(ZFP_LIBRARIES ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}zfp${CMAKE_SHARED_LIBRARY_SUFFIX})
+
+endif(ZFP_FOUND)
+
+# add the binary tree to the search path for include files
+# so that we will find TutorialConfig.h
+include_directories("${PROJECT_BINARY_DIR}")
+
+
+
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include )
 
 
-if (sepVector_FOUND)
+
 MESSAGE("Installing with SEP VECTOR")
   set(USE_SEPVECTOR true)
   include_directories(${sepVector_DIRNAME_include})
@@ -56,9 +100,7 @@ MESSAGE("Installing with SEP VECTOR")
      set(GENERIC_EXPORT_INC_DIRS "${sepVector_DIRNAME_include}")
      set(GENERIC_EXPORT_LIB_DIRS "${sepVector_DIRNAME_lib}")
    endif()
-else(sepVector_FOUND)
-MESSAGE("Not installing with SEP VECTOR additions")
-endif(sepVector_FOUND)
+
 
 if (RSFINCDIR)
   MESSAGE("INSTALLING WITH RSF")
@@ -79,7 +121,6 @@ endif()
 
 
 
-#!if (SEPINCDIR AND LIBSEP AND LIBSEP3D)
 
 if (SEPlib_FOUND)
   MESSAGE("INSTALLING WITH SEPlib")

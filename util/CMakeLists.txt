@@ -15,25 +15,27 @@ foreach(util ${UTILS})
   install(TARGETS ${util} DESTINATION bin)
 endforeach(util)
 
-
 find_package(ZFP)
 
-if(ZFP_LIBRARIES)
-message("INstalling compress decompress")
+
   INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
 
-set(UTILSZ Compress  Decompress)
+  set(UTILSZ Compress  Decompress)
+  foreach(util ${UTILSZ})
+      ADD_EXECUTABLE(${util} ${util}.cc)
+      if(${ZFP_FOUND})
+      else(${ZFP_FOUND})
+            MESSAGE(${util} " CHECK FOUYND " ${ZFP_FOUND} " BVB" ${ZFP_INSTALL})
 
-foreach(util ${UTILSZ})
+        add_dependencies(${util} ZFP_INSTALL)
+      endif()
 
-  ADD_EXECUTABLE(${util} ${util}.cc)
-  TARGET_LINK_LIBRARIES(${util} genericCpp hypercube ${ZFP_LIBRARIES}  )
-  foreach(lib ${GENERIC_EXPORT_LIBS})
-    TARGET_LINK_LIBRARIES(${util} ${lib})
-  endforeach(lib)
-  install(TARGETS ${util} DESTINATION bin)
-endforeach(util)
-endif(ZFP_LIBRARIES)
+      TARGET_LINK_LIBRARIES(${util} genericCpp hypercube ${ZFP_LIBRARIES}  )
+      foreach(lib ${GENERIC_EXPORT_LIBS})
+        TARGET_LINK_LIBRARIES(${util} ${lib})
+      endforeach(lib)
+      install(TARGETS ${util} DESTINATION bin)
+  endforeach(util)
 
 
 install(PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/SEP2JSON DESTINATION bin)

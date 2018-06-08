@@ -15,5 +15,5 @@ RUN pip3.6 install numpy
 RUN git clone http://zapad.Stanford.EDU/bob/genericIO.git /opt/genericIO/src && \
     mkdir /opt/genericIO/build &&\
     cd /opt/genericIO/build &&\
-    cmake  -DCMAKE_INSTALL_PREFIX=/opt/SEP ../src &&\
+    cmake3  -DCMAKE_INSTALL_PREFIX=/opt/SEP ../src &&\
     make install

@@ -12,7 +12,7 @@ FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED
 
 
 set(genericIO_MAJOR_VERSION 0)
-set(genericIO_MINOR_VERSION 3)
+set(genericIO_MINOR_VERSION 4)
 set(genericIO_VERSION_STRING
   ${genericIO_MAJOR_VERSION}.${genericIO_MINOR_VERSION})
 
@@ -204,3 +204,14 @@ add_subdirectory(util)
 add_subdirectory(env-modules)
 
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h  DESTINATION include)
+
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")
+set(CPACK_PACKAGE_VERSION_MAJOR "${genericIO_MAJOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_MINOR "${genericIO_MINOR_VERSION}")
+set(CPACK_PACKAGE_VERSION_PATCH "0")
+set(CPACK_PACKAGE_NAME "sepVector")
+set(CPACK_PACKAGE_CONTACT "Robert Clapp")
+include(CPack)
+

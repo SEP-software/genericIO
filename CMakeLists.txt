@@ -166,6 +166,7 @@ configure_file (
   )
  SET(genericIO_DIRNAME_lib     "lib")
  SET(genericIO_DIRNAME_include "include")
+ SET(genericIO_DIRNAME_cmake "cmake")
   INCLUDE(CMakePackageConfigHelpers)
 
   CONFIGURE_PACKAGE_CONFIG_FILE(
@@ -181,7 +182,7 @@ configure_file (
   FILES
     ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
   DESTINATION
-    lib
+    cmake
   )
 
 
@@ -189,7 +190,7 @@ configure_file (
   EXPORT
     genericIOExports
   DESTINATION
-    ${genericIO_DIRNAME_lib}
+    ${genericIO_DIRNAME_cmake}
   )
   
 add_subdirectory(cpp)

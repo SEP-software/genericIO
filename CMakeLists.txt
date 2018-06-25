@@ -36,7 +36,7 @@ enable_language(C CXX)
 FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
 
 
-option(INSTSLL_SEPLIB "Install with SEPLIB" OFF)
+option(INSTALL_SEPLIB "Install with SEPLIB" OFF)
 
 
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
@@ -131,6 +131,7 @@ endif()
 
 
 
+FIND_PACKAGE(SEPlib)
 
 if (SEPlib_FOUND)
   MESSAGE("INSTALLING WITH SEPlib")

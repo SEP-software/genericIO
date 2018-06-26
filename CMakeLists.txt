@@ -6,7 +6,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_package(NumPy  REQUIRED)
-FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
 
 
 
@@ -33,7 +32,6 @@ enable_language(C CXX)
 
 
 
-FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
 
 
 option(INSTALL_SEPLIB "Install with SEPLIB" OFF)

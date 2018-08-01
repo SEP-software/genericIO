@@ -28,7 +28,6 @@ void ioModes::setup(const int argc, char **argv) {
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 
-std::cerr<<"IO "<<_defaultType<<std::endl;
 }
 std::shared_ptr<genericIO> ioModes::getDefaultIO() {
   return getIO(_defaultType);

@@ -1,4 +1,5 @@
 #include "ioModes.h"
+#include<iostream>
 #include "ioConfig.h"
 #include "segyIO.h"
 #ifdef USE_RSF

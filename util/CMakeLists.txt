@@ -4,6 +4,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
 
 
 link_directories( "${GENERIC_EXPORT_LIB_DIRS}")
+
 set(UTILS Window Info)
 
 foreach(util ${UTILS})

@@ -128,8 +128,9 @@ endif()
 
 
 
-
+message("BEFORE SEPlib")
 FIND_PACKAGE(SEPlib)
+message("AFTER SEPlib")
 
 if (SEPlib_FOUND)
   MESSAGE("INSTALLING WITH SEPlib")

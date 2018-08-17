@@ -19,7 +19,11 @@ include_directories(${RSFINCDIR})
   set(SOURCES  ${SOURCES} rsfIO.cpp	rsfParams.cpp  rsfRegFile.cpp)
   set(INCLUDES ${INCLUDES}  rsfIO.h rsfParams.h rsfRegFiles.h ) 
 endif(USE_RSF)
+   add_library(genericCpp ${SOURCES} ${INCLUDES})
 
-add_library(genericCpp ${SOURCES} ${INCLUDES})
+if(USE_SEP)
+target_link_libraries(genericCpp sep3d sep)
+endif(USE_SEP)
+
 install(FILES ${INCLUDES} DESTINATION include)
 install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)

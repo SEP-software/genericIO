@@ -67,6 +67,22 @@ else(sepVector_FOUND)
 endif(sepVector_FOUND)
 
 
+FIND_PACKAGE(json)
+if(json_FOUND)
+  message("Found json")
+  INCLUDE_DIRECTORIES(${json_DIRNAME_include})
+  link_directories(json_DIRNAME_lib)
+else(json_FOUND)
+   message("Unable to find json")
+
+    # we have a submodule setup for foo, assume it is under external/foo
+    # now we need to clone this submodule
+    execute_process(COMMAND git submodule update --init --recursive -- external/json
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    message("before add subdirectory")
+    add_subdirectory(external/json)
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/json)
+endif(json_FOUND)
 
 
 FIND_PACKAGE(ZFP)

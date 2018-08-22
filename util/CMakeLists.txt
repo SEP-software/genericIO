@@ -24,17 +24,7 @@ find_package(ZFP)
   set(UTILSZ Compress  Decompress)
   foreach(util ${UTILSZ})
       ADD_EXECUTABLE(${util} ${util}.cc)
-      if(${ZFP_FOUND})
-      else(${ZFP_FOUND})
-            MESSAGE(${util} " CHECK FOUYND " ${ZFP_FOUND} " BVB" ${ZFP_INSTALL})
-
-        add_dependencies(${util} ZFP_INSTALL)
-      endif()
-
       TARGET_LINK_LIBRARIES(${util} genericCpp hypercube ${ZFP_LIBRARIES}  )
-      foreach(lib ${GENERIC_EXPORT_LIBS})
-        TARGET_LINK_LIBRARIES(${util} ${lib})
-      endforeach(lib)
       install(TARGETS ${util} DESTINATION bin)
   endforeach(util)
 

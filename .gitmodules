@@ -1,3 +1,6 @@
 [submodule "external/sepVector"]
 	path = external/sepVector
 	url =  http://zapad.Stanford.EDU/bob/sepVector.git
+[submodule "external/json"]
+	path = external/json
+	url = http://zapad.Stanford.EDU/bob/json.git

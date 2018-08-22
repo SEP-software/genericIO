@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 project(Generic-cpp)
 
-set(SOURCES  basicIO.cpp  genericFile.cpp  jsoncpp.cpp)
+set(SOURCES  basicIO.cpp  genericFile.cpp  )
 set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp genericC.cpp)
 set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp)
 set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h  genericC.h)
-set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h json.h ioModes.h segyIO.h)
+set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h)
 
 if(USE_SEP)
 MESSAGE("ADDING SEP STUFF")
@@ -20,6 +20,7 @@ include_directories(${RSFINCDIR})
   set(INCLUDES ${INCLUDES}  rsfIO.h rsfParams.h rsfRegFiles.h ) 
 endif(USE_RSF)
    add_library(genericCpp ${SOURCES} ${INCLUDES})
+target_link_libraries(genericCpp sepVector jsonCpp)
 
 if(USE_SEP)
 target_link_libraries(genericCpp sep3d sep)

@@ -56,10 +56,14 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
     # we have a submodule setup for foo, assume it is under external/foo
     # now we need to clone this submodule
+  if(NOT TARGET sepVector)
     execute_process(COMMAND git submodule update --init --recursive  -- external/sepVector
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(external/sepVector)
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
+endif(NOT TARGET sepVector)
+
+
   #  if(hypercube_FOUND)
    #   message("Found hypercube")
    #   include_directories(${hypercube_DIRNAME_include})
@@ -83,10 +87,14 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
     # we have a submodule setup for foo, assume it is under external/foo
     # now we need to clone this submodule
+
+    if(NOT TARGET buffers)
     execute_process(COMMAND git submodule update --init --recursive  -- external/buffers
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(external/buffers)
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/lib)
+    endif(NOT TARGET buffers)
+
   #  if(hypercube_FOUND)
    #   message("Found hypercube")
    #   include_directories(${hypercube_DIRNAME_include})
@@ -103,10 +111,10 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
     # we have a submodule setup for foo, assume it is under external/foo
     # now we need to clone this submodule
-    execute_process(COMMAND git submodule update --init --recursive -- external/json
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  #  execute_process(COMMAND git submodule update --init --recursive -- external/json
+   #                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 #    message("before add subdirectory")
-    add_subdirectory(external/json)
+    #add_subdirectory(external/json)
  #   INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/json)
 #endif(json_FOUND)
 #endif(sepVector_FOUND)
@@ -121,15 +129,15 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
  # INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
 #else(ZFP_FOUND)
 
-ExternalProject_Add (
-       ZFP_INSTALL
-       CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_INSTALL_LIBDIR=lib
-      GIT_REPOSITORY "https://github.com/LLNL/zfp"
-            INSTALL_DIR  ${CMAKE_INSTALL_PREFIX})
+#ExternalProject_Add (
+ #      ZFP_INSTALL
+  #     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} -DCMAKE_INSTALL_LIBDIR=lib
+   #   GIT_REPOSITORY "https://github.com/LLNL/zfp"
+    #        INSTALL_DIR  ${CMAKE_INSTALL_PREFIX})
 
-   set(ZFP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
+#   set(ZFP_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include)
    
-     set(ZFP_LIBRARIES ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}zfp${CMAKE_SHARED_LIBRARY_SUFFIX})   
+ #    set(ZFP_LIBRARIES ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}zfp${CMAKE_SHARED_LIBRARY_SUFFIX})   
 
 #endif(ZFP_FOUND)
 
@@ -143,7 +151,6 @@ find_path(RSFINCDIR rsf.h ${RSF_DIR}/include )
 
 
 
-MESSAGE("Installing with SEP VECTOR")
   set(USE_SEPVECTOR true)
   include_directories(${sepVector_DIRNAME_include})
   set(GENERIC_EXPORT_LIBS "sepVector;${GENERIC_EXPORT_LIBS}")
@@ -174,10 +181,7 @@ endif()
 
 
 
-message("BEFORE SEPlib")
 FIND_PACKAGE(SEPlib)
-message("AFTER SEPlib")
-
 if (SEPlib_FOUND)
   MESSAGE("INSTALLING WITH SEPlib")
   set(USE_SEP true)
@@ -193,7 +197,6 @@ else()
   MESSAGE("NOT INSTALLING WITH SEPlib")
 endif()
 
-  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};hypercube ")
   if(DEFINED GENERIC_EXPORT_INC_DIRS)
   MESSAGE("HYPERCUBE DIRNAME "${GENERIC_EXPORT_LIBS})
     set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${hypercube_DIRNAME_include}")

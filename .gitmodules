@@ -4,3 +4,6 @@
 [submodule "external/json"]
 	path = external/json
 	url = http://zapad.Stanford.EDU/bob/json.git
+[submodule "external/buffers"]
+	path = external/buffers
+	url = http://zapad.Stanford.EDU/bob/buffers.git

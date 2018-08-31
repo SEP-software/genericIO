@@ -39,16 +39,20 @@ option(INSTALL_SEPLIB "Install with SEPLIB" OFF)
 
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-FIND_PACKAGE(sepVector)
-FIND_PACKAGE(hypercube)
-if(sepVector_FOUND)
-  message("Found sepVector")
-  include_directories(${sepVector_DIRNAME_include})
-  include_directories(${hypercube_DIRNAME_include})
-  link_directories(${hypercube_DIRNAME_lib}  ${sepVector_DIRNAME_lib})
-  set(GENERIC_EXPORT_LIBS "sepVector;${GENERIC_EXPORT_LIBS}")  
-else(sepVector_FOUND)
-   message("Unable to find sepVector")
+#FIND_PACKAGE(sepVector)
+#FIND_PACKAGE(hypercube)
+#FIND_PACKAGE(buffers)
+#FIND_PACKAGE(json)
+
+
+#if(sepVector_FOUND)
+ # message("Found sepVector")
+ # include_directories(${sepVector_DIRNAME_include})
+ # include_directories(${hypercube_DIRNAME_include})
+ # link_directories(${hypercube_DIRNAME_lib}  ${sepVector_DIRNAME_lib})
+ # set(GENERIC_EXPORT_LIBS "sepVector;${GENERIC_EXPORT_LIBS}")  
+#else(sepVector_FOUND)
+ #  message("Unable to find sepVector")
 
     # we have a submodule setup for foo, assume it is under external/foo
     # now we need to clone this submodule
@@ -56,40 +60,66 @@ else(sepVector_FOUND)
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(external/sepVector)
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
-    if(hypercube_FOUND)
-      message("Found hypercube")
-      include_directories(${hypercube_DIRNAME_include})
-      link_directories(${hypercube_DIRNAME_lib})
-    else(hypercube_FOUND) 
-      message("Did not find hypercube")
-      INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
-    endif(hypercube_FOUND)
-endif(sepVector_FOUND)
+  #  if(hypercube_FOUND)
+   #   message("Found hypercube")
+   #   include_directories(${hypercube_DIRNAME_include})
+   #   link_directories(${hypercube_DIRNAME_lib})
+   # else(hypercube_FOUND) 
+    #  message("Did not find hypercube")
+    #  INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
+    #endif(hypercube_FOUND)
+#endif(sepVector_FOUND)
 
 
-FIND_PACKAGE(json)
-if(json_FOUND)
-  message("Found json")
-  INCLUDE_DIRECTORIES(${json_DIRNAME_include})
-  link_directories(json_DIRNAME_lib)
-else(json_FOUND)
-   message("Unable to find json")
+
+
+#if(buffers_FOUND)
+#  message("Found buffers")
+#  include_directories(${buffers_DIRNAME_include})
+##  include_directories(${hypercube_DIRNAME_include})
+ # link_directories(${hypercube_DIRNAME_lib}  ${buffers_DIRNAME_lib})
+#else(buffers_FOUND)
+ #  message("Unable to find buffers")
+
+    # we have a submodule setup for foo, assume it is under external/foo
+    # now we need to clone this submodule
+    execute_process(COMMAND git submodule update --init --recursive  -- external/buffers
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    add_subdirectory(external/buffers)
+    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/lib)
+  #  if(hypercube_FOUND)
+   #   message("Found hypercube")
+   #   include_directories(${hypercube_DIRNAME_include})
+   #   link_directories(${hypercube_DIRNAME_lib})
+   # else(hypercube_FOUND) 
+   #   message("Did not find hypercube")
+   #   INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
+   # endif(hypercube_FOUND)
+   # if(json_FOUND)
+  #message("Found json")
+  #INCLUDE_DIRECTORIES(${json_DIRNAME_include})
+  #link_directories(json_DIRNAME_lib)
+##  message("Unable to find json")
 
     # we have a submodule setup for foo, assume it is under external/foo
     # now we need to clone this submodule
     execute_process(COMMAND git submodule update --init --recursive -- external/json
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    message("before add subdirectory")
+#    message("before add subdirectory")
     add_subdirectory(external/json)
-    INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/json)
-endif(json_FOUND)
+ #   INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/json)
+#endif(json_FOUND)
+#endif(sepVector_FOUND)
 
 
-FIND_PACKAGE(ZFP)
-if(ZFP_FOUND)
-  message("Found ZFP")
-  INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
-else(ZFP_FOUND)
+
+
+
+#FIND_PACKAGE(ZFP)
+#if(ZFP_FOUND)
+ ## message("Found ZFP")
+ # INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
+#else(ZFP_FOUND)
 
 ExternalProject_Add (
        ZFP_INSTALL
@@ -101,7 +131,7 @@ ExternalProject_Add (
    
      set(ZFP_LIBRARIES ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_SHARED_LIBRARY_PREFIX}zfp${CMAKE_SHARED_LIBRARY_SUFFIX})   
 
-endif(ZFP_FOUND)
+#endif(ZFP_FOUND)
 
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h

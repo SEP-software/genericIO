@@ -61,7 +61,7 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
     execute_process(COMMAND git submodule update --init --recursive  -- external/sepVector
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-    add_subdirectory(external/sepVector)
+    add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
     INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
 endif(NOT TARGET sepVector)
 

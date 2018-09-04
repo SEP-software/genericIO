@@ -34,37 +34,67 @@ class sepRegFile : public SEP::genericRegFile {
   virtual void message(const std::string &err) const;
   virtual void error(const std::string &err) const;
 
-  virtual void readUCharStream(unsigned char *array, const long long npts);
+  virtual void readUCharStream(unsigned char *array,
+                               const long long npts) override;
 
   virtual void readComplexStream(std::complex<float> *array,
-                                 const long long npts);
+                                 const long long npts) override;
   virtual void writeComplexStream(const std::complex<float> *array,
-                                  const long long npts);
+                                  const long long npts) override;
 
-  virtual void readFloatStream(float *array, const long long npts);
-  virtual void writeFloatStream(const float *array, const long long npts);
+  virtual void readFloatStream(float *array, const long long npts) override;
+  virtual void writeFloatStream(const float *array,
+                                const long long npts) override;
+
+  virtual void readIntStream(int *array, const long long npts) override;
+  virtual void writeIntStream(const int *array, const long long npts) override;
+
+  virtual void readDoubleStream(double *array, const long long npts) override;
+  virtual void writeDoubleStream(const double *array,
+                                 const long long npts) override;
+
+  virtual void readDoubleWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                double *array) override;
+
+  virtual void writeDoubleWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 const double *array) override;
+
+  virtual void readIntWindow(const std::vector<int> &nw,
+                             const std::vector<int> &fw,
+                             const std::vector<int> &jw, int *array) override;
+
+  virtual void writeIntWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw,
+                              const int *array) override;
 
   virtual void readUCharWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw,
-                               unsigned char *array);
+                               unsigned char *array) override;
 
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
-                               const std::vector<int> &jw, float *array);
+                               const std::vector<int> &jw,
+                               float *array) override;
 
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
-                                const std::vector<int> &jw, float *array);
+                                const std::vector<int> &jw,
+                                const float *array) override;
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
-                                 std::complex<float> *array);
+                                 std::complex<float> *array) override;
 
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
-                                  std::complex<float> *array);
+                                  const std::complex<float> *array) override;
 
   virtual void readDescription();
   virtual void writeDescription();

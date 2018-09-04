@@ -2,10 +2,11 @@ cmake_minimum_required(VERSION 2.8)
 project(Generic-cpp)
 
 set(SOURCES  basicIO.cpp  genericFile.cpp  )
-set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp genericC.cpp)
-set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp)
-set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h  genericC.h)
-set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h)
+set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp)
+set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp buffersIO.cpp buffersRegFile.cpp)
+set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h )
+set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h
+	buffersIO.h buffersRegFile.h)
 
 if(USE_SEP)
 MESSAGE("ADDING SEP STUFF")

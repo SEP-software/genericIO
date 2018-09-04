@@ -29,11 +29,12 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,
   }
 }
 void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,
-                                const std::string &tag) {
+                                const std::string &tag,
+                                const std::string desFileDefault) {
   _tag = tag;
 
   if ((*arg)[tag].isNull()) {
-    _jsonFile = _tag;
+    _jsonFile = _tag + desFileDefault;
   } else {
     _jsonFile = (*arg)[tag].asString();
   }
@@ -208,13 +209,15 @@ void jsonGenericFile::readDescription() {
   }
   std::string dtyp = getString(std::string("dataType"), std::string("FLOAT"));
   if (dtyp == std::string("FLOAT"))
-    setDataType(dataFloat);
+    setDataType(DATA_FLOAT);
   else if (dtyp == std::string("COMPLEX"))
-    setDataType(dataComplex);
+    setDataType(DATA_COMPLEX);
   else if (dtyp == std::string("INTEGER"))
-    setDataType(dataInt);
+    setDataType(DATA_INT);
+  else if (dtyp == std::string("DOUBLE"))
+    setDataType(DATA_DOUBLE);
   else if (dtyp == std::string("BYTE"))
-    setDataType(dataByte);
+    setDataType(DATA_BYTE);
 
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
@@ -261,6 +264,36 @@ void jsonGenericFile::readFloatStream(float *array, const long long npts) {
 
   myio->readTraceStream(npts, array);
 }
+
+void jsonGenericFile::readIntStream(int *array, const long long npts) {
+  long long maxsize = 10000000;
+  long long nread = 0;
+  long long nptsT = npts * 4;
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+
+  myio->readTraceStream(npts, array);
+}
+
+void jsonGenericFile::readUCharStream(unsigned char *array,
+                                      const long long npts) {
+  long long maxsize = 10000000;
+  long long nread = 0;
+  long long nptsT = npts * 8;
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 8,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+
+  myio->readTraceStream(npts, array);
+}
+
 void jsonGenericFile::seekTo(const long long iv, const int whence) {
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
@@ -271,24 +304,12 @@ void jsonGenericFile::seekTo(const long long iv, const int whence) {
   myio->seekTo(iv, whence);
 }
 
-void jsonGenericFile::readUCharStream(unsigned char *array,
-                                      const long long npts) {
-  long long maxsize = 10000000;
-  long long nread = 0;
-  if (!myio) {
-    std::shared_ptr<myFileIO> iox(new myFileIO(
-        getDataFileName(), _usage, _reelH, _traceH, 1, false, getHyper()));
-    myio = iox;
-  }
-  myio->readTraceStream(npts, array);
-}
-
 void jsonGenericFile::writeFloatStream(const float *array,
                                        const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
-  setDataType(dataFloat);
+  setDataType(DATA_FLOAT);
 
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
@@ -298,6 +319,54 @@ void jsonGenericFile::writeFloatStream(const float *array,
   }
   myio->writeTraceStream(npts, array);
 }
+
+void jsonGenericFile::writeUCharStream(const unsigned char *array,
+                                       const long long npts) {
+  long long maxsize = 10000000;
+  long long nwrite = 0;
+  long long nptsT = npts * 1;
+  setDataType(DATA_FLOAT);
+
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 1,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeTraceStream(npts, array);
+}
+
+void jsonGenericFile::writeDoubleStream(const double *array,
+                                        const long long npts) {
+  long long maxsize = 10000000;
+  long long nwrite = 0;
+  long long nptsT = npts * 8;
+  setDataType(DATA_DOUBLE);
+
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 8,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeTraceStream(npts, array);
+}
+
+void jsonGenericFile::writeIntStream(const int *array, const long long npts) {
+  long long maxsize = 10000000;
+  long long nwrite = 0;
+  long long nptsT = npts * 4;
+  setDataType(DATA_INT);
+
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeTraceStream(npts, array);
+}
+
 void jsonGenericFile::readFloatWindow(const std::vector<int> &nw,
                                       const std::vector<int> &fw,
                                       const std::vector<int> &jw,
@@ -320,6 +389,52 @@ void jsonGenericFile::readFloatWindow(const std::vector<int> &nw,
   }
   myio->readWindow(nw, fw, jw, array);
 }
+
+void jsonGenericFile::readDoubleWindow(const std::vector<int> &nw,
+                                       const std::vector<int> &fw,
+                                       const std::vector<int> &jw,
+                                       double *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 8,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->readWindow(nw, fw, jw, array);
+}
+
+void jsonGenericFile::readIntWindow(const std::vector<int> &nw,
+                                    const std::vector<int> &fw,
+                                    const std::vector<int> &jw, int *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->readWindow(nw, fw, jw, array);
+}
+
 long long jsonGenericFile::getDataSize() {
   if (!myio) {
     std::shared_ptr<myFileIO> iox(new myFileIO(
@@ -353,7 +468,82 @@ void jsonGenericFile::writeFloatWindow(const std::vector<int> &nw,
                                        const std::vector<int> &fw,
                                        const std::vector<int> &jw,
                                        const float *array) {
-  setDataType(dataFloat);
+  setDataType(DATA_FLOAT);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeWindow(nw, fw, jw, array);
+}
+
+void jsonGenericFile::writeUCharWindow(const std::vector<int> &nw,
+                                       const std::vector<int> &fw,
+                                       const std::vector<int> &jw,
+                                       const unsigned char *array) {
+  setDataType(DATA_BYTE);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 1,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeWindow(nw, fw, jw, array);
+}
+
+void jsonGenericFile::writeIntWindow(const std::vector<int> &nw,
+                                     const std::vector<int> &fw,
+                                     const std::vector<int> &jw,
+                                     const int *array) {
+  setDataType(DATA_INT);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeWindow(nw, fw, jw, array);
+}
+
+void jsonGenericFile::writeDoubleWindow(const std::vector<int> &nw,
+                                        const std::vector<int> &fw,
+                                        const std::vector<int> &jw,
+                                        const double *array) {
+  setDataType(DATA_DOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
@@ -379,7 +569,7 @@ void jsonGenericFile::readComplexStream(std::complex<float> *array,
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 4;
-  setDataType(dataComplex);
+  setDataType(DATA_COMPLEX);
 
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
@@ -394,7 +584,7 @@ void jsonGenericFile::writeComplexStream(const std::complex<float> *array,
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
-  setDataType(dataComplex);
+  setDataType(DATA_COMPLEX);
 
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
@@ -410,7 +600,7 @@ void jsonGenericFile::readComplexWindow(const std::vector<int> &nw,
                                         std::complex<float> *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
-  setDataType(dataComplex);
+  setDataType(DATA_COMPLEX);
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -432,7 +622,7 @@ void jsonGenericFile::writeComplexWindow(const std::vector<int> &nw,
                                          const std::vector<int> &fw,
                                          const std::vector<int> &jw,
                                          const std::complex<float> *array) {
-  setDataType(dataComplex);
+  setDataType(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();

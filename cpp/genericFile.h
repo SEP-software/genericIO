@@ -4,27 +4,22 @@
 #include <complex.h>
 #include <memory>
 #include <vector>
-#include "hypercube.h"
-#include "ioConfig.h"
-#include "paramObj.h"
-#ifdef USE_SEPVECTOR
+#include "byteHyper.h"
+#include "complexHyper.h"
+#include "doubleHyper.h"
 #include "floatHyper.h"
-#endif
+#include "hypercube.h"
+#include "intHyper.h"
+#include "ioConfig.h"
+#include "ioTypes.h"
+#include "paramObj.h"
 
 namespace SEP {
 enum usage_code { usageIn, usageOut, usageInOut, usageScr };
-enum dataType {
-  dataFloat,
-  dataByte,
-  dataShort,
-  dataInt,
-  dataComplex,
-  dataUndefined
-};
 
 class genericRegFile : public paramObj {
  public:
-  genericRegFile() { _type = dataUndefined; }
+  genericRegFile() { _type = DATA_UNKNOWN; }
 
   virtual void putInt(const std::string &par, const int val);
   virtual void putFloat(const std::string &par, const float val) {
@@ -53,9 +48,10 @@ class genericRegFile : public paramObj {
       ;
     }
   }
-#ifdef USE_SEPVECTOR
   bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
   bool writeFloatStream(const std::shared_ptr<SEP::floatHyper> hyp);
+  bool writeUCharStream(const std::shared_ptr<SEP::byteHyper> hyp);
+
   bool readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
                        std::shared_ptr<SEP::floatHyper> hyp);
@@ -63,81 +59,104 @@ class genericRegFile : public paramObj {
                         const std::vector<int> &jw,
                         std::shared_ptr<SEP::floatHyper> hyp);
 
-#endif
-  virtual void readUCharStream(unsigned char *array, const long long npts) {
-    if (npts == 0 && array == 0) {
-      ;
-    }
-  }
-  virtual void readFloatStream(float *array, const long long npts) {
-    if (npts == 0 && array == 0) {
-      ;
-    }
-  }
-  virtual void writeFloatStream(const float *array, const long long npts) {
-    fprintf(stderr, "in write float stream default \n");
+  bool readByteStream(std::shared_ptr<SEP::byteHyper> hyp);
+  bool writeByteStream(const std::shared_ptr<SEP::byteHyper> hyp);
+  bool readByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                      const std::vector<int> &jw,
+                      std::shared_ptr<SEP::byteHyper> hyp);
+  bool writeByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                       const std::vector<int> &jw,
+                       std::shared_ptr<SEP::byteHyper> hyp);
 
-    if (npts == 0 && array == 0) {
-      ;
-    }
-  }
+  bool readIntStream(std::shared_ptr<SEP::intHyper> hyp);
+  bool writeIntStream(const std::shared_ptr<SEP::intHyper> hyp);
+  bool readIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                     const std::vector<int> &jw,
+                     std::shared_ptr<SEP::intHyper> hyp);
+  bool writeIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                      const std::vector<int> &jw,
+                      std::shared_ptr<SEP::intHyper> hyp);
+
+  bool readComplexStream(std::shared_ptr<SEP::complexHyper> hyp);
+  bool writeComplexStream(const std::shared_ptr<SEP::complexHyper> hyp);
+  bool readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                         const std::vector<int> &jw,
+                         std::shared_ptr<SEP::complexHyper> hyp);
+  bool writeComplexWindow(const std::vector<int> &nw,
+                          const std::vector<int> &fw,
+                          const std::vector<int> &jw,
+                          std::shared_ptr<SEP::complexHyper> hyp);
+
+  bool readDoubleStream(std::shared_ptr<SEP::doubleHyper> hyp);
+  bool writeDoubleStream(const std::shared_ptr<SEP::doubleHyper> hyp);
+  bool readDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                        const std::vector<int> &jw,
+                        std::shared_ptr<SEP::doubleHyper> hyp);
+  bool writeDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                         const std::vector<int> &jw,
+                         std::shared_ptr<SEP::doubleHyper> hyp);
+
+  virtual void readUCharStream(unsigned char *array, const long long npts) = 0;
+  virtual void readFloatStream(float *array, const long long npts) = 0;
+  virtual void writeFloatStream(const float *array, const long long npts) = 0;
+  virtual void writeUCharStream(const unsigned char *array,
+                                const long long npts) = 0;
+
   virtual void readUCharWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw,
-                               unsigned char *array) {
-    if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
-      ;
-    }
-  }
+                               unsigned char *array) = 0;
   virtual void seekTo(const long long iv, const int whence) {
     if (whence == iv) {
       ;
     }
   }
   virtual void readComplexStream(std::complex<float> *array,
-                                 const long long npts) {
-    if (npts == 0 && array == 0) {
-      ;
-    }
-  }
+                                 const long long npts) = 0;
   virtual void writeComplexStream(const std::complex<float> *array,
-                                  const long long npts) {
-    if (npts == 0 && array == 0) {
-      ;
-    }
-  }
+                                  const long long npts) = 0;
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
-                                 const std::vector<int> jw,
-                                 std::complex<float> *array) {
-    if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
-      ;
-    }
-  }
+                                 const std::vector<int> &jw,
+                                 std::complex<float> *array) = 0;
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
-                                  const std::complex<float> *array) {
-    if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
-      ;
-    }
-  }
+                                  const std::complex<float> *array) = 0;
+
   virtual long long getDataSize() { assert(1 == 2); }
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
-                               const std::vector<int> &jw, float *array) {
-    if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
-      ;
-    }
-  }
+                               const std::vector<int> &jw, float *array) = 0;
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
-                                const float *array) {
-    if (nw[0] == 0 && fw[0] == 0 && jw[0] == 0 && array == 0) {
-      ;
-    }
-  }
+                                const float *array) = 0;
+
+  virtual void readDoubleStream(double *array, const long long npts) = 0;
+  virtual void writeDoubleStream(const double *array, const long long npts) = 0;
+
+  virtual void readDoubleWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw, double *array) = 0;
+
+  virtual void writeDoubleWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 const double *array) = 0;
+
+  virtual void readIntStream(int *array, const long long npts) = 0;
+  virtual void writeIntStream(const int *array, const long long npts) = 0;
+  virtual void readIntWindow(const std::vector<int> &nw,
+                             const std::vector<int> &fw,
+                             const std::vector<int> &jw, int *array) = 0;
+  virtual void writeIntWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw, const int *array) = 0;
+  virtual void writeUCharWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                const unsigned char *array) = 0;
   virtual void readDescription() { ; }
   virtual void writeDescription() { ; }
   virtual void close() { ; }

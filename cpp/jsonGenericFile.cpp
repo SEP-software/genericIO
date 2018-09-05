@@ -284,6 +284,19 @@ void jsonGenericFile::readFloatStream(float *array, const long long npts) {
 
   myio->readTraceStream(npts, array);
 }
+void jsonGenericFile::readDoubleStream(double *array, const long long npts) {
+  long long maxsize = 10000000;
+  long long nread = 0;
+  long long nptsT = npts * 8;
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 8,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+
+  myio->readTraceStream(npts, array);
+}
 
 void jsonGenericFile::readIntStream(int *array, const long long npts) {
   long long maxsize = 10000000;

@@ -8,6 +8,7 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   bool foundIn = false;
   std::string fileIn, fileOut;
   int i = 0;
+  _progName = std::string(argv[0]);
   /*Looking for jsonIn and jsonOut"*/
   while (i < argc && !foundIn) {
     std::string arg = std::string(argv[i]);
@@ -66,7 +67,7 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0));
+      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName));
   addRegFile(tag, x);
   return x;
 }
@@ -84,7 +85,7 @@ std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0));
+      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName));
   addIrregFile(tag, x);
   return x;
 }

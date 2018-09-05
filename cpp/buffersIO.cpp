@@ -18,7 +18,7 @@ std::shared_ptr<genericRegFile> buffersIO::getRegFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0));
+      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName));
   addRegFile(tag, x);
   return x;
 }
@@ -36,7 +36,7 @@ std::shared_ptr<genericIrregFile> buffersIO::getIrregFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0));
+      new buffersRegFile(jsonArgs, usage, name, _progName));
   addIrregFile(tag, x);
   return x;
 }

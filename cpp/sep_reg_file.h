@@ -37,6 +37,8 @@ class sepRegFile : public SEP::genericRegFile {
   virtual void readUCharStream(unsigned char *array,
                                const long long npts) override;
 
+  virtual void writeUCharStream(const unsigned char *array,
+                                const long long npts) override;
   virtual void readComplexStream(std::complex<float> *array,
                                  const long long npts) override;
   virtual void writeComplexStream(const std::complex<float> *array,
@@ -81,7 +83,10 @@ class sepRegFile : public SEP::genericRegFile {
                                const std::vector<int> &fw,
                                const std::vector<int> &jw,
                                float *array) override;
-
+  virtual void writeUCharWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                const unsigned char *array) override;
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,

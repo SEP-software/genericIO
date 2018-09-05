@@ -1,10 +1,11 @@
 //#include <boost/filesystem.hpp>
+#include "regVector.h"
 
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
+#include "ZfpCompress.h"
+#include "buffersRegFile.h"
 #include "ioModes.h"
-#include "zfp.h"
-#include "zfp/macros.h"
 using namespace SEP;
 int main(int argc, char** argv) {
   ioModes modes(argc, argv);
@@ -16,167 +17,187 @@ int main(int argc, char** argv) {
 
   std::string outDir = par->getString(std::string("outdir"));
 
-//  assert(boost::filesystem::create_directories(outDir));
-  Json::Value jsonArgs;
   std::shared_ptr<genericRegFile> inp = io->getRegFile(in, usageIn);
+
+  std::shared_ptr<genericRegFile> outp =
+      modes.getIO("BUFFERS")->getRegFile(outDir, usageOut);
 
   std::shared_ptr<hypercube> hyperIn = inp->getHyper();
   std::vector<int> ng = hyperIn->getNs();
+  outp->setHyper(hyperIn);
+
+  SEP::IO::ZfpParams zpars;
 
   std::string mode = par->getString(std::string("mode"), std::string("rate"));
   float rate, tolerance;
   int precision;
-  if (mode == std::string("rate")) {
-    rate = par->getFloat(std::string("rate"));
+
+  if (mode == std::string("tolerance")) {
+    zpars._meth = SEP::IO::ZFP_TOLERANCE;
+    zpars._tolerance = par->getFloat(std::string("tolerance"), 3e-1);
 
   } else if (mode == std::string("accuracy")) {
-    tolerance = par->getFloat(std::string("tolerance"));
+    zpars._meth = SEP::IO::ZFP_ACCURACY;
+    zpars._precision = par->getInt(std::string("precision"), 15);
   } else if (mode == std::string("precision")) {
-    precision = par->getFloat(std::string("precision"));
+    zpars._meth = SEP::IO::ZFP_PRECISION;
+    zpars._rate = par->getInt(std::string("rate"), 7.);
 
   } else
     par->error("Only support rate, accuracy, or precission modes for now");
+  std::shared_ptr<SEP::IO::ZfpCompression> comp(
+      new SEP::IO::ZfpCompression(outp->getDataType(), zpars));
 
-  long long n123 = (long long)ng[0] * (long long)ng[1] * (long long)ng[2];
+  std::shared_ptr<SEP::buffersRegFile> bufFile =
+      std::dynamic_pointer_cast<SEP::buffersRegFile>(outp);
+  bufFile->setCompression(comp);
+  bufFile->setDataType(inp->getDataType());
+  int ndim = inp->getHyper()->getNdimG1();
+  std::vector<axis> axes = hyperIn->getAxes(), axesBuf = hyperIn->getAxes();
+  std::vector<int> bs, nb, nw, fw, jw;
 
-  assert(inp->getDataType() == dataFloat);
+  switch (ndim) {
+    case 1: {
+      bs.push_back(1);
+      nb.push_back(std::min((long long)250000, hyperIn->getN123()));
+      std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
+      bufFile->setBlocking(block);
+      nw.push_back(std::min(hyperIn->getN123(), (long long)250000));
+      fw.push_back(0);
+      jw.push_back(1);
+      size_t done = 0;
+      axes[0].n = nw[0];
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
+      while (fw[0] < hyperIn->getN123()) {
+        inp->readWindow(nw, fw, jw, vec);
+        bufFile->writeWindow(nw, fw, jw, vec);
+        fw[0] += nw[0];
+        nw[0] = std::min((long long)250000, hyperIn->getN123() - fw[0]);
+      }
+    } break;
 
-  long long n45 = 1;
-  jsonArgs["ndims"] = (int)ng.size();
+    case 2: {
+      bs.push_back(16);
+      bs.push_back(4);
+      nb.push_back(1024);
+      nb.push_back(256);
+      std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
+      bufFile->setBlocking(block);
+      if (axes[0].n < 250000000) {
+        std::vector<int> nb(2, 1);
+        nw.push_back(axes[0].n);
+        nb[0] = axes[0].n;
+        nb[1] =
+            std::min((long long)axes[1].n, (long long)250000000 / axes[0].n);
+      } else {
+        nb[0] = 250000000;
+        nb[1] = 1;
+      }
 
-  for (int i = 0; i < ng.size(); i++) {
-    axis a = hyperIn->getAxis(i + 1);
-    jsonArgs[std::string("n") + std::to_string(i + 1)] = a.n;
-    jsonArgs[std::string("o") + std::to_string(i + 1)] = a.o;
-    jsonArgs[std::string("d") + std::to_string(i + 1)] = a.d;
-    jsonArgs[std::string("label") + std::to_string(i + 1)] = a.label;
+      nw.push_back(nb[0]);
+      nw.push_back(nb[1]);
+      fw.push_back(0);
+      jw.push_back(1);
+      fw.push_back(0);
+      jw.push_back(1);
+      axesBuf[0].n = nw[0];
+      axesBuf[1].n = nw[1];
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
+
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
+
+      while (fw[1] < axes[1].n) {
+        while (fw[0] < axes[0].n) {
+          inp->readWindow(nw, fw, jw, vec);
+          bufFile->writeWindow(nw, fw, jw, vec);
+          fw[0] += nw[0];
+          nw[0] = std::min(axes[0].n - fw[0], nb[0]);
+        }
+        fw[0] = 0;
+        nw[0] = nb[0];
+        fw[1] += nb[1];
+        nw[1] = std::min(axes[1].n - fw[1], nb[1]);
+      }
+    } break;
+
+    default: {
+      std::vector<int> ns(7, 1), nb(3, 1);
+      for (int i = 0; i < axes.size(); i++) ns[i] = axes[i].n;
+      for (int i = 3; i < axesBuf.size(); i++) axesBuf[i].n = 1;
+      bs.push_back(16);
+      bs.push_back(4);
+      bs.push_back(4);
+      nb.push_back(256);
+      nb.push_back(32);
+      nb.push_back(32);
+      std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
+      bufFile->setBlocking(block);
+      if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {
+        for (int i = 0; i < 3; i++) {
+          nb[i] = axes[i].n;
+        }
+      } else if (axes[0].n * axes[1].n < (long long)25000000) {
+        nb[0] = axes[0].n;
+        nb[1] = axes[1].n;
+        nb[2] = 250000000 / nb[0] / nb[1];
+      } else if (axes[0].n < (long long)250000000) {
+        nb[0] = axes[0].n;
+
+        nb[1] = 250000000 / axes[0].n;
+        nb[2] = 1;
+      } else {
+        nb[0] = 250000000;
+        nb[1] = 1;
+        nb[2] = 1;
+      }
+      for (int i = 0; i < 3; i++) {
+        nw.push_back(nb[i]);
+        fw.push_back(0);
+        jw.push_back(1);
+        axesBuf[i].n = nb[i];
+      }
+      for (int i = 3; i < 7; i++) {
+        nw.push_back(1);
+        fw.push_back(0);
+        jw.push_back(1);
+      }
+
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
+
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
+
+      for (int i6 = 0; i6 < ns[6]; i6++) {
+        fw[6] = i6;
+        for (int i5 = 0; i5 < ns[5]; i5++) {
+          fw[5] = i5;
+          for (int i4 = 0; i4 < ns[4]; i4++) {
+            for (int i3 = 0; i3 < ns[3]; i3++) {
+              while (fw[2] < axes[2].n) {
+                while (fw[1] < axes[1].n) {
+                  while (fw[0] < axes[0].n) {
+                    inp->readWindow(nw, fw, jw, vec);
+                    bufFile->writeWindow(nw, fw, jw, vec);
+                    fw[0] += nw[0];
+                    nw[0] = std::min(axes[0].n - fw[0], nb[0]);
+                  }
+                  fw[0] = 0;
+                  nw[0] = nb[0];
+                  fw[1] += nb[1];
+                  nw[1] = std::min(axes[1].n - fw[1], nb[1]);
+                }
+                fw[1] = 0;
+                nw[1] = nb[1];
+                fw[2] += nb[2];
+                nw[2] = std::min(axes[2].n - fw[2], nb[2]);
+              }
+            }
+          }
+        }
+      }
+    } break;
   }
-
-  if (ng.size() > 3) {
-    for (int i = 3; i < ng.size(); i++) {
-      n45 = n45 * (long long)ng[i];
-    }
-  }
-
-  float* buf = new float[n123];
-
-  jsonArgs["nfiles"] = n45;
-
-  for (long long i = 0; i < n45; i++) {
-    std::string file =
-        outDir + std::string("/") + std::string("file") + std::to_string(i);
-
-    jsonArgs[std::string("file") + std::to_string(i)] = file;
-    inp->readFloatStream(buf, n123);
-    zfp_type type = zfp_type_float;
-    size_t typesize = 0;
-    uint dims = std::min((uint)ng.size(), (uint)3);
-    uint nx = ng[0], ny, nz;
-    if (ng.size() > 1) ny = ng[1];
-    if (ng.size() > 2) nz = ng[2];
-
-    uint minbits = ZFP_MIN_BITS;
-    uint maxbits = ZFP_MAX_BITS;
-    uint maxprec = ZFP_MAX_PREC;
-    int minexp = ZFP_MIN_EXP;
-    int header = 0;
-    int quiet = 0;
-    int stats = 0;
-    char* inpath = 0;
-    char* zfppath = 0;
-    char* outpath = 0;
-
-    /* local variables */
-    zfp_field* field = zfp_field_alloc();
-    zfp_stream* zfp = zfp_stream_open(NULL);
-    ;
-    bitstream* stream = NULL;
-    void* fo = NULL;
-    void* buffer = NULL;
-    size_t rawsize = 0;
-    size_t zfpsize = 0;
-    size_t bufsize = 0;
-
-    zfp_field_set_type(field, type);
-    zfp_field_set_pointer(field, buf);
-    switch (dims) {
-      case 1:
-        zfp_field_set_size_1d(field, nx);
-        break;
-      case 2:
-        zfp_field_set_size_2d(field, nx, ny);
-        break;
-      case 3:
-        zfp_field_set_size_3d(field, nx, ny, nz);
-        break;
-    }
-
-    /* set (de)compression mode */
-    switch (mode.c_str()[0]) {
-      case 'a':
-        std::cerr << "tolerance " << tolerance << std::endl;
-        zfp_stream_set_accuracy(zfp, tolerance);
-        break;
-      case 'p':
-        std::cerr << "precision " << precision << std::endl;
-        zfp_stream_set_precision(zfp, precision);
-        break;
-      case 'r':
-        std::cerr << "rate " << rate << std::endl;
-        zfp_stream_set_rate(zfp, rate, type, dims, 0);
-        break;
-    }
-
-    /* allocate buffer for compressed data */
-    bufsize = zfp_stream_maximum_size(zfp, field);
-    if (!bufsize) par->error(std::string("invalid compression parameters"));
-    buffer = malloc(bufsize);
-    if (!buffer) par->error(std::string("cannot allocate memory\n"));
-    ;
-
-    /* associate compressed bit stream with memory buffer */
-    stream = stream_open(buffer, bufsize);
-    if (!stream) par->error("cannot open compressed stream\n");
-    zfp_stream_set_bit_stream(zfp, stream);
-
-    /* optionally // header */
-    if (!zfp_write_header(zfp, field, ZFP_HEADER_FULL))
-      par->error(std::string("trouble writing header"));
-
-    /* compress data */
-    zfpsize = zfp_compress(zfp, field);
-    if (zfpsize == 0) par->error("compression failed");
-
-    FILE* fileB = fopen(file.c_str(), "wb");
-    if (!fileB) par->error(std::string("can not open binary file ") + file);
-
-    if (fwrite(buffer, 1, zfpsize, fileB) != zfpsize)
-      par->error(std::string("trouble writing compressed file"));
-    fclose(fileB);
-
-    /* free allocated storage */
-    zfp_field_free(field);
-    zfp_stream_close(zfp);
-    stream_close(stream);
-    free(buffer);
-  }
-
-  std::ofstream outps;
-  std::string jsonFile = outDir + std::string("/file.json");
-  outps.open(jsonFile, std::ofstream::out);
-
-  if (!outps) {
-    std::cerr << std::string("Trouble opening for write") + jsonFile
-              << std::endl;
-    throw std::exception();
-  }
-  try {
-    outps << jsonArgs;
-  } catch (int x) {
-    std::cerr << std::string("Trouble writing JSON file ") + jsonFile
-              << std::endl;
-    throw std::exception();
-  }
-
+  outp->writeDescription();
+  outp->close();
   return EXIT_SUCCESS;
 }

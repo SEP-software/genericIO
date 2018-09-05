@@ -189,327 +189,349 @@ void sepRegFile::readFloatStream(float *array, const long long npts) {
   if (ierr != nptsT)
     error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::readIntStream(int *array, const long long npts) {
+  long long nptsT = npts * 4;
+  long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::readDoubleStream(double
 
-  void sepRegFile::readIntStream(float *array, const long long npts) {
-    long long nptsT = npts * 4;
-    long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble reading from ") + _tag +
-            std::string(" after ") + std::to_string(ierr) +
-            std::string(" bytes"));
-  }
-  void sepRegFile::readDoubleStream(float *array, const long long npts) {
-    long long nptsT = npts * 8;
-    long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble reading from ") + _tag +
-            std::string(" after ") + std::to_string(ierr) +
-            std::string(" bytes"));
-  }
-  void sepRegFile::readComplexStream(std::complex<float> * array,
-                                     const long long npts) {
-    long long nptsT = npts * 8;
-    long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble reading from ") + _tag +
-            std::string(" after ") + std::to_string(ierr) +
-            std::string(" bytes"));
-  }
-  void sepRegFile::readUCharStream(unsigned char *array, const long long npts) {
-    long long nptsT = npts * 1;
-    long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble reading from ") + _tag +
-            std::string(" after ") + std::to_string(ierr) +
-            std::string(" bytes"));
-  }
+                                      *array,
+                                  const long long npts) {
+  long long nptsT = npts * 8;
+  long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::readComplexStream(std::complex<float> *array,
+                                   const long long npts) {
+  long long nptsT = npts * 8;
+  long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::readUCharStream(unsigned char *array, const long long npts) {
+  long long nptsT = npts * 1;
+  long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
 
-  void sepRegFile::writeFloatStream(const float *array, const long long npts) {
-    long long nptsT = npts * 4;
-    long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble write from ") + _tag + std::string(" after ") +
-            std::to_string(ierr) + std::string(" bytes"));
-  }
+void sepRegFile::writeFloatStream(const float *array, const long long npts) {
+  long long nptsT = npts * 4;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::writeUCharStream(const unsigned char *array,
+                                  const long long npts) {
+  long long nptsT = npts * 1;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::writeIntStream(const int *array, const long long npts) {
+  long long nptsT = npts * 4;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+void sepRegFile::writeDoubleStream(const double *array, const long long npts) {
+  long long nptsT = npts * 8;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
 
-  void sepRegFile::writeIntStream(const int *array, const long long npts) {
-    long long nptsT = npts * 4;
-    long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble write from ") + _tag + std::string(" after ") +
-            std::to_string(ierr) + std::string(" bytes"));
-  }
-  void sepRegFile::writeDoubleStream(const double *array,
-                                     const long long npts) {
-    long long nptsT = npts * 8;
-    long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble write from ") + _tag + std::string(" after ") +
-            std::to_string(ierr) + std::string(" bytes"));
-  }
-
-  void sepRegFile::readFloatWindow(const std::vector<int> &nw,
-                                   const std::vector<int> &fw,
-                                   const std::vector<int> &jw, float *array) {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-
-    setDataType(DATA_FLOAT);
-
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-
-    int ndim = ng.size();
-    if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 4, array))
-      error(std::string("trouble reading data from tag ") + _tag);
-  }
-
-  void sepRegFile::readDoubleWindow(const std::vector<int> &nw,
-                                    const std::vector<int> &fw,
-                                    const std::vector<int> &jw, double *array) {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-
-    setDataType(DATA_DOUBLE);
-
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-
-    int ndim = ng.size();
-    if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 8, array))
-      error(std::string("trouble reading data from tag ") + _tag);
-  }
-  void sepRegFile::readIntWindow(const std::vector<int> &nw,
+void sepRegFile::readFloatWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
-                                 const std::vector<int> &jw, int *array) {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
+                                 const std::vector<int> &jw, float *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
 
-    setDataType(DATA_INT);
+  setDataType(DATA_FLOAT);
 
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-
-    int ndim = ng.size();
-    if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 4, array))
-      error(std::string("trouble reading data from tag ") + _tag);
-  }
-
-  void sepRegFile::readComplexWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, std::complex<float> *array) {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    setDataType(DATA_COMPLEX);
-
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-
-    int ndim = ng.size();
-    if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 8, array))
-      error(std::string("trouble reading data from tag ") + _tag);
-  }
-
-  void sepRegFile::writeComplexStream(const std::complex<float> *array,
-                                      const long long npts) {
-    long long nptsT = npts * 8;
-    long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
-    if (ierr != nptsT)
-      error(std::string("Trouble write from ") + _tag + std::string(" after ") +
-            std::to_string(ierr) + std::string(" bytes"));
-  }
-
-  void sepRegFile::writeComplexWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, const std::complex<float> *array) {
-    setDataType(DATA_COMPLEX);
-
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-    int ndim = ng.size();
-    if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 8, array))
-      error(std::string("trouble writing data to tag ") + _tag);
-  }
-
-  void sepRegFile::readUCharWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, unsigned char *array) {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-    int ndim = ng.size();
-    if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 1, array))
-      error(std::string("trouble reading data from tag ") + _tag);
-  }
-  void sepRegFile::writeFloatWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, const float *array) {
-    setDataType(DATA_FLOAT);
-
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-    int ndim = ng.size();
-    if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 4, array))
-      error(std::string("trouble writing data to tag ") + _tag);
-  }
-
-  void sepRegFile::writeDoubleWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, const double *array) {
-    setDataType(DATA_DOUBLE);
-
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-    int ndim = ng.size();
-    if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 8, array))
-      error(std::string("trouble writing data to tag ") + _tag);
-  }
-  void sepRegFile::writeIntWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, const int *array) {
-    setDataType(DATA_INT);
-
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<int> ng = hyper->getNs();
-    if (ng.size() > nw.size()) {
-      for (int i = nw.size(); i < ng.size(); i++) {
-        if (ng[i] > 1) error("number of dimension does not equal data size");
-      }
-    }
-    if (nw.size() < ng.size() || fw.size() < ng.size() ||
-        jw.size() < jw.size()) {
-      error("number of dimensions does not equal data size");
-    }
-    int ndim = ng.size();
-    if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
-                          jw.data(), 4, array))
-      error(std::string("trouble writing data to tag ") + _tag);
-  }
-
-  void sepRegFile::readDescription() {
-    int ndim;
-    sep_get_number_data_axes(_tag.c_str(), &ndim);
-    std::vector<axis> axes;
-    for (int i = 1; i <= ndim; i++) {
-      int n;
-      float o, d;
-      char label[1024];
-      sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
-      axes.push_back(axis(n, o, d, std::string(label)));
-    }
-    std::shared_ptr<hypercube> hyper(new hypercube(axes));
-    setHyper(hyper);
-    int esize = getInt("esize", 4);
-    if (esize == 1)
-      setDataType(DATA_BYTE);
-    else if (esize == 4) {
-      std::string format =
-          getString(std::string("data_format"), std::string("xdr_float"));
-      if (format == std::string("xdr_float") ||
-          format == std::string("native_float"))
-        setDataType(DATA_FLOAT);
-      else if (format == std::string("xdr_int") ||
-               format == std::string("native_int"))
-        setDataType(DATA_INT);
-      else
-        error(std::string("Unknown data type " + format));
-    } else
-      error(std::string("Only know about esize=4 or 1"));
-  }
-  void sepRegFile::writeDescription() {
-    std::shared_ptr<hypercube> hyper = getHyper();
-    std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
-
-    for (int i = 1; i <= axes.size(); i++) {
-      int n = axes[i - 1].n;
-      float o = axes[i - 1].o;
-      float d = axes[i - 1].d;
-      char label[1024];
-      std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
-      label[axes[i - 1].label.length()] = '\0';
-      sep_put_data_axis_par("z.H", &i, &n, &o, &d, "junl");
-      sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
-    }
-    for (int i = axes.size() + 1; i <= 8; i++) {
-      int n = 1;
-      float o = 0., d = 1.;
-      sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, "none");
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
-  void sepRegFile::message(const std::string &arg) const {
-    sepwarn(0, arg.c_str());
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
   }
-  void sepRegFile::seekTo(const long long iv, const int whence) {
-    sseek(_tag.c_str(), iv, whence);
+
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 4, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+
+void sepRegFile::readDoubleWindow(const std::vector<int> &nw,
+                                  const std::vector<int> &fw,
+                                  const std::vector<int> &jw, double *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+
+  setDataType(DATA_DOUBLE);
+
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
   }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 8, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+void sepRegFile::readIntWindow(const std::vector<int> &nw,
+                               const std::vector<int> &fw,
+                               const std::vector<int> &jw, int *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+
+  setDataType(DATA_INT);
+
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 4, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+
+void sepRegFile::readComplexWindow(const std::vector<int> &nw,
+                                   const std::vector<int> &fw,
+                                   const std::vector<int> &jw,
+                                   std::complex<float> *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  setDataType(DATA_COMPLEX);
+
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 8, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+
+void sepRegFile::writeComplexStream(const std::complex<float> *array,
+                                    const long long npts) {
+  long long nptsT = npts * 8;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+
+void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
+                                    const std::vector<int> &fw,
+                                    const std::vector<int> &jw,
+                                    const std::complex<float> *array) {
+  setDataType(DATA_COMPLEX);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 8, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
+
+void sepRegFile::readUCharWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 unsigned char *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 1, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+void sepRegFile::writeFloatWindow(const std::vector<int> &nw,
+                                  const std::vector<int> &fw,
+                                  const std::vector<int> &jw,
+                                  const float *array) {
+  setDataType(DATA_FLOAT);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 4, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
+void sepRegFile::writeUCharWindow(const std::vector<int> &nw,
+                                  const std::vector<int> &fw,
+                                  const std::vector<int> &jw,
+                                  const unsigned char *array) {
+  setDataType(DATA_FLOAT);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 1, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
+
+void sepRegFile::writeDoubleWindow(const std::vector<int> &nw,
+                                   const std::vector<int> &fw,
+                                   const std::vector<int> &jw,
+                                   const double *array) {
+  setDataType(DATA_DOUBLE);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 8, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
+void sepRegFile::writeIntWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw, const int *array) {
+  setDataType(DATA_INT);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 4, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
+
+void sepRegFile::readDescription() {
+  int ndim;
+  sep_get_number_data_axes(_tag.c_str(), &ndim);
+  std::vector<axis> axes;
+  for (int i = 1; i <= ndim; i++) {
+    int n;
+    float o, d;
+    char label[1024];
+    sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
+    axes.push_back(axis(n, o, d, std::string(label)));
+  }
+  std::shared_ptr<hypercube> hyper(new hypercube(axes));
+  setHyper(hyper);
+  int esize = getInt("esize", 4);
+  if (esize == 1)
+    setDataType(DATA_BYTE);
+  else if (esize == 4) {
+    std::string format =
+        getString(std::string("data_format"), std::string("xdr_float"));
+    if (format == std::string("xdr_float") ||
+        format == std::string("native_float"))
+      setDataType(DATA_FLOAT);
+    else if (format == std::string("xdr_int") ||
+             format == std::string("native_int"))
+      setDataType(DATA_INT);
+    else
+      error(std::string("Unknown data type " + format));
+  } else
+    error(std::string("Only know about esize=4 or 1"));
+}
+void sepRegFile::writeDescription() {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
+
+  for (int i = 1; i <= axes.size(); i++) {
+    int n = axes[i - 1].n;
+    float o = axes[i - 1].o;
+    float d = axes[i - 1].d;
+    char label[1024];
+    std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
+    label[axes[i - 1].label.length()] = '\0';
+    sep_put_data_axis_par("z.H", &i, &n, &o, &d, "junl");
+    sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
+  }
+  for (int i = axes.size() + 1; i <= 8; i++) {
+    int n = 1;
+    float o = 0., d = 1.;
+    sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, "none");
+  }
+}
+void sepRegFile::message(const std::string &arg) const {
+  sepwarn(0, arg.c_str());
+}
+void sepRegFile::seekTo(const long long iv, const int whence) {
+  sseek(_tag.c_str(), iv, whence);
+}

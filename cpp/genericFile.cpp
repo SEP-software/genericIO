@@ -100,10 +100,9 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
   readFloatWindow(nw, fw, jw, vec->getVals());
   return true;
 }
-bool genericRegFile::writeFloatWindow(const std::vector<int> &nw,
-                                      const std::vector<int> &fw,
-                                      const std::vector<int> &jw,
-                                      std::shared_ptr<SEP::floatHyper> vec) {
+bool genericRegFile::writeFloatWindow(
+    const std::vector<int> &nw, const std::vector<int> &fw,
+    const std::vector<int> &jw, const std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -160,10 +159,9 @@ bool genericRegFile::readByteWindow(const std::vector<int> &nw,
   readUCharWindow(nw, fw, jw, vec->getVals());
   return true;
 }
-bool genericRegFile::writeByteWindow(const std::vector<int> &nw,
-                                     const std::vector<int> &fw,
-                                     const std::vector<int> &jw,
-                                     std::shared_ptr<SEP::byteHyper> vec) {
+bool genericRegFile::writeByteWindow(
+    const std::vector<int> &nw, const std::vector<int> &fw,
+    const std::vector<int> &jw, const std::shared_ptr<SEP::byteHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -221,7 +219,7 @@ bool genericRegFile::readIntWindow(const std::vector<int> &nw,
 bool genericRegFile::writeIntWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw,
-                                    std::shared_ptr<SEP::intHyper> vec) {
+                                    const std::shared_ptr<SEP::intHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -251,7 +249,7 @@ bool genericRegFile::readDoubleStream(std::shared_ptr<SEP::doubleHyper> vec) {
 }
 bool genericRegFile::writeDoubleStream(
     const std::shared_ptr<SEP::doubleHyper> vec) {
-  std::shared_ptr<hypercube> hypV = vec->getHyper();
+  const std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
               << std::endl;
@@ -278,10 +276,9 @@ bool genericRegFile::readDoubleWindow(const std::vector<int> &nw,
   readDoubleWindow(nw, fw, jw, vec->getVals());
   return true;
 }
-bool genericRegFile::writeDoubleWindow(const std::vector<int> &nw,
-                                       const std::vector<int> &fw,
-                                       const std::vector<int> &jw,
-                                       std::shared_ptr<SEP::doubleHyper> vec) {
+bool genericRegFile::writeDoubleWindow(
+    const std::vector<int> &nw, const std::vector<int> &fw,
+    const std::vector<int> &jw, const std::shared_ptr<SEP::doubleHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -337,6 +334,51 @@ bool genericRegFile::readComplexWindow(const std::vector<int> &nw,
   readComplexWindow(nw, fw, jw, vec->getVals());
   return true;
 }
+bool genericRegFile::writeWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 const std::shared_ptr<SEP::regSpace> hyp) {
+  const std::shared_ptr<complexHyper> cp =
+      std::dynamic_pointer_cast<complexHyper>(hyp);
+  if (cp) return writeComplexWindow(nw, fw, jw, cp);
+
+  const std::shared_ptr<byteHyper> bp =
+      std::dynamic_pointer_cast<byteHyper>(hyp);
+  if (bp) return writeByteWindow(nw, fw, jw, bp);
+
+  const std::shared_ptr<doubleHyper> dp =
+      std::dynamic_pointer_cast<doubleHyper>(hyp);
+  if (dp) return writeDoubleWindow(nw, fw, jw, dp);
+
+  const std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
+  if (ip) return writeIntWindow(nw, fw, jw, ip);
+
+  const std::shared_ptr<floatHyper> fp =
+      std::dynamic_pointer_cast<floatHyper>(hyp);
+  return writeFloatWindow(nw, fw, jw, fp);
+}
+
+bool genericRegFile::readWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                const std::shared_ptr<SEP::regSpace> hyp) {
+  std::shared_ptr<complexHyper> cp =
+      std::dynamic_pointer_cast<complexHyper>(hyp);
+  if (cp) return readComplexWindow(nw, fw, jw, cp);
+
+  std::shared_ptr<byteHyper> bp = std::dynamic_pointer_cast<byteHyper>(hyp);
+  if (bp) return readByteWindow(nw, fw, jw, bp);
+
+  std::shared_ptr<doubleHyper> dp = std::dynamic_pointer_cast<doubleHyper>(hyp);
+  if (dp) return readDoubleWindow(nw, fw, jw, dp);
+
+  std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
+  if (ip) return readIntWindow(nw, fw, jw, ip);
+
+  std::shared_ptr<floatHyper> fp = std::dynamic_pointer_cast<floatHyper>(hyp);
+  return readFloatWindow(nw, fw, jw, fp);
+}
+
 bool genericRegFile::writeComplexWindow(
     const std::vector<int> &nw, const std::vector<int> &fw,
     const std::vector<int> &jw, std::shared_ptr<SEP::complexHyper> vec) {

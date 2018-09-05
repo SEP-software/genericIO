@@ -2,6 +2,8 @@ project(Generic-IO-util)
 cmake_minimum_required(VERSION 2.8)
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
 
+FIND_PACKAGE(TBB REQUIRED)
+
 
 link_directories( "${GENERIC_EXPORT_LIB_DIRS}")
 
@@ -24,7 +26,7 @@ find_package(ZFP)
   set(UTILSZ Compress  Decompress)
   foreach(util ${UTILSZ})
       ADD_EXECUTABLE(${util} ${util}.cc)
-      TARGET_LINK_LIBRARIES(${util} genericCpp hypercube ${ZFP_LIBRARIES}  )
+      TARGET_LINK_LIBRARIES(${util} genericCpp sepVector buffers hypercube tbb )
       install(TARGETS ${util} DESTINATION bin)
   endforeach(util)
 

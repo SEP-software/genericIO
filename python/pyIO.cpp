@@ -26,12 +26,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .value("usageScr", usage_code::usageScr);
 
   py::enum_<dataType>(clsGeneric, "dataType")
-      .value("dataFloat", dataType::dataFloat)
-      .value("dataByte", dataType ::dataByte)
-      .value("dataShort", dataType ::dataShort)
-      .value("dataInt", dataType::dataInt)
-      .value("dataComplex", dataType::dataComplex)
-      .value("dataUndefined", dataType::dataUndefined);
+      .value("dataFloat", dataType::DATA_FLOAT)
+      .value("dataByte", dataType ::DATA_BYTE)
+      .value("dataDouble", dataType ::DATA_DOUBLE)
+      .value("dataInt", dataType::DATA_INT)
+      .value("dataComplex", dataType::DATA_COMPLEX)
+      .value("dataUndefined", dataType::DATA_UNKNOWN);
 
   py::class_<paramObj, std::shared_ptr<paramObj>>(clsGeneric,
                                                   "paramObj")  //
@@ -141,7 +141,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            "Read a stream of floats")
 
       .def("readComplexStream",
-           (void (genericRegFile ::*)(std::complex<float>, const long long)) &
+           (void (genericRegFile ::*)(std::complex<float> *, const long long)) &
                genericRegFile::readComplexStream,
            "Read a stream of complex numbers")
 
@@ -191,7 +191,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("readComplexWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int>, std::complex<float> *)) &
+               const std::vector<int> &, std::complex<float> *)) &
                genericRegFile::readComplexWindow,
            "Read a window of complex")
       .def("writeFloatWindow",
@@ -204,7 +204,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("writeComplexWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int>, std::complex<float> *)) &
+               const std::vector<int> &, const std::complex<float> *)) &
                genericRegFile::writeComplexWindow,
            "Write a window of complex")
 

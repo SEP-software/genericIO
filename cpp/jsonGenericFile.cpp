@@ -6,7 +6,8 @@
 using namespace SEP;
 jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,
                                  const usage_code usage, const std::string &tag,
-                                 const int reelH, const int traceH) {
+                                 const int reelH, const int traceH,
+                                 const std::string &progName) {
   _usage = usage;
   setupJson(arg, tag);
   _reelH = reelH;
@@ -27,6 +28,7 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,
         datapath + std::string("/") + getJSONFileName() + std::string(".dat");
     jsonArgs["filename"] = _dataFile;
   }
+  jsonArgs["progName"] = progName;
 }
 void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,
                                 const std::string &tag,
@@ -222,6 +224,24 @@ void jsonGenericFile::readDescription() {
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
 }
+void jsonGenericFile::setHistory(const Json::Value &input) {
+  Json::Value hist;
+  if (!input["history"].isNull()) {
+    hist = input["history"];
+  }
+  Json::Value last;
+  for (Json::Value::const_iterator itr = input.begin(); itr != input.end();
+       itr++) {
+    std::string key = itr.key().toStyledString();
+    Json::Value value = (*itr);
+    if (key == std::string("history")) {
+      last[key] = value;
+    }
+  }
+  hist.append(last);
+  jsonArgs["history"] = hist;
+}
+
 void jsonGenericFile::writeDescription() {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());

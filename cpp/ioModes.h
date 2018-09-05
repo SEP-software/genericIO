@@ -1,5 +1,5 @@
-#ifndef IOMODES
-#define IOMODES 1
+#ifndef IOMODES_H
+#define IOMODES_H 1
 #include <string.h>
 #include <mutex>
 #include "genericIO.h"

@@ -5,7 +5,8 @@
 #include <iostream>  // std::cout
 using namespace SEP;
 buffersRegFile::buffersRegFile(std::shared_ptr<Json::Value> arg,
-                               const usage_code usage, const std::string &tag) {
+                               const usage_code usage, const std::string &tag,
+                               const std::string &progName) {
   setUsage(usage);
   setupJson(arg, tag, std::string("/des.dat"));
 
@@ -14,6 +15,7 @@ buffersRegFile::buffersRegFile(std::shared_ptr<Json::Value> arg,
       error(std::string("bufferInfo not provided in JSON file"));
     _bufs.reset(new SEP::IO::buffers(getHyper(), jsonArgs["bufferInfo"]));
   }
+  jsonArgs["progName"] = progName;
 }
 
 void buffersRegFile::writeDescription() {
@@ -44,6 +46,14 @@ void buffersRegFile::close() {
                 << std::endl;
       throw std::exception();
     }
-    _bufs.changeState(SEP::IO::ON_DISK);
+    _bufs->changeState(SEP::IO::ON_DISK);
   }
+}
+void buffersRegFile::createBuffers() {
+  if (_bufs) return;
+  if (_hyper) error("Must set hypercube before blocking");
+  if (getDataType() == SEP::DATA_UNKNOWN)
+    error("Must set dataType before setting blocks");
+  _bufs.reset(
+      new SEP::IO::buffers(getHyper(), getDataType(), _comp, _block, _mem));
 }

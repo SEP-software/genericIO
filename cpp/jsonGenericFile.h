@@ -4,6 +4,7 @@
 #include <string>
 #include "basicIO.h"
 #include "genericFile.h"
+#include "ioTypes.h"
 #include "json.h"
 namespace SEP {
 class jsonGenericFile : public genericIrregFile {
@@ -12,7 +13,8 @@ class jsonGenericFile : public genericIrregFile {
 
   jsonGenericFile() { ; }
   jsonGenericFile(std::shared_ptr<Json::Value> arg, const SEP::usage_code usage,
-                  const std::string &tag, const int reelH, const int traceH);
+                  const std::string &tag, const int reelH, const int traceH,
+                  const std::string &progName);
   void setupJson(std::shared_ptr<Json::Value> jsonArgs, const std::string &tag,
                  const std::string desFileDefault = std::string(""));
   virtual int getInt(const std::string &arg) const;
@@ -43,6 +45,7 @@ class jsonGenericFile : public genericIrregFile {
   std::string getTag() { return _tag; }
   virtual void close();
   void setUsage(const usage_code usage) { _usage = usage; }
+  void setHistory(const Json::Value &hist);
   usage_code getUsage() { return _usage; }
   virtual std::string getJSONFileName() const;
   std::string getDataFileName() const;
@@ -103,7 +106,8 @@ class jsonGenericFile : public genericIrregFile {
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
                                  const double *array) override;
-
+  void setDataType(const dataType typ) { _dtype = typ; }
+  void setDataType(const std::string &typ) { setDataType(toElementType(typ)); }
   virtual void writeIntStream(const int *array, const long long npts) override;
   virtual void readIntStream(int *array, const long long npts) override;
   virtual void readIntWindow(const std::vector<int> &nw,
@@ -117,6 +121,7 @@ class jsonGenericFile : public genericIrregFile {
  protected:
   Json::Value jsonArgs;
   bool _newFile;
+  dataType _dtype;
 
  private:
   std::string _tag;

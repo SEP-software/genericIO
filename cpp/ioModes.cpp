@@ -1,5 +1,6 @@
 #include "ioModes.h"
-#include<iostream>
+#include <iostream>
+#include "buffersIO.h"
 #include "ioConfig.h"
 #include "segyIO.h"
 #ifdef USE_RSF
@@ -15,6 +16,8 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["JSON"] = a;
   std::shared_ptr<segyIO> d(new segyIO(argc, argv));
   _ios["SEGY"] = d;
+  std::shared_ptr<buffersIO> m(new buffersIO(argc, argv));
+  _ios["BUFFERS"] = m;
 #ifdef USE_RSF
   std::shared_ptr<rsfIO> b(new rsfIO(argc, argv));
   _ios["RSF"] = b;
@@ -27,7 +30,6 @@ void ioModes::setup(const int argc, char **argv) {
 #endif
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
-
 }
 std::shared_ptr<genericIO> ioModes::getDefaultIO() {
   return getIO(_defaultType);

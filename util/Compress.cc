@@ -6,6 +6,7 @@
 #include "ZfpCompress.h"
 #include "buffersRegFile.h"
 #include "ioModes.h"
+#include "seplib.h"
 using namespace SEP;
 int main(int argc, char** argv) {
   ioModes modes(argc, argv);
@@ -48,30 +49,21 @@ int main(int argc, char** argv) {
   } else
     par->error("Only support rate, accuracy, or precission modes for now");
 
-  std::cerr << inp->getDataTypeString() << "=datatype" << std::endl;
   std::shared_ptr<SEP::IO::ZfpCompression> comp(
       new SEP::IO::ZfpCompression(outp->getDataType(), zpars));
-  std::cerr << "where1 do i2 die " << std::endl;
 
   std::shared_ptr<SEP::buffersRegFile> bufFile =
       std::dynamic_pointer_cast<SEP::buffersRegFile>(outp);
-  std::cerr << "before SET COMPRE 2do i2 die " << std::endl;
   assert(bufFile);
-  std::cerr << "After assert " << std::endl;
   bufFile->setCompression(comp);
-  std::cerr << "w1here do i2 die " << std::endl;
 
   bufFile->setDataType(inp->getDataType());
-  std::cerr << "w2here do i2 die " << std::endl;
 
   int ndim = inp->getHyper()->getNdimG1();
-  std::cerr << "w3here do i2 die " << std::endl;
 
   std::vector<axis> axes = hyperIn->getAxes(), axesBuf = hyperIn->getAxes();
-  std::cerr << "w4here do i2 die " << std::endl;
 
   std::vector<int> bs, nb, nw, fw, jw;
-  std::cerr << "NDIM= " << ndim << std::endl;
 
   switch (ndim) {
     case 1: {
@@ -139,15 +131,15 @@ int main(int argc, char** argv) {
     } break;
 
     default: {
-      std::vector<int> ns(7, 1), nb(3, 1);
+      std::vector<int> ns(7, 1);
       for (int i = 0; i < axes.size(); i++) ns[i] = axes[i].n;
       for (int i = 3; i < axesBuf.size(); i++) axesBuf[i].n = 1;
       bs.push_back(16);
       bs.push_back(4);
       bs.push_back(4);
       nb.push_back(256);
-      nb.push_back(32);
-      nb.push_back(32);
+      nb.push_back(64);
+      nb.push_back(64);
       std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
       bufFile->setBlocking(block);
       if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {
@@ -193,8 +185,16 @@ int main(int argc, char** argv) {
               while (fw[2] < axes[2].n) {
                 while (fw[1] < axes[1].n) {
                   while (fw[0] < axes[0].n) {
+                    std::cerr << "doing read " << fw[0] << " " << fw[1] << " "
+                              << fw[2] << " n-" << nw[0] << " " << nw[1] << " "
+                              << nw[2] << std::endl;
                     inp->readWindow(nw, fw, jw, vec);
+                    std::cerr << "after read" << std::endl;
+                    srite("ss.H", vec->getVoidPtr(),
+                          4 * axes[0].n * axes[1].n * nw[2]);
+
                     bufFile->writeWindow(nw, fw, jw, vec);
+                    std::cerr << "after write" << std::endl;
                     fw[0] += nw[0];
                     nw[0] = std::min(axes[0].n - fw[0], nb[0]);
                   }

@@ -97,6 +97,7 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
               << std::endl;
     return false;
   }
+  std::cerr << "in gnerinc " << std::endl;
   readFloatWindow(nw, fw, jw, vec->getVals());
   return true;
 }
@@ -362,6 +363,7 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 const std::shared_ptr<SEP::regSpace> hyp) {
+  std::cerr << "In read window" << std::endl;
   std::shared_ptr<complexHyper> cp =
       std::dynamic_pointer_cast<complexHyper>(hyp);
   if (cp) return readComplexWindow(nw, fw, jw, cp);
@@ -374,9 +376,12 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
 
   std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
   if (ip) return readIntWindow(nw, fw, jw, ip);
+  std::cerr << "In 1read window" << std::endl;
 
   std::shared_ptr<floatHyper> fp = std::dynamic_pointer_cast<floatHyper>(hyp);
+  assert(fp);
   return readFloatWindow(nw, fw, jw, fp);
+  std::cerr << "In r2ead window" << std::endl;
 }
 
 bool genericRegFile::writeComplexWindow(

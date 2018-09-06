@@ -11,11 +11,17 @@ buffersRegFile::buffersRegFile(const Json::Value &arg, const usage_code usage,
   setupJson(arg, tag, std::string("/des.dat"));
 
   if (!_newFile) {
+    readDescription();
+
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
-    _bufs.reset(new SEP::IO::buffers(getHyper(), jsonArgs["bufferInfo"]));
+    std::cerr << "before buf recreate" << std::endl;
+    _bufs.reset(new SEP::IO::buffers(getHyper(), tag, jsonArgs["bufferInfo"]));
+    std::cerr << "before 2buf recreate" << std::endl;
   }
+
   jsonArgs["progName"] = progName;
+  jsonArgs["directory"] = tag;
 }
 
 void buffersRegFile::writeDescription() {
@@ -28,6 +34,7 @@ void buffersRegFile::writeDescription() {
     putString(std::string("label") + std::to_string(i), axes[i - 1].label);
   }
   jsonArgs["bufferInfo"] = _bufs->getDescription();
+  jsonArgs["dataType"] = getTypeString(getDataType());
 }
 
 void buffersRegFile::close() {
@@ -51,9 +58,10 @@ void buffersRegFile::close() {
 }
 void buffersRegFile::createBuffers() {
   if (_bufs) return;
-  if (_hyper) error("Must set hypercube before blocking");
+  if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
   _bufs.reset(
       new SEP::IO::buffers(getHyper(), getDataType(), _comp, _block, _mem));
+  _bufs->setDirectory(jsonArgs["directory"].asString(), true);
 }

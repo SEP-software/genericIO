@@ -1,9 +1,8 @@
+#include "regVector.h"
 
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
 #include "ioModes.h"
-#include "zfp.h"
-#include "zfp/macros.h"
 using namespace SEP;
 int main(int argc, char** argv) {
   ioModes modes(argc, argv);
@@ -13,157 +12,180 @@ int main(int argc, char** argv) {
 
   std::string out = par->getString(std::string("out"));
   std::string inDir = par->getString(std::string("indir"));
-  std::string jsonFile = inDir + std::string("/file.json");
-  Json::Value jsonArgs;
-
-  std::ifstream inps;
-  inps.open(jsonFile, std::ifstream::in);
-
-  if (!inps) {
-    std::cerr << std::string("Trouble opening1 " + jsonFile) << std::endl;
-    throw std::exception();
-  }
-  try {
-    inps >> jsonArgs;
-  } catch (int x) {
-    std::cerr << std::string("Trouble parsing JSON file " + jsonFile)
-              << std::endl;
-    throw std::exception();
-  }
-  std::vector<axis> axes;
-
-  for (int i = 0; i < jsonArgs.get("ndims", 1).asInt(); i++) {
-    axis a;
-    a.n = jsonArgs.get(std::string("n") + std::to_string(i + 1), 1).asInt();
-    a.o = jsonArgs.get(std::string("o") + std::to_string(i + 1), 1).asFloat();
-    a.d = jsonArgs.get(std::string("d") + std::to_string(i + 1), 1).asFloat();
-    a.label = jsonArgs.get(std::string("label") + std::to_string(i + 1), 1)
-                  .asString();
-    axes.push_back(a);
-  }
+  std::cerr << "where 1" << std::endl;
+  std::shared_ptr<genericRegFile> inp =
+      modes.getIO("BUFFERS")->getRegFile(inDir, usageIn);
 
   std::shared_ptr<genericRegFile> outp = io->getRegFile(out, usageOut);
+  std::cerr << "where 2" << std::endl;
 
-  std::shared_ptr<hypercube> hyperOut(new hypercube(axes));
+  std::shared_ptr<hypercube> hyperIn = inp->getHyper();
+  std::cerr << "where 2" << std::endl;
 
-  outp->setHyper(hyperOut);
+  std::vector<int> ng = hyperIn->getNs();
+  std::cerr << "where 2" << std::endl;
 
-  std::vector<int> ng = hyperOut->getNs();
+  outp->setHyper(hyperIn);
+  std::cerr << "where1 2" << std::endl;
 
-  outp->writeDescription();
+  outp->setDataType(inp->getDataType());
+  std::cerr << "where 22" << std::endl;
 
-  int n45 = jsonArgs.get("ndim", 1).asInt();
+  int ndim = inp->getHyper()->getNdimG1();
 
-  for (long long i = 0; i < n45; i++) {
-    std::string xx = std::string("file") + std::to_string(i);
-    std::string fileS = jsonArgs.get(xx, 1).asString();
+  std::vector<axis> axes = hyperIn->getAxes(), axesBuf = hyperIn->getAxes();
 
-    /* default settings */
-    zfp_type type = zfp_type_none;
-    size_t typesize = 0;
-    uint dims = 0;
-    uint nx = 0;
-    uint ny = 0;
-    uint nz = 0;
-    double rate = 0;
-    uint precision = 0;
-    double tolerance = 0;
-    uint minbits = ZFP_MIN_BITS;
-    uint maxbits = ZFP_MAX_BITS;
-    uint maxprec = ZFP_MAX_PREC;
-    int minexp = ZFP_MIN_EXP;
-    int header = 0;
-    int quiet = 0;
-    int stats = 0;
-    char* inpath = 0;
-    char* zfppath = 0;
-    char* outpath = 0;
-    char mode = 0;
+  std::vector<int> bs, nb, nw, fw, jw;
+  std::cerr << "where32 " << ndim << std::endl;
 
-    /* local variables */
-    zfp_field* field = NULL;
-    zfp_stream* zfp = NULL;
-    bitstream* stream = NULL;
-    void* fi = NULL;
-    void* fo = NULL;
-    void* buffer = NULL;
-    size_t rawsize = 0;
-    size_t zfpsize = 0;
-    size_t bufsize = 0;
-
-    type = zfp_type_float;
-
-    typesize = zfp_type_size(type);
-
-    zfp = zfp_stream_open(NULL);
-    field = zfp_field_alloc();
-
-    /* read uncompressed or compressed file */
-
-    /* read compressed input file in increasingly large chunks */
-    FILE* file = fopen(fileS.c_str(), "rb");
-    if (!file) {
-      fprintf(stderr, "cannot open compressed file\n");
-      return EXIT_FAILURE;
-    }
-    bufsize = 0x100;
-    do {
-      bufsize *= 2;
-      buffer = realloc(buffer, bufsize);
-      if (!buffer) {
-        fprintf(stderr, "cannot allocate memory\n");
-        return EXIT_FAILURE;
+  switch (ndim) {
+    case 1: {
+      nw.push_back(std::min(hyperIn->getN123(), (long long)250000));
+      fw.push_back(0);
+      jw.push_back(1);
+      size_t done = 0;
+      axes[0].n = nw[0];
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
+      while (fw[0] < hyperIn->getN123()) {
+        inp->readWindow(nw, fw, jw, vec);
+        outp->writeWindow(nw, fw, jw, vec);
+        fw[0] += nw[0];
+        nw[0] = std::min((long long)250000, hyperIn->getN123() - fw[0]);
       }
-      zfpsize += fread((uchar*)buffer + zfpsize, 1, bufsize - zfpsize, file);
-    } while (zfpsize == bufsize);
-    if (ferror(file)) {
-      fprintf(stderr, "cannot read compressed file\n");
-      return EXIT_FAILURE;
-    }
-    fclose(file);
+    } break;
 
-    /* associate bit stream with buffer */
-    stream = stream_open(buffer, bufsize);
-    if (!stream) {
-      fprintf(stderr, "cannot open compressed stream\n");
-      return EXIT_FAILURE;
-    }
-    zfp_stream_set_bit_stream(zfp, stream);
+    case 2: {
+      if (axes[0].n < 250000000) {
+        std::vector<int> nb(2, 1);
+        nw.push_back(axes[0].n);
+        nb[0] = axes[0].n;
+        nb[1] =
+            std::min((long long)axes[1].n, (long long)250000000 / axes[0].n);
+      } else {
+        nb[0] = 250000000;
+        nb[1] = 1;
+      }
 
-    zfp_stream_rewind(zfp);
+      nw.push_back(nb[0]);
+      nw.push_back(nb[1]);
+      fw.push_back(0);
+      jw.push_back(1);
+      fw.push_back(0);
+      jw.push_back(1);
+      axesBuf[0].n = nw[0];
+      axesBuf[1].n = nw[1];
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
 
-    if (!zfp_read_header(zfp, field, ZFP_HEADER_FULL))
-      par->error(std::string("incorrect or missing header\n"));
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
 
-    type = field->type;
-    typesize = sizeof(float);
+      while (fw[1] < axes[1].n) {
+        while (fw[0] < axes[0].n) {
+          inp->readWindow(nw, fw, jw, vec);
+          outp->writeWindow(nw, fw, jw, vec);
+          fw[0] += nw[0];
+          nw[0] = std::min(axes[0].n - fw[0], nb[0]);
+        }
+        fw[0] = 0;
+        nw[0] = nb[0];
+        fw[1] += nb[1];
+        nw[1] = std::min(axes[1].n - fw[1], nb[1]);
+      }
+    } break;
 
-    nx = MAX(field->nx, 1u);
-    ny = MAX(field->ny, 1u);
-    nz = MAX(field->nz, 1u);
-    long long n123 = nx * ny * nz;
+    default: {
+      std::cerr << "where 1 " << std::endl;
+      std::vector<int> ns(7, 1), nb(3, 1);
+      std::cerr << "MMM" << std::endl;
 
-    /* allocate memory for decompressed data */
-    rawsize = typesize * nx * ny * nz;
-    fo = malloc(rawsize);
-    if (!fo) par->error(std::string("cannot allocate memory\n"));
+      for (int i = 0; i < axes.size(); i++) ns[i] = axes[i].n;
+      for (int i = 3; i < axesBuf.size(); i++) axesBuf[i].n = 1;
+      std::cerr << "MM1M" << std::endl;
+      if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {
+        std::cerr << "MM2M" << std::endl;
 
-    zfp_field_set_pointer(field, fo);
+        for (int i = 0; i < 3; i++) {
+          nb[i] = axes[i].n;
+        }
+      } else if (axes[0].n * axes[1].n < (long long)25000000) {
+        std::cerr << "MMM3" << std::endl;
 
-    /* decompress data */
-    if (!zfp_decompress(zfp, field))
-      par->error(std::string("decompression failed\n"));
-std::cerr<<"before write"<<std::endl;
-    outp->writeFloatStream((float*)fo, n123);
-std::cerr<<"after write"<<std::endl;
+        nb[0] = axes[0].n;
+        nb[1] = axes[1].n;
+        nb[2] = 250000000 / nb[0] / nb[1];
+      } else if (axes[0].n < (long long)250000000) {
+        std::cerr << "MMM4" << std::endl;
 
-    /* free allocated storage */
-    zfp_field_free(field);
-    zfp_stream_close(zfp);
-    stream_close(stream);
-    free(buffer);
-    free(fo);
+        nb[0] = axes[0].n;
+
+        nb[1] = 250000000 / axes[0].n;
+        nb[2] = 1;
+      } else {
+        nb[0] = 250000000;
+        nb[1] = 1;
+        nb[2] = 1;
+      }
+      std::cerr << "where 1 " << std::endl;
+
+      for (int i = 0; i < 3; i++) {
+        nw.push_back(nb[i]);
+        fw.push_back(0);
+        jw.push_back(1);
+        std::cerr << "where 1 " << i << " " << axesBuf.size() << std::endl;
+
+        axesBuf[i].n = nb[i];
+      }
+      std::cerr << "mmm" << std::endl;
+      for (int i = 3; i < 7; i++) {
+        nw.push_back(1);
+        fw.push_back(0);
+        jw.push_back(1);
+      }
+      std::cerr << "where 12 " << std::endl;
+
+      std::shared_ptr<hypercube> hypOut(new hypercube(axes));
+      std::cerr << "where 31 " << getTypeString(inp->getDataType())
+                << std::endl;
+
+      std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
+      std::cerr << "where4 " << std::endl;
+
+      for (int i6 = 0; i6 < ns[6]; i6++) {
+        fw[6] = i6;
+        for (int i5 = 0; i5 < ns[5]; i5++) {
+          fw[5] = i5;
+          for (int i4 = 0; i4 < ns[4]; i4++) {
+            for (int i3 = 0; i3 < ns[3]; i3++) {
+              while (fw[2] < axes[2].n) {
+                while (fw[1] < axes[1].n) {
+                  while (fw[0] < axes[0].n) {
+                    std::cerr << "doing read " << fw[0] << " " << fw[1] << " "
+                              << fw[2] << " n-" << nw[0] << " " << nw[1] << " "
+                              << nw[2] << std::endl;
+                    inp->readWindow(nw, fw, jw, vec);
+                    std::cerr << "after read" << std::endl;
+                    outp->writeWindow(nw, fw, jw, vec);
+                    std::cerr << "after write" << std::endl;
+                    fw[0] += nw[0];
+                    nw[0] = std::min(axes[0].n - fw[0], nb[0]);
+                  }
+                  fw[0] = 0;
+                  nw[0] = nb[0];
+                  fw[1] += nb[1];
+                  nw[1] = std::min(axes[1].n - fw[1], nb[1]);
+                }
+                fw[1] = 0;
+                nw[1] = nb[1];
+                fw[2] += nb[2];
+                nw[2] = std::min(axes[2].n - fw[2], nb[2]);
+              }
+            }
+          }
+        }
+      }
+    } break;
   }
-
+  outp->writeDescription();
+  outp->close();
   return EXIT_SUCCESS;
 }

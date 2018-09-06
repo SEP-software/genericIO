@@ -56,8 +56,12 @@ class buffersRegFile : public jsonGenericFile {
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
+    std::cerr << "n readfloat window " << std::endl;
     createBuffers();
+    std::cerr << "n 2readfloat window " << std::endl;
+
     _bufs->getWindow(nw, fw, jw, (void *)array);
+    std::cerr << "n readf3loat window " << std::endl;
   }
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
@@ -105,7 +109,10 @@ class buffersRegFile : public jsonGenericFile {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
-  void setMemoryUsage(std::shared_ptr<SEP::IO::memoryUsage> mem) { _mem = mem; }
+  void setMemoryUsage(std::shared_ptr<SEP::IO::memoryUsage> mem) {
+    assert(_hyper);
+    _mem = mem;
+  }
   void setCompression(std::shared_ptr<SEP::IO::compress> com) { _comp = com; }
   void setBlocking(std::shared_ptr<SEP::IO::blocking> block) { _block = block; }
   void createBuffers();

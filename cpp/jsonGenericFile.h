@@ -106,8 +106,7 @@ class jsonGenericFile : public genericIrregFile {
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
                                  const double *array) override;
-  void setDataType(const dataType typ) { _dtype = typ; }
-  void setDataType(const std::string &typ) { setDataType(toElementType(typ)); }
+
   virtual void writeIntStream(const int *array, const long long npts) override;
   virtual void readIntStream(int *array, const long long npts) override;
   virtual void readIntWindow(const std::vector<int> &nw,

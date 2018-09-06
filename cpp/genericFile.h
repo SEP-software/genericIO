@@ -245,11 +245,16 @@ class genericRegFile : public paramObj {
   virtual void readDescription() { ; }
   virtual void writeDescription() { ; }
   virtual void close() { ; }
-  virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) { _hyper = hyp; }
+  virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) {
+    std::cerr << "setting hyper" << std::endl;
+    _hyper = hyp->clone();
+    assert(_hyper);
+  }
   dataType getDataType() { return _type; }
   int getDataEsize();
   void setDataType(const dataType typ) { _type = typ; }
   void setDataType(const std::string &typ) {
+    std::cerr << "set data type " << typ << std::endl;
     setDataType(SEP::toElementType(typ));
   }
   std::string getDataTypeString();

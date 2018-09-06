@@ -15,6 +15,7 @@ foreach(util ${UTILS})
   foreach(lib ${GENERIC_EXPORT_LIBS})
     TARGET_LINK_LIBRARIES(${util} ${lib})
   endforeach(lib)
+  TARGET_LINK_LIBRARIES(${util} sepVector buffers tbb)
   install(TARGETS ${util} DESTINATION bin)
 endforeach(util)
 

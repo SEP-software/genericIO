@@ -17,7 +17,6 @@ class buffersIO : public jsonGenericIO {
   virtual std::shared_ptr<paramObj> getParamObj();
 
  private:
-  std::shared_ptr<Json::Value> jsonArgs;
   bool _init;
 };
 }  // namespace SEP

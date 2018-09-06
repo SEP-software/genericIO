@@ -4,8 +4,8 @@
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
 using namespace SEP;
-buffersRegFile::buffersRegFile(std::shared_ptr<Json::Value> arg,
-                               const usage_code usage, const std::string &tag,
+buffersRegFile::buffersRegFile(const Json::Value &arg, const usage_code usage,
+                               const std::string &tag,
                                const std::string &progName) {
   setUsage(usage);
   setupJson(arg, tag, std::string("/des.dat"));

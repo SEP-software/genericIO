@@ -10,7 +10,7 @@ class jsonGenericIO : public genericIO {
   jsonGenericIO() { ; }
   jsonGenericIO(const int argc, char **argv) { initJsonPars(argc, argv); }
   void initJsonPars(const int argc, char **argv);
-  std::shared_ptr<Json::Value> getArgs() { return jsonArgs; }
+  Json::Value getArgs() { return jsonArgs; }
   virtual std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag,
                                                         const std::string &name,
                                                         const usage_code usage);
@@ -21,10 +21,11 @@ class jsonGenericIO : public genericIO {
 
  protected:
   std::string _progName;
+  Json::Value jsonArgs;
+  bool _sentError = false;
 
  private:
   std::ifstream inps;
-  std::shared_ptr<Json::Value> jsonArgs;
   bool _init;
 };
 }  // namespace SEP

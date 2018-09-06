@@ -12,10 +12,10 @@ class jsonGenericFile : public genericIrregFile {
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
   jsonGenericFile() { ; }
-  jsonGenericFile(std::shared_ptr<Json::Value> arg, const SEP::usage_code usage,
+  jsonGenericFile(const Json::Value &arg, const SEP::usage_code usage,
                   const std::string &tag, const int reelH, const int traceH,
                   const std::string &progName);
-  void setupJson(std::shared_ptr<Json::Value> jsonArgs, const std::string &tag,
+  void setupJson(const Json::Value &jsonArgs, const std::string &tag,
                  const std::string desFileDefault = std::string(""));
   virtual int getInt(const std::string &arg) const;
   virtual int getInt(const std::string &arg, const int def) const;

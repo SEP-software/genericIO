@@ -25,10 +25,12 @@ int main(int argc, char** argv) {
   std::shared_ptr<hypercube> hyperIn = inp->getHyper();
   std::vector<int> ng = hyperIn->getNs();
   outp->setHyper(hyperIn);
+  outp->setDataType(inp->getDataType());
 
   SEP::IO::ZfpParams zpars;
 
-  std::string mode = par->getString(std::string("mode"), std::string("rate"));
+  std::string mode =
+      par->getString(std::string("mode"), std::string("tolerance"));
   float rate, tolerance;
   int precision;
 
@@ -45,16 +47,31 @@ int main(int argc, char** argv) {
 
   } else
     par->error("Only support rate, accuracy, or precission modes for now");
+
+  std::cerr << inp->getDataTypeString() << "=datatype" << std::endl;
   std::shared_ptr<SEP::IO::ZfpCompression> comp(
       new SEP::IO::ZfpCompression(outp->getDataType(), zpars));
+  std::cerr << "where1 do i2 die " << std::endl;
 
   std::shared_ptr<SEP::buffersRegFile> bufFile =
       std::dynamic_pointer_cast<SEP::buffersRegFile>(outp);
+  std::cerr << "before SET COMPRE 2do i2 die " << std::endl;
+  assert(bufFile);
+  std::cerr << "After assert " << std::endl;
   bufFile->setCompression(comp);
+  std::cerr << "w1here do i2 die " << std::endl;
+
   bufFile->setDataType(inp->getDataType());
+  std::cerr << "w2here do i2 die " << std::endl;
+
   int ndim = inp->getHyper()->getNdimG1();
+  std::cerr << "w3here do i2 die " << std::endl;
+
   std::vector<axis> axes = hyperIn->getAxes(), axesBuf = hyperIn->getAxes();
+  std::cerr << "w4here do i2 die " << std::endl;
+
   std::vector<int> bs, nb, nw, fw, jw;
+  std::cerr << "NDIM= " << ndim << std::endl;
 
   switch (ndim) {
     case 1: {

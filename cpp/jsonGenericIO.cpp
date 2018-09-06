@@ -20,26 +20,25 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
     }
     i++;
   }
+
   _init = false;
-  if (!foundIn) {
-    std::cerr
-        << "JSON is not being initialed. Requires json=par on the commandline"
-        << std::endl;
-    ;
+  if (!foundIn && !_sentError) {
+    std::cerr << "NO JSON parameters require json=file" << std::endl;
+    _sentError = true;
 
     _init = true;
-    inps.open(fileIn, std::ifstream::in);
-    std::shared_ptr<Json::Value> v(new Json::Value());
-    jsonArgs = v;
+    // inps.open(fileIn, std::ifstream::in);
+    // std::shared_ptr<Json::Value> v(new Json::Value());
+    // jsonArgs = v;
 
   } else {
     if (!inps) {
-      std::cerr << std::string("Trouble openinga" + std::string(fileIn))
+      std::cerr << std::string("Trouble opening " + std::string(fileIn))
                 << std::endl;
       throw std::exception();
     }
     try {
-      inps >> (*jsonArgs);
+      inps >> jsonArgs;
     } catch (int x) {
       std::cerr << std::string("Trouble parsing JSON file " +
                                std::string(fileIn))
@@ -55,10 +54,11 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
 }
 std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
-  if (!_init) {
+  std::cerr << "In bad get regfile" << std::endl;
+  if (!_init && !_sentError) {
     std::cerr << std::string("Expecting json=file on the command line")
               << std::endl;
-    throw std::exception();
+    _sentError = true;
   }
   /*
      if((*jsonArgs)[name].isNull())  {
@@ -73,10 +73,10 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
 }
 std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
-  if (!_init) {
+  if (!_init && !_sentError) {
     std::cerr << std::string("Expecting json=file  on the command line")
               << std::endl;
-    throw std::exception();
+    _sentError = true;
   }
   /*
      if((*jsonArgs)[name].isNull())  {
@@ -90,10 +90,10 @@ std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
   return x;
 }
 std::shared_ptr<paramObj> jsonGenericIO::getParamObj() {
-  if (!_init) {
+  if (!_init && !_sentError) {
     std::cerr << std::string("Expecting json=file  on the command line")
               << std::endl;
-    throw std::exception();
+    _sentError = true;
   }
   return _param;
 }
@@ -101,12 +101,12 @@ void jsonGenericIO::close() {
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i) {
     std::shared_ptr<jsonGenericFile> x =
         std::static_pointer_cast<jsonGenericFile>(i->second);
-    (*jsonArgs)[i->first] = x->getArgs();
+    jsonArgs[i->first] = x->getArgs();
   }
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i) {
     std::shared_ptr<jsonGenericFile> x =
         std::static_pointer_cast<jsonGenericFile>(i->second);
-    (*jsonArgs)[i->first] = x->getArgs();
+    jsonArgs[i->first] = x->getArgs();
   }
   filesClose();
 }

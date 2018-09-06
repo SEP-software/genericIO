@@ -14,10 +14,13 @@ void ioModes::setup(const int argc, char **argv) {
   std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc, argv));
 
   _ios["JSON"] = a;
+
   std::shared_ptr<segyIO> d(new segyIO(argc, argv));
   _ios["SEGY"] = d;
+
   std::shared_ptr<buffersIO> m(new buffersIO(argc, argv));
   _ios["BUFFERS"] = m;
+
 #ifdef USE_RSF
   std::shared_ptr<rsfIO> b(new rsfIO(argc, argv));
   _ios["RSF"] = b;
@@ -28,6 +31,7 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
+
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 }
@@ -36,6 +40,7 @@ std::shared_ptr<genericIO> ioModes::getDefaultIO() {
 }
 
 std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
+  std::cerr << "looking for " << def << std::endl;
   if (_ios.count(def) != 1)
     _par->error(def + " io has not been defined and/or built");
   return _ios[def];

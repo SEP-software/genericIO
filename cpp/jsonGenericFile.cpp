@@ -4,9 +4,9 @@
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
 using namespace SEP;
-jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,
-                                 const usage_code usage, const std::string &tag,
-                                 const int reelH, const int traceH,
+jsonGenericFile::jsonGenericFile(const Json::Value &arg, const usage_code usage,
+                                 const std::string &tag, const int reelH,
+                                 const int traceH,
                                  const std::string &progName) {
   _usage = usage;
   setupJson(arg, tag);
@@ -30,15 +30,14 @@ jsonGenericFile::jsonGenericFile(std::shared_ptr<Json::Value> arg,
   }
   jsonArgs["progName"] = progName;
 }
-void jsonGenericFile::setupJson(std::shared_ptr<Json::Value> arg,
-                                const std::string &tag,
+void jsonGenericFile::setupJson(const Json::Value &arg, const std::string &tag,
                                 const std::string desFileDefault) {
   _tag = tag;
 
-  if ((*arg)[tag].isNull()) {
+  if (arg[tag].isNull()) {
     _jsonFile = _tag + desFileDefault;
   } else {
-    _jsonFile = (*arg)[tag].asString();
+    _jsonFile = arg[tag].asString();
   }
   _newFile = true;
   if (_usage == usageIn)

@@ -7,7 +7,7 @@ namespace SEP {
 
 class jsonParamObj : public paramObj {
  public:
-  jsonParamObj(std::shared_ptr<Json::Value> inp);
+  jsonParamObj(Json::Value &inp);
   virtual int getInt(const std::string &arg) const;
   virtual int getInt(const std::string &arg, const int def) const;
 
@@ -35,7 +35,7 @@ class jsonParamObj : public paramObj {
   virtual void error(const std::string &err) const;
 
  protected:
-  std::shared_ptr<Json::Value> jsonArgs;
+  Json::Value jsonArgs;
 };
 
 }  // namespace SEP

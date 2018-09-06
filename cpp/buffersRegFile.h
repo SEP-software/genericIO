@@ -12,7 +12,7 @@ class buffersRegFile : public jsonGenericFile {
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
   buffersRegFile() { ; }
-  buffersRegFile(std::shared_ptr<Json::Value> arg, const SEP::usage_code usage,
+  buffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
                  const std::string &tag, const std::string &progName);
 
   virtual void close();

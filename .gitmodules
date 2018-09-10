@@ -1,6 +1,6 @@
-[submodule "external/buffers"]
-	path = external/buffers
-	url = http://171.64.169.69/bob/buffers.git
 [submodule "external/sepVector"]
 	path = external/sepVector
 	url = http://171.64.169.69/bob/sepVector.git
+[submodule "external/buffers"]
+	path = external/buffers
+	url = http://171.64.169.69/bob/buffers.git

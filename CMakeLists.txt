@@ -92,6 +92,8 @@ endif(NOT TARGET sepVector)
 
     if(NOT TARGET buffers)
               INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/external/json)
+            INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR}/external/buffers/ZFP_INSTALL-prefix/src/ZFP_INSTALL/include)
+              INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/external/json)
 
     execute_process(COMMAND git submodule update --init --recursive  -- external/buffers
                     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

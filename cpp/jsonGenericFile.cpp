@@ -219,8 +219,7 @@ void jsonGenericFile::readDescription() {
     setDataType(DATA_DOUBLE);
   else if (dtyp == std::string("BYTE"))
     setDataType(DATA_BYTE);
-  std::cerr << "DTYPE " << dtyp << std::endl;
-  std::cerr << " IN READ DESCRIPTION " << getTypeString(getDataType());
+
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
 }

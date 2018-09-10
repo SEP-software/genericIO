@@ -6,7 +6,7 @@
 #include "ZfpCompress.h"
 #include "buffersRegFile.h"
 #include "ioModes.h"
-#include "seplib.h"
+#include "nocompress.h"
 using namespace SEP;
 int main(int argc, char** argv) {
   ioModes modes(argc, argv);
@@ -24,7 +24,9 @@ int main(int argc, char** argv) {
       modes.getIO("BUFFERS")->getRegFile(outDir, usageOut);
 
   std::shared_ptr<hypercube> hyperIn = inp->getHyper();
+
   std::vector<int> ng = hyperIn->getNs();
+
   outp->setHyper(hyperIn);
   outp->setDataType(inp->getDataType());
 
@@ -35,19 +37,20 @@ int main(int argc, char** argv) {
   float rate, tolerance;
   int precision;
 
-  if (mode == std::string("tolerance")) {
-    zpars._meth = SEP::IO::ZFP_TOLERANCE;
-    zpars._tolerance = par->getFloat(std::string("tolerance"), 3e-1);
+  if (mode == std::string("rate")) {
+    zpars._meth = SEP::IO::ZFP_RATE;
+    zpars._rate = par->getFloat(std::string("rate"), 3e-1);
 
   } else if (mode == std::string("accuracy")) {
     zpars._meth = SEP::IO::ZFP_ACCURACY;
-    zpars._precision = par->getInt(std::string("precision"), 15);
+    zpars._rate = par->getInt(std::string("tolearnce"), 7.);
+
   } else if (mode == std::string("precision")) {
     zpars._meth = SEP::IO::ZFP_PRECISION;
-    zpars._rate = par->getInt(std::string("rate"), 7.);
+    zpars._precision = par->getInt(std::string("precision"), 15);
 
   } else
-    par->error("Only support rate, accuracy, or precission modes for now");
+    par->error("Only support rate, accuracy, or precision modes for now");
 
   std::shared_ptr<SEP::IO::ZfpCompression> comp(
       new SEP::IO::ZfpCompression(outp->getDataType(), zpars));
@@ -55,6 +58,7 @@ int main(int argc, char** argv) {
   std::shared_ptr<SEP::buffersRegFile> bufFile =
       std::dynamic_pointer_cast<SEP::buffersRegFile>(outp);
   assert(bufFile);
+
   bufFile->setCompression(comp);
 
   bufFile->setDataType(inp->getDataType());
@@ -175,7 +179,6 @@ int main(int argc, char** argv) {
       std::shared_ptr<hypercube> hypOut(new hypercube(axes));
 
       std::shared_ptr<regSpace> vec = vecFromHyper(hypOut, inp->getDataType());
-
       for (int i6 = 0; i6 < ns[6]; i6++) {
         fw[6] = i6;
         for (int i5 = 0; i5 < ns[5]; i5++) {
@@ -185,16 +188,8 @@ int main(int argc, char** argv) {
               while (fw[2] < axes[2].n) {
                 while (fw[1] < axes[1].n) {
                   while (fw[0] < axes[0].n) {
-                    std::cerr << "doing read " << fw[0] << " " << fw[1] << " "
-                              << fw[2] << " n-" << nw[0] << " " << nw[1] << " "
-                              << nw[2] << std::endl;
                     inp->readWindow(nw, fw, jw, vec);
-                    std::cerr << "after read" << std::endl;
-                    srite("ss.H", vec->getVoidPtr(),
-                          4 * axes[0].n * axes[1].n * nw[2]);
-
                     bufFile->writeWindow(nw, fw, jw, vec);
-                    std::cerr << "after write" << std::endl;
                     fw[0] += nw[0];
                     nw[0] = std::min(axes[0].n - fw[0], nb[0]);
                   }

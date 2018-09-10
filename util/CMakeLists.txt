@@ -19,10 +19,9 @@ foreach(util ${UTILS})
   install(TARGETS ${util} DESTINATION bin)
 endforeach(util)
 
-find_package(ZFP)
+#find_package(ZFP)
 
 
-  INCLUDE_DIRECTORIES(${ZFP_INCLUDE_DIR})
 
   set(UTILSZ Compress  Decompress)
   foreach(util ${UTILSZ})

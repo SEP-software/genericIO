@@ -15,9 +15,7 @@ buffersRegFile::buffersRegFile(const Json::Value &arg, const usage_code usage,
 
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
-    std::cerr << "before buf recreate" << std::endl;
     _bufs.reset(new SEP::IO::buffers(getHyper(), tag, jsonArgs["bufferInfo"]));
-    std::cerr << "before 2buf recreate" << std::endl;
   }
 
   jsonArgs["progName"] = progName;

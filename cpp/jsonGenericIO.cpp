@@ -54,7 +54,6 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
 }
 std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
-  std::cerr << "In bad get regfile" << std::endl;
   if (!_init && !_sentError) {
     std::cerr << std::string("Expecting json=file on the command line")
               << std::endl;

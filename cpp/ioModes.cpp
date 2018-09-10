@@ -40,7 +40,6 @@ std::shared_ptr<genericIO> ioModes::getDefaultIO() {
 }
 
 std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
-  std::cerr << "looking for " << def << std::endl;
   if (_ios.count(def) != 1)
     _par->error(def + " io has not been defined and/or built");
   return _ios[def];

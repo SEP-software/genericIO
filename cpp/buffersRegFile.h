@@ -56,12 +56,9 @@ class buffersRegFile : public jsonGenericFile {
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
-    std::cerr << "n readfloat window " << std::endl;
     createBuffers();
-    std::cerr << "n 2readfloat window " << std::endl;
 
     _bufs->getWindow(nw, fw, jw, (void *)array);
-    std::cerr << "n readf3loat window " << std::endl;
   }
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,

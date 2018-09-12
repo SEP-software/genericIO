@@ -9,7 +9,7 @@ buffersRegFile::buffersRegFile(const Json::Value &arg, const usage_code usage,
                                const std::string &progName) {
   std::cerr << "in buf reg file" << std::endl;
   setUsage(usage);
-  std::cerr << "" setupJson(arg, tag, std::string("/des.dat"));
+  setupJson(arg, tag, std::string("/des.dat"));
 
   if (!_newFile) {
     readDescription();

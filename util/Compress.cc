@@ -7,6 +7,7 @@
 #include "buffersRegFile.h"
 #include "ioModes.h"
 #include "nocompress.h"
+#include "simpleMemoryLimit.h"
 using namespace SEP;
 int main(int argc, char** argv) {
   ioModes modes(argc, argv);
@@ -33,7 +34,7 @@ int main(int argc, char** argv) {
   SEP::IO::ZfpParams zpars;
 
   std::string mode =
-      par->getString(std::string("mode"), std::string("tolerance"));
+      par->getString(std::string("mode"), std::string("accuracy"));
   float rate, tolerance;
   int precision;
 
@@ -43,7 +44,7 @@ int main(int argc, char** argv) {
 
   } else if (mode == std::string("accuracy")) {
     zpars._meth = SEP::IO::ZFP_ACCURACY;
-    zpars._rate = par->getInt(std::string("tolearnce"), 7.);
+    zpars._tolerance = par->getInt(std::string("tolearnce"), 7.);
 
   } else if (mode == std::string("precision")) {
     zpars._meth = SEP::IO::ZFP_PRECISION;
@@ -145,7 +146,10 @@ int main(int argc, char** argv) {
       nb.push_back(64);
       nb.push_back(64);
       std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
+      std::shared_ptr<SEP::IO::simpleMemoryLimit> mem(
+          new SEP::IO::simpleMemoryLimit(100000));
       bufFile->setBlocking(block);
+      bufFile->setMemoryUsage(mem);
       if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {
         for (int i = 0; i < 3; i++) {
           nb[i] = axes[i].n;

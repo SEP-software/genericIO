@@ -7,7 +7,6 @@ using namespace SEP;
 buffersRegFile::buffersRegFile(const Json::Value &arg, const usage_code usage,
                                const std::string &tag,
                                const std::string &progName) {
-  std::cerr << "in buf reg file" << std::endl;
   setUsage(usage);
   setupJson(arg, tag, std::string("/des.dat"));
 

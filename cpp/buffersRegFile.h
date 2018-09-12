@@ -118,9 +118,9 @@ class buffersRegFile : public jsonGenericFile {
 
  private:
   std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;
-  std::shared_ptr<SEP::IO::memoryUsage> _mem;
-  std::shared_ptr<SEP::IO::compress> _comp;
-  std::shared_ptr<SEP::IO::blocking> _block;
+  std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr;
+  std::shared_ptr<SEP::IO::compress> _comp = nullptr;
+  std::shared_ptr<SEP::IO::blocking> _block = nullptr;
 
 };  // namespace SEP
 }  // namespace SEP

@@ -193,7 +193,9 @@ int main(int argc, char** argv) {
                 while (fw[1] < axes[1].n) {
                   while (fw[0] < axes[0].n) {
                     inp->readWindow(nw, fw, jw, vec);
+
                     bufFile->writeWindow(nw, fw, jw, vec);
+                    std::cerr << "finished write window " << std::endl;
                     fw[0] += nw[0];
                     nw[0] = std::min(axes[0].n - fw[0], nb[0]);
                   }

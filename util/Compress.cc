@@ -147,8 +147,7 @@ int main(int argc, char** argv) {
       nb.push_back(64);
       std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, nb));
       std::shared_ptr<SEP::IO::simpleMemoryLimit> mem(
-          new SEP::IO::simpleMemoryLimit((long)1024 * (long)1024 * (long)1024 *
-                                         (long)3));
+          new SEP::IO::simpleMemoryLimit((long)1024 * (long)1024 * (long)3));
       bufFile->setBlocking(block);
       bufFile->setMemoryUsage(mem);
       if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {

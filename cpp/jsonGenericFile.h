@@ -44,23 +44,27 @@ class jsonGenericFile : public genericIrregFile {
   virtual void error(const std::string &err) const override;
   Json::Value getArgs() { return jsonArgs; }
   std::string getTag() { return _tag; }
-  virtual void close();
+  virtual void close() override;
   void setUsage(const usage_code usage) { _usage = usage; }
   void setHistory(const Json::Value &hist);
   usage_code getUsage() { return _usage; }
   virtual std::string getJSONFileName() const;
   std::string getDataFileName() const;
-  virtual void readDescription();
-  virtual void writeDescription();
-  virtual void putInt(const std::string &par, const int val);
-  virtual void putFloat(const std::string &par, const float val);
-  virtual void putString(const std::string &par, const std::string &val);
-  virtual void putBool(const std::string &par, const bool val);
-  virtual void putInts(const std::string &par, const std::vector<int> &val);
-  virtual void putFloats(const std::string &par, const std::vector<float> &val);
-  virtual void readFloatStream(float *array, const long long npts);
-  virtual void readUCharStream(unsigned char *array, const long long npts);
-  virtual void seekTo(const long long iv, const int whence);
+  virtual void readDescription() override;
+  virtual void writeDescription() override;
+  virtual void putInt(const std::string &par, const int val) override;
+  virtual void putFloat(const std::string &par, const float val) override;
+  virtual void putString(const std::string &par,
+                         const std::string &val) override;
+  virtual void putBool(const std::string &par, const bool val) override;
+  virtual void putInts(const std::string &par,
+                       const std::vector<int> &val) override;
+  virtual void putFloats(const std::string &par,
+                         const std::vector<float> &val) override;
+  virtual void readFloatStream(float *array, const long long npts) override;
+  virtual void readUCharStream(unsigned char *array,
+                               const long long npts) override;
+  virtual void seekTo(const long long iv, const int whence) override;
 
   virtual void writeFloatStream(const float *array,
                                 const long long npts) override;
@@ -77,11 +81,13 @@ class jsonGenericFile : public genericIrregFile {
                                 const unsigned char *array) override;
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
-                               const std::vector<int> &jw, float *array);
+                               const std::vector<int> &jw,
+                               float *array) override;
   virtual long long getDataSize();
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
-                                const std::vector<int> &jw, const float *array);
+                                const std::vector<int> &jw,
+                                const float *array) override;
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
@@ -94,7 +100,7 @@ class jsonGenericFile : public genericIrregFile {
   virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) override;
   virtual void readComplexStream(std::complex<float> *array,
-                                 const long long npts);
+                                 const long long npts) override;
 
   virtual void writeDoubleStream(const double *array,
                                  const long long npts) override;

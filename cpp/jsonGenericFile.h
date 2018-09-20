@@ -17,30 +17,31 @@ class jsonGenericFile : public genericIrregFile {
                   const std::string &progName);
   void setupJson(const Json::Value &jsonArgs, const std::string &tag,
                  const std::string desFileDefault = std::string(""));
-  virtual int getInt(const std::string &arg) const;
-  virtual int getInt(const std::string &arg, const int def) const;
+  virtual int getInt(const std::string &arg) const override;
+  virtual int getInt(const std::string &arg, const int def) const override;
 
-  virtual float getFloat(const std::string &, const float def) const;
-  virtual float getFloat(const std::string &) const;
+  virtual float getFloat(const std::string &, const float def) const override;
+  virtual float getFloat(const std::string &) const override;
 
-  virtual std::string getString(const std::string &arg) const;
+  virtual std::string getString(const std::string &arg) const override;
   virtual std::string getString(const std::string &arg,
-                                const std::string &def) const;
+                                const std::string &def) const override;
 
-  virtual bool getBool(const std::string &, const bool def) const;
-  virtual bool getBool(const std::string &) const;
+  virtual bool getBool(const std::string &, const bool def) const override;
+  virtual bool getBool(const std::string &) const override;
 
-  virtual std::vector<int> getInts(const std::string &arg, int nvals) const;
   virtual std::vector<int> getInts(const std::string &arg,
-                                   const std::vector<int> &defs) const;
+                                   int nvals) const override;
+  virtual std::vector<int> getInts(const std::string &arg,
+                                   const std::vector<int> &defs) const override;
 
   virtual std::vector<float> getFloats(const std::string &arg,
-                                       const int nvals) const;
-  virtual std::vector<float> getFloats(const std::string &arg,
-                                       const std::vector<float> &defs) const;
-  virtual void message(const std::string &err) const;
+                                       const int nvals) const override;
+  virtual std::vector<float> getFloats(
+      const std::string &arg, const std::vector<float> &defs) const override;
+  virtual void message(const std::string &err) const override;
 
-  virtual void error(const std::string &err) const;
+  virtual void error(const std::string &err) const override;
   Json::Value getArgs() { return jsonArgs; }
   std::string getTag() { return _tag; }
   virtual void close();

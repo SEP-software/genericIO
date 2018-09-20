@@ -83,7 +83,7 @@ class jsonGenericFile : public genericIrregFile {
                                const std::vector<int> &fw,
                                const std::vector<int> &jw,
                                float *array) override;
-  virtual long long getDataSize();
+  virtual long long getDataSize() override;
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
@@ -96,7 +96,7 @@ class jsonGenericFile : public genericIrregFile {
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
-                                  const std::complex<float> *array);
+                                  const std::complex<float> *array) override;
   virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) override;
   virtual void readComplexStream(std::complex<float> *array,

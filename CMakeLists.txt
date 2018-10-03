@@ -26,9 +26,7 @@ if(NOT TARGET sepVector)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
-endif(NOT TARGET sepVector)
 
-if(NOT TARGET buffers)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/external/json)
   include_directories(

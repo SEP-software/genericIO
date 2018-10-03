@@ -40,7 +40,11 @@ if(NOT TARGET sepVector)
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   add_subdirectory(external/buffers)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/lib)
-endif(NOT TARGET buffers)
+else
+   find_package(json REQUIRED)
+   find_package(buffers REQUIRED)
+   find_package(hypercube REQUIRED)
+endif(NOT TARGET sepVector)
 
 include_directories("${PROJECT_BINARY_DIR}")
 

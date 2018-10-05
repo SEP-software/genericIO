@@ -150,15 +150,17 @@ int main(int argc, char** argv) {
           new SEP::IO::simpleMemoryLimit((long)1024 * (long)1024 * (long)3));
       bufFile->setBlocking(block);
       bufFile->setMemoryUsage(mem);
-      if (axes[0].n * axes[1].n * axes[2].n < (long long)250000000) {
+      if ((long long)axes[0].n *(long long)axes[1].n *(long long) axes[2].n < (long long)250000000) {
         for (int i = 0; i < 3; i++) {
           nb[i] = axes[i].n;
         }
-      } else if (axes[0].n * axes[1].n < (long long)25000000) {
+      } else if ((long long)axes[0].n *(long long) axes[1].n < (long long)25000000) {
+std::cerr<<"ONE2"<<std::endl;
         nb[0] = axes[0].n;
         nb[1] = axes[1].n;
         nb[2] = 250000000 / nb[0] / nb[1];
       } else if (axes[0].n < (long long)250000000) {
+std::cerr<<"ONE3"<<std::endl;
         nb[0] = axes[0].n;
 
         nb[1] = 250000000 / axes[0].n;
@@ -192,6 +194,8 @@ int main(int argc, char** argv) {
               while (fw[2] < axes[2].n) {
                 while (fw[1] < axes[1].n) {
                   while (fw[0] < axes[0].n) {
+ std::cerr<<"READING "<<fw[2]<<" "<<fw[1]<<" "<<fw[0]<<std::endl;
+ std::cerr<<"READING "<<nw[2]<<" "<<nw[1]<<" "<<nw[0]<<std::endl;
                     inp->readWindow(nw, fw, jw, vec);
 
                     bufFile->writeWindow(nw, fw, jw, vec);

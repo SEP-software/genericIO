@@ -23,9 +23,8 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
 INCLUDE_DIRECTORIES(${GENERIC_EXPORT_INC_DIRS})
 
 
-set(JUNK genericCpp hypercube ${GENERIC_EXPORT_LIBS})
+set(JUNK genericCpp buffers jsonCpp hypercube ${GENERIC_EXPORT_LIBS})
 
-MESSAGE(${JUNK})
 
 pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
 target_link_libraries(pyGenericIO PRIVATE  ${JUNK})

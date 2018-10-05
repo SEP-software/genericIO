@@ -21,7 +21,7 @@ include_directories(${RSFINCDIR})
   set(INCLUDES ${INCLUDES}  rsfIO.h rsfParams.h rsfRegFiles.h ) 
 endif(USE_RSF)
    add_library(genericCpp ${SOURCES} ${INCLUDES})
-target_link_libraries(genericCpp sepVector jsonCpp)
+target_link_libraries(genericCpp sepVector buffers)
 
 if(USE_SEP)
 target_link_libraries(genericCpp sep3d sep)

@@ -8,6 +8,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE True)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_package(NumPy REQUIRED)
+find_package(TBB REQUIRED)
 
 set(genericIO_MAJOR_VERSION 0)
 set(genericIO_MINOR_VERSION 4)

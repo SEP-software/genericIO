@@ -266,34 +266,34 @@ class genericRegFile : public paramObj {
   dataType _type = SEP::DATA_UNKNOWN;
 };
 
-union headerType {
-  int i;
-  short s;
-  long long l;
-  double d;
-  float f;
-};
 class genericIrregFile : public genericRegFile {
  public:
   genericIrregFile() {}
-  virtual int getHeaderIndex(std::string keyname) {
-    if (keyname == std::string("")) {
-      ;
-    }
-    return 0;
-  }
-  virtual std::vector<headerType> getTraceHeader(long long index) {
-    if (index == 0) {
-      ;
-    }
-    std::vector<headerType> x;
-    return x;
-  }
-  virtual std::vector<std::string> getHeaderTypes() {
-    std::vector<std::string> a;
-    return a;
-  }
-};
+  virtual std::shared_ptr<header> readHeaderWindow(const std::vector<int> &nw,
+                                                   const std::vector<int> &fw,
+                                                   const std::vector<int> &jw);
+  virtual void writeHeaderWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 std::shared_ptr<header> &header,
+                                 std::vector<bool> &exists);
+  virtual void readFloatData(std::shared_ptr<header> header, float *buf);
+  virtual void readByteData(std::shared_ptr<header> header, unsigned char *buf);
+  virtual void readDoubleData(std::shared_ptr<header> header, double *buf);
+  virtual void readComplexData(std::shared_ptr<header> header,
+                               std::complex<float> *buf);
+
+  virtual void writeFloatData(std::shared_ptr<header> header, const float *buf);
+  virtual void writeByteData(std::shared_ptr<header> header,
+                             const unsigned char *buf);
+  virtual void writeDoubleData(std::shared_ptr<header> header,
+                               const double *buf);
+  virtual void writeComplexData(std::shared_ptr<header> header,
+                                const std::complex<float> *buf);
+
+  return a;
+}
+};  // namespace SEP
 }  // namespace SEP
 
 #endif

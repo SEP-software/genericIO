@@ -97,7 +97,7 @@ std::vector<int> sepRegFile::getInts(const std::string &arg, int num) const {
   return x;
 }
 std::vector<int> sepRegFile::getInts(const std::string &arg,
-                                     std::vector<int> &defs) const {
+                                     const std::vector<int> &defs) const {
   int tmp[10000];
   for (int i = 0; i < defs.size(); i++) {
     tmp[i] = defs[i];
@@ -127,7 +127,7 @@ std::vector<float> sepRegFile::getFloats(const std::string &arg,
   return x;
 }
 std::vector<float> sepRegFile::getFloats(const std::string &arg,
-                                         std::vector<float> &defs) const {
+                                         const std::vector<float> &defs) const {
   float tmp[10000];
   for (int i = 0; i < defs.size(); i++) {
     tmp[i] = defs[i];

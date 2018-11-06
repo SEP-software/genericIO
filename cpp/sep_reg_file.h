@@ -9,30 +9,32 @@ class sepRegFile : public SEP::genericRegFile {
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
   sepRegFile(const std::string &tg, const SEP::usage_code usage);
-  virtual int getInt(const std::string &arg) const;
-  virtual int getInt(const std::string &arg, const int def) const;
+  virtual int getInt(const std::string &arg) const override;
+  virtual int getInt(const std::string &arg, const int def) const override;
 
-  virtual float getFloat(const std::string &, const float def) const;
-  virtual float getFloat(const std::string &) const;
+  virtual float getFloat(const std::string &, const float def) const override;
+  virtual float getFloat(const std::string &) const override;
 
-  virtual std::string getString(const std::string &arg) const;
+  virtual std::string getString(const std::string &arg) const override;
   virtual std::string getString(const std::string &arg,
-                                const std::string &def) const;
+                                const std::string &def) const override;
 
-  virtual void seekTo(const long long iv, const int whence);
-  virtual bool getBool(const std::string &, const bool def) const;
-  virtual bool getBool(const std::string &) const;
+  virtual void seekTo(const long long iv, const int whence) override;
+  virtual bool getBool(const std::string &, const bool def) const override;
+  virtual bool getBool(const std::string &) const override;
 
-  virtual std::vector<int> getInts(const std::string &arg, int nvals) const;
   virtual std::vector<int> getInts(const std::string &arg,
-                                   std::vector<int> &defs) const;
+                                   int nvals) const override;
+  virtual std::vector<int> getInts(const std::string &arg,
+                                   const std::vector<int> &defs) const override;
 
-  virtual std::vector<float> getFloats(const std::string &arg, int nvals) const;
   virtual std::vector<float> getFloats(const std::string &arg,
-                                       std::vector<float> &defs) const;
+                                       int nvals) const override;
+  virtual std::vector<float> getFloats(
+      const std::string &arg, const std::vector<float> &defs) const override;
 
-  virtual void message(const std::string &err) const;
-  virtual void error(const std::string &err) const;
+  virtual void message(const std::string &err) const override;
+  virtual void error(const std::string &err) const override;
 
   virtual void readUCharStream(unsigned char *array,
                                const long long npts) override;
@@ -101,15 +103,18 @@ class sepRegFile : public SEP::genericRegFile {
                                   const std::vector<int> &jw,
                                   const std::complex<float> *array) override;
 
-  virtual void readDescription();
-  virtual void writeDescription();
-  virtual void close();
-  virtual void putInt(const std::string &par, const int val);
-  virtual void putFloat(const std::string &par, const float val);
-  virtual void putString(const std::string &par, const std::string &val);
-  virtual void putBool(const std::string &par, const bool val);
-  virtual void putInts(const std::string &par, const std::vector<int> &val);
-  virtual void putFloats(const std::string &par, const std::vector<float> &val);
+  virtual void readDescription() override;
+  virtual void writeDescription() override;
+  virtual void close() override;
+  virtual void putInt(const std::string &par, const int val) override;
+  virtual void putFloat(const std::string &par, const float val) override;
+  virtual void putString(const std::string &par,
+                         const std::string &val) override;
+  virtual void putBool(const std::string &par, const bool val) override;
+  virtual void putInts(const std::string &par,
+                       const std::vector<int> &val) override;
+  virtual void putFloats(const std::string &par,
+                         const std::vector<float> &val) override;
 
  private:
   std::string _tag;

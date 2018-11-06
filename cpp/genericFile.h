@@ -12,6 +12,7 @@
 #include "intHyper.h"
 #include "ioConfig.h"
 #include "ioTypes.h"
+#include "header.h"
 #include "paramObj.h"
 
 namespace SEP {
@@ -291,9 +292,7 @@ class genericIrregFile : public genericRegFile {
   virtual void writeComplexData(std::shared_ptr<header> header,
                                 const std::complex<float> *buf);
 
-  return a;
-}
-};  // namespace SEP
+};
 }  // namespace SEP
 
 #endif

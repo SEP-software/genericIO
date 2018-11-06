@@ -262,7 +262,9 @@ void sep3dFile::writeDescription() {
 int sep3dFile::getHeaderIndex(const std::string keyname) const {
   assert(1 == -1);
 }
+/*
 std::vector<headerType> sep3dFile::getTraceHeader(const long long index) const {
   assert(1 == -1);
 }
+*/
 std::vector<std::string> sep3dFile::getHeaderTypes() const { assert(1 == -1); }

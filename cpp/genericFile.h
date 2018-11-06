@@ -8,11 +8,11 @@
 #include "complexHyper.h"
 #include "doubleHyper.h"
 #include "floatHyper.h"
+#include "header.h"
 #include "hypercube.h"
 #include "intHyper.h"
 #include "ioConfig.h"
 #include "ioTypes.h"
-#include "header.h"
 #include "paramObj.h"
 
 namespace SEP {
@@ -270,6 +270,7 @@ class genericRegFile : public paramObj {
 class genericIrregFile : public genericRegFile {
  public:
   genericIrregFile() {}
+  /*
   virtual std::shared_ptr<header> readHeaderWindow(const std::vector<int> &nw,
                                                    const std::vector<int> &fw,
                                                    const std::vector<int> &jw);
@@ -291,7 +292,7 @@ class genericIrregFile : public genericRegFile {
                                const double *buf);
   virtual void writeComplexData(std::shared_ptr<header> header,
                                 const std::complex<float> *buf);
-
+                              */
 };
 }  // namespace SEP
 

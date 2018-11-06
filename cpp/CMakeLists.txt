@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
 project(Generic-cpp)
 
+FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+
 set(SOURCES  basicIO.cpp  genericFile.cpp  )
 set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp)
 set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp buffersIO.cpp buffersRegFile.cpp)

@@ -1,4 +1,5 @@
 #include "genericFile.h"
+#include "regVector.h"
 using namespace SEP;
 void genericRegFile::putInt(const std::string &par, const int val) {
   if (par == "" && val == 0)
@@ -203,6 +204,31 @@ bool genericRegFile::writeIntStream(const std::shared_ptr<SEP::intHyper> vec) {
   writeIntStream(vec->getVals(), n123);
   return true;
 }
+
+std::shared_ptr<regSpace> genericRegFile::read() {
+  std::shared_ptr<regSpace> space = vecFromHyper(getHyper(), getDataType());
+  switch (_type) {
+    case DATA_BYTE:
+      readByteStream(std::dynamic_pointer_cast<byteHyper>(space));
+      break;
+    case DATA_INT:
+      readIntStream(std::dynamic_pointer_cast<intHyper>(space));
+      break;
+    case DATA_FLOAT:
+      readFloatStream(std::dynamic_pointer_cast<floatHyper>(space));
+      break;
+    case DATA_COMPLEX:
+      readComplexStream(std::dynamic_pointer_cast<complexHyper>(space));
+      break;
+    case DATA_DOUBLE:
+      readDoubleStream(std::dynamic_pointer_cast<doubleHyper>(space));
+      break;
+    default:
+      error(std::string("Unsupported data type"));
+  }
+  return space;
+}
+
 bool genericRegFile::readIntWindow(const std::vector<int> &nw,
                                    const std::vector<int> &fw,
                                    const std::vector<int> &jw,

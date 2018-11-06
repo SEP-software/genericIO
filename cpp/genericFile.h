@@ -49,6 +49,8 @@ class genericRegFile : public paramObj {
       ;
     }
   }
+  std::shared_ptr<regSpace> read();
+
   bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
   bool writeFloatStream(const std::shared_ptr<SEP::floatHyper> hyp);
   bool writeUCharStream(const std::shared_ptr<SEP::byteHyper> hyp);

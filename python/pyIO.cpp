@@ -139,16 +139,37 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericRegFile ::*)(float *, const long long)) &
                genericRegFile::readFloatStream,
            "Read a stream of floats")
+      .def("readDoubleStream",
+           (void (genericRegFile ::*)(double *, const long long)) &
+               genericRegFile::readDoubleStream,
+           "Read a stream of doubles")
+      .def("readIntStream",
+           (void (genericRegFile ::*)(int *, const long long)) &
+               genericRegFile::readIntStream,
+           "Read a stream of ints")
 
       .def("readComplexStream",
            (void (genericRegFile ::*)(std::complex<float> *, const long long)) &
                genericRegFile::readComplexStream,
            "Read a stream of complex numbers")
-
+      .def("writeUCharStream",
+           (void (genericRegFile ::*)(const unsigned char *, const long long)) &
+               genericRegFile::writeUCharStream,
+           "Write a stream of complex")
+      .def("writeComplexStream",
+           (void (genericRegFile ::*)(const std::complex<float> *,
+                                      const long long)) &
+               genericRegFile::writeComplexStream,
+           "Write a stream of complex")
       .def("writeFloatStream",
            (void (genericRegFile ::*)(const float *, const long long)) &
                genericRegFile::writeFloatStream,
            "Write a stream of floats")
+      .def("writeDoubleStream",
+           (void (genericRegFile ::*)(const double *, const long long)) &
+               genericRegFile::writeDoubleStream,
+           "Write a stream of floats")
+
       .def("close", (void (genericRegFile ::*)()) & genericRegFile::close,
            "Close file")
       .def("readUCharWindow",
@@ -163,7 +184,6 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                       const std::vector<int> &, float *)) &
                genericRegFile::readFloatWindow,
            "Read a window of floats")
-#ifdef USE_SEPVECTOR
 
       .def(
           "writeFloatStream",
@@ -187,7 +207,6 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::shared_ptr<giee::floatHyper>)) &
                genericRegFile::writeFloatWindow,
            "Write  a window of floats  into a sepVector")
-#endif
       .def("readComplexWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,

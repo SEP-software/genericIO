@@ -163,7 +163,7 @@ bool genericRegFile::readByteWindow(const std::vector<int> &nw,
 }
 bool genericRegFile::writeByteWindow(
     const std::vector<int> &nw, const std::vector<int> &fw,
-    const std::vector<int> &jw, const std::shared_ptr<SEP::byteHyper> vec) {
+    const std::vector<int> &jw, std::shared_ptr<SEP::byteHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -246,7 +246,7 @@ bool genericRegFile::readIntWindow(const std::vector<int> &nw,
 bool genericRegFile::writeIntWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw,
-                                    const std::shared_ptr<SEP::intHyper> vec) {
+                                     std::shared_ptr<SEP::intHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -305,7 +305,7 @@ bool genericRegFile::readDoubleWindow(const std::vector<int> &nw,
 }
 bool genericRegFile::writeDoubleWindow(
     const std::vector<int> &nw, const std::vector<int> &fw,
-    const std::vector<int> &jw, const std::shared_ptr<SEP::doubleHyper> vec) {
+    const std::vector<int> &jw,  std::shared_ptr<SEP::doubleHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -364,7 +364,7 @@ bool genericRegFile::readComplexWindow(const std::vector<int> &nw,
 bool genericRegFile::writeWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
-                                 const std::shared_ptr<SEP::regSpace> hyp) {
+                                  std::shared_ptr<SEP::regSpace> hyp) {
   const std::shared_ptr<complexHyper> cp =
       std::dynamic_pointer_cast<complexHyper>(hyp);
   if (cp) return writeComplexWindow(nw, fw, jw, cp);

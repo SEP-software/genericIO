@@ -69,7 +69,7 @@ class genericRegFile : public paramObj {
                       std::shared_ptr<SEP::byteHyper> hyp);
   bool writeByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
-                       const std::shared_ptr<SEP::byteHyper> hyp);
+                        std::shared_ptr<SEP::byteHyper> hyp);
 
   bool readIntStream(std::shared_ptr<SEP::intHyper> hyp);
   bool writeIntStream(const std::shared_ptr<SEP::intHyper> hyp);
@@ -78,7 +78,7 @@ class genericRegFile : public paramObj {
                      const std::shared_ptr<SEP::intHyper> hyp);
   bool writeIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                       const std::vector<int> &jw,
-                      const std::shared_ptr<SEP::intHyper> hyp);
+                       std::shared_ptr<SEP::intHyper> hyp);
 
   bool readComplexStream(std::shared_ptr<SEP::complexHyper> hyp);
   bool writeComplexStream(const std::shared_ptr<SEP::complexHyper> hyp);
@@ -88,7 +88,7 @@ class genericRegFile : public paramObj {
   bool writeComplexWindow(const std::vector<int> &nw,
                           const std::vector<int> &fw,
                           const std::vector<int> &jw,
-                          const std::shared_ptr<SEP::complexHyper> hyp);
+                           std::shared_ptr<SEP::complexHyper> hyp);
 
   bool readDoubleStream(std::shared_ptr<SEP::doubleHyper> hyp);
   bool writeDoubleStream(const std::shared_ptr<SEP::doubleHyper> hyp);
@@ -97,10 +97,10 @@ class genericRegFile : public paramObj {
                         const std::shared_ptr<SEP::doubleHyper> hyp);
   bool writeDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                          const std::vector<int> &jw,
-                         const std::shared_ptr<SEP::doubleHyper> hyp);
+                         std::shared_ptr<SEP::doubleHyper> hyp);
   bool writeWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                    const std::vector<int> &jw,
-                   const std::shared_ptr<SEP::regSpace> hyp);
+                   std::shared_ptr<SEP::regSpace> hyp);
   bool readWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                   const std::vector<int> &jw,
                   std::shared_ptr<SEP::regSpace> hyp);

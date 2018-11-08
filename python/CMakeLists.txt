@@ -32,7 +32,7 @@ target_link_libraries(pyGenericIO PRIVATE  ${JUNK})
 
 
 install( TARGETS pyGenericIO DESTINATION lib/python)
-
+  install(FILES genericIO.py DESTINATION lib/python)
 
 else(pybind11_FOUND)
 MESSAGE("Did not find pybid11")

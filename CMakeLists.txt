@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
-
 project(genericIO LANGUAGES CXX)
+
+if(NOT SUBPACKAGE)
+  option(BUILD_PYTHON "Build python interfaces" ON)
+  option(BUILD_UTIL "Build utilities" OFF)
+else(NOT SUBPACKAGE)
+  option(BUILD_UTIL "Build utilities" ON)
+endif(NOT SUBPACKAGE)
+set(SUBPACKAGE true)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -42,9 +50,9 @@ if(NOT TARGET sepVector)
   add_subdirectory(external/buffers)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/lib)
 else(NOT TARGET sepVector)
-   find_package(json REQUIRED)
-   find_package(buffers REQUIRED)
-   find_package(hypercube REQUIRED)
+  find_package(json REQUIRED)
+  find_package(buffers REQUIRED)
+  find_package(hypercube REQUIRED)
 endif(NOT TARGET sepVector)
 
 include_directories("${PROJECT_BINARY_DIR}")
@@ -145,16 +153,15 @@ install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
 
 add_subdirectory(cpp)
 
-option(BUILD_PYTHON "Build python interfaces" ON)
-option(BUILD_EXECUTABLES "Build executables" ON)
+
 
 if(BUILD_PYTHON)
   add_subdirectory(python)
 endif(BUILD_PYTHON)
 
-if(BUILD_EXECUTABLES)
+if(BUILD_UTIL)
   add_subdirectory(util)
-endif(BUILD_EXECUTABLES)
+endif(BUILD_UTIL)
 
 add_subdirectory(env-modules)
 

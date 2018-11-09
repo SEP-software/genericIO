@@ -3,9 +3,9 @@ project(genericIO LANGUAGES CXX)
 
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
-  option(BUILD_UTIL "Build utilities" OFF)
-else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" ON)
+else(NOT SUBPACKAGE)
+  option(BUILD_UTIL "Build utilities" OFF)
 endif(NOT SUBPACKAGE)
 set(SUBPACKAGE true)
 

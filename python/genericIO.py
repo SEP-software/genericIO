@@ -1,10 +1,10 @@
-import pyIO
+import pyGenericIO
+import SepVector
 
-
-ioModes=pyIO.ioModes("")
+ioModes=pyGenericIO.ioModes([""])
 
 class regFile:
-	def __init__(self,ioM,tag, **kw)
+	def __init__(self,ioM,tag, **kw):
 		"""Get regular file python object
 			Requiered:
 			    iom  - IO mode
@@ -18,11 +18,11 @@ class regFile:
 		self.tag=tag
 		self.usage=None
 		if "usage" in kw:
-			if kw["usage"]="INPUT": 
+			if kw["usage"]=="INPUT": 
 				self.usage="UsageIn"
-			elif kw["usage"]="output":
+			elif kw["usage"]=="output":
 				self.usage="usageOut"
-			elif kw["usage"]="inout":
+			elif kw["usage"]=="inout":
 				self.usage="UsageInOut"
 			else:
 				raise Exception("Only understand input,output, and inout for usage")
@@ -34,7 +34,7 @@ class regFile:
 				self.storage="dataInt"
 			elif kw["storage"]=="byte":
 				self.storage="dataByte"
-			elif kw["storage"]=="double"
+			elif kw["storage"]=="double":
 				self.storage="dataDouble"
 			elif kw["storage"]=="complex":
 				self.storage="dataComplex"
@@ -45,30 +45,30 @@ class regFile:
 		if "fromHyper" in kw:
 			if not isinstance(kw["fromHyper"],Hypercube.hypercube):
 				raise Exception("Must pass a hypercube object when creating a file from a hypercube")
-			if not usage:
-				usage="UsageOut"
-			elif usage=="usageIn"
+			if not self.usage:
+				self.usage="UsageOut"
+			elif self.usage=="usageIn":
 				raise Exception("Can not have usageIn when creating from Hypercube")
 			self.cppMode=ioM.getRegFile(self.tag,self.usage)
 			self.cppMode.setHyper(kw["fromHyper"].getCpp())
-			self.cppMode.setDataType(self.storage)
+			self.cppMode.setDataType(SepVector.storage[self.storage])
 			self.cppMode.writeDescrption()
 		elif "fromVector" in kw:
 			if not isinstance(kw["fromVector"],SepVector.vector):
 				raise Exception("When creating a file from a vector must be inherited from SepVector.vector")
 			self.storage=kw["fromVector"].getStorageType()
-			if not usage:
-				usage="UsageOut"
-			elif usage=="usageIn"
+			if not self.usage:
+				self.usage="UsageOut"
+			elif self.usage=="usageIn":
 				raise Exception("Can not have usageIn when creating from Hypercube")
 			self.cppMode=ioM.getRegFile(self.tag,self.usage)
 			self.cppMode.setHyper(kw["fromVector"].getCpp().getHyper())
-			self.cppMode.setDatType(self.storage)
+			self.cppMode.setDataType(SepVector.storage[self.storage])
 			self.cppMode.writeDescription()
 		else: #Assuming from file
-			if not usage:
-				usage="UsageOut"
-			elif usage=="UsageOut":
+			if not self.usage:
+				self.usage="UsageOut"
+			elif self.usage=="UsageOut":
 				raise Exception("Can not specify usageOut when creating from a file")
 			self.cppMode=ioMode.getRegFile(self.tag,self.usage)
 			self.cppMode.readDescription()
@@ -197,11 +197,11 @@ class io:
 		elif file.storage=="dataDouble":
 			file.getCpp().readDoubleStream(vec.getCpp())
 		return vec
-	def writeVector(self.tag,vec):
+	def writeVector(self,tag,vec):
 		"""Write entire sepVector to disk
 		   tag - File to write to
 		   vec - Vector to write"""
-		file=getRegVector(tag,fromVector=vec)
+		file=regFile(self.cppMode,tag,fromVector=vec)
 		if file.storage=="dataFloat":
 			file.getCpp().writeFloatStream(vec.getCpp())
 		elif file.storage=="dataComplex":
@@ -212,5 +212,5 @@ class io:
 			file.getCpp().writeIntStream(vec.getCpp())		
 		elif file.storage=="dataDouble":
 			file.getCpp().writeDoubleStream(vec.getCpp())
-		return vec		   
-defaultMode=io()
+		return vec	
+defaultIO=io()

@@ -1,6 +1,14 @@
 import pyGenericIO
 import SepVector
 
+storageConvert={"dataFloat":pyGenericIO::dataType::dataFloat,
+"dataInt":pyGenericIO::dataType::dataInt
+"dataShort":pyGenericIO::dataType::dataShort
+"dataByte":pyGenericIO::dataType::dataByte
+"dataComplex":pyGenericIO::dataType::dataComplex
+"dataDouble":pyGenericIO::dataType::dataDouble
+}
+
 ioModes=pyGenericIO.ioModes([""])
 
 class regFile:
@@ -51,7 +59,7 @@ class regFile:
 				raise Exception("Can not have usageIn when creating from Hypercube")
 			self.cppMode=ioM.getRegFile(self.tag,self.usage)
 			self.cppMode.setHyper(kw["fromHyper"].getCpp())
-			self.cppMode.setDataType(SepVector.storage[self.storage])
+			self.cppMode.setDataType(storageConvert[self.storage])
 			self.cppMode.writeDescrption()
 		elif "fromVector" in kw:
 			if not isinstance(kw["fromVector"],SepVector.vector):
@@ -63,7 +71,7 @@ class regFile:
 				raise Exception("Can not have usageIn when creating from Hypercube")
 			self.cppMode=ioM.getRegFile(self.tag,self.usage)
 			self.cppMode.setHyper(kw["fromVector"].getCpp().getHyper())
-			self.cppMode.setDataType(SepVector.storage[self.storage])
+			self.cppMode.setDataType(storageConverte[self.storage])
 			self.cppMode.writeDescription()
 		else: #Assuming from file
 			if not self.usage:

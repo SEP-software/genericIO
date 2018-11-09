@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 
+find_package(NumPy REQUIRED)
 
 # This is a CMake example for Python
 find_package(pybind11)  

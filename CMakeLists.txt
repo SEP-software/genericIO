@@ -164,10 +164,10 @@ if(BUILD_UTIL)
   add_subdirectory(util)
 endif(BUILD_UTIL)
 
-add_subdirectory(env-modules)
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
+add_subdirectory(env-modules)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 

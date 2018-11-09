@@ -116,6 +116,7 @@ bool genericRegFile::writeFloatWindow(
 }
 
 // BYTE
+#ifdef USE_BOOL
 bool genericRegFile::readByteStream(std::shared_ptr<SEP::byteHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
@@ -174,6 +175,7 @@ bool genericRegFile::writeByteWindow(const std::vector<int> &nw,
   writeUCharWindow(nw, fw, jw, vec->getVals());
   return true;
 }
+#endif
 
 #ifdef USE_INT
 bool genericRegFile::readIntStream(std::shared_ptr<SEP::intHyper> vec) {

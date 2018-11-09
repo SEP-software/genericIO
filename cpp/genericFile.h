@@ -14,7 +14,7 @@
 #include "ioConfig.h"
 #include "ioTypes.h"
 #include "paramObj.h"
-
+#include "sepVectorConfig.h"
 namespace SEP {
 enum usage_code { usageIn, usageOut, usageInOut, usageScr };
 
@@ -53,7 +53,6 @@ class genericRegFile : public paramObj {
 
   bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
   bool writeFloatStream(const std::shared_ptr<SEP::floatHyper> hyp);
-  bool writeUCharStream(const std::shared_ptr<SEP::byteHyper> hyp);
 
   bool readFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
@@ -61,7 +60,8 @@ class genericRegFile : public paramObj {
   bool writeFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                         const std::vector<int> &jw,
                         std::shared_ptr<SEP::floatHyper> hyp);
-
+#ifdef USE_BYTE
+  bool writeUCharStream(const std::shared_ptr<SEP::byteHyper> hyp);
   bool readByteStream(std::shared_ptr<SEP::byteHyper> hyp);
   bool writeByteStream(const std::shared_ptr<SEP::byteHyper> hyp);
   bool readByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
@@ -69,8 +69,9 @@ class genericRegFile : public paramObj {
                       std::shared_ptr<SEP::byteHyper> hyp);
   bool writeByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
-                        std::shared_ptr<SEP::byteHyper> hyp);
-
+                       std::shared_ptr<SEP::byteHyper> hyp);
+#endif
+#ifdef USE_INT
   bool readIntStream(std::shared_ptr<SEP::intHyper> hyp);
   bool writeIntStream(const std::shared_ptr<SEP::intHyper> hyp);
   bool readIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
@@ -78,8 +79,9 @@ class genericRegFile : public paramObj {
                      const std::shared_ptr<SEP::intHyper> hyp);
   bool writeIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                       const std::vector<int> &jw,
-                       std::shared_ptr<SEP::intHyper> hyp);
-
+                      std::shared_ptr<SEP::intHyper> hyp);
+#endif
+#ifdef USE_COMPLEX
   bool readComplexStream(std::shared_ptr<SEP::complexHyper> hyp);
   bool writeComplexStream(const std::shared_ptr<SEP::complexHyper> hyp);
   bool readComplexWindow(const std::vector<int> &nw, const std::vector<int> &fw,
@@ -88,8 +90,10 @@ class genericRegFile : public paramObj {
   bool writeComplexWindow(const std::vector<int> &nw,
                           const std::vector<int> &fw,
                           const std::vector<int> &jw,
-                           std::shared_ptr<SEP::complexHyper> hyp);
+                          std::shared_ptr<SEP::complexHyper> hyp);
 
+#endif
+#ifdef USE_DOUBLE
   bool readDoubleStream(std::shared_ptr<SEP::doubleHyper> hyp);
   bool writeDoubleStream(const std::shared_ptr<SEP::doubleHyper> hyp);
   bool readDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
@@ -98,12 +102,8 @@ class genericRegFile : public paramObj {
   bool writeDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                          const std::vector<int> &jw,
                          std::shared_ptr<SEP::doubleHyper> hyp);
-  bool writeWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-                   const std::vector<int> &jw,
-                   std::shared_ptr<SEP::regSpace> hyp);
-  bool readWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-                  const std::vector<int> &jw,
-                  std::shared_ptr<SEP::regSpace> hyp);
+#endif
+
   virtual void readUCharStream(unsigned char *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;

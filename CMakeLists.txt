@@ -32,6 +32,7 @@ if(NOT TARGET sepVector)
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
+  include_directories( ${CMAKE_CURRENT_BINARY_DIR}/external/sepVector)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
 

@@ -137,6 +137,7 @@ set(genericIO_DIRNAME_include "include")
 set(genericIO_DIRNAME_cmake "cmake")
 include(CMakePackageConfigHelpers)
 
+if(NOT SUPPORT_LIBRARIES_BUILD)
 configure_package_config_file(
   "${CMAKE_CURRENT_SOURCE_DIR}/genericIOConfig.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
@@ -149,6 +150,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
         DESTINATION cmake)
 
 install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
+endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 add_subdirectory(cpp)
 
@@ -164,7 +166,10 @@ endif(BUILD_UTIL)
 
 add_subdirectory(env-modules)
 
+if(NOT SUPPORT_LIBRARIES_BUILD)
 install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
+endif(NOT SUPPORT_LIBRARIES_BUILD)
+
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")

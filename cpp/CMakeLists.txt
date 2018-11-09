@@ -30,5 +30,7 @@ if(USE_SEP)
 target_link_libraries(genericCpp sep3d sep)
 endif(USE_SEP)
 
+if(NOT SUPPORT_LIBRARIES_BUILD)
 install(FILES ${INCLUDES} DESTINATION include)
 install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)
+endif(NOT SUPPORT_LIBRARIES_BUILD)

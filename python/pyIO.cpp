@@ -3,12 +3,11 @@
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include "floatHyper.h"
 #include "genericFile.h"
 #include "genericIO.h"
 #include "ioModes.h"
-#ifdef USE_SEPVECTOR
-#include "floatHyper.h"
-#endif
+#include "pythonParams.h"
 
 namespace py = pybind11;
 namespace giee {
@@ -30,7 +29,6 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .value("dataByte", dataType ::DATA_BYTE)
       .value("dataDouble", dataType ::DATA_DOUBLE)
       .value("dataShort", dataType ::DATA_SHORT)
-
       .value("dataInt", dataType::DATA_INT)
       .value("dataComplex", dataType::DATA_COMPLEX)
       .value("dataUndefined", dataType::DATA_UNKNOWN);
@@ -95,6 +93,11 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                             const std::vector<float> &) const) &
                paramObj::getFloats,
            "Get a series of floats, if not specified use the default");
+
+  py::class_<pythonParams, paramObj, std::shared_ptr<pythonParams>>(
+      clsGeneric, "pythonParams")
+      .def(py::init<std::map<std::string, std::string>>(),
+           "Initialize a pythonParams object");
 
   py::class_<genericRegFile, paramObj, std::shared_ptr<genericRegFile>>(
       clsGeneric, "genericRegFile")

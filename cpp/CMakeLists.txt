@@ -4,11 +4,11 @@ project(Generic-cpp)
 FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
 INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
-set(SOURCES  basicIO.cpp  genericFile.cpp  )
+set(SOURCES  basicIO.cpp  genericFile.cpp pythonParams.cpp  )
 set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp)
 set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp buffersIO.cpp buffersRegFile.cpp)
 set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h )
-set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h
+set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h pythonParams.h
 	buffersIO.h buffersRegFile.h)
 
 if(USE_SEP)

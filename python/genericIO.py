@@ -16,6 +16,32 @@ usageConvert= {"usageIn":  pyGenericIO.usage_code.usageIn,
 
 ioModes=pyGenericIO.ioModes([""])
 
+
+class pythonParams:
+	def __init__(self,inPars):
+		"""Create a parameter object that reads from a python dictionary"""
+		self.pars={}
+		self.inPars=inPars
+		for k,v in self.inPars.items():
+			found=False;
+			if isinstance(v, int) or isinstance(v, float)  isinstance(v, str):
+				vout=str(v)
+				found=True
+			elif isinstance(v,list):
+				d=None
+				found=True
+				for l in v:
+					if not d:
+						d=l
+					else:
+						d+=","+l
+			if found:
+				self.pars[k]=vout
+		self.cppMode=pyGenericIO.pythonParams(self.pars)
+	def getCpp(self):
+		return self.cppMode
+
+
 class regFile:
 	def __init__(self,ioM,tag, **kw):
 		"""Get regular file python object
@@ -229,4 +255,5 @@ class io:
 		elif file.storage=="dataDouble":
 			file.getCpp().writeDoubleStream(vec.getCpp())
 		return vec	
+
 defaultIO=io()

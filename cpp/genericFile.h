@@ -103,6 +103,14 @@ class genericRegFile : public paramObj {
                          const std::vector<int> &jw,
                          std::shared_ptr<SEP::doubleHyper> hyp);
 #endif
+bool readWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                  std::shared_ptr<SEP::regSpace> hyp);
+bool writeWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                  std::shared_ptr<SEP::regSpace> hyp);
 
   virtual void readUCharStream(unsigned char *array, const long long npts) {
     if (array == 0 && npts == 0)
@@ -286,7 +294,6 @@ class genericIrregFile : public genericRegFile {
   virtual void readDoubleData(std::shared_ptr<header> header, double *buf);
   virtual void readComplexData(std::shared_ptr<header> header,
                                std::complex<float> *buf);
-
   virtual void writeFloatData(std::shared_ptr<header> header, const float *buf);
   virtual void writeByteData(std::shared_ptr<header> header,
                              const unsigned char *buf);

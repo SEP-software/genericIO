@@ -355,3 +355,67 @@ bool genericRegFile::writeIntStream(const std::shared_ptr<SEP::intHyper> vec) {
     return true;
   }
 #endif
+bool genericRegFile::readWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                const std::shared_ptr<SEP::regSpace> hyp) {
+
+#ifdef USE_COMPLEX
+  std::shared_ptr<complexHyper> cp =
+      std::dynamic_pointer_cast<complexHyper>(hyp);
+  if (cp) return readComplexWindow(nw, fw, jw, cp);
+#endif
+
+#ifdef USE_BYTE
+  std::shared_ptr<byteHyper> bp = std::dynamic_pointer_cast<byteHyper>(hyp);
+  if (bp) return readByteWindow(nw, fw, jw, bp);
+#endif
+
+#ifdef USE_DOUBLE
+  std::shared_ptr<doubleHyper> dp = std::dynamic_pointer_cast<doubleHyper>(hyp);
+  if (dp) return readDoubleWindow(nw, fw, jw, dp);
+#endif
+
+#ifdef USE_INT
+  std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
+  if (ip) return readIntWindow(nw, fw, jw, ip);
+#endif
+
+  std::shared_ptr<floatHyper> fp = std::dynamic_pointer_cast<floatHyper>(hyp);
+  assert(fp);
+  return readFloatWindow(nw, fw, jw, fp);
+}
+
+bool genericRegFile::writeWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                  std::shared_ptr<SEP::regSpace> hyp) {
+
+#ifdef USE_COMPLEX
+  const std::shared_ptr<complexHyper> cp =
+      std::dynamic_pointer_cast<complexHyper>(hyp);
+  if (cp) return writeComplexWindow(nw, fw, jw, cp);
+#endif
+
+#ifdef USE_BYTE
+  const std::shared_ptr<byteHyper> bp =
+      std::dynamic_pointer_cast<byteHyper>(hyp);
+  if (bp) return writeByteWindow(nw, fw, jw, bp);
+#endif
+
+#ifdef USE_DOUBLE
+  const std::shared_ptr<doubleHyper> dp =
+      std::dynamic_pointer_cast<doubleHyper>(hyp);
+  if (dp) return writeDoubleWindow(nw, fw, jw, dp);
+#endif
+
+#ifdef USE_INT
+  const std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
+  if (ip) return writeIntWindow(nw, fw, jw, ip);
+#endif
+
+  const std::shared_ptr<floatHyper> fp =
+      std::dynamic_pointer_cast<floatHyper>(hyp);
+  return writeFloatWindow(nw, fw, jw, fp);
+}
+

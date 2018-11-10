@@ -29,6 +29,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .value("dataFloat", dataType::DATA_FLOAT)
       .value("dataByte", dataType ::DATA_BYTE)
       .value("dataDouble", dataType ::DATA_DOUBLE)
+      .value("dataShort", dataType ::DATA_SHORT)
+
       .value("dataInt", dataType::DATA_INT)
       .value("dataComplex", dataType::DATA_COMPLEX)
       .value("dataUndefined", dataType::DATA_UNKNOWN);

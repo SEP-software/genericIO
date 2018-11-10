@@ -1,13 +1,18 @@
 import pyGenericIO
 import SepVector
+import Hypercube
+storageConvert={"dataFloat": pyGenericIO.dataType.dataFloat,
+"dataInt": pyGenericIO.dataType.dataInt,
+"dataByte": pyGenericIO.dataType.dataByte,
+"dataComplex": pyGenericIO.dataType.dataComplex,
+"dataShort": pyGenericIO.dataType.dataShort,
 
-storageConvert={"dataFloat":pyGenericIO::dataType::dataFloat,
-"dataInt":pyGenericIO::dataType::dataInt
-"dataShort":pyGenericIO::dataType::dataShort
-"dataByte":pyGenericIO::dataType::dataByte
-"dataComplex":pyGenericIO::dataType::dataComplex
-"dataDouble":pyGenericIO::dataType::dataDouble
+"dataDouble": pyGenericIO.dataType.dataDouble
 }
+usageConvert= {"usageIn":  pyGenericIO.usage_code.usageIn,
+      "usageOut": pyGenericIO.usage_code.usageOut,
+    "usageInOut":  pyGenericIO.usage_code.usageInOut,
+      "usageScr":  pyGenericIO.usage_code.usageScr};
 
 ioModes=pyGenericIO.ioModes([""])
 
@@ -31,7 +36,7 @@ class regFile:
 			elif kw["usage"]=="output":
 				self.usage="usageOut"
 			elif kw["usage"]=="inout":
-				self.usage="UsageInOut"
+				self.usage="usageInOut"
 			else:
 				raise Exception("Only understand input,output, and inout for usage")
 		self.storage="dataFloat"
@@ -54,10 +59,10 @@ class regFile:
 			if not isinstance(kw["fromHyper"],Hypercube.hypercube):
 				raise Exception("Must pass a hypercube object when creating a file from a hypercube")
 			if not self.usage:
-				self.usage="UsageOut"
+				self.usage="usageOut"
 			elif self.usage=="usageIn":
 				raise Exception("Can not have usageIn when creating from Hypercube")
-			self.cppMode=ioM.getRegFile(self.tag,self.usage)
+			self.cppMode=ioM.getRegFile(self.tag,usageConvert[self.usage])
 			self.cppMode.setHyper(kw["fromHyper"].getCpp())
 			self.cppMode.setDataType(storageConvert[self.storage])
 			self.cppMode.writeDescrption()
@@ -66,19 +71,19 @@ class regFile:
 				raise Exception("When creating a file from a vector must be inherited from SepVector.vector")
 			self.storage=kw["fromVector"].getStorageType()
 			if not self.usage:
-				self.usage="UsageOut"
+				self.usage="usageOut"
 			elif self.usage=="usageIn":
 				raise Exception("Can not have usageIn when creating from Hypercube")
-			self.cppMode=ioM.getRegFile(self.tag,self.usage)
+			self.cppMode=ioM.getRegFile(self.tag,usageConvert[self.usage])
 			self.cppMode.setHyper(kw["fromVector"].getCpp().getHyper())
-			self.cppMode.setDataType(storageConverte[self.storage])
+			self.cppMode.setDataType(storageConvert[self.storage])
 			self.cppMode.writeDescription()
 		else: #Assuming from file
 			if not self.usage:
-				self.usage="UsageOut"
-			elif self.usage=="UsageOut":
+				self.usage="usageIn"
+			elif self.usage=="usageOut":
 				raise Exception("Can not specify usageOut when creating from a file")
-			self.cppMode=ioMode.getRegFile(self.tag,self.usage)
+			self.cppMode=ioM.getRegFile(self.tag,usageConvert[self.usage])
 			self.cppMode.readDescription()
 	def getInt(self,tag,*arg):
 		"""Get integer from a given IO"""
@@ -133,6 +138,9 @@ class regFile:
 	def putInts(self,tag,arg):
 		"""Put ints into description"""
 		self.cppMode.putInts(tag,arg)
+	def getCpp(self):
+		"""Return cpp object"""
+		return self.cppMode
 	def getHyper(self):
 		"""Return hypercube for the file"""
 		return Hypercube.hypercube(hypercube=self.cppMode.getHyper())
@@ -188,7 +196,7 @@ class io:
 				storage  - float,complex,byte,double, or int (defaults to float)
 				fromVector - Vector 
 		"""
-		return regFile(self.cppMode,tag,kw)
+		return regFile(self.cppMode,tag,**kw)
 	def getVector(self,tag):
 		"""Get vector from a file and read its contents"""
 		file=self.getRegFile(tag)

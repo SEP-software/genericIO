@@ -520,7 +520,6 @@ void sepRegFile::writeDescription() {
     char label[1024];
     std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
     label[axes[i - 1].label.length()] = '\0';
-    sep_put_data_axis_par("z.H", &i, &n, &o, &d, "junl");
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
   for (int i = axes.size() + 1; i <= 8; i++) {

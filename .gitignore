@@ -4,3 +4,5 @@ lib
 include
 RUN_THIS
 .DS_Store
+notebooks/*H
+notebooks/.ipynb_checkpoints

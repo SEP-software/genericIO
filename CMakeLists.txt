@@ -150,7 +150,9 @@ configure_package_config_file(
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
         DESTINATION cmake)
 
+if(NOT INSTALL_CMAKE_ENV)
 install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
+endif(NOT INSTALL_CMAKE_ENV)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 add_subdirectory(cpp)

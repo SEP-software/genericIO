@@ -24,7 +24,7 @@ class pythonParams:
 		self.inPars=inPars
 		for k,v in self.inPars.items():
 			found=False;
-			if isinstance(v, int) or isinstance(v, float)  isinstance(v, str):
+			if isinstance(v, int) or isinstance(v, float)  or isinstance(v, str):
 				vout=str(v)
 				found=True
 			elif isinstance(v,list):

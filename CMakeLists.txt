@@ -3,6 +3,7 @@ project(genericIO LANGUAGES CXX)
 
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
+  option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
   option(BUILD_UTIL "Build utilities" ON)
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)

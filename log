@@ -1,0 +1,156 @@
+read filter "zstd" is not supported
+write filter "zstd" is not supported
+No numpy version specified in conda_build_config.yaml.  Falling back to default numpy value of 1.11
+WARNING:conda_build.metadata:No numpy version specified in conda_build_config.yaml.  Falling back to default numpy value of 1.11
+Adding in variants from internal_defaults
+INFO:conda_build.variants:Adding in variants from internal_defaults
+Attempting to finalize metadata for generic-io
+INFO:conda_build.metadata:Attempting to finalize metadata for generic-io
+Solving environment: ...working... done
+Solving environment: ...working... done
+BUILD START: ['generic-io-0.0.2-py37_0.tar.bz2']
+Solving environment: ...working... done
+Solving environment: ...working... done
+
+## Package Plan ##
+
+  environment location: /anaconda3/conda-bld/generic-io_1543465705442/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl
+
+
+The following NEW packages will be INSTALLED:
+
+    bzip2:           1.0.6-h1de35cc_5             
+    ca-certificates: 2018.03.07-0                 
+    certifi:         2018.10.15-py37_0            
+    cmake:           3.12.2-haff7e42_0            
+    expat:           2.2.6-h0a44026_0             
+    libcurl:         7.62.0-h051b688_0            
+    libcxx:          4.0.1-hcfea43d_1             
+    libcxxabi:       4.0.1-hcfea43d_1             
+    libedit:         3.1.20170329-hb402a30_2      
+    libffi:          3.2.1-h475c297_4             
+    libssh2:         1.8.0-ha12b0ac_4             
+    ncurses:         6.1-h0a44026_1               
+    openssl:         1.1.1a-h1de35cc_0            
+    pip:             18.1-py37_0                  
+    pybind11:        2.2.4-py37h04f5b5a_0         
+    python:          3.7.1-haf84260_3             
+    readline:        7.0-h1de35cc_5               
+    rhash:           1.3.6-ha12b0ac_0             
+    seplib-iolibs:   9.0.0-py37_0            local
+    setuptools:      40.6.2-py37_0                
+    sqlite:          3.25.3-ha441bb4_0            
+    tk:              8.6.8-ha441bb4_0             
+    wheel:           0.32.3-py37_0                
+    xz:              5.2.4-h1de35cc_4             
+    zlib:            1.2.11-h1de35cc_3            
+
+Preparing transaction: ...working... done
+Verifying transaction: ...working... done
+Executing transaction: ...working... done
+Cloning into bare repository '/anaconda3/conda-bld/git_cache/cees-gitlab.Stanford.EDU/bob/genericIO.git'...
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work'...
+done.
+Your branch is up to date with 'origin/master'.
+Submodule 'external/buffers' (http://cees-gitlab.Stanford.EDU/bob/buffers.git) registered for path 'external/buffers'
+Submodule 'external/sepVector' (http://cees-gitlab.Stanford.EDU/bob/sepVector.git) registered for path 'external/sepVector'
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/buffers'...
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/sepVector'...
+Submodule path 'external/buffers': checked out '832da47b832ac1e42980a10c095bfd0cb6dba7e3'
+Submodule 'external/googletest' (https://github.com/google/googletest.git) registered for path 'external/buffers/external/googletest'
+Submodule 'external/hypercube' (http://cees-gitlab.Stanford.EDU/bob/hypercube.git) registered for path 'external/buffers/external/hypercube'
+Submodule 'external/json' (http://cees-gitlab.Stanford.EDU/bob/json.git) registered for path 'external/buffers/external/json'
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/buffers/external/googletest'...
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/buffers/external/hypercube'...
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/buffers/external/json'...
+Submodule path 'external/buffers/external/googletest': checked out '3cf8f514d859d65b7202e51c662a03a92887b8e2'
+Submodule path 'external/buffers/external/hypercube': checked out '4ff58f053a6da9e2e528ae458ba054f84a8f43bd'
+Submodule path 'external/buffers/external/json': checked out '82f3c171800afe83984d8ed605f3668baeb95ce4'
+Submodule path 'external/sepVector': checked out '8eb1c5556f1790908726cae46625be3a50ae043c'
+Submodule 'external/hypercube' (http://cees-gitlab.Stanford.EDU/bob/hypercube.git) registered for path 'external/sepVector/external/hypercube'
+Cloning into '/anaconda3/conda-bld/generic-io_1543465705442/work/external/sepVector/external/hypercube'...
+Submodule path 'external/sepVector/external/hypercube': checked out '4ff58f053a6da9e2e528ae458ba054f84a8f43bd'
+fatal: No names found, cannot describe anything.
+CMake Error at /anaconda3/conda-bld/generic-io_1543465705442/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/share/cmake-3.12/Modules/FindPackageHandleStandardArgs.cmake:137 (message):
+  Could NOT find NumPy (missing: PYTHON_NUMPY_INCLUDE_DIR) (found version "")
+Call Stack (most recent call first):
+  /anaconda3/conda-bld/generic-io_1543465705442/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl/share/cmake-3.12/Modules/FindPackageHandleStandardArgs.cmake:378 (_FPHSA_FAILURE_MESSAGE)
+  cmake/FindNumPy.cmake:41 (find_package_handle_standard_args)
+  external/sepVector/python/CMakeLists.txt:5 (find_package)
+
+
+commit 14012233a0cadafefd1a923e09b0b2548058ad2a
+Author: Robert Clapp <bob@roberts-mbp-3.lan>
+Date:   Sun Nov 25 18:32:10 2018 -0800
+
+    added SepVector
+
+commit 14012233a0cadafefd1a923e09b0b2548058ad2a
+Author: Robert Clapp <bob@roberts-mbp-3.lan>
+Date:   Sun Nov 25 18:32:10 2018 -0800
+
+    added SepVector
+
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+checkout: 'HEAD'
+==> git log -n1 <==
+
+==> git describe --tags --dirty <==
+
+==> git status <==
+
+source tree in: /anaconda3/conda-bld/generic-io_1543465705442/work
+Rewriting env in output: {'BUILD_PREFIX': '/anaconda3/conda-bld/generic-io_1543465705442/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl',
+ 'PREFIX': '/anaconda3/conda-bld/generic-io_1543465705442/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_pl',
+ 'SRC_DIR': '/anaconda3/conda-bld/generic-io_1543465705442/work'}
+-- The CXX compiler identification is AppleClang 10.0.0.10001145
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found TBB: /opt/local/include (found version "2019.0")  
+-- The C compiler identification is AppleClang 10.0.0.10001145
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Boost version: 1.66.0
+-- Found PythonInterp: $BUILD_PREFIX/bin/python3 (found suitable version "3.7.1", minimum required is "3") 
+-- Found PythonInterp: $BUILD_PREFIX/bin/python3 (found version "3.7.1") 
+-- Found PythonLibs: $BUILD_PREFIX/lib/libpython3.7m.dylib
+-- Performing Test HAS_FLTO
+-- Performing Test HAS_FLTO - Success
+-- LTO enabled
+-- Boost version: 1.66.0
+-- Found the following Boost libraries:
+--   program_options
+--   unit_test_framework
+-- Found PythonInterp: $BUILD_PREFIX/bin/python3 (found suitable version "3.7.1", minimum required is "3") 
+-- Configuring incomplete, errors occurred!
+See also "$SRC_DIR/build/CMakeFiles/CMakeOutput.log".
+Traceback (most recent call last):
+  File "/anaconda3/bin/conda-build", line 11, in <module>
+    sys.exit(main())
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/cli/main_build.py", line 442, in main
+    execute(sys.argv[1:])
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/cli/main_build.py", line 433, in execute
+    verify=args.verify, variants=args.variants)
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/api.py", line 207, in build
+    notest=notest, need_source_download=need_source_download, variants=variants)
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/build.py", line 2300, in build_tree
+    notest=notest,
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/build.py", line 1511, in build
+    cwd=src_dir, stats=build_stats)
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/utils.py", line 366, in check_call_env
+    return _func_defaulting_env_to_os_environ('call', *popenargs, **kwargs)
+  File "/anaconda3/lib/python3.6/site-packages/conda_build/utils.py", line 346, in _func_defaulting_env_to_os_environ
+    raise subprocess.CalledProcessError(proc.returncode, _args)
+subprocess.CalledProcessError: Command '['/bin/bash', '-e', '/anaconda3/conda-bld/generic-io_1543465705442/work/conda_build.sh']' returned non-zero exit status 1.

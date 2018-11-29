@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
+MESSAGE(${CMAKE_ROOT} "PATJ")
 
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
@@ -93,7 +94,13 @@ else()
   message("NOT INSTALLING WITH RSF")
 endif()
 
+
 find_package(SEPlib)
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 if(SEPlib_FOUND)
   message("INSTALLING WITH SEPlib")
   set(USE_SEP true)

@@ -11,6 +11,7 @@ requirements:
       - cmake
       - pybind11
       - tbb
+      - numpy
     run:
       - python
 

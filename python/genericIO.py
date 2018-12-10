@@ -146,6 +146,9 @@ class regFile:
 		if(len(arg)==1):
 			return self.cppMode.getFloats(tag,arg)
 		return self.cppMode.getFloats(tag)
+	def close(self):
+		"""Close file"""
+		self.cppMode.close()
 	def putInt(self,tag,arg):
 		"""Put a float into description"""
 		self.cppMode.putInt(tag,arg)

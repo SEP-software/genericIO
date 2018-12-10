@@ -238,6 +238,7 @@ class io:
 			file.getCpp().readIntStream(vec.getCpp())		
 		elif file.storage=="dataDouble":
 			file.getCpp().readDoubleStream(vec.getCpp())
+		file.close()
 		return vec
 	def writeVector(self,tag,vec):
 		"""Write entire sepVector to disk

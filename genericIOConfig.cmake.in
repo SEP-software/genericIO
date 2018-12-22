@@ -1,23 +1,33 @@
-# - Config file for the FooBar package
-# It defines the following variables
+# defined since 2.8.3
+if (CMAKE_VERSION VERSION_LESS 2.8.3)
+  get_filename_component (CMAKE_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+endif ()
 
-@PACKAGE_INIT@
-
-  INCLUDE(${CMAKE_CURRENT_LIST_DIR}/genericIOExports.cmake)
-
+# Allows loading SEPlib settings from another project
+set (genericIO_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}")
 
 
-set_and_check(genericIO_DIRNAME_include "@PACKAGE_genericIO_DIRNAME_include@")
+#include ("${CMAKE_CURRENT_LIST_DIR}/genericIOLibraryDepends.cmake")
+
+if (CMAKE_VERSION VERSION_LESS 2.8.3)
+  set (CMAKE_CURRENT_LIST_DIR)
+endif ()
+
+
+
+#INCLUDE(${CMAKE_CURRENT_LIST_DIR}/genericIOExports.cmake)
+
+
+
+#set_and_check(genericIO_DIRNAME_include "@PACKAGE_genericIO_DIRNAME_include@")
 set(GENERIC_EXPORT_INC_DIRS @GENERIC_EXPORT_INC_DIRS@)
 set(GENERIC_EXPORT_LIB_DIRS @GENERIC_EXPORT_LIB_DIRS@)
 set(GENERIC_EXPORT_LIBS @GENERIC_EXPORT_LIBS@)
+
 FOREACH(inc ${GENERIC_EXPORT_INC_DIRS})
   INCLUDE_DIRECTORIES(${inc})
 ENDFOREACH(inc)
 
-set_target_properties(genericCpp PROPERTIES
-IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-)
 FOREACH(libd ${GENERIC_EXPORT_LIB_DIRS})
   link_directories(${libd})
 ENDFOREACH(libd)

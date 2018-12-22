@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
-MESSAGE(${CMAKE_ROOT} "PATJ")
 
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
@@ -34,7 +33,7 @@ if(NOT TARGET sepVector)
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
-  include_directories( ${CMAKE_CURRENT_BINARY_DIR}/external/sepVector)
+  include_directories(${CMAKE_CURRENT_BINARY_DIR}/external/sepVector)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
 
@@ -94,36 +93,25 @@ else()
   message("NOT INSTALLING WITH RSF")
 endif()
 
-
 find_package(SEPlib)
+
+
+
 if(SEPlib_FOUND)
   message("INSTALLING WITH SEPlib")
   set(USE_SEP true)
-  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};sep3d;sep")
-  if(DEFINED GENERIC_EXPORT_INC_DIRS)
-    set(GENERIC_EXPORT_INC_DIRS
-        "${GENERIC_EXPORT_INC_DIRS};${SEPlib_DIRNAME_include}")
-    set(GENERIC_EXPORT_LIB_DIRS
-        "${GENERIC_EXPORT_LIB_DIRS};${SEPlib_DIRNAME_lib}")
-  else()
-    set(GENERIC_EXPORT_INC_DIRS "${SEPlib_DIRNAME_include}")
-    set(GENERIC_EXPORT_LIB_DIRS "${SEPlib_DIRNAME_lib}")
-  endif()
+  list(APPEND GENERIC_EXPORT_LIBS "sep3d")
+  list(APPEND GENERIC_EXPORT_LIBS "sep")
+
+  MESSAGE("HERE WO GO "${SEPlib_INCLUDE_DIRS})
+  list(APPEND GENERIC_EXPORT_INC_DIRS ${SEPlib_INCLUDE_DIRS})
+  list(APPEND GENERIC_EXPORT_LIB_DIRS ${SEPlib_LIBRARY_DIRS})
 else()
   message("NOT INSTALLING WITH SEPlib")
 endif()
 
-if(DEFINED GENERIC_EXPORT_INC_DIRS)
-  set(GENERIC_EXPORT_INC_DIRS
-      "${GENERIC_EXPORT_INC_DIRS};${hypercube_DIRNAME_include}")
-  set(GENERIC_EXPORT_LIB_DIRS
-      "${GENERIC_EXPORT_LIB_DIRS};${hpercube_DIRNAME_lib}")
-else()
-  set(GENERIC_EXPORT_INC_DIRS "${hypercube_DIRNAME_include}")
-  set(GENERIC_EXPORT_LIB_DIRS "${hpercube_DIRNAME_lib}")
-endif()
 
-string(STRIP "${GENERIC_EXPORT_LIBS}" GENERIC_EXPORT_LIBS)
+
 if(USE_SEP)
   set(DEFAULTIO "SEP")
 elseif(USE_RSF)
@@ -133,6 +121,8 @@ else(USE_SEP)
 endif(USE_SEP)
 include_directories(${PROJECT_BINARY_DIR})
 
+
+MESSAGE("HERE WE GO " ${GENERIC_EXPORT_INC_DIRS})
 configure_file("${PROJECT_SOURCE_DIR}/ioConfig.h.in"
                "${PROJECT_BINARY_DIR}/ioConfig.h")
 set(genericIO_DIRNAME_lib "lib")
@@ -141,25 +131,23 @@ set(genericIO_DIRNAME_cmake "cmake")
 include(CMakePackageConfigHelpers)
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
-configure_package_config_file(
-  "${CMAKE_CURRENT_SOURCE_DIR}/genericIOConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
-  INSTALL_DESTINATION
-  ${genericIO_DIRNAME_lib}
-  PATH_VARS
-  genericIO_DIRNAME_include)
+  configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/genericIOConfig.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
+    INSTALL_DESTINATION
+    ${genericIO_DIRNAME_lib}
+    PATH_VARS
+    genericIO_DIRNAME_include)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
-        DESTINATION cmake)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
+          DESTINATION lib/cmake)
 
-if(NOT INSTALL_CMAKE_ENV)
-install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
-endif(NOT INSTALL_CMAKE_ENV)
+  if(NOT INSTALL_CMAKE_ENV)
+    install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
+  endif(NOT INSTALL_CMAKE_ENV)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 add_subdirectory(cpp)
-
-
 
 if(BUILD_PYTHON)
   add_subdirectory(python)
@@ -169,12 +157,10 @@ if(BUILD_UTIL)
   add_subdirectory(util)
 endif(BUILD_UTIL)
 
-
 if(NOT SUPPORT_LIBRARIES_BUILD)
-install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
-add_subdirectory(env-modules)
+  install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
+  add_subdirectory(env-modules)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
-
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")

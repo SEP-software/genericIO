@@ -20,7 +20,8 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
 message("XXX "${GENERIC_EXPORT_LIB_DIRS})
 FOREACH(lib ${GENERIC_EXPORT_LIB_DIRS})
-  message($lib)
+  message(${lib})
+  message(lib)
   link_directories(${lib})
 ENDFOREACH(lib)
 

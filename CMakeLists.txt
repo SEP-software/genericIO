@@ -23,6 +23,7 @@ set(genericIO_MINOR_VERSION 4)
 set(genericIO_VERSION_STRING
     ${genericIO_MAJOR_VERSION}.${genericIO_MINOR_VERSION})
 
+set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 if(NOT TARGET sepVector)
@@ -56,7 +57,6 @@ else(NOT TARGET sepVector)
   find_package(hypercube REQUIRED)
 endif(NOT TARGET sepVector)
 
-include_directories("${PROJECT_BINARY_DIR}")
 
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include)
 
@@ -102,8 +102,8 @@ if(SEPlib_FOUND)
   set(USE_SEP true)
   list(APPEND GENERIC_EXPORT_LIBS "sep3d")
   list(APPEND GENERIC_EXPORT_LIBS "sep")
-
-  MESSAGE("HERE WO GO " ${SEPlib_INCLUDE_DIRS})
+  link_directories(${SEPlib_LIBRARY_DIRS})
+  include_directories(${SEPlib_INCLUDE_DIRS})
   list(APPEND GENERIC_EXPORT_INC_DIRS ${SEPlib_INCLUDE_DIRS})
   list(APPEND GENERIC_EXPORT_LIB_DIRS ${SEPlib_LIBRARY_DIRS})
 else()
@@ -122,30 +122,24 @@ endif(USE_SEP)
 include_directories(${PROJECT_BINARY_DIR})
 
 
-MESSAGE("HERE WE GO " ${GENERIC_EXPORT_INC_DIRS})
 configure_file("${PROJECT_SOURCE_DIR}/ioConfig.h.in"
                "${PROJECT_BINARY_DIR}/ioConfig.h")
 set(genericIO_DIRNAME_lib "lib")
 set(genericIO_DIRNAME_include "include")
 set(genericIO_DIRNAME_cmake "cmake")
-include(CMakePackageConfigHelpers)
+# cmake file
+configure_file (genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
+configure_file (genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake @ONLY)
 
-if(NOT SUPPORT_LIBRARIES_BUILD)
-  configure_package_config_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/genericIOConfig.cmake.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
-    INSTALL_DESTINATION
-    ${genericIO_DIRNAME_lib}
-    PATH_VARS
-    genericIO_DIRNAME_include)
 
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
-          DESTINATION lib/cmake)
+install (FILES
+          ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
+          ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake
+    DESTINATION lib/cmake
+    COMPONENT Development)
 
-  if(NOT INSTALL_CMAKE_ENV)
-    install(EXPORT genericIOExports DESTINATION ${genericIO_DIRNAME_cmake})
-  endif(NOT INSTALL_CMAKE_ENV)
-endif(NOT SUPPORT_LIBRARIES_BUILD)
+
+
 
 add_subdirectory(cpp)
 

@@ -112,6 +112,9 @@ class buffersRegFile : public jsonGenericFile {
   }
   void setCompression(std::shared_ptr<SEP::IO::compress> com) { _comp = com; }
   void setBlocking(std::shared_ptr<SEP::IO::blocking> block) { _block = block; }
+  void setBufferType(std::string typ) {
+    _bufferT = std::make_shared<SEP::IO::bufferTypes>(typ);
+  }
   void createBuffers();
 
  private:
@@ -119,6 +122,7 @@ class buffersRegFile : public jsonGenericFile {
   std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr;
   std::shared_ptr<SEP::IO::compress> _comp = nullptr;
   std::shared_ptr<SEP::IO::blocking> _block = nullptr;
+  std::shared_ptr<SEP::IO::bufferTypes> _bufferT = nullptr;
 
 };  // namespace SEP
 }  // namespace SEP

@@ -59,7 +59,7 @@ void buffersRegFile::createBuffers() {
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
-  _bufs.reset(
-      new SEP::IO::buffers(getHyper(), getDataType(), _comp, _block, _mem));
+  _bufs.reset(new SEP::IO::buffers(getHyper(), getDataType(), _comp, _block,
+                                   _mem, _bufferT));
   _bufs->setDirectory(jsonArgs["directory"].asString(), true);
 }

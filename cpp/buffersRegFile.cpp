@@ -60,6 +60,6 @@ void buffersRegFile::createBuffers() {
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
   _bufs.reset(new SEP::IO::buffers(getHyper(), getDataType(), _comp, _block,
-                                   _mem, _bufferT));
+                                   _bufferT, _mem));
   _bufs->setDirectory(jsonArgs["directory"].asString(), true);
 }

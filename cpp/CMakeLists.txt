@@ -12,7 +12,6 @@ set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segy
 	fileBuffersIO.h fileBuffersRegFile.h  buffersRegFile.h)
 
 if(USE_SEP)
-MESSAGE("ADDING SEP STUFF")
 include_directories(${SEPlib_DIRNAME_include})
   set(SOURCES  ${SOURCES} sepIO.cpp  sep3dFile.cpp sep_reg_file.cpp  sep_params.cpp )
   set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)
@@ -23,6 +22,12 @@ include_directories(${RSFINCDIR})
   set(SOURCES  ${SOURCES} rsfIO.cpp	rsfParams.cpp  rsfRegFile.cpp)
   set(INCLUDES ${INCLUDES}  rsfIO.h rsfParams.h rsfRegFiles.h ) 
 endif(USE_RSF)
+
+if(BUILD_GCP)
+set(SOURCES ${SOURCES} gcpBuffersIO.cpp gcpBuffersRegFile.cpp)
+set(INCLUDES ${INCLUDE} gcpBuffersIO.h gcpBuffersRegFile.h)
+endif(BUILD_GCP)
+
    add_library(genericCpp ${SOURCES} ${INCLUDES})
 target_link_libraries(genericCpp sepVector buffers ${TBB_LIBRARIES})
 
@@ -30,10 +35,7 @@ if(USE_SEP)
 target_link_libraries(genericCpp sep3d sep)
 endif(USE_SEP)
 
-if(BUILD_GCP)
-set(SOURCES ${SOURCES} gcpIO.cpp)
-set(INCLUDES ${INCLUDE} gcpIO.cpp)
-endif(BUILD_GCP)
+
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
 install(FILES ${INCLUDES} DESTINATION include)

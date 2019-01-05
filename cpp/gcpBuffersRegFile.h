@@ -6,7 +6,7 @@
 #include "buffersRegFile.h"
 #include "json.h"
 namespace SEP {
-class gcpBuffersRegFile : public gcpRegFile {
+class gcpBuffersRegFile : public buffersRegFile {
  public:
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
@@ -21,9 +21,7 @@ class gcpBuffersRegFile : public gcpRegFile {
   void createBuffers();
 
  private:
-  google::cloud::storage::Client client;
   void setupGCP();
-  const std::string tag, const std::string gg
 
 };  // namespace SEP
 

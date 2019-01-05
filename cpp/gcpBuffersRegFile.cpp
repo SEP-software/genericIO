@@ -19,7 +19,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
     _bufs.reset(
-        new SEP::IO::fileBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
+        new SEP::IO::gcpBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
   }
 
   jsonArgs["progName"] = progName;
@@ -39,12 +39,14 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   if (_usage == usageIn)
     _newFile = false;
   else if (_usage == usageInOut) {
+    google::cloud::storage::Client client;
+
     try {
       namespace gcs = google::cloud::storage;
       [](gcs::Client client, std::string bucket_name, std::string object_name) {
         gcs::ObjectMetadata meta =
-            client.GetObjectMetadata(_jsonFile, std::string("desc"));
-      }
+            client.GetObjectMetadata(bucket_name, object_name);
+      }(client, _jsonFile, std::string("desc"));
     } catch (std::exception const &ex) {
       _newFile = true;
     }
@@ -55,36 +57,42 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   }
 
   if (_usage == usageIn || !_newFile) {
+    google::cloud::storage::Client client;
+
     try {
       namespace gcs = google::cloud::storage;
-      [](gcs::Client client, std::string bucket_name, std::string object_name) {
+      [](gcs::Client client, std::string bucket_name, std::string object_name,
+         Json::Value jsonArgs) {
         gcs::ObjectReadStream stream =
             client.ReadObject(bucket_name, object_name);
         stream >> jsonArgs;
       }
       //! [read object] [END storage_download_file]
-      (std::move(client), _jsonFile, desc);
+      (std::move(client), _jsonFile, std::string("desc"), jsonArgs);
     } catch (std::exception const &ex) {
       error(std::string("can not open object ") + _jsonFile);
     }
   }
-  void gcpBuffersRegFile::close() {
-    if (getUsage() == usageOut || getUsage() == usageInOut) {
-      namespace gcs = google::cloud::storage;
-      [](gcs::Client client, std::string bucket_name, std::string object_name,
-         long desired_line_count) {
-        std::string const text = "Lorem ipsum dolor sit amet";
-        gcs::ObjectWriteStream stream =
-            client.WriteObject(bucket_name, object_name);
-        stream << jsonArgs;
-        stream.Close();
-      }
-      //! [write object]
-      (std::move(client), jsonArgs["name"], "desc");
-    }
+}
+void gcpBuffersRegFile::close() {
+  if (getUsage() == usageOut || getUsage() == usageInOut) {
+    google::cloud::storage::Client client;
 
-    _bufs->changeState(SEP::IO::ON_DISK);
+    namespace gcs = google::cloud::storage;
+    [](gcs::Client client, std::string bucket_name, std::string object_name,
+       Json::Value jsonArgs) {
+      std::string const text = "Lorem ipsum dolor sit amet";
+      gcs::ObjectWriteStream stream =
+          client.WriteObject(bucket_name, object_name);
+      stream << jsonArgs;
+      stream.Close();
+    }
+    //! [write object]
+    (std::move(client), jsonArgs["name"].asString(), std::string("desc"),
+     jsonArgs);
   }
+
+  _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
   if (_bufs) return;
@@ -92,6 +100,6 @@ void gcpBuffersRegFile::createBuffers() {
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
   _bufs.reset(
-      new SEP::IO::fileBuffers(getHyper(), getDataType(), _comp, _block, _mem));
+      new SEP::IO::gcpBuffers(getHyper(), getDataType(), _comp, _block, _mem));
   _bufs->setName(jsonArgs["name"].asString(), true);
 }

@@ -129,7 +129,6 @@ class jsonGenericFile : public genericIrregFile {
   bool _newFile;
   dataType _dtype;
 
- private:
   std::string _tag;
   usage_code _usage;
   std::string _jsonFile, _dataFile;

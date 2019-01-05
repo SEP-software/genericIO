@@ -1,7 +1,7 @@
+#include "gcpBuffersIO.h"
 #include <exception>
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
-#include "buffersIO.h"
 using namespace SEP;
 
 std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
@@ -37,7 +37,7 @@ std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new fileBuffersRegFile(jsonArgs, usage, name, _progName));
+      new gcpBuffersRegFile(jsonArgs, usage, name, _progName));
   addIrregFile(tag, x);
   return x;
 }

@@ -1,5 +1,6 @@
 #include "ioModes.h"
 #include <iostream>
+#include "buffersConfig.h"
 #include "fileBuffersIO.h"
 #include "ioConfig.h"
 #include "segyIO.h"
@@ -9,9 +10,9 @@
 #ifdef USE_SEP
 #include "sepIO.h"
 #endif
-#ifdef BUILD_GCP
+#ifdef USE_GCP
 #include "gcpBuffersIO.h"
-#endif 
+#endif
 using namespace SEP;
 void ioModes::setup(const int argc, char **argv) {
   std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc, argv));

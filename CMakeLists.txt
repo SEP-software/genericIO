@@ -8,6 +8,7 @@ if(NOT SUBPACKAGE)
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
 endif(NOT SUBPACKAGE)
+  option(BUILD_GCP "Build GCP" OFF)
 set(SUBPACKAGE true)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -39,7 +40,8 @@ if(NOT TARGET sepVector)
 
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
-
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/buffers)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/buffers/external/json)
   include_directories(
@@ -141,10 +143,21 @@ install (FILES
     COMPONENT Development)
 
 
-if(BUILD_GCP)
-  find_package(storage_client 0.3.0 REQUIRED)
-endif(BUILD_GCP)
 
+
+if(BUILD_GCP)
+  message("SEE GCP")
+  set(USE_GCP true)
+  find_package(storage_client 0.3.0 REQUIRED )
+
+ if(GOOGLE_STORAGE_ROOT)
+    include_directories(${GOOGLE_STORAGE_ROOT}/include)
+ else(GOOGLE_STORAGE_ROOT)
+    MESSAGE(FATAL_ERROR "Must specitfy GOOGLE_STORAGE_ROOT")
+ endif(GOOGLE_STORAGE_ROOT)
+else(BUILD_GCP)
+  message("Don't see GCP")
+endif(BUILD_GCP)
 
 
 add_subdirectory(cpp)

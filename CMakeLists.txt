@@ -35,6 +35,8 @@ if(NOT TARGET sepVector)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/lib)
   include_directories(${CMAKE_CURRENT_BINARY_DIR}/external/sepVector)
+    include_directories(${CMAKE_CURRENT_BINARY_DIR}/external/buffers)
+
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
 
@@ -138,6 +140,10 @@ install (FILES
     DESTINATION lib/cmake
     COMPONENT Development)
 
+
+if(BUILD_GCP)
+  find_package(storage_client 0.3.0 REQUIRED)
+endif(BUILD_GCP)
 
 
 

@@ -6,10 +6,10 @@ INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 set(SOURCES  basicIO.cpp  genericFile.cpp pythonParams.cpp  )
 set(SOURCES ${SOURCES} jsonParamObj.cpp jsonGenericFile.cpp genericIO.cpp)
-set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp buffersIO.cpp buffersRegFile.cpp)
+set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp fileBuffersIO.cpp fileBuffersRegFile.cpp buffersRegFile.cpp)
 set(INCLUDES  genericIO.h jsonGenericFile.h	jsonParamObj.h basicIO.h )
 set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h pythonParams.h
-	buffersIO.h buffersRegFile.h)
+	fileBuffersIO.h fileBuffersRegFile.h  buffersRegFile.h)
 
 if(USE_SEP)
 MESSAGE("ADDING SEP STUFF")
@@ -29,6 +29,11 @@ target_link_libraries(genericCpp sepVector buffers ${TBB_LIBRARIES})
 if(USE_SEP)
 target_link_libraries(genericCpp sep3d sep)
 endif(USE_SEP)
+
+if(BUILD_GCP)
+set(SOURCES ${SOURCES} gcpIO.cpp)
+set(INCLUDES ${INCLUDE} gcpIO.cpp)
+endif(BUILD_GCP)
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
 install(FILES ${INCLUDES} DESTINATION include)

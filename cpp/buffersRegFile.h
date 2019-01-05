@@ -1,5 +1,4 @@
-#ifndef BUFFERS_REGFILE_FUNC_H
-#define BUFFERS_REGFILE_FUNC_H 1
+#pragma once
 #include <stdbool.h>
 #include <string>
 #include "basicIO.h"
@@ -12,10 +11,7 @@ class buffersRegFile : public jsonGenericFile {
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
   buffersRegFile() { ; }
-  buffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
-                 const std::string &tag, const std::string &progName);
 
-  virtual void close();
   virtual void writeDescription();
   virtual void readUCharStream(unsigned char *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
@@ -112,19 +108,15 @@ class buffersRegFile : public jsonGenericFile {
   }
   void setCompression(std::shared_ptr<SEP::IO::compress> com) { _comp = com; }
   void setBlocking(std::shared_ptr<SEP::IO::blocking> block) { _block = block; }
-  void setBufferType(std::string typ) {
-    _bufferT = std::make_shared<SEP::IO::bufferTypes>(typ);
-  }
-  void createBuffers();
 
- private:
+  virtual void createBuffers() = 0;
+
+ protected:
   std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;
   std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr;
   std::shared_ptr<SEP::IO::compress> _comp = nullptr;
   std::shared_ptr<SEP::IO::blocking> _block = nullptr;
-  std::shared_ptr<SEP::IO::bufferTypes> _bufferT = nullptr;
 
 };  // namespace SEP
-}  // namespace SEP
 
-#endif
+}  // namespace SEP

@@ -1,6 +1,6 @@
 #include "ioModes.h"
 #include <iostream>
-#include "buffersIO.h"
+#include "fileBuffersIO.h"
 #include "ioConfig.h"
 #include "segyIO.h"
 #ifdef USE_RSF
@@ -9,6 +9,9 @@
 #ifdef USE_SEP
 #include "sepIO.h"
 #endif
+#ifdef BUILD_GCP
+#include "gcpBuffersIO.h"
+#endif 
 using namespace SEP;
 void ioModes::setup(const int argc, char **argv) {
   std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc, argv));
@@ -18,8 +21,13 @@ void ioModes::setup(const int argc, char **argv) {
   std::shared_ptr<segyIO> d(new segyIO(argc, argv));
   _ios["SEGY"] = d;
 
-  std::shared_ptr<buffersIO> m(new buffersIO(argc, argv));
-  _ios["BUFFERS"] = m;
+  std::shared_ptr<fileBuffersIO> m(new fileBuffersIO(argc, argv));
+  _ios["FILEBUFFERS"] = m;
+
+#ifdef BUILD_GCP
+  std::shared_ptr<gcpBuffersIO> m(new gcpBuffersIO(argc, argv));
+  _ios["GCPBUFFERS"] = m;
+#endif
 
 #ifdef USE_RSF
   std::shared_ptr<rsfIO> b(new rsfIO(argc, argv));

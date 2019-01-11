@@ -23,7 +23,6 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
 
   _init = false;
   if (!foundIn && !_sentError) {
-    std::cerr << "NO JSON parameters require json=file" << std::endl;
     _sentError = true;
 
     _init = true;
@@ -55,8 +54,6 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
 std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
   if (!_init && !_sentError) {
-    std::cerr << std::string("Expecting json=file on the command line")
-              << std::endl;
     _sentError = true;
   }
   /*
@@ -73,8 +70,6 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
 std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
   if (!_init && !_sentError) {
-    std::cerr << std::string("Expecting json=file  on the command line")
-              << std::endl;
     _sentError = true;
   }
   /*
@@ -90,8 +85,6 @@ std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
 }
 std::shared_ptr<paramObj> jsonGenericIO::getParamObj() {
   if (!_init && !_sentError) {
-    std::cerr << std::string("Expecting json=file  on the command line")
-              << std::endl;
     _sentError = true;
   }
   return _param;

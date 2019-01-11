@@ -7,10 +7,6 @@ using namespace SEP;
 std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
   if (!_init && !_sentError) {
-    std::cerr << std::string(
-                     "1Assuming name is not a tag because no JSON parameters "
-                     "json=file ")
-              << std::endl;
     _sentError = true;
   }
   /*
@@ -27,8 +23,6 @@ std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
 std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
     const std::string &tag, const std::string &name, const usage_code usage) {
   if (!_init && !_sentError) {
-    std::cerr << std::string("Expecting json=file  on the command line IRREG")
-              << std::endl;
   }
   /*
      if((*jsonArgs)[name].isNull())  {

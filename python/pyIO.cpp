@@ -195,10 +195,41 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
           (bool (genericRegFile ::*)(const std::shared_ptr<giee::floatHyper>)) &
               genericRegFile::writeFloatStream,
           "Write a float stream into a sepVector")
+
+      .def("writeDoubleStream",
+           (bool (genericRegFile ::*)(
+               const std::shared_ptr<giee::doubleHyper>)) &
+               genericRegFile::writeDoubleStream,
+           "Write a double stream into a sepVector")
+      .def("writeComplexStream",
+           (bool (genericRegFile ::*)(
+               const std::shared_ptr<giee::complexHyper>)) &
+               genericRegFile::writeComplexStream,
+           "Write a complex stream into a sepVector")
+      .def("writeByteStream",
+           (bool (genericRegFile ::*)(const std::shared_ptr<giee::byteHyper>)) &
+               genericRegFile::writeByteStream,
+           "Write a byte stream into a sepVector")
       .def("readFloatStream",
            (bool (genericRegFile ::*)(std::shared_ptr<giee::floatHyper>)) &
                genericRegFile::readFloatStream,
            "Read  a float stream into a sepVector")
+      .def("readDoubleStream",
+           (bool (genericRegFile ::*)(std::shared_ptr<giee::doubleHyper>)) &
+               genericRegFile::readDoubleStream,
+           "Read  a double stream into a sepVector")
+      .def("readIntStream",
+           (bool (genericRegFile ::*)(std::shared_ptr<giee::intHyper>)) &
+               genericRegFile::readIntStream,
+           "Read  a int stream into a sepVector")
+      .def("readComplexStream",
+           (bool (genericRegFile ::*)(std::shared_ptr<giee::complexHyper>)) &
+               genericRegFile::readComplexStream,
+           "Read  a complex stream into a sepVector")
+      .def("readByteStream",
+           (bool (genericRegFile ::*)(std::shared_ptr<giee::byteHyper>)) &
+               genericRegFile::readByteStream,
+           "Read  a byte stream into a sepVector")
       .def("readFloatWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,

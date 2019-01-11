@@ -226,10 +226,17 @@ class io:
 				fromVector - Vector 
 		"""
 		return regFile(self.cppMode,tag,**kw)
-	def getVector(self,tag):
-		"""Get vector from a file and read its contents"""
+	def getVector(self,tag,**kw):
+		"""Get vector from a file and read its contents
+		   Optional
+		     ndims - Force the hypercube to at least ndim axes"""
 		file=self.getRegFile(tag)
 		hyper=file.getHyper()
+		if "ndims" in kw:
+			if kw["ndims"] > hyper.getNdim():
+				a=Hypercube.axis()
+				for i in range(kw["ndims"]-hyper.getNdim()):
+					hyper.addAxis(a)
 		vec=SepVector.getSepVector(hyper)
 		if file.storage=="dataFloat":
 			file.getCpp().readFloatStream(vec.getCpp())

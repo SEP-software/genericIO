@@ -71,10 +71,10 @@ if(DEFINED GENERIC_EXPORT_INC_DIRS)
   set(GENERIC_EXPORT_INC_DIRS
       "${GENERIC_EXPORT_INC_DIRS};${sepVector_DIRNAME_include}")
   set(GENERIC_EXPORT_LIB_DIRS
-      "${GENERIC_EXPORT_LIB_DIRS};${sepVector_DIRNAME_lib}")
+      "${GENERIC_EXPORT_LIB_DIRS};${sepVector_DIRNAME_lib}" PARENT_SCOPE)
 else()
   set(GENERIC_EXPORT_INC_DIRS "${sepVector_DIRNAME_include}")
-  set(GENERIC_EXPORT_LIB_DIRS "${sepVector_DIRNAME_lib}")
+  set(GENERIC_EXPORT_LIB_DIRS "${sepVector_DIRNAME_lib}" PARENT_SCOPE)
 endif()
 
 if(RSFINCDIR)

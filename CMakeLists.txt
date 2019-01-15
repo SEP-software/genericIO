@@ -77,25 +77,6 @@ else()
   set(GENERIC_EXPORT_LIB_DIRS "${sepVector_DIRNAME_lib}" PARENT_SCOPE)
 endif()
 
-if(RSFINCDIR)
-  message("INSTALLING WITH RSF")
-  set(USE_RSF true)
-  string(REGEX
-         REPLACE "include\$"
-                 "lib"
-                 luse
-                 "${RSFINCDIR}")
-  set(GENERIC_EXPORT_LIBS "${GENERIC_EXPORT_LIBS};rsf")
-  if(DEFINED GENERIC_EXPORT_INC_DIRS)
-    set(GENERIC_EXPORT_INC_DIRS "${GENERIC_EXPORT_INC_DIRS};${RSFINCDIR}")
-    set(GENERIC_EXPORT_LIB_DIRS "${GENERIC_EXPORT_LIB_DIRS};${luse}")
-  else()
-    set(GENERIC_EXPORT_INC_DIRS "${RSFINCDIR}")
-    set(GENERIC_EXPORT_LIB_DIRS "${luse}")
-  endif()
-else()
-  message("NOT INSTALLING WITH RSF")
-endif()
 
 find_package(SEPlib)
 
@@ -108,8 +89,8 @@ if(SEPlib_FOUND)
   list(APPEND GENERIC_EXPORT_LIBS "sep")
   link_directories(${SEPlib_LIBRARY_DIRS})
   include_directories(${SEPlib_INCLUDE_DIRS})
-  list(APPEND GENERIC_EXPORT_INC_DIRS ${SEPlib_INCLUDE_DIRS})
-  list(APPEND GENERIC_EXPORT_LIB_DIRS ${SEPlib_LIBRARY_DIRS})
+  list(APPEND GENERIC_EXPORT_INC_DIRS ${SEPlib_INCLUDE_DIRS} PARENT_SCOPE)
+  list(APPEND GENERIC_EXPORT_LIB_DIRS ${SEPlib_LIBRARY_DIRS} PARENT_SCOPE)
 else()
   message("NOT INSTALLING WITH SEPlib")
 endif()

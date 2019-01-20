@@ -1,10 +1,10 @@
 #ifndef PARAM_OBJ_H
 #define PARAM_OBJ_H 1
-#include <assert.h>
 #include <stdbool.h>
 #include <iostream>
 #include <string>
 #include <vector>
+#include "SEPException.h"
 
 namespace SEP {
 class paramObj {
@@ -12,10 +12,7 @@ class paramObj {
   std::string _type;
 
   paramObj() { _type = "NONE"; }
-  virtual void error(const std::string& err) const {
-    std::cerr << err << std::endl;
-    assert(1 == 2);
-  }
+  virtual void error(const std::string& err) const { throw SEPException(err); }
   virtual void message(const std::string& msg) const {
     std::cerr << msg << std::endl;
   }

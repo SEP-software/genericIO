@@ -1,6 +1,5 @@
 #ifndef GENERIC_FILE
 #define GENERIC_FILE 1
-#include <assert.h>
 #include <complex.h>
 #include <memory>
 #include <vector>
@@ -103,35 +102,33 @@ class genericRegFile : public paramObj {
                          const std::vector<int> &jw,
                          std::shared_ptr<SEP::doubleHyper> hyp);
 #endif
-bool readWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                  std::shared_ptr<SEP::regSpace> hyp);
-bool writeWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                  std::shared_ptr<SEP::regSpace> hyp);
+  bool readWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                  const std::vector<int> &jw,
+                  std::shared_ptr<SEP::regSpace> hyp);
+  bool writeWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                   const std::vector<int> &jw,
+                   std::shared_ptr<SEP::regSpace> hyp);
 
   virtual void readUCharStream(unsigned char *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readUCharStream is undefined"));
   }
   virtual void readFloatStream(float *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readFloatStream is undefined"));
   }
   virtual void writeFloatStream(const float *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeFloatStream is undefined"));
   }
   virtual void writeUCharStream(const unsigned char *array,
                                 const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeUCharStream is undefined"));
   }
 
   virtual void readUCharWindow(const std::vector<int> &nw,
@@ -140,7 +137,7 @@ bool writeWindow(const std::vector<int> &nw,
                                unsigned char *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readUCharWindow is undefined"));
   }
   virtual void seekTo(const long long iv, const int whence) {
     if (whence == iv) {
@@ -151,13 +148,13 @@ bool writeWindow(const std::vector<int> &nw,
                                  const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readComplexStream is undefined"));
   }
   virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeComplexStream is undefined"));
   }
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
@@ -165,7 +162,7 @@ bool writeWindow(const std::vector<int> &nw,
                                  std::complex<float> *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readComplexWindow is undefined"));
   }
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
@@ -173,16 +170,18 @@ bool writeWindow(const std::vector<int> &nw,
                                   const std::complex<float> *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeComplexWindow is undefined"));
   }
 
-  virtual long long getDataSize() { assert(1 == 2); }
+  virtual long long getDataSize() {
+    throw SEPException(std::string("getDataSize is undefined"));
+  }
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readFloatWindow is undefined"));
   }
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
@@ -190,18 +189,18 @@ bool writeWindow(const std::vector<int> &nw,
                                 const float *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeFloatWindow is undefined"));
   }
 
   virtual void readDoubleStream(double *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readDoubleStream is undefined"));
   }
   virtual void writeDoubleStream(const double *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeDoubleStream is undefined"));
   }
 
   virtual void readDoubleWindow(const std::vector<int> &nw,
@@ -209,7 +208,7 @@ bool writeWindow(const std::vector<int> &nw,
                                 const std::vector<int> &jw, double *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readDoubleWindow is undefined"));
   }
 
   virtual void writeDoubleWindow(const std::vector<int> &nw,
@@ -218,32 +217,32 @@ bool writeWindow(const std::vector<int> &nw,
                                  const double *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeDoubleWindow is undefined"));
   }
 
   virtual void readIntStream(int *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readIntStream is undefined"));
   }
   virtual void writeIntStream(const int *array, const long long npts) {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeIntStream is undefined"));
   }
   virtual void readIntWindow(const std::vector<int> &nw,
                              const std::vector<int> &fw,
                              const std::vector<int> &jw, int *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readIntWindow is undefined"));
   }
   virtual void writeIntWindow(const std::vector<int> &nw,
                               const std::vector<int> &fw,
                               const std::vector<int> &jw, const int *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeIntWindow is undefined"));
   }
   virtual void writeUCharWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
@@ -251,14 +250,14 @@ bool writeWindow(const std::vector<int> &nw,
                                 const unsigned char *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeUCharWindow is undefined"));
   }
   virtual void readDescription() { ; }
   virtual void writeDescription() { ; }
   virtual void close() { ; }
   virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) {
+    if (_hyper) throw SEPException(std::string("hypercube not defined"));
     _hyper = hyp->clone();
-    assert(_hyper);
   }
   dataType getDataType() { return _type; }
   int getDataEsize();
@@ -268,7 +267,8 @@ bool writeWindow(const std::vector<int> &nw,
   }
   std::string getDataTypeString();
   const std::shared_ptr<SEP::hypercube> getHyper() {
-    if (!_hyper) error(std::string("Hypercube has not been setup"));
+    if (_hyper) throw SEPException(std::string("hypercube not defined"));
+
     return _hyper;
   }
 

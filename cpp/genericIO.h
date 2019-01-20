@@ -1,6 +1,5 @@
 #ifndef GENERIC_IO_H
 #define GENERIC_IO_H 1
-#include <assert.h>
 #include <map>
 #include <memory>
 #include "genericFile.h"

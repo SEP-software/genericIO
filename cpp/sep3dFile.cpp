@@ -4,7 +4,6 @@ extern "C" {
 #include "sep3d.h"
 #include "seplib.h"
 }
-#include <assert.h>
 using namespace SEP;
 
 sep3dFile::sep3dFile(const std::string &tag, const SEP::usage_code usage) {
@@ -167,27 +166,27 @@ void sep3dFile::putFloats(const std::string par,
   delete[] tmp;
 }
 void sep3dFile::readFloatStream(float *array, const long long npts) {
-  assert(1 == -1);
+  throw SEPException(std::string("readFloatStream undefined"));
 }
 void sep3dFile::readUCharStream(unsigned char *array, const long long npts) {
-  assert(1 == -1);
+  throw SEPException(std::string("readUCharStream undefined"));
 }
 
 void sep3dFile::writeFloatStream(const float *array, const long long npts) {
   setDataType(DATA_FLOAT);
-  assert(1 == -1);
+  throw SEPException(std::string("writeFloatStream undefined"));
 }
 void sep3dFile::readFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw, float *array) {
-  assert(1 == -1);
+  throw SEPException(std::string("readFloatWindow undefined"));
 }
 
 void sep3dFile::readUCharWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 unsigned char *array) {
-  assert(1 == -1);
+  throw SEPException(std::string("readUCharWindow undefined"));
 }
 void sep3dFile::writeFloatWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
@@ -196,7 +195,7 @@ void sep3dFile::writeFloatWindow(const std::vector<int> &nw,
                                  const float *array) {
   setDataType(DATA_FLOAT);
 
-  assert(1 == -1);
+  throw SEPException(std::string("writeFloatWindow undefined"));
 }
 void sep3dFile::readDescription() {
   int ndim;
@@ -260,11 +259,9 @@ void sep3dFile::writeDescription() {
   }
 }
 int sep3dFile::getHeaderIndex(const std::string keyname) const {
-  assert(1 == -1);
+  throw SEPException(std::string("getHeaderIndex undefined"));
 }
-/*
-std::vector<headerType> sep3dFile::getTraceHeader(const long long index) const {
-  assert(1 == -1);
+
+std::vector<std::string> sep3dFile::getHeaderTypes() const {
+  throw SEPException(std::string("getHeaderTypes undefined"));
 }
-*/
-std::vector<std::string> sep3dFile::getHeaderTypes() const { assert(1 == -1); }

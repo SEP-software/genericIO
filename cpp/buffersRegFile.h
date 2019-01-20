@@ -103,7 +103,7 @@ class buffersRegFile : public jsonGenericFile {
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
   void setMemoryUsage(std::shared_ptr<SEP::IO::memoryUsage> mem) {
-    assert(_hyper);
+    if (!_hyper) throw SEPException(std::string("Hypercube has not been set"));
     _mem = mem;
   }
   void setCompression(std::shared_ptr<SEP::IO::compress> com) { _comp = com; }

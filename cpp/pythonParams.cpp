@@ -1,5 +1,5 @@
-
 #include "pythonParams.h"
+#include "SEPException.h"
 using namespace SEP;
 
 pythonParams::pythonParams(std::map<std::string, std::string> pars) {
@@ -138,6 +138,5 @@ std::vector<float> pythonParams::getFloats(
 }
 
 void pythonParams::error(const std::string &errm) const {
-  std::cerr << errm << std::endl;
-  assert(1 == 2);
+  throw SEPException(errm);
 }

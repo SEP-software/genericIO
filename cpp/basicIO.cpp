@@ -1,5 +1,4 @@
 #include "basicIO.h"
-#include <assert.h>
 #include <string.h>
 #include <unistd.h>
 using namespace SEP;
@@ -11,7 +10,9 @@ myFileIO::myFileIO(const std::string &nm, const usage_code usage,
   if (_usage == usageIn || usage == usageInOut) {
     if (access(nm.c_str(), F_OK) == -1) {
       std::cerr << std::string("Can not open file ") << nm << std::endl;
-      if (_usage == usageIn) assert(1 == 2);
+      if (_usage != usageIn)
+        SEPException(
+            std::string("Trying to initialze when file type is not usageIn"));
       _myf = fopen(nm.c_str(), "w+");
     } else {
       _myf = fopen(nm.c_str(), "r+");
@@ -157,7 +158,6 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo,
                 blockToParts(nwi, fwi, jwi, buf, &(((char *)(dat))[pto]), head);
                 float *d2 = (float *)dat;
                 pto += add;
-                // assert(1==2);
               }
             }
           }
@@ -220,8 +220,11 @@ void basicIO::readTraceStream(const long long sz, void *dat, void *head) {
   long long cp = getCurrentPos();
   long long n = _hyper->getAxis(1).n;
   if (_traceH > 0) {
-    assert((cp - (long long)_reelH) % (n + _traceH) == 0);
-    assert(sz % n == 0);
+    if ((cp - (long long)_reelH) % (n + _traceH) != 0)
+      throw SEPException(std::string("File size doesn't make sense"));
+    if (sz % n != 0)
+      throw SEPException(
+          std::string("File size doesn't make sense given trace lengeth"));
     long long ntrace = sz / n;
     long long nH = _traceH + n * _esize;
     long long sz2 = ntrace * nH;
@@ -250,7 +253,7 @@ void basicIO::swap_float_bytes(int n, float *buf) {
      }
    */
   int *buf2 = (int *)buf;
-   int fconv, fmant, i, t;
+  int fconv, fmant, i, t;
   int myendian = 0;
   for (i = 0; i < n; ++i) {
     fconv = buf2[i];
@@ -288,8 +291,11 @@ void basicIO::writeTraceStream(const long long sz, const void *dat,
   long long cp = getCurrentPos();
   long long n = _hyper->getAxis(1).n;
   if (_traceH > 0) {
-    assert((cp - (long long)_reelH) % (n + _traceH) == 0);
-    assert(sz % n == 0);
+    if ((cp - (long long)_reelH) % (n + _traceH) != 0)
+      throw SEPException(std::string("File size doesn't make sense"));
+    if (sz % n != 0)
+      throw SEPException(
+          std::string("File size doesn't make sense given trace lengeth"));
     long long ntrace = sz / n;
     long long nH = _traceH + n * _esize;
     long long sz2 = ntrace * nH;
@@ -311,7 +317,8 @@ void basicIO::writeTraceStream(const long long sz, const void *dat,
     writeStream(sz * _esize, dat);
 }
 void basicIO::writeReelHead(const void *reelH) {
-  assert(_reelH == fwrite(reelH, 1, _reelH, _myf));
+  if (_reelH != fwrite(reelH, 1, _reelH, _myf))
+    throw SEPException(std::string("Trouble writing reel header"));
 }
 void myFileIO::readStream(const long long sz, void *data) {
   float *d2 = (float *)data;
@@ -320,14 +327,15 @@ void myFileIO::readStream(const long long sz, void *data) {
   if (sz != sz2) {
     fprintf(stderr, "tried to read %lld bytes, read %lld \n", sz2, sz);
   }
-  assert(sz == sz2);
+  throw SEPException(std::string("trouble reading stream"));
   if (_swapData) swap_float_bytes(sz / 4, d2);
 }
 void myFileIO::writeStream(const long long sz, const void *data) {
   float *d2 = (float *)data;
   if (_swapData) swap_float_bytes(sz / 4, (float *)d2);
   long long ierr = fwrite(data, 1, sz, _myf);
-  assert(sz == ierr);
+  if (sz != ierr) throw SEPException(std::string("trouble writing stream"));
+  ;
 }
 void basicIO::blockToParts(const std::vector<int> &nwo,
                            const std::vector<int> &fwo,
@@ -379,7 +387,9 @@ void basicIO::partsToBlock(const std::vector<int> &nwo,
   char *inH = (char *)in, *outH = (char *)out, *headH = (char *)head;
   long long ih = 0, id = 0;
 
-  assert(_traceH == 0);
+  if (_traceH != 0)
+    throw SEPException(std::string(
+        "partsToBlock doesn't make sense given a 0 length trace header"));
   std::vector<long long> blk(8, 1);
   blk[0] = _esize;
   for (int i = 0; i < 7; i++) blk[i + 1] = blk[i] * (long long)axes[i].n;

@@ -2,6 +2,7 @@
 #define rsf_REGFILE_FUNC_H 1
 #include <stdbool.h>
 #include <string>
+#include "SEPException.h"
 #include "basicIO.h"
 #include "genericFile.h"
 #define NO_BLAS 1
@@ -72,12 +73,12 @@ class rsfRegFile : public genericRegFile {
   virtual void readIntStream(int *array, const long long npts) override {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readIntStream not defined for RSF"));
   }
   virtual void readDoubleStream(double *array, const long long npts) override {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readDoubleStream not defined for RSF"));
   }
   virtual void writeFloatStream(const float *array,
                                 const long long npts) override;
@@ -85,13 +86,13 @@ class rsfRegFile : public genericRegFile {
                               const long long npts) override {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeIntStream not defined for RSF"));
   }
   virtual void writeDoubleStream(const double *array,
                                  const long long npts) override {
     if (array == 0 && npts == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeDoubleStream not defined for RSF"));
   }
 
   virtual void readUCharWindow(const std::vector<int> &nw,
@@ -120,14 +121,14 @@ class rsfRegFile : public genericRegFile {
                                 double *array) override {
     if (fw.size() == 0 && jw.size() == 0 && nw.size() == 0 && array == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readDoubleWindow not defined for RSF"));
   }
   virtual void readIntWindow(const std::vector<int> &nw,
                              const std::vector<int> &fw,
                              const std::vector<int> &jw, int *array) override {
     if (fw.size() == 0 && jw.size() == 0 && nw.size() == 0 && array == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("readIntWindow not defined for RSF"));
   }
 
   virtual void writeFloatWindow(const std::vector<int> &nw,
@@ -140,14 +141,14 @@ class rsfRegFile : public genericRegFile {
                                  double *array) override {
     if (fw.size() == 0 && jw.size() == 0 && nw.size() == 0 && array == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeDoubleWindow not defined for RSF"));
   }
   virtual void writeIntWindow(const std::vector<int> &nw,
                               const std::vector<int> &fw,
                               const std::vector<int> &jw, int *array) override {
     if (fw.size() == 0 && jw.size() == 0 && nw.size() == 0 && array == 0)
       ;
-    assert(1 == 2);
+    throw SEPException(std::string("writeIntWindow not defined for RSF"));
   }
   virtual void readDescription();
   virtual void writeDescription();

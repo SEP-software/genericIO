@@ -257,7 +257,7 @@ class genericRegFile : public paramObj {
   virtual void close() { ; }
   virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) {
     _hyper = hyp->clone();
-    if (_hyper) throw SEPException(std::string("hypercube not defined"));
+    if (!_hyper) throw SEPException(std::string("hypercube not defined"));
   }
   dataType getDataType() { return _type; }
   int getDataEsize();
@@ -267,7 +267,7 @@ class genericRegFile : public paramObj {
   }
   std::string getDataTypeString();
   const std::shared_ptr<SEP::hypercube> getHyper() {
-    if (_hyper) throw SEPException(std::string("hypercube not defined"));
+    if (!_hyper) throw SEPException(std::string("hypercube not defined"));
 
     return _hyper;
   }

@@ -91,7 +91,7 @@ class regFile:
 			self.cppMode=ioM.getRegFile(self.tag,usageConvert[self.usage])
 			self.cppMode.setHyper(kw["fromHyper"].getCpp())
 			self.cppMode.setDataType(storageConvert[self.storage])
-			self.cppMode.writeDescrption()
+			self.cppMode.writeDescription()
 		elif "fromVector" in kw:
 			if not isinstance(kw["fromVector"],SepVector.vector):
 				raise Exception("When creating a file from a vector must be inherited from SepVector.vector")
@@ -111,6 +111,7 @@ class regFile:
 				raise Exception("Can not specify usageOut when creating from a file")
 			self.cppMode=ioM.getRegFile(self.tag,usageConvert[self.usage])
 			self.cppMode.readDescription()
+
 	def getInt(self,tag,*arg):
 		"""Get integer from a given IO"""
 		if(len(arg)==1):
@@ -146,6 +147,117 @@ class regFile:
 		if(len(arg)==1):
 			return self.cppMode.getFloats(tag,arg)
 		return self.cppMode.getFloats(tag)
+	def readWindow(self,vec,**kw):
+		"""Read a window of a file into the vector
+			Required:
+			  vec - sepVector
+			Optional:
+			  n,f,j - Standard windowing parameters"""
+		if not kw:
+			raise Exception("Must supply windowing parameters")
+		ns,fs,js=self.getWindowParam(**kw)
+		if not isinstance(vec,SepVector.vector):
+			raise Exception("vec must be deriverd SepVector.vector")
+		n123=1
+		for n in ns:
+			n123=n123*n
+		if n123 != vec.getHyper().getN123():
+			raise Exception("Data size of vector not the same size as window parameters")
+		if self.storage=="dataFloat":
+			if not isinstance(SepVector.floatVector):
+				raise Exception("File type is float vector type is not")
+			self.cppMode.readFloatWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataInt":
+			if not isinstance(SepVector.intVector):
+				raise Exception("File type is int vector type is not")
+			self.cppMode.readIntWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataComplex":
+			if not isinstance(SepVector.complexVector):
+				raise Exception("File type is complex vector type is not")
+			self.cppMode.readComplexWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataByte":
+			if not isinstance(SepVector.byteVector):
+				raise Exception("File type is nyte vector type is not")
+			self.cppMode.readByteWindow(nw,fw,jw,vec.cppMode)	
+		if self.storage=="dataDouble":
+			if not isinstance(SepVector.doubleVector):
+				raise Exception("File type is double vector type is not")
+			self.cppMode.readDoubleWindow(nw,fw,jw,vec.cppMode)
+	def writeWindow(self,vec,**kw):
+		"""Read a window of a file into the vector
+			Required:
+			  vec - sepVector
+			Optional:
+			  n,f,j - Standard windowing parameters"""
+		if not kw:
+			raise Exception("Must supply windowing parameters")
+		ns,fs,js=self.getWindowParam(**kw)
+		if not isinstance(vec,SepVector.vector):
+			raise Exception("vec must be deriverd SepVector.vector")
+		n123=1
+		for n in ns:
+			n123=n123*n
+		print(n123,vec.getHyper(),"XX")
+		if n123 != vec.getHyper().getN123():
+			raise Exception("Data size of vector not the same size as window parameters")
+		if self.storage=="dataFloat":
+			if not isinstance(SepVector.floatVector):
+				raise Exception("File type is float vector type is not")
+			self.cppMode.writeFloatWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataInt":
+			if not isinstance(SepVector.intVector):
+				raise Exception("File type is int vector type is not")
+			self.cppMode.writeIntWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataComplex":
+			if not isinstance(SepVector.complexVector):
+				raise Exception("File type is complex vector type is not")
+			self.cppMode.writeComplexWindow(nw,fw,jw,vec.cppMode)
+		if self.storage=="dataByte":
+			if not isinstance(SepVector.byteVector):
+				raise Exception("File type is nyte vector type is not")
+			self.cppMode.writeByteWindow(nw,fw,jw,vec.cppMode)	
+		if self.storage=="dataDouble":
+			if not isinstance(SepVector.doubleVector):
+				raise Exception("File type is double vector type is not")
+			self.cppMode.writeDoubleWindow(nw,fw,jw,vec.cppMode)
+	def getWindowParam(self,**kw):
+		"""Return window parameters
+		 	must supply n,f,or j"""
+		axes=self.getHyper().axes
+		ndim=len(axes)
+		if not ("n" in kw or "f" in kw or "j" in kw):
+			raise Exception("Must supply n, j, or f as lists the dimensions of your file")
+		for a in ["f","j","n"]:
+			if a in kw:
+				if not isinstance(kw[a],list):
+					raise Exception("Expecting %s to be a list the dimensions of your file"%a)
+				if len(kw[a]) != ndim:
+					raise Exception("Expecting %s to be a list the dimensions of your file"%a)
+		if "j" in kw:
+			js=kw["j"]
+		else:
+			js=[1]*ndim
+		if "f" in kw:
+			fs=kw["f"]
+			for i in range(len(fs)):
+				if fs[i]>=axes[i].n:
+					raise Exception("Invalid f parameter f(%d)>=ndata(%d) for axis %d"%(fs[i],axes[i].n,i+1))
+
+		else:
+			fs=[0]*3
+		if "n" in kw:
+			ns=kw["n"]
+			for i in range(len(fs)):
+				if ns[i]>axes[i].n:
+					raise Exception("Invalid n parameter n(%d) > ndata(%d) for axes %d"%(ns[i],axes[i].n,i+1))
+		else:
+			ns=[]
+			for i in range(ndim):
+				ns.append((axes[i].n-1-fs[i])/js[i]+1)
+		for i in range(ndim):
+			if axes[i].n < (1+fs[i]+js[i]*(ns[i]-1)):
+				raise Exception("Invalid window parameter (outside axis range) f=%d j=%d n=%d iax=%d ndata=%d"%(fs[i],js[i],ns[i],i+1,axes[i].n))
+		return ns,fs,js				
 	def close(self):
 		"""Close file"""
 		self.cppMode.close()
@@ -173,6 +285,55 @@ class regFile:
 	def getHyper(self):
 		"""Return hypercube for the file"""
 		return Hypercube.hypercube(hypercube=self.cppMode.getHyper())
+
+
+
+class AppendFile:
+	"""Class for append files"""
+	def __init__(self,tag,vec,maxLength,flush):	 
+		"""tag - filename
+			vec - Vector
+			maxLength - Maximum number of frames
+			flush - How often to flush a file"""
+		self.shape=vec.clonespace()
+		self.vecs=[]
+		self.flush=flush
+		self.hyper=vec.getHyper()
+		self.hyper.addAxis(Hypercube.axis(n=maxLength))
+		if isinstance(vec,SepVector.floatVector):
+			storage="float"
+		elif isinstance(vec,SepVector.doubleVector):
+			storage="double"
+		elif isinstance(vec,SepVector.intVector):
+			storage="int"
+		elif isinstance(vec,SepVector.complexVector):
+			storage="complex"
+		elif isinstance(vec,SepVector.byteVector):
+			storage="byte"
+		self.file=regFile(self.cppMode,tag,fromHyper=vec,storage=storage)
+		self.icount=0
+	def addVector(self,vec):
+		"""Adds a vector to this of vectors being held"""
+		self.vecs.append(vec.clone())
+		self.icount+=1;
+		if len(self.vecs)==self.flush:
+			return True
+		return False
+	def flushVectors(self):
+		"""Return the list of vectors, zero out"""
+		vs=[]
+		for v in self.vecs:
+			vs.append(v)
+		self.vecs=[]
+		return vs
+	def finish(self):
+		"""Fix the correct number of frames in a file and update description"""
+		self.hyper.axes[len(self.hyper.axes)-1]=self.icount
+		self.file.cppMode.setHyper(self.hyper.cppMode)
+		self.file.writeDescription()
+
+
+
 class io:
 	def __init__(self,*arg):
 		"""Initialize IO"""
@@ -181,6 +342,7 @@ class io:
 		else:
 			self.cppMode=ioModes.getDefaultIO()
 		self.param=self.cppMode.getParamObj()
+		self.appendFiles={}
 	def getInt(self,tag,*arg):
 		"""Get integer from a given IO"""
 		if(len(arg)==1):
@@ -265,6 +427,38 @@ class io:
 			file.getCpp().writeIntStream(vec.getCpp())		
 		elif file.storage=="dataDouble":
 			file.getCpp().writeDoubleStream(vec.getCpp())
-		return vec	
+	def writeVectors(self,file,vecs):
+		"""Write a collection of vectors to a file
+		 	file - regFile
+		 	vecs - Vectors"""
+		for v in vecs:
+			if file.storage=="dataFloat":
+				file.getCpp().writeFloatStream(vec.getCpp())
+			elif file.storage=="dataComplex":
+				file.getCpp().writeComplexStream(vec.getCpp())
+			elif file.storage=="dataByte":
+				file.getCpp().writeByteStream(vec.getCpp())
+			elif file.storage=="dataInt":
+				file.getCpp().writeIntStream(vec.getCpp())		
+			elif file.storage=="dataDouble":
+				file.getCpp().writeDoubleStream(vec.getCpp())
+	def appendVector(self,tag,vec,maxLength=1000,flush=1):
+		"""Write entire sepVector to disk
+		   tag - File to write to
+		   vec - Vector to write
+		   maxLength - Maximum number of appended frames
+		   flush - How often to flush the files"""
+		if tag not in self.appendFiles:
+			self.appendFiles[tag]=AppendFile(tag,vec,maxLength,flush)
+		if self.appenFiles[tag].addVector(vec):
+			writeVector(self.appenFiles[tag].file,self.appendFiles[tag].flushVectors())
+	def closeAeppendFile(self,tag):
+		"""Close an append file and fix the description to the right number of frames"""
+		if tag not in self.appendFiles:
+			raise Exception("No record of appended file")
+		writeVector(self.appenFiles[tag].file,self.appendFiles[tag].flushVectors())
+		self.appendFiles[tag].finish()
+
+
 
 defaultIO=io()

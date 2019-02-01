@@ -1,4 +1,5 @@
-#pragma once
+#ifndef buffers_reg_file_h
+#define buffers_reg_file_h 1
 #include <stdbool.h>
 #include <string>
 #include "basicIO.h"
@@ -120,3 +121,4 @@ class buffersRegFile : public jsonGenericFile {
 };  // namespace SEP
 
 }  // namespace SEP
+#endif

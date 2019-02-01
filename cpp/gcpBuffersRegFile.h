@@ -1,4 +1,5 @@
-#pragma once
+#ifndef gcp_buffers_reg_file_h
+#define gcp_buffers_reg_file_h 1
 #include <stdbool.h>
 #include <string>
 #include "basicIO.h"
@@ -26,3 +27,4 @@ class gcpBuffersRegFile : public buffersRegFile {
 };  // namespace SEP
 
 }  // namespace SEP
+#endif

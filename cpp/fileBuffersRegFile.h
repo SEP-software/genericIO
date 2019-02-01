@@ -1,4 +1,5 @@
-#pragma once
+#ifndef file_buffers_reg_file_h
+#define file_buffers_reg_file_h 1
 #include <stdbool.h>
 #include <string>
 #include "basicIO.h"
@@ -22,3 +23,4 @@ class fileBuffersRegFile : public buffersRegFile {
 };  // namespace SEP
 
 }  // namespace SEP
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef gcp_buffers_io_h
+#define gcp_buffers_io_h 1
 #include "gcpBuffersRegFile.h"
 #include "jsonGenericIO.h"
 namespace SEP {
@@ -20,3 +21,4 @@ class gcpBuffersIO : public jsonGenericIO {
   bool _init = false;
 };
 }  // namespace SEP
+#endif

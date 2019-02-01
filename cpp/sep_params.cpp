@@ -33,7 +33,7 @@ float sepParam::getFloat(const std::string &arg, const float def) const {
 float sepParam::getFloat(const std::string &arg) const {
   float x;
   char fmt[3];
-  strcpy(fmt, "s");
+  strcpy(fmt, "f");
   if (0 == getch(arg.c_str(), fmt, &x))
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));

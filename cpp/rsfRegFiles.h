@@ -150,7 +150,7 @@ class rsfRegFile : public genericRegFile {
       ;
     throw SEPException(std::string("writeIntWindow not defined for RSF"));
   }
-  virtual void readDescription();
+  virtual void readDescription(int ndimMax = -1);
   virtual void writeDescription();
   virtual void putInt(const std::string par, const int val);
   virtual void putFloat(const std::string par, const float val);

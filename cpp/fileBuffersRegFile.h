@@ -12,7 +12,8 @@ class fileBuffersRegFile : public buffersRegFile {
 
   fileBuffersRegFile() { ; }
   fileBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
-                     const std::string &tag, const std::string &progName);
+                     const std::string &tag, const std::string &progName,
+                     const int ndimMax = -1);
 
   virtual void close();
 

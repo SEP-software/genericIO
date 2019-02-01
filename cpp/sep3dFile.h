@@ -11,7 +11,8 @@ namespace SEP {
 class sep3dFile : public genericIrregFile {
  public:
   sep3dFile() { ; }
-  sep3dFile(const std::string &tag, const SEP::usage_code usage);
+  sep3dFile(const std::string &tag, const SEP::usage_code usage,
+            const int ndimMax = -1);
   virtual int getInt(const std::string &arg) const;
   virtual int getInt(const std::string &rg, const int def) const;
 
@@ -50,7 +51,7 @@ class sep3dFile : public genericIrregFile {
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw, const float *array);
-  virtual void readDescription();
+  virtual void readDescription(const int ndim = -1);
   virtual void writeDescription();
   virtual void putInt(const std::string par, const int val) const;
   virtual void putFloat(const std::string par, const float val) const;

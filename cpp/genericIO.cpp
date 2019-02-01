@@ -9,17 +9,17 @@ void genericIO::filesClose() {
   }
 }
 std::shared_ptr<SEP::genericRegFile> genericIO::getRegFile(
-    const std::string& name, const SEP::usage_code usage) {
+    const std::string& name, const SEP::usage_code usage, const int ndimMax) {
   std::shared_ptr<paramObj> par = getParamObj();
   std::string filename = par->getString(name, name);
-  return getRegFileTag(name, filename, usage);
+  return getRegFileTag(name, filename, usage, ndimMax);
 }
 std::shared_ptr<SEP::genericIrregFile> genericIO::getIrregFile(
-    const std::string& name, const SEP::usage_code usage) {
+    const std::string& name, const SEP::usage_code usage, const int ndimMax) {
   std::shared_ptr<paramObj> par = getParamObj();
   std::string filename = par->getString(name, name);
 
-  return getIrregFileTag(name, filename, usage);
+  return getIrregFileTag(name, filename, usage, ndimMax);
 }
 void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
                           const int n2, const int n3) {

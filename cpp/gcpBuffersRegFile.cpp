@@ -10,11 +10,12 @@ using namespace SEP;
 gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const usage_code usage,
                                      const std::string &tag,
-                                     const std::string &progName) {
+                                     const std::string &progName,
+const int ndimMax) {
   setUsage(usage);
   setupGCP(arg, tag);
   if (!_newFile) {
-    readDescription();
+    readDescription(ndimMax);
 
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));

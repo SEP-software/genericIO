@@ -52,7 +52,8 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   setValid(true);
 }
 std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+    const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
@@ -63,12 +64,13 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName));
+      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName, ndimMax));
   addRegFile(tag, x);
   return x;
 }
 std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+    const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
@@ -79,7 +81,7 @@ std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName));
+      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName, ndimMax));
   addIrregFile(tag, x);
   return x;
 }

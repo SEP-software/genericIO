@@ -14,7 +14,7 @@ class jsonGenericFile : public genericIrregFile {
   jsonGenericFile() { ; }
   jsonGenericFile(const Json::Value &arg, const SEP::usage_code usage,
                   const std::string &tag, const int reelH, const int traceH,
-                  const std::string &progName);
+                  const std::string &progName, const int ndim = -1);
   void setupJson(const Json::Value &jsonArgs, const std::string &tag,
                  const std::string desFileDefault = std::string(""));
   virtual int getInt(const std::string &arg) const override;
@@ -50,7 +50,7 @@ class jsonGenericFile : public genericIrregFile {
   usage_code getUsage() { return _usage; }
   virtual std::string getJSONFileName() const;
   std::string getDataFileName() const;
-  virtual void readDescription() override;
+  virtual void readDescription(const int ndimMax) override;
   virtual void writeDescription() override;
   virtual void putInt(const std::string &par, const int val) override;
   virtual void putFloat(const std::string &par, const float val) override;

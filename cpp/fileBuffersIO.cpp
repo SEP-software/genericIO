@@ -5,7 +5,8 @@
 using namespace SEP;
 
 std::shared_ptr<genericRegFile> fileBuffersIO::getRegFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+    const int ndimMax) {
   if (!_init && !_sentError) {
     std::cerr << std::string(
                      "1Assuming name is not a tag because no JSON parameters "
@@ -20,12 +21,13 @@ std::shared_ptr<genericRegFile> fileBuffersIO::getRegFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new fileBuffersRegFile(jsonArgs, usage, name, _progName));
+      new fileBuffersRegFile(jsonArgs, usage, name, _progName, ndimMax));
   addRegFile(tag, x);
   return x;
 }
 std::shared_ptr<genericIrregFile> fileBuffersIO::getIrregFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+    const int ndimMax) {
   if (!_init && !_sentError) {
     std::cerr << std::string("Expecting json=file  on the command line IRREG")
               << std::endl;
@@ -37,7 +39,7 @@ std::shared_ptr<genericIrregFile> fileBuffersIO::getIrregFileTag(
      }
    */
   std::shared_ptr<jsonGenericFile> x(
-      new fileBuffersRegFile(jsonArgs, usage, name, _progName));
+      new fileBuffersRegFile(jsonArgs, usage, name, _progName, ndimMax));
   addIrregFile(tag, x);
   return x;
 }

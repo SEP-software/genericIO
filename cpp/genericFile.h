@@ -252,7 +252,7 @@ class genericRegFile : public paramObj {
       ;
     throw SEPException(std::string("writeUCharWindow is undefined"));
   }
-  virtual void readDescription() { ; }
+  virtual void readDescription(const int ndim) = 0;
   virtual void writeDescription() { ; }
   virtual void close() { ; }
   virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) {

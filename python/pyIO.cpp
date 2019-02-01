@@ -101,7 +101,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
 
   py::class_<genericRegFile, paramObj, std::shared_ptr<genericRegFile>>(
       clsGeneric, "genericRegFile")
-      .def(py::init<>(), "Initlialize a genericRegFile (don't use this)")
+      // .def(py::init<>(), "Initlialize a genericRegFile (don't use this)")
       .def("putInt",
            (void (genericRegFile::*)(const std::string &, const int) const) &
                genericRegFile::putInt,
@@ -263,8 +263,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::writeComplexWindow,
            "Write a window of complex")
 
-      .def("readDescription",
-           (void (genericRegFile::*)()) & genericRegFile::readDescription)
+      .def("readDescription", (void (genericRegFile::*)(const int)) &
+                                  genericRegFile::readDescription)
       .def("writeDescription",
            (void (genericRegFile::*)()) & genericRegFile::writeDescription)
 
@@ -285,12 +285,14 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
 
   py::class_<genericIO, std::shared_ptr<genericIO>>(clsGeneric, "genericIO")
 
-      .def("getRegFile", (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
-                             const std::string &, const SEP::usage_code)) &
-                             genericIO::getRegFile)
-      .def("getRegFile", (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
-                             const std::string &, const std::string)) &
-                             genericIO::getRegFile)
+      .def("getRegFile",
+           (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
+               const std::string &, const SEP::usage_code, const int)) &
+               genericIO::getRegFile)
+      .def("getRegFile",
+           (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
+               const std::string &, const std::string, const int)) &
+               genericIO::getRegFile)
       .def("fileDebug", (void (genericIO::*)(const std::string, const float *,
                                              const int, const int)) &
                             genericIO::fileDebug)

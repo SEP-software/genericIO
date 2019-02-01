@@ -343,7 +343,7 @@ void rsfRegFile::writeFloatWindow(const std::vector<int> &nw,
   }
   myio->writeWindow(nw, fw, jw, array);
 }
-void rsfRegFile::readDescription() {
+void rsfRegFile::readDescription(const int ndimMax) {
   int ndim;
   bool breakIt = false;
   int iax = 9;
@@ -352,7 +352,8 @@ void rsfRegFile::readDescription() {
     int n = 1;
     tmp = "n" + std::to_string(iax);
     sf_histint(_file, tmp.c_str(), &n);
-    if (n > 1) breakIt = true;
+    if ((n == 1 && ndimMax == -1) || (ndimMax != -1 && ndimMax < iax))
+      breakIt = true;
     iax--;
   }
   sf_datatype typ = sf_gettype(_file);

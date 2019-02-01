@@ -6,15 +6,15 @@
 using namespace SEP;
 jsonGenericFile::jsonGenericFile(const Json::Value &arg, const usage_code usage,
                                  const std::string &tag, const int reelH,
-                                 const int traceH,
-                                 const std::string &progName) {
+                                 const int traceH, const std::string &progName,
+                                 const int ndim) {
   _usage = usage;
   setupJson(arg, tag);
   _reelH = reelH;
   _traceH = traceH;
 
   if (!_newFile) {
-    readDescription();
+    readDescription(ndim);
     std::shared_ptr<myFileIO> x(
         new myFileIO(getDataFileName(), usage, reelH, traceH,
                      jsonArgs.get("esize", 4).asInt(),
@@ -183,7 +183,7 @@ void jsonGenericFile::putFloats(const std::string &par,
   for (int i = 0; i < val.size(); i++) vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericFile::readDescription() {
+void jsonGenericFile::readDescription(const int ndimMax=-1) {
   int ndim;
   bool breakIt = false;
   int iax = 9;

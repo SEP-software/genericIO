@@ -16,14 +16,17 @@ class genericIO {
      @param usage Usage for file
    */
   std::shared_ptr<SEP::genericRegFile> getRegFile(const std::string &name,
-                                                  const SEP::usage_code usage);
+                                                  const SEP::usage_code usage,
+                                                  const int ndimMax = -1);
   std::shared_ptr<SEP::genericIrregFile> getIrregFile(
-      const std::string &name, const SEP::usage_code usage);
+      const std::string &name, const SEP::usage_code usage,
+      const int ndimMax = -1);
   virtual std::shared_ptr<SEP::genericRegFile> getRegFileTag(
       const std::string &tag, const std::string &name,
-      const SEP::usage_code usage) = 0;
+      const SEP::usage_code usage, const int ndimMax = -1) = 0;
   virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
-      const std::string &name, const std::string usage) {
+      const std::string &name, const std::string usage,
+      const int ndimMax = -1) {
     SEP::usage_code code;
     if (usage == std::string("UsageIn")) {
       code = usageIn;
@@ -41,7 +44,7 @@ class genericIO {
 
   virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
       const std::string &tag, const std::string &name,
-      const SEP::usage_code usage) = 0;
+      const SEP::usage_code usage, const int ndimMax = -1) = 0;
   virtual std::shared_ptr<paramObj> getParamObj() { return _param; }
   void addRegFile(std::string x, std::shared_ptr<genericRegFile> r) {
     _regFiles[x] = r;

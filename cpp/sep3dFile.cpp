@@ -6,7 +6,8 @@ extern "C" {
 }
 using namespace SEP;
 
-sep3dFile::sep3dFile(const std::string &tag, const SEP::usage_code usage) {
+sep3dFile::sep3dFile(const std::string &tag, const SEP::usage_code usage,
+                     int ndimMax) {
   _tag = tag;
   switch (usage) {
     case usageIn:
@@ -197,9 +198,10 @@ void sep3dFile::writeFloatWindow(const std::vector<int> &nw,
 
   throw SEPException(std::string("writeFloatWindow undefined"));
 }
-void sep3dFile::readDescription() {
+void sep3dFile::readDescription(const int ndimMax) {
   int ndim;
   sep_get_number_data_axes(_tag.c_str(), &ndim);
+  if (ndimMax != -1 && ndim < ndimMax) ndim = ndimMax;
   std::vector<axis> axes;
   for (int i = 1; i <= ndim; i++) {
     int n;

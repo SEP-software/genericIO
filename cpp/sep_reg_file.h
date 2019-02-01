@@ -8,7 +8,8 @@ class sepRegFile : public SEP::genericRegFile {
  public:
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
-  sepRegFile(const std::string &tg, const SEP::usage_code usage);
+  sepRegFile(const std::string &tg, const SEP::usage_code usage,
+             const int ndimMax = -1);
   virtual int getInt(const std::string &arg) const override;
   virtual int getInt(const std::string &arg, const int def) const override;
 
@@ -103,7 +104,7 @@ class sepRegFile : public SEP::genericRegFile {
                                   const std::vector<int> &jw,
                                   const std::complex<float> *array) override;
 
-  virtual void readDescription() override;
+  virtual void readDescription(const int ndimMax = -1) override;
   virtual void writeDescription() override;
   virtual void close() override;
   virtual void putInt(const std::string &par, const int val) override;

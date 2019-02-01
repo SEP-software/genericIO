@@ -4,14 +4,15 @@ extern "C" {
 #include "seplib.h"
 }
 using namespace SEP;
-sepRegFile::sepRegFile(const std::string &tag, const usage_code usage) {
+sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
+                       const int ndim) {
   _tag = tag;
   switch (usage) {
     case usageIn:
       if (_tag != "in")
         if (0 == auxin(_tag.c_str()))
           error(std::string("can not open file ") + tag);
-      readDescription();
+      readDescription(ndim);
       break;
     case usageOut:
       if (tag != "out")
@@ -479,9 +480,10 @@ void sepRegFile::writeIntWindow(const std::vector<int> &nw,
     error(std::string("trouble writing data to tag ") + _tag);
 }
 
-void sepRegFile::readDescription() {
+void sepRegFile::readDescription(const int ndimMax) {
   int ndim;
   sep_get_number_data_axes(_tag.c_str(), &ndim);
+  if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
   std::vector<axis> axes;
   for (int i = 1; i <= ndim; i++) {
     int n;

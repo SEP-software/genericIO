@@ -1,0 +1,12 @@
+Traditional HPC IO approaches perform poorly in 
+cloud environments. Object store architectures tend
+to have high latencies and low bandwidth on a per
+thread basis.  Performance can be improved dramitically
+by break a dataset into blocks that are read in parallel.
+By caching  blocks in main memory a users data access pattern
+does not need to be changed.  Scientific data often can
+be represented as regularly-sampled hypercubes. Often this
+data can be compressed using lossy and lossless compession techniques.
+By integrating these IO techniques into a library, IO performance in
+cloud environments  can be improved by more than order of magnitude with
+minimal changes to existing programs.

@@ -5,9 +5,9 @@
 #include "basicIO.h"
 #include "buffers.h"
 #include "json.h"
-#include "jsonGenericFile.h"
+#include "jsonGenericRegFile.h"
 namespace SEP {
-class buffersRegFile : public jsonGenericFile {
+class buffersRegFile : public jsonGenericRegFile {
  public:
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 

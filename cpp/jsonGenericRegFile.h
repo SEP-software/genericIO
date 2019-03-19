@@ -7,14 +7,14 @@
 #include "ioTypes.h"
 #include "json.h"
 namespace SEP {
-class jsonGenericFile : public genericIrregFile {
+class jsonGenericRegFile : public genericRegFile {
  public:
   // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
 
-  jsonGenericFile() { ; }
-  jsonGenericFile(const Json::Value &arg, const SEP::usage_code usage,
-                  const std::string &tag, const int reelH, const int traceH,
-                  const std::string &progName, const int ndim = -1);
+  jsonGenericRegFile() { ; }
+  jsonGenericRegFile(const Json::Value &arg, const SEP::usage_code usage,
+                     const std::string &tag, const int reelH, const int traceH,
+                     const std::string &progName, const int ndim = -1);
   void setupJson(const Json::Value &jsonArgs, const std::string &tag,
                  const std::string desFileDefault = std::string(""));
   virtual int getInt(const std::string &arg) const override;
@@ -123,50 +123,6 @@ class jsonGenericFile : public genericIrregFile {
                               const std::vector<int> &fw,
                               const std::vector<int> &jw,
                               const int *array) override;
-  virtual std::shared_ptr<header> readHeaderWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw) override {
-    ;
-  }
-  virtual void writeHeaderWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 std::shared_ptr<header> &header,
-                                 std::vector<bool> &exists) override {
-    ;
-  }
-  virtual void readFloatData(std::shared_ptr<header> header,
-                             float *buf) override {
-    ;
-  }
-  virtual void readByteData(std::shared_ptr<header> header,
-                            unsigned char *buf) override {
-    ;
-  }
-  virtual void readDoubleData(std::shared_ptr<header> header,
-                              double *buf) override {
-    ;
-  }
-  virtual void readComplexData(std::shared_ptr<header> header,
-                               std::complex<float> *buf) override {
-    ;
-  }
-  virtual void writeFloatData(std::shared_ptr<header> header,
-                              const float *buf) override {
-    ;
-  }
-  virtual void writeByteData(std::shared_ptr<header> header,
-                             const unsigned char *buf) override {
-    ;
-  }
-  virtual void writeDoubleData(std::shared_ptr<header> header,
-                               const double *buf) override {
-    ;
-  }
-  virtual void writeComplexData(std::shared_ptr<header> header,
-                                const std::complex<float> *buf) override {
-    ;
-  }
 
  protected:
   Json::Value jsonArgs;

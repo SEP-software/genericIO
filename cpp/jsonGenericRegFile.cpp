@@ -1,8 +1,8 @@
+#include "jsonGenericRegFile.h"
 #include <cstdlib>
 #include <exception>
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
-#include "jsonGenericRegFile.h"
 using namespace SEP;
 jsonGenericRegFile::jsonGenericRegFile(const Json::Value &arg,
                                        const usage_code usage,

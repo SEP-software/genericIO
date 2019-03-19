@@ -63,28 +63,25 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName, ndimMax));
+  std::shared_ptr<jsonGenericRegFile> x(
+      new jsonGenericRegFile(jsonArgs, usage, name, 0, 0, _progName, ndimMax));
   addRegFile(tag, x);
   return x;
 }
+
 std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
-  /*
-     if((*jsonArgs)[name].isNull())  {
-     std::cerr<<name<<std::string("  does not exist in json file")<<std::endl;
-      throw std::exception();
-     }
-   */
-  std::shared_ptr<jsonGenericFile> x(
-      new jsonGenericFile(jsonArgs, usage, name, 0, 0, _progName, ndimMax));
-  addIrregFile(tag, x);
+
+  std::shared_ptr<jsonGenericIrregFile> x(new jsonGenericIrregFile(
+      jsonArgs, usage, name, 0, 0, _progName, ndimMax));
+  addRegFile(tag, x);
   return x;
 }
+
 std::shared_ptr<paramObj> jsonGenericIO::getParamObj() {
   if (!_init && !_sentError) {
     _sentError = true;
@@ -93,13 +90,14 @@ std::shared_ptr<paramObj> jsonGenericIO::getParamObj() {
 }
 void jsonGenericIO::close() {
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericIrregFile> x =
+        std::static_pointer_cast<jsonGenericIrregFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
+
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericRegFile> x =
+        std::static_pointer_cast<jsonGenericRegFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
   filesClose();

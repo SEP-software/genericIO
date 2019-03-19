@@ -20,11 +20,12 @@ std::shared_ptr<genericRegFile> fileBuffersIO::getRegFileTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericFile> x(
+  std::shared_ptr<jsonGenericRegFile> x(
       new fileBuffersRegFile(jsonArgs, usage, name, _progName, ndimMax));
   addRegFile(tag, x);
   return x;
 }
+
 std::shared_ptr<genericIrregFile> fileBuffersIO::getIrregFileTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax) {
@@ -32,17 +33,13 @@ std::shared_ptr<genericIrregFile> fileBuffersIO::getIrregFileTag(
     std::cerr << std::string("Expecting json=file  on the command line IRREG")
               << std::endl;
   }
-  /*
-     if((*jsonArgs)[name].isNull())  {
-     std::cerr<<name<<std::string("  does not exist in json file")<<std::endl;
-      throw std::exception();
-     }
-   */
-  std::shared_ptr<jsonGenericFile> x(
-      new fileBuffersRegFile(jsonArgs, usage, name, _progName, ndimMax));
+
+  std::shared_ptr<jsonGenericIrregFile> x(
+      new fileBuffersIrregFile(jsonArgs, usage, name, _progName, ndimMax));
   addIrregFile(tag, x);
   return x;
 }
+
 std::shared_ptr<paramObj> fileBuffersIO::getParamObj() {
   if (!_init && !_sentError) {
     std::cerr << std::string(
@@ -54,13 +51,14 @@ std::shared_ptr<paramObj> fileBuffersIO::getParamObj() {
 }
 void fileBuffersIO::close() {
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericIrregFile> x =
+        std::static_pointer_cast<jsonGenericIrregFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
+
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericRegFile> x =
+        std::static_pointer_cast<jsonGenericRegFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
   filesClose();

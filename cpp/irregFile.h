@@ -20,6 +20,12 @@
    */
 
 namespace SEP {
+
+class IOHeaderBlock {
+ public:
+  IOHeaderBlock()
+};
+
 class irregFile {
  public:
  private:

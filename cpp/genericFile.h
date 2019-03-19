@@ -308,10 +308,11 @@ class genericIrregFile : public genericRegFile {
   virtual std::shared_ptr<genericHeaderObj> readHeaderWindow(
       const std::vector<int> &nw, const std::vector<int> &fw,
       const std::vector<int> &jw) = 0;
-  virtual std::shared_ptr<genericHeaderObj> void writeHeaderWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw, std::shared_ptr<header> &header,
-      std::vector<bool> &exists) = 0;
+  virtual void writeHeaderWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 std::shared_ptr<genericHeaderObj> header,
+                                 std::vector<bool> &exists) = 0;
 };
 }  // namespace SEP
 

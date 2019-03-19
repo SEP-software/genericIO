@@ -280,28 +280,29 @@ class genericRegFile : public paramObj {
 class genericIrregFile : public genericRegFile {
  public:
   genericIrregFile() {}
-  /*
-  virtual std::shared_ptr<header> readHeaderWindow(const std::vector<int> &nw,
-                                                   const std::vector<int> &fw,
-                                                   const std::vector<int> &jw);
+
+  virtual std::shared_ptr<header> readHeaderWindow(
+      const std::vector<int> &nw, const std::vector<int> &fw,
+      const std::vector<int> &jw) = 0;
   virtual void writeHeaderWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
                                  std::shared_ptr<header> &header,
-                                 std::vector<bool> &exists);
-  virtual void readFloatData(std::shared_ptr<header> header, float *buf);
-  virtual void readByteData(std::shared_ptr<header> header, unsigned char *buf);
-  virtual void readDoubleData(std::shared_ptr<header> header, double *buf);
+                                 std::vector<bool> &exists) = 0;
+  virtual void readFloatData(std::shared_ptr<header> header, float *buf) = 0;
+  virtual void readByteData(std::shared_ptr<header> header,
+                            unsigned char *buf) = 0;
+  virtual void readDoubleData(std::shared_ptr<header> header, double *buf) = 0;
   virtual void readComplexData(std::shared_ptr<header> header,
-                               std::complex<float> *buf);
-  virtual void writeFloatData(std::shared_ptr<header> header, const float *buf);
+                               std::complex<float> *buf) = 0;
+  virtual void writeFloatData(std::shared_ptr<header> header,
+                              const float *buf) = 0;
   virtual void writeByteData(std::shared_ptr<header> header,
-                             const unsigned char *buf);
+                             const unsigned char *buf) = 0;
   virtual void writeDoubleData(std::shared_ptr<header> header,
-                               const double *buf);
+                               const double *buf) = 0;
   virtual void writeComplexData(std::shared_ptr<header> header,
-                                const std::complex<float> *buf);
-                              */
+                                const std::complex<float> *buf) = 0;
 };
 }  // namespace SEP
 

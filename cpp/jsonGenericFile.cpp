@@ -1,13 +1,15 @@
-#include "jsonGenericFile.h"
 #include <cstdlib>
 #include <exception>
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
+#include "jsonGenericRegFile.h"
 using namespace SEP;
-jsonGenericFile::jsonGenericFile(const Json::Value &arg, const usage_code usage,
-                                 const std::string &tag, const int reelH,
-                                 const int traceH, const std::string &progName,
-                                 const int ndim) {
+jsonGenericRegFile::jsonGenericRegFile(const Json::Value &arg,
+                                       const usage_code usage,
+                                       const std::string &tag, const int reelH,
+                                       const int traceH,
+                                       const std::string &progName,
+                                       const int ndim) {
   _usage = usage;
   setupJson(arg, tag);
   _reelH = reelH;
@@ -30,8 +32,9 @@ jsonGenericFile::jsonGenericFile(const Json::Value &arg, const usage_code usage,
   }
   jsonArgs["progName"] = progName;
 }
-void jsonGenericFile::setupJson(const Json::Value &arg, const std::string &tag,
-                                const std::string desFileDefault) {
+void jsonGenericRegFile::setupJson(const Json::Value &arg,
+                                   const std::string &tag,
+                                   const std::string desFileDefault) {
   _tag = tag;
 
   if (arg[tag].isNull()) {
@@ -66,9 +69,9 @@ void jsonGenericFile::setupJson(const Json::Value &arg, const std::string &tag,
     _dataFile = jsonArgs[std::string("filename")].asString();
   }
 }
-std::string jsonGenericFile::getJSONFileName() const { return _jsonFile; }
-std::string jsonGenericFile::getDataFileName() const { return _dataFile; }
-int jsonGenericFile::getInt(const std::string &arg) const {
+std::string jsonGenericRegFile::getJSONFileName() const { return _jsonFile; }
+std::string jsonGenericRegFile::getDataFileName() const { return _dataFile; }
+int jsonGenericRegFile::getInt(const std::string &arg) const {
   int x;
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
@@ -76,16 +79,17 @@ int jsonGenericFile::getInt(const std::string &arg) const {
   x = jsonArgs.get(arg, 1).asInt();
   return x;
 }
-int jsonGenericFile::getInt(const std::string &arg, const int def) const {
+int jsonGenericRegFile::getInt(const std::string &arg, const int def) const {
   int x = jsonArgs.get(arg, def).asInt();
   return x;
 }
-float jsonGenericFile::getFloat(const std::string &arg, const float def) const {
+float jsonGenericRegFile::getFloat(const std::string &arg,
+                                   const float def) const {
   float x;
   x = jsonArgs.get(arg, def).asFloat();
   return x;
 }
-float jsonGenericFile::getFloat(const std::string &arg) const {
+float jsonGenericRegFile::getFloat(const std::string &arg) const {
   float x;
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
@@ -93,28 +97,28 @@ float jsonGenericFile::getFloat(const std::string &arg) const {
   x = jsonArgs.get(arg, 1.).asFloat();
   return x;
 }
-std::string jsonGenericFile::getString(const std::string &arg) const {
+std::string jsonGenericRegFile::getString(const std::string &arg) const {
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
 
   return jsonArgs.get(arg, "").asString();
 }
-std::string jsonGenericFile::getString(const std::string &arg,
-                                       const std::string &def) const {
+std::string jsonGenericRegFile::getString(const std::string &arg,
+                                          const std::string &def) const {
   return jsonArgs.get(arg, def).asString();
 }
-bool jsonGenericFile::getBool(const std::string &arg, bool def) const {
+bool jsonGenericRegFile::getBool(const std::string &arg, bool def) const {
   return jsonArgs.get(arg, def).asBool();
 }
-bool jsonGenericFile::getBool(const std::string &arg) const {
+bool jsonGenericRegFile::getBool(const std::string &arg) const {
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
   return jsonArgs.get(arg, false).asBool();
 }
-std::vector<int> jsonGenericFile::getInts(const std::string &arg,
-                                          const int nvals) const {
+std::vector<int> jsonGenericRegFile::getInts(const std::string &arg,
+                                             const int nvals) const {
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
@@ -124,8 +128,8 @@ std::vector<int> jsonGenericFile::getInts(const std::string &arg,
   for (int i = 0; i < nvals; i++) x.push_back(vals[i].asInt());
   return x;
 }
-std::vector<int> jsonGenericFile::getInts(const std::string &arg,
-                                          const std::vector<int> &defs) const {
+std::vector<int> jsonGenericRegFile::getInts(
+    const std::string &arg, const std::vector<int> &defs) const {
   std::vector<int> x;
   if (jsonArgs[arg].isNull()) {
     for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
@@ -135,8 +139,8 @@ std::vector<int> jsonGenericFile::getInts(const std::string &arg,
   }
   return x;
 }
-std::vector<float> jsonGenericFile::getFloats(const std::string &arg,
-                                              const int nvals) const {
+std::vector<float> jsonGenericRegFile::getFloats(const std::string &arg,
+                                                 const int nvals) const {
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
@@ -146,7 +150,7 @@ std::vector<float> jsonGenericFile::getFloats(const std::string &arg,
   for (int i = 0; i < nvals; i++) x.push_back(vals[i].asFloat());
   return x;
 }
-std::vector<float> jsonGenericFile::getFloats(
+std::vector<float> jsonGenericRegFile::getFloats(
     const std::string &arg, const std::vector<float> &defs) const {
   std::vector<float> x;
   if (jsonArgs[arg].isNull()) {
@@ -158,32 +162,32 @@ std::vector<float> jsonGenericFile::getFloats(
   return x;
 }
 
-void jsonGenericFile::putInt(const std::string &par, const int val) {
+void jsonGenericRegFile::putInt(const std::string &par, const int val) {
   jsonArgs[par] = val;
 }
-void jsonGenericFile::putFloat(const std::string &par, const float val) {
+void jsonGenericRegFile::putFloat(const std::string &par, const float val) {
   jsonArgs[par] = val;
 }
-void jsonGenericFile::putString(const std::string &par,
-                                const std::string &val) {
+void jsonGenericRegFile::putString(const std::string &par,
+                                   const std::string &val) {
   jsonArgs[par] = val;
 }
-void jsonGenericFile::putBool(const std::string &par, const bool val) {
+void jsonGenericRegFile::putBool(const std::string &par, const bool val) {
   jsonArgs[par] = val;
 }
-void jsonGenericFile::putInts(const std::string &par,
-                              const std::vector<int> &val) {
+void jsonGenericRegFile::putInts(const std::string &par,
+                                 const std::vector<int> &val) {
   Json::Value vals;
   for (int i = 0; i < val.size(); i++) vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericFile::putFloats(const std::string &par,
-                                const std::vector<float> &val) {
+void jsonGenericRegFile::putFloats(const std::string &par,
+                                   const std::vector<float> &val) {
   Json::Value vals;
   for (int i = 0; i < val.size(); i++) vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericFile::readDescription(const int ndimMax=-1) {
+void jsonGenericRegFile::readDescription(const int ndimMax = -1) {
   int ndim;
   bool breakIt = false;
   int iax = 9;
@@ -223,7 +227,7 @@ void jsonGenericFile::readDescription(const int ndimMax=-1) {
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
 }
-void jsonGenericFile::setHistory(const Json::Value &input) {
+void jsonGenericRegFile::setHistory(const Json::Value &input) {
   Json::Value hist;
   if (!input["history"].isNull()) {
     hist = input["history"];
@@ -241,7 +245,7 @@ void jsonGenericFile::setHistory(const Json::Value &input) {
   jsonArgs["history"] = hist;
 }
 
-void jsonGenericFile::writeDescription() {
+void jsonGenericRegFile::writeDescription() {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
   for (int i = 1; i <= axes.size(); i++) {
@@ -251,7 +255,7 @@ void jsonGenericFile::writeDescription() {
     putString(std::string("label") + std::to_string(i), axes[i - 1].label);
   }
 }
-void jsonGenericFile::close() {
+void jsonGenericRegFile::close() {
   myio->close();
   if (_usage == usageOut || _usage == usageInOut) {
     std::ofstream outps;
@@ -270,7 +274,7 @@ void jsonGenericFile::close() {
     }
   }
 }
-void jsonGenericFile::readFloatStream(float *array, const long long npts) {
+void jsonGenericRegFile::readFloatStream(float *array, const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 4;
@@ -283,7 +287,7 @@ void jsonGenericFile::readFloatStream(float *array, const long long npts) {
 
   myio->readTraceStream(npts, array);
 }
-void jsonGenericFile::readDoubleStream(double *array, const long long npts) {
+void jsonGenericRegFile::readDoubleStream(double *array, const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 8;
@@ -297,7 +301,7 @@ void jsonGenericFile::readDoubleStream(double *array, const long long npts) {
   myio->readTraceStream(npts, array);
 }
 
-void jsonGenericFile::readIntStream(int *array, const long long npts) {
+void jsonGenericRegFile::readIntStream(int *array, const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 4;
@@ -311,8 +315,8 @@ void jsonGenericFile::readIntStream(int *array, const long long npts) {
   myio->readTraceStream(npts, array);
 }
 
-void jsonGenericFile::readUCharStream(unsigned char *array,
-                                      const long long npts) {
+void jsonGenericRegFile::readUCharStream(unsigned char *array,
+                                         const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 8;
@@ -326,7 +330,7 @@ void jsonGenericFile::readUCharStream(unsigned char *array,
   myio->readTraceStream(npts, array);
 }
 
-void jsonGenericFile::seekTo(const long long iv, const int whence) {
+void jsonGenericRegFile::seekTo(const long long iv, const int whence) {
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
         new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
@@ -336,8 +340,8 @@ void jsonGenericFile::seekTo(const long long iv, const int whence) {
   myio->seekTo(iv, whence);
 }
 
-void jsonGenericFile::writeFloatStream(const float *array,
-                                       const long long npts) {
+void jsonGenericRegFile::writeFloatStream(const float *array,
+                                          const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
@@ -352,8 +356,8 @@ void jsonGenericFile::writeFloatStream(const float *array,
   myio->writeTraceStream(npts, array);
 }
 
-void jsonGenericFile::writeUCharStream(const unsigned char *array,
-                                       const long long npts) {
+void jsonGenericRegFile::writeUCharStream(const unsigned char *array,
+                                          const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 1;
@@ -368,8 +372,8 @@ void jsonGenericFile::writeUCharStream(const unsigned char *array,
   myio->writeTraceStream(npts, array);
 }
 
-void jsonGenericFile::writeDoubleStream(const double *array,
-                                        const long long npts) {
+void jsonGenericRegFile::writeDoubleStream(const double *array,
+                                           const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 8;
@@ -384,7 +388,8 @@ void jsonGenericFile::writeDoubleStream(const double *array,
   myio->writeTraceStream(npts, array);
 }
 
-void jsonGenericFile::writeIntStream(const int *array, const long long npts) {
+void jsonGenericRegFile::writeIntStream(const int *array,
+                                        const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
@@ -399,10 +404,10 @@ void jsonGenericFile::writeIntStream(const int *array, const long long npts) {
   myio->writeTraceStream(npts, array);
 }
 
-void jsonGenericFile::readFloatWindow(const std::vector<int> &nw,
-                                      const std::vector<int> &fw,
-                                      const std::vector<int> &jw,
-                                      float *array) {
+void jsonGenericRegFile::readFloatWindow(const std::vector<int> &nw,
+                                         const std::vector<int> &fw,
+                                         const std::vector<int> &jw,
+                                         float *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -422,10 +427,10 @@ void jsonGenericFile::readFloatWindow(const std::vector<int> &nw,
   myio->readWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::readDoubleWindow(const std::vector<int> &nw,
-                                       const std::vector<int> &fw,
-                                       const std::vector<int> &jw,
-                                       double *array) {
+void jsonGenericRegFile::readDoubleWindow(const std::vector<int> &nw,
+                                          const std::vector<int> &fw,
+                                          const std::vector<int> &jw,
+                                          double *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -445,9 +450,9 @@ void jsonGenericFile::readDoubleWindow(const std::vector<int> &nw,
   myio->readWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::readIntWindow(const std::vector<int> &nw,
-                                    const std::vector<int> &fw,
-                                    const std::vector<int> &jw, int *array) {
+void jsonGenericRegFile::readIntWindow(const std::vector<int> &nw,
+                                       const std::vector<int> &fw,
+                                       const std::vector<int> &jw, int *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -467,7 +472,7 @@ void jsonGenericFile::readIntWindow(const std::vector<int> &nw,
   myio->readWindow(nw, fw, jw, array);
 }
 
-long long jsonGenericFile::getDataSize() {
+long long jsonGenericRegFile::getDataSize() {
   if (!myio) {
     std::shared_ptr<myFileIO> iox(new myFileIO(
         getDataFileName(), _usage, _reelH, _traceH, 1, false, getHyper()));
@@ -475,10 +480,10 @@ long long jsonGenericFile::getDataSize() {
   }
   return myio->getSize();
 }
-void jsonGenericFile::readUCharWindow(const std::vector<int> &nw,
-                                      const std::vector<int> &fw,
-                                      const std::vector<int> &jw,
-                                      unsigned char *array) {
+void jsonGenericRegFile::readUCharWindow(const std::vector<int> &nw,
+                                         const std::vector<int> &fw,
+                                         const std::vector<int> &jw,
+                                         unsigned char *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -496,10 +501,10 @@ void jsonGenericFile::readUCharWindow(const std::vector<int> &nw,
   }
   myio->readWindow(nw, fw, jw, array);
 }
-void jsonGenericFile::writeFloatWindow(const std::vector<int> &nw,
-                                       const std::vector<int> &fw,
-                                       const std::vector<int> &jw,
-                                       const float *array) {
+void jsonGenericRegFile::writeFloatWindow(const std::vector<int> &nw,
+                                          const std::vector<int> &fw,
+                                          const std::vector<int> &jw,
+                                          const float *array) {
   setDataType(DATA_FLOAT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -521,10 +526,10 @@ void jsonGenericFile::writeFloatWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::writeUCharWindow(const std::vector<int> &nw,
-                                       const std::vector<int> &fw,
-                                       const std::vector<int> &jw,
-                                       const unsigned char *array) {
+void jsonGenericRegFile::writeUCharWindow(const std::vector<int> &nw,
+                                          const std::vector<int> &fw,
+                                          const std::vector<int> &jw,
+                                          const unsigned char *array) {
   setDataType(DATA_BYTE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -546,10 +551,10 @@ void jsonGenericFile::writeUCharWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::writeIntWindow(const std::vector<int> &nw,
-                                     const std::vector<int> &fw,
-                                     const std::vector<int> &jw,
-                                     const int *array) {
+void jsonGenericRegFile::writeIntWindow(const std::vector<int> &nw,
+                                        const std::vector<int> &fw,
+                                        const std::vector<int> &jw,
+                                        const int *array) {
   setDataType(DATA_INT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -571,10 +576,10 @@ void jsonGenericFile::writeIntWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::writeDoubleWindow(const std::vector<int> &nw,
-                                        const std::vector<int> &fw,
-                                        const std::vector<int> &jw,
-                                        const double *array) {
+void jsonGenericRegFile::writeDoubleWindow(const std::vector<int> &nw,
+                                           const std::vector<int> &fw,
+                                           const std::vector<int> &jw,
+                                           const double *array) {
   setDataType(DATA_DOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -596,8 +601,8 @@ void jsonGenericFile::writeDoubleWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::readComplexStream(std::complex<float> *array,
-                                        const long long npts) {
+void jsonGenericRegFile::readComplexStream(std::complex<float> *array,
+                                           const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 4;
@@ -611,8 +616,8 @@ void jsonGenericFile::readComplexStream(std::complex<float> *array,
   }
   myio->readTraceStream(npts, array);
 }
-void jsonGenericFile::writeComplexStream(const std::complex<float> *array,
-                                         const long long npts) {
+void jsonGenericRegFile::writeComplexStream(const std::complex<float> *array,
+                                            const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
@@ -626,10 +631,10 @@ void jsonGenericFile::writeComplexStream(const std::complex<float> *array,
   }
   myio->writeTraceStream(npts, array);
 }
-void jsonGenericFile::readComplexWindow(const std::vector<int> &nw,
-                                        const std::vector<int> &fw,
-                                        const std::vector<int> &jw,
-                                        std::complex<float> *array) {
+void jsonGenericRegFile::readComplexWindow(const std::vector<int> &nw,
+                                           const std::vector<int> &fw,
+                                           const std::vector<int> &jw,
+                                           std::complex<float> *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   setDataType(DATA_COMPLEX);
@@ -650,10 +655,10 @@ void jsonGenericFile::readComplexWindow(const std::vector<int> &nw,
   }
   myio->readWindow(nw, fw, jw, array);
 }
-void jsonGenericFile::writeComplexWindow(const std::vector<int> &nw,
-                                         const std::vector<int> &fw,
-                                         const std::vector<int> &jw,
-                                         const std::complex<float> *array) {
+void jsonGenericRegFile::writeComplexWindow(const std::vector<int> &nw,
+                                            const std::vector<int> &fw,
+                                            const std::vector<int> &jw,
+                                            const std::complex<float> *array) {
   setDataType(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -675,10 +680,10 @@ void jsonGenericFile::writeComplexWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericFile::message(const std::string &errm) const {
+void jsonGenericRegFile::message(const std::string &errm) const {
   std::cerr << errm << std::endl;
 }
-void jsonGenericFile::error(const std::string &errm) const {
+void jsonGenericRegFile::error(const std::string &errm) const {
   std::cerr << errm << std::endl;
   throw std::exception();
 }

@@ -21,33 +21,13 @@ class genericRegFile : public paramObj {
  public:
   genericRegFile() { _type = DATA_UNKNOWN; }
 
-  virtual void putInt(const std::string &par, const int val);
-  virtual void putFloat(const std::string &par, const float val) {
-    if (par == "" && val == 0) {
-      ;
-    }
-  }
-  virtual void putString(const std::string &par, const std::string &val) {
-    if (par == "" && val == "") {
-      ;
-    }
-  }
-  virtual void putBool(const std::string &par, const bool val) {
-    if (par == "" && val == 0) {
-      ;
-    }
-  }
-  virtual void putInts(const std::string &par, const std::vector<int> &val) {
-    if (par == "" && val[0] == 0) {
-      ;
-    }
-  }
+  virtual void putInt(const std::string &par, const int val) = 0;
+  virtual void putFloat(const std::string &par, const float val) = 0;
+  virtual void putString(const std::string &par, const std::string &val) = 0;
+  virtual void putBool(const std::string &par, const bool val) = 0;
+  virtual void putInts(const std::string &par, const std::vector<int> &val) = 0;
   virtual void putFloats(const std::string &par,
-                         const std::vector<float> &val) {
-    if (par == "" && val[0] == 0) {
-      ;
-    }
-  }
+                         const std::vector<float> &val) = 0;
   std::shared_ptr<regSpace> read();
 
   bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
@@ -277,32 +257,61 @@ class genericRegFile : public paramObj {
   dataType _type = SEP::DATA_UNKNOWN;
 };
 
+class genericHeaderObj {
+ public:
+  genericHeaderObj() { ; }
+
+  virtual void readFloatData(std::shared_ptr<SEP::floatHyper> buf) = 0;
+  virtual void readFloatData(std::shared_ptr<SEP::floatHyper> buf,
+                             const std::vector<bool> ind) = 0;
+  virtual void writeFloatData(const std::shared_ptr<SEP::floatHyper> buf) = 0;
+
+#ifdef USE_BYTE
+  virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf) = 0;
+
+  virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf,
+                            const std::vector<bool> ind) = 0;
+  virtual void writeByteData(const std::shared_ptr<SEP::byteHyper> buf) = 0;
+#endif
+
+#ifdef USE_DOUBLE
+  virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> buf) = 0;
+  virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> *buf,
+                              const std::vector<bool> ind) = 0;
+  virtual void writeDoubleData(const std::shared_ptr<SEP::doubleHyper> buf) = 0;
+#endif
+
+#ifdef USE_COMPLEX
+  virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf) = 0;
+  virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf,
+                               const std::vector<bool> ind) = 0;
+  virtual void writeComplexData(
+      const std::shared_ptr<SEP::complexHyper> buf) = 0;
+#endif
+#ifdef USE_INT
+  virtual void readIntData(std::shared_ptr<SEP::intHyper> buf) = 0;
+  virtual void readIntData(std::shared_ptr<SEP::intHyper> buf,
+                           const std::vector<bool> ind) = 0;
+  virtual void writeIntData(const std::shared_ptr<SEP::intHyper> buf) = 0;
+#endif
+  std::shared_ptr<header> getHeader();
+  std::shared_ptr<header> cloneHeader() { _header->clone(); }
+
+ private:
+  std::shared_ptr<header> _header;
+};
+
 class genericIrregFile : public genericRegFile {
  public:
   genericIrregFile() {}
 
-  virtual std::shared_ptr<header> readHeaderWindow(
+  virtual std::shared_ptr<genericHeaderObj> readHeaderWindow(
       const std::vector<int> &nw, const std::vector<int> &fw,
       const std::vector<int> &jw) = 0;
-  virtual void writeHeaderWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 std::shared_ptr<header> &header,
-                                 std::vector<bool> &exists) = 0;
-  virtual void readFloatData(std::shared_ptr<header> header, float *buf) = 0;
-  virtual void readByteData(std::shared_ptr<header> header,
-                            unsigned char *buf) = 0;
-  virtual void readDoubleData(std::shared_ptr<header> header, double *buf) = 0;
-  virtual void readComplexData(std::shared_ptr<header> header,
-                               std::complex<float> *buf) = 0;
-  virtual void writeFloatData(std::shared_ptr<header> header,
-                              const float *buf) = 0;
-  virtual void writeByteData(std::shared_ptr<header> header,
-                             const unsigned char *buf) = 0;
-  virtual void writeDoubleData(std::shared_ptr<header> header,
-                               const double *buf) = 0;
-  virtual void writeComplexData(std::shared_ptr<header> header,
-                                const std::complex<float> *buf) = 0;
+  virtual std::shared_ptr<genericHeaderObj> void writeHeaderWindow(
+      const std::vector<int> &nw, const std::vector<int> &fw,
+      const std::vector<int> &jw, std::shared_ptr<header> &header,
+      std::vector<bool> &exists) = 0;
 };
 }  // namespace SEP
 

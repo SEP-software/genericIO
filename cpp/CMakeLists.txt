@@ -1,43 +1,72 @@
 cmake_minimum_required(VERSION 2.8)
 project(Generic-cpp)
 
-FIND_PACKAGE( Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED )
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 
-set(SOURCES  basicIO.cpp  genericFile.cpp pythonParams.cpp jsonGenericRegFile.cpp )
-set(SOURCES ${SOURCES} jsonParamObj.cpp  genericIO.cpp jsonGenericIrregFile.cpp buffersIrregFile.cpp)
-set (SOURCES ${SOURCES} jsonGenericIO.cpp ioModes.cpp segyIO.cpp fileBuffersIO.cpp fileBuffersRegFile.cpp buffersRegFile.cpp)
-set(INCLUDES  genericIO.h jsonGenericRegFile.h	jsonParamObj.h basicIO.h )
-set(INCLUDES ${INCLUDES} jsonGenericIO.h	paramObj.h genericFile.h ioModes.h segyIO.h pythonParams.h
-	fileBuffersIO.h fileBuffersRegFile.h  buffersRegFile.h jsonGenericIrregFile.h buffersIrregFile.h)
+set(SOURCES basicIO.cpp genericFile.cpp pythonParams.cpp jsonGenericRegFile.cpp)
+set(SOURCES
+    ${SOURCES}
+    jsonParamObj.cpp
+    genericIO.cpp
+    jsonGenericIrregFile.cpp
+    buffersIrregFile.cpp)
+set(SOURCES
+    ${SOURCES}
+    jsonGenericIO.cpp
+    ioModes.cpp
+    segyIO.cpp
+    fileBuffersIO.cpp
+    fileBuffersRegFile.cpp
+    buffersRegFile.cpp)
+set(INCLUDES genericIO.h jsonGenericRegFile.h jsonParamObj.h basicIO.h)
+set(INCLUDES
+    ${INCLUDES}
+    jsonGenericIO.h
+    paramObj.h
+    genericFile.h
+    ioModes.h
+    segyIO.h
+    pythonParams.h
+    fileBuffersIO.h
+    fileBuffersRegFile.h
+    buffersRegFile.h
+    jsonGenericIrregFile.h
+    buffersIrregFile.h)
 
 if(USE_SEP)
-include_directories(${SEPlib_DIRNAME_include})
-  set(SOURCES  ${SOURCES} sepIO.cpp  sep3dFile.cpp sep_reg_file.cpp  sep_params.cpp )
+  include_directories(${SEPlib_DIRNAME_include})
+  set(SOURCES
+      ${SOURCES}
+      sepIO.cpp
+      sep3dFile.cpp
+      sep_reg_file.cpp
+      sep_params.cpp)
   set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)
 endif(USE_SEP)
 
 if(USE_RSF)
-include_directories(${RSFINCDIR})
-  set(SOURCES  ${SOURCES} rsfIO.cpp	rsfParams.cpp  rsfRegFile.cpp)
-  set(INCLUDES ${INCLUDES}  rsfIO.h rsfParams.h rsfRegFiles.h ) 
+  include_directories(${RSFINCDIR})
+  set(SOURCES ${SOURCES} rsfIO.cpp rsfParams.cpp rsfRegFile.cpp)
+  set(INCLUDES ${INCLUDES} rsfIO.h rsfParams.h rsfRegFiles.h)
 endif(USE_RSF)
 
 if(BUILD_GCP)
-set(SOURCES ${SOURCES} gcpBuffersIO.cpp gcpBuffersRegFile.cpp)
-set(INCLUDES ${INCLUDE} gcpBuffersIO.h gcpBuffersRegFile.h)
+  set(SOURCES ${SOURCES} gcpBuffersIO.cpp gcpBuffersRegFile.cpp)
+  set(INCLUDES ${INCLUDE} gcpBuffersIO.h gcpBuffersRegFile.h)
 endif(BUILD_GCP)
 
-   add_library(genericCpp ${SOURCES} ${INCLUDES})
-target_link_libraries(genericCpp sepVector buffers ${TBB_LIBRARIES})
+add_library(genericCpp ${SOURCES} ${INCLUDES})
 
-if(USE_SEP)
-target_link_libraries(genericCpp sep3d sep)
-endif(USE_SEP)
+target_include_directories(
+  genericCpp
+  PUBLIC $<INSTALL_INTERFACE:include>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../>
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
-
+target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
-install(FILES ${INCLUDES} DESTINATION include)
-install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)
+  install(FILES ${INCLUDES} DESTINATION include)
+  install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)
 endif(NOT SUPPORT_LIBRARIES_BUILD)

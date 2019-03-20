@@ -48,16 +48,11 @@ set(USE_SEPVECTOR true)
 include_directories(${sepVector_DIRNAME_include})
 
 find_package(SEPlib)
-
+set(EXTERNAL_TARGETS )
 if(SEPlib_FOUND)
   message("INSTALLING WITH SEPlib")
+  set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} sep3d)
   set(USE_SEP true)
-  list(APPEND GENERIC_EXPORT_LIBS "sep3d")
-  list(APPEND GENERIC_EXPORT_LIBS "sep")
-  link_directories(${SEPlib_LIBRARY_DIRS})
-  include_directories(${SEPlib_INCLUDE_DIRS})
-  list(APPEND GENERIC_EXPORT_INC_DIRS ${SEPlib_INCLUDE_DIRS})
-  list(APPEND GENERIC_EXPORT_LIB_DIRS ${SEPlib_LIBRARY_DIRS})
 else()
   message("NOT INSTALLING WITH SEPlib")
 endif()
@@ -78,27 +73,25 @@ set(genericIO_DIRNAME_include "include")
 set(genericIO_DIRNAME_cmake "cmake")
 # cmake file
 configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
-configure_file(genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake
-               @ONLY)
+#configure_file(genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake
+ #              @ONLY)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
-              ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake
-        DESTINATION lib/cmake
-        COMPONENT Development)
+#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
+ #             ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake
+  #      DESTINATION lib/cmake
+#        COMPONENT Development)
 
-if(BUILD_GCP)
-  message("SEE GCP")
-  set(USE_GCP true)
-  find_package(storage_client 0.3.0 REQUIRED)
+#if(BUILD_GCP)
+ # set(USE_GCP true)
+  #find_package(storage_client 0.3.0 REQUIRED)
 
-  if(GOOGLE_STORAGE_ROOT)
-    include_directories(${GOOGLE_STORAGE_ROOT}/include)
-  else(GOOGLE_STORAGE_ROOT)
-    message(FATAL_ERROR "Must specitfy GOOGLE_STORAGE_ROOT")
-  endif(GOOGLE_STORAGE_ROOT)
-else(BUILD_GCP)
-  message("Don't see GCP")
-endif(BUILD_GCP)
+  #if(GOOGLE_STORAGE_ROOT)
+  #  include_directories(${GOOGLE_STORAGE_ROOT}/include)
+  ## message(FATAL_ERROR "Must specitfy GOOGLE_STORAGE_ROOT")
+ # endif(GOOGLE_STORAGE_ROOT)
+#else(BUILD_GCP)
+ # message("Don't see GCP")
+#endif(BUILD_GCP)
 
 add_subdirectory(cpp)
 
@@ -114,6 +107,11 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
   add_subdirectory(env-modules)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
+
+install(EXPORT genericIOTargets
+        FILE genericIOTargets.cmake
+        NAMESPACE SEP::IO
+        DESTINATION cmake/sep/io)
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")

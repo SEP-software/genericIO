@@ -64,7 +64,6 @@ elseif(USE_RSF)
 else(USE_SEP)
   set(DEFAULTIO "JSON")
 endif(USE_SEP)
-include_directories(${PROJECT_BINARY_DIR})
 
 configure_file("${PROJECT_SOURCE_DIR}/ioConfig.h.in"
                "${PROJECT_BINARY_DIR}/ioConfig.h")

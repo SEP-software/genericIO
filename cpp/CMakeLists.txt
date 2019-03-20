@@ -64,7 +64,7 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../>
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
-target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
+target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS} EXPORT genericIOTargets)
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${INCLUDES} DESTINATION include)

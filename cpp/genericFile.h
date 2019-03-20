@@ -295,7 +295,7 @@ class genericHeaderObj {
   virtual void writeIntData(const std::shared_ptr<SEP::intHyper> buf) = 0;
 #endif
   std::shared_ptr<header> getHeader();
-  std::shared_ptr<header> cloneHeader() { _header->clone(); }
+  std::shared_ptr<header> cloneHeader() { return _header->clone(); }
 
  private:
   std::shared_ptr<header> _header;

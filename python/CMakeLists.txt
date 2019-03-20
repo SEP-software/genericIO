@@ -2,38 +2,24 @@ project(Generic-IO)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
-
 find_package(NumPy REQUIRED)
 
 # This is a CMake example for Python
-find_package(pybind11)  
-if (pybind11_FOUND)
+find_package(pybind11)
+if(pybind11_FOUND)
+  find_package(PythonLibs)
+  pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
+  target_include_directories(
+    pyGenericIO
+    PUBLIC ${PYTHON_INCLUDE_DIR}
+           ${pybind11_INCLUDE_DIR}
+           ${PYTHON_INCLUDE_PATH}
+           $<INSTALL_INTERFACE:include>
+           $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../src>)
 
-include_directories(${PYTHON_INCLUDE_DIR})
-include_directories(${pybind11_INCLUDE_DIR})
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
-include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../cpp")
-
-
-MESSAGE("found pybind11 building python interface")
-FIND_PACKAGE(PythonLibs)
-INCLUDE_DIRECTORIES(${PYTHON_INCLUDE_PATH})
-
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
-INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR}/../cpp)
-INCLUDE_DIRECTORIES(${GENERIC_EXPORT_INC_DIRS})
-
-
-set(JUNK genericCpp buffers jsonCpp hypercube ${TBB_LIBRARIES} ${GENERIC_EXPORT_LIBS})
-
-
-pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
-target_link_libraries(pyGenericIO PRIVATE  ${JUNK})
-
-
-install( TARGETS pyGenericIO DESTINATION lib/python)
+  target_link_libraries(pyGenericIO PRIVATE genericIO)
+  install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
   install(FILES genericIO.py DESTINATION lib/python)
-
 else(pybind11_FOUND)
-MESSAGE("Did not find pybid11")
+  message("Did not find pybid11")
 endif(pybind11_FOUND)

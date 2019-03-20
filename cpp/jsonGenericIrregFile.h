@@ -65,7 +65,6 @@ class jsonGenericIrregFile : public genericIrregFile {
   virtual std::shared_ptr<genericHeaderObj> readHeaderWindow(
       const std::vector<int> &nw, const std::vector<int> &fw,
       const std::vector<int> &jw) override {
-    ;
   }
   virtual void writeHeaderWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,

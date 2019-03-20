@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
 
+
+if(POLICY CMP0028)
+   cmake_policy(SET CMP0028 NEW)
+endif()
+
+
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
   option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
@@ -51,7 +57,7 @@ find_package(SEPlib)
 set(EXTERNAL_TARGETS )
 if(SEPlib_FOUND)
   message("INSTALLING WITH SEPlib")
-  set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} sep3d)
+  set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} SEP:sep3d)
   set(USE_SEP true)
 else()
   message("NOT INSTALLING WITH SEPlib")
@@ -89,7 +95,6 @@ configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
   ## message(FATAL_ERROR "Must specitfy GOOGLE_STORAGE_ROOT")
  # endif(GOOGLE_STORAGE_ROOT)
 #else(BUILD_GCP)
- # message("Don't see GCP")
 #endif(BUILD_GCP)
 
 add_subdirectory(cpp)

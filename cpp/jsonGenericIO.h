@@ -21,7 +21,7 @@ class jsonGenericIO : public genericIO {
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
 
-  virtual void close();
+  virtual void close() override;
   virtual std::shared_ptr<paramObj> getParamObj() override;
 
  protected:

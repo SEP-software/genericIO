@@ -1,44 +1,9 @@
-# defined since 2.8.3
-if (CMAKE_VERSION VERSION_LESS 2.8.3)
-  get_filename_component (CMAKE_CURRENT_LIST_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
-endif ()
-
-# Allows loading SEPlib settings from another project
-set (genericIO_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}")
-
-
-#include ("${CMAKE_CURRENT_LIST_DIR}/genericIOLibraryDepends.cmake")
-
-if (CMAKE_VERSION VERSION_LESS 2.8.3)
-  set (CMAKE_CURRENT_LIST_DIR)
-endif ()
+@PACKAGE_INIT@
 
 
 
-#INCLUDE(${CMAKE_CURRENT_LIST_DIR}/genericIOExports.cmake)
+check_required_components(genericIO)
 
-
-
-#set_and_check(genericIO_DIRNAME_include "@PACKAGE_genericIO_DIRNAME_include@")
-set(GENERIC_EXPORT_INC_DIRS @GENERIC_EXPORT_INC_DIRS@)
-set(GENERIC_EXPORT_LIB_DIRS @GENERIC_EXPORT_LIB_DIRS@)
-set(GENERIC_EXPORT_LIBS @GENERIC_EXPORT_LIBS@)
-set (GENERICIO_CONFIG_FILE "${CMAKE_CURRENT_LIST_FILE}")
-
-
-set (GENERICIO_LIBRARY_DIR @CMAKE_INSTALL_PREFIX@/lib)
-set (GENERICIO_INCLUDE_DIR @CMAKE_INSTALL_PREFIX@/include)
-FOREACH(inc ${GENERIC_EXPORT_INC_DIRS})
-  INCLUDE_DIRECTORIES(${inc})
-ENDFOREACH(inc)
-
-FOREACH(libd ${GENERIC_EXPORT_LIB_DIRS})
-  link_directories(${libd})
-ENDFOREACH(libd)
-
-
-
-
-
-
-
+if(NOT TARGET SEP:IO:genericCpp)
+  include("${CMAKE_CURRENT_LIST_DIR}/genericIOTargets.cmake")
+endif()

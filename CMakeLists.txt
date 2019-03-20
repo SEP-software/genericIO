@@ -6,6 +6,9 @@ if(POLICY CMP0028)
    cmake_policy(SET CMP0028 NEW)
 endif()
 
+if(POLICY CMP0042)
+   cmake_policy(SET CMP0042 NEW)
+endif()
 
 if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
@@ -111,6 +114,13 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)
   add_subdirectory(env-modules)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
+
+include(CMakePackageConfigHelpers)
+configure_package_config_file(genericIOConfig.cmake.in
+                              "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
+                              INSTALL_DESTINATION
+                              cmake/SEP/IO)
+
 
 install(EXPORT genericIOTargets
         FILE genericIOTargets.cmake

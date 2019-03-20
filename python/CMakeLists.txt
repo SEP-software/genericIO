@@ -17,7 +17,7 @@ if(pybind11_FOUND)
            $<INSTALL_INTERFACE:include>
            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../src>)
 
-  target_link_libraries(pyGenericIO PRIVATE genericIO)
+  target_link_libraries(pyGenericIO PRIVATE genericCpp)
   install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
   install(FILES genericIO.py DESTINATION lib/python)
 else(pybind11_FOUND)

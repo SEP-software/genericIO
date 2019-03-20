@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 project(Generic-cpp)
 
 find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
@@ -65,7 +65,7 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
 
-target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS} EXPORT genericIOTargets)
+target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${INCLUDES} DESTINATION include)

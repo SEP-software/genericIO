@@ -9,10 +9,19 @@
 extern "C" {
 #include <rsf.h>
 }
-
+/*!
+  Object for handling regular file IO
+*/
 class rsfBasic : public basicIO {
  public:
+  /*!
+    Initialize RSF IO
+    \param file File object
+    */
   rsfBasic(sf_file file) { _file = file; }
+  /*! Seek to a given position inot a file
+   \param pos Relative location
+   */
   virtual inline void seekToPos(const long long pos) {
     long long ft = ftell(_myf);
     long long bg = 1024 * 1024 * 1024;
@@ -27,39 +36,58 @@ class rsfBasic : public basicIO {
       diff -= dst;
     }
   }
+  /*!
+    Read a data stream
+    \param sz Number of bytes
+    \param data Storage
+    */
   virtual void readStream(const long long sz, void *data) {
     sf_ucharread((unsigned char *)data, sz, _file);
   }
+  /*!
+   Write a data stream
+   \param sz Number of bytes
+   \param data Storage
+   */
   virtual void writeStream(const long long sz, const void *data) {
     sf_ucharwrite((unsigned char *)data, sz, _file);
   }
 
-  sf_file _file;
+  sf_file _file;  ///< RSF object
 };
+/*!
+   RSF implementation of a generic file
+   */
+
 class rsfRegFile : public genericRegFile {
  public:
-  // rsfRegFile::rsfRegFile(const std::string tag,usage_code usage){
-
+  /*!
+    Initialize RSF reg file
+     \param tag Tag of dataset
+     \param usage Usage for file
+     */
   rsfRegFile(std::string tg, usage_code usage);
-  virtual int getInt(const std::string arg) const;
-  virtual int getInt(const std::string arg, const int def) const;
+  virtual int getInt(const std::string arg) const override;
+  virtual int getInt(const std::string arg, const int def) const override;
 
-  virtual float getFloat(const std::string, const float def) const;
-  virtual float getFloat(const std::string) const;
+  virtual float getFloat(const std::string, const float def) const override;
+  virtual float getFloat(const std::string) const override;
 
-  virtual std::string getString(const std::string arg) const;
+  virtual std::string getString(const std::string arg) const override;
   virtual std::string getString(const std::string arg,
-                                const std::string def) const;
+                                const std::string def) const override;
 
-  virtual bool getBool(const std::string, const bool def) const;
-  virtual bool getBool(const std::string) const;
-  virtual void seekTo(const long long iv, const int whence);
+  virtual bool getBool(const std::string, const bool def) const override;
+  virtual bool getBool(const std::string) const override;
+  virtual void seekTo(const long long iv, const int whence) override;
 
-  virtual std::vector<int> getInts(const std::string arg, int num) const;
   virtual std::vector<int> getInts(const std::string arg,
-                                   std::vector<int> &defs) const;
+                                   int num) const override;
+  virtual std::vector<int> getInts(const std::string arg,
+                                   std::vector<int> &defs) const override;
 
-  virtual std::vector<float> getFloats(const std::string arg, int num) const;
+  virtual std::vector<float> getFloats(const std::string arg,
+                                       int num) const override;
   virtual std::vector<float> getFloats(const std::string arg,
                                        std::vector<float> &defs) const;
 
@@ -67,7 +95,7 @@ class rsfRegFile : public genericRegFile {
   virtual void readComplexStream(std::complex<float> *array,
                                  const long long npts);
   virtual void readFloatStream(float *array, const long long npts);
-  virtual void readUCharStream(unsigned char *array, const long long npts);
+  virtual void readByteStream(unsigned char *array, const long long npts);
   virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts);
   virtual void readIntStream(int *array, const long long npts) override {
@@ -95,10 +123,9 @@ class rsfRegFile : public genericRegFile {
     throw SEPException(std::string("writeDoubleStream not defined for RSF"));
   }
 
-  virtual void readUCharWindow(const std::vector<int> &nw,
-                               const std::vector<int> &fw,
-                               const std::vector<int> &jw,
-                               unsigned char *array);
+  virtual void readByteWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw, unsigned char *array);
 
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,

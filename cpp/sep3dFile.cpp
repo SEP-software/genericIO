@@ -169,8 +169,8 @@ void sep3dFile::putFloats(const std::string par,
 void sep3dFile::readFloatStream(float *array, const long long npts) {
   throw SEPException(std::string("readFloatStream undefined"));
 }
-void sep3dFile::readUCharStream(unsigned char *array, const long long npts) {
-  throw SEPException(std::string("readUCharStream undefined"));
+void sep3dFile::readByteStream(unsigned char *array, const long long npts) {
+  throw SEPException(std::string("readByteStream undefined"));
 }
 
 void sep3dFile::writeFloatStream(const float *array, const long long npts) {
@@ -183,11 +183,11 @@ void sep3dFile::readFloatWindow(const std::vector<int> &nw,
   throw SEPException(std::string("readFloatWindow undefined"));
 }
 
-void sep3dFile::readUCharWindow(const std::vector<int> &nw,
-                                const std::vector<int> &fw,
-                                const std::vector<int> &jw,
-                                unsigned char *array) {
-  throw SEPException(std::string("readUCharWindow undefined"));
+void sep3dFile::readByteWindow(const std::vector<int> &nw,
+                               const std::vector<int> &fw,
+                               const std::vector<int> &jw,
+                               unsigned char *array) {
+  throw SEPException(std::string("readByteWindow undefined"));
 }
 void sep3dFile::writeFloatWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,

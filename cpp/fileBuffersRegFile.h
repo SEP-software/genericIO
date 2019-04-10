@@ -8,30 +8,58 @@
 #include "buffersRegFile.h"
 #include "json.h"
 namespace SEP {
+/*!
+  Class for file broken into many pieces
+  */
 class fileBuffersRegFile : public buffersRegFile {
  public:
-  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
-
+  /*!
+    Create default object
+    */
   fileBuffersRegFile() { ; }
+  /*!
+    Create file object
+
+    \param arg JSON argument list
+    \param usage Usage for file
+    \param tag Tag for file
+    \param progName Name of probram
+    \param ndimMax Minimum number of dimensions for the dataset
+    */
   fileBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
                      const std::string &tag, const std::string &progName,
                      const int ndimMax = -1);
 
+  /*! Close the file */
   virtual void close();
-
+  /*! Create buffers */
   void createBuffers();
 };
-
+/*!
+  Create file buffer for irregular file
+  */
 class fileBuffersIrregFile : public buffersIrregFile {
  public:
-  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
-
+  /*!
+     Create default file oject
+     */
   fileBuffersIrregFile() { ; }
+  /*!
+  Create file object
+
+  \param arg JSON argument list
+  \param usage Usage for file
+  \param tag Tag for file
+  \param progName Name of probram
+  \param ndimMax Minimum number of dimensions for the dataset
+  */
   fileBuffersIrregFile(const Json::Value &arg, const SEP::usage_code usage,
                        const std::string &tag, const std::string &progName,
                        const int ndimMax = -1);
+  /*! Close the file */
 
   virtual void close();
+  /*! Create buffers */
 
   void createBuffers();
 

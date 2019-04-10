@@ -37,13 +37,12 @@ class sep3dFile : public genericIrregFile {
   virtual void error(const std::string err) const;
 
   virtual void readFloatStream(float *array, const long long npts);
-  virtual void readUCharStream(unsigned char *array, const long long npts);
+  virtual void readByteStream(unsigned char *array, const long long npts);
 
   virtual void writeFloatStream(const float *array, const long long npts);
-  virtual void readUCharWindow(const std::vector<int> &nw,
-                               const std::vector<int> &fw,
-                               const std::vector<int> &jw,
-                               unsigned char *array);
+  virtual void readByteWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw, unsigned char *array);
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array);

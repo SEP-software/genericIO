@@ -315,8 +315,8 @@ void jsonGenericRegFile::readIntStream(int *array, const long long npts) {
   myio->readTraceStream(npts, array);
 }
 
-void jsonGenericRegFile::readUCharStream(unsigned char *array,
-                                         const long long npts) {
+void jsonGenericRegFile::readByteStream(unsigned char *array,
+                                        const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 8;
@@ -356,8 +356,8 @@ void jsonGenericRegFile::writeFloatStream(const float *array,
   myio->writeTraceStream(npts, array);
 }
 
-void jsonGenericRegFile::writeUCharStream(const unsigned char *array,
-                                          const long long npts) {
+void jsonGenericRegFile::writeByteStream(const unsigned char *array,
+                                         const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 1;
@@ -480,10 +480,10 @@ long long jsonGenericRegFile::getDataSize() {
   }
   return myio->getSize();
 }
-void jsonGenericRegFile::readUCharWindow(const std::vector<int> &nw,
-                                         const std::vector<int> &fw,
-                                         const std::vector<int> &jw,
-                                         unsigned char *array) {
+void jsonGenericRegFile::readByteWindow(const std::vector<int> &nw,
+                                        const std::vector<int> &fw,
+                                        const std::vector<int> &jw,
+                                        unsigned char *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -526,10 +526,10 @@ void jsonGenericRegFile::writeFloatWindow(const std::vector<int> &nw,
   myio->writeWindow(nw, fw, jw, array);
 }
 
-void jsonGenericRegFile::writeUCharWindow(const std::vector<int> &nw,
-                                          const std::vector<int> &fw,
-                                          const std::vector<int> &jw,
-                                          const unsigned char *array) {
+void jsonGenericRegFile::writeByteWindow(const std::vector<int> &nw,
+                                         const std::vector<int> &fw,
+                                         const std::vector<int> &jw,
+                                         const unsigned char *array) {
   setDataType(DATA_BYTE);
 
   std::shared_ptr<hypercube> hyper = getHyper();

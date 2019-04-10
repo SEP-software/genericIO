@@ -130,7 +130,7 @@ bool genericRegFile::readByteStream(std::shared_ptr<SEP::byteHyper> vec) {
     return false;
   }
 
-  readUCharStream(vec->getVals(), n123);
+  readByteStream(vec->getVals(), n123);
   return true;
 }
 bool genericRegFile::writeByteStream(
@@ -146,7 +146,7 @@ bool genericRegFile::writeByteStream(
     std::cerr << "Trying to read beyond specified file size" << std::endl;
     return false;
   }
-  writeUCharStream(vec->getVals(), n123);
+  writeByteStream(vec->getVals(), n123);
   return true;
 }
 bool genericRegFile::readByteWindow(const std::vector<int> &nw,
@@ -159,7 +159,7 @@ bool genericRegFile::readByteWindow(const std::vector<int> &nw,
               << std::endl;
     return false;
   }
-  readUCharWindow(nw, fw, jw, vec->getVals());
+  readByteWindow(nw, fw, jw, vec->getVals());
   return true;
 }
 bool genericRegFile::writeByteWindow(const std::vector<int> &nw,
@@ -172,7 +172,7 @@ bool genericRegFile::writeByteWindow(const std::vector<int> &nw,
               << std::endl;
     return false;
   }
-  writeUCharWindow(nw, fw, jw, vec->getVals());
+  writeByteWindow(nw, fw, jw, vec->getVals());
   return true;
 }
 #endif

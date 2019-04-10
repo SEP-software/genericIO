@@ -5,9 +5,20 @@
 #include "genericIO.h"
 #include "jsonGenericIO.h"
 namespace SEP {
+/*!
+  Class controlling different IO methods
+
+  */
 class ioModes {
  public:
+  /*!
+    Initialize default IO mode
+    */
   ioModes() { ; }
+  /*!
+    Initialize IOmodes from a vector or arguments
+    \param args Command line arguments
+    */
   ioModes(std::vector<std::string> args) {
     char **argv = new char *[args.size()];
     for (auto i = 0; i < args.size(); i++) {
@@ -22,29 +33,67 @@ class ioModes {
     delete[] argv;
     */
   }
+  /*!
+     Initalize IOModes from standard C arguments
+     \param argc Number of arguments
+     \param argv List of arguments
+     */
   ioModes(const int argc, char **argv) { setup(argc, argv); }
+  /*!
+     Setup IO modes arguments
+     */
   void setup(const int argc, char **argv);
+  /*!
+    Get the default IO type
+  */
   std::shared_ptr<genericIO> getDefaultIO();
+  /*!
+    Get a specific IO
+    \param def IO type to grab
+    */
   std::shared_ptr<genericIO> getIO(const std::string &def);
+  /*!
+     Return a file object
+     \param tag Tag for file
+     \param ioname Name of IO
+     \param name Name of file
+     \param usage Usage for  file
+     */
+
   std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag,
-                                                const std::string &def,
+                                                const std::string &ioname,
                                                 const std::string &name,
                                                 const usage_code usage);
+  /*!
+    Return file object from default IO
+    \param name Name of file
+    \param Usage for file
+    */
   std::shared_ptr<genericRegFile> getGenericRegFile(const std::string &name,
                                                     const usage_code usage);
+  /*
+    Return the default IO type
+    */
   std::string getDefaultType() { return _defaultType; }
 
  private:
-  std::shared_ptr<genericIO> _defaultIO;
-  std::map<std::string, std::shared_ptr<genericIO>> _ios;
+  std::shared_ptr<genericIO> _defaultIO;  ///< Pointer to the default IO
+  std::map<std::string, std::shared_ptr<genericIO>>
+      _ios;  ///< IO type dictionary
 
-  std::shared_ptr<paramObj> _par;
-  std::string _defaultType;
+  std::shared_ptr<paramObj> _par;  ///< Parameter object
+  std::string _defaultType;        ///< Default type
 };
-
+/*!
+  Class for accessing IO from fortran. Singleton class
+  */
 class ioModesFortran {
  private:
+  /*!
+    Initialize default fortran object
+    */
   ioModesFortran() { ; }
+
   ioModesFortran(const ioModesFortran &rs);
   ioModesFortran &operator=(const ioModesFortran &rs);
   static std::shared_ptr<ioModesFortran> instance;

@@ -7,49 +7,118 @@
 #include "json.h"
 #include "jsonGenericRegFile.h"
 namespace SEP {
+/*!
+Object for handling regular files broken into blocks
+*/
 class buffersRegFile : public jsonGenericRegFile {
  public:
-  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
-
+  /*!
+     Initialize an irregular file
+ */
   buffersRegFile() { ; }
-
+  /*!
+     Write the description for the file
+ */
   virtual void writeDescription();
-  virtual void readUCharStream(unsigned char *array, const long long npts) {
+  /*!
+Read entire file
+
+\param hyp byteHyper (from sepVector) to grab file contents from
+*/
+  virtual void readByteStream(unsigned char *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexHyper (from sepVector) storage
+*/
   virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read entire file
+
+\param hyp complexHyper (from sepVector) to grab file contents from
+*/
   virtual void readComplexStream(std::complex<float> *array,
                                  const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Write a float stream
+
+\param array Array to read into
+\param npts Number of values to read
+*/
   virtual void writeFloatStream(const float *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read a float stream
+
+\param array Array to read into
+\param npts Number of values to read
+*/
   virtual void readFloatStream(float *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp byteHyper (from sepVector) storage
+*/
   virtual void writeIntStream(const int *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read entire file
+
+\param hyp byteHyper (from sepVector) to grab file contents from
+*/
   virtual void readIntStream(int *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp doubleHyper (from sepVector) storage
+*/
   virtual void writeDoubleStream(const double *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+  /*!
+Read entire file
+
+\param hyp doubleHyper (from sepVector) to grab file contents from
+*/
   virtual void readDoubleStream(double *array, const long long npts) {
     error(std::string("can not stream buffer datasets, must use window"));
   }
-  virtual void readUCharWindow(const std::vector<int> &nw,
-                               const std::vector<int> &fw,
-                               const std::vector<int> &jw,
-                               unsigned char *array) {
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp byteHyper (from sepVector) storage
+*/
+  virtual void readByteWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw,
+                              unsigned char *array) {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp Floathyper (from sepVector) storage
+*/
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
@@ -57,6 +126,12 @@ class buffersRegFile : public jsonGenericRegFile {
 
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Write a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp Floathyper (from sepVector) storage
+*/
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
@@ -64,6 +139,12 @@ class buffersRegFile : public jsonGenericRegFile {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexHyper (from sepVector) storage
+*/
   virtual void readComplexWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
@@ -71,6 +152,12 @@ class buffersRegFile : public jsonGenericRegFile {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexHyper (from sepVector) storage
+*/
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
@@ -78,24 +165,48 @@ class buffersRegFile : public jsonGenericRegFile {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
-  virtual void readInrWindow(const std::vector<int> &nw,
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp byteHyper (from sepVector) storage
+*/
+  virtual void readIntWindow(const std::vector<int> &nw,
                              const std::vector<int> &fw,
                              const std::vector<int> &jw, int *array) {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Write a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp intHyper (from sepVector) storage
+*/
   virtual void writeIntWindow(const std::vector<int> &nw,
                               const std::vector<int> &fw,
                               const std::vector<int> &jw, const int *array) {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp doubleHyper (from sepVector) storage
+*/
   virtual void readDoubleWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw, double *array) {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+Write a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp doubleHyper (from sepVector) storage
+*/
   virtual void writeDoubleWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
@@ -103,20 +214,34 @@ class buffersRegFile : public jsonGenericRegFile {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
+  /*!
+    Set memory usage object
+    \param mem Memory object
+    */
   void setMemoryUsage(std::shared_ptr<SEP::IO::memoryUsage> mem) {
     if (!_hyper) throw SEPException(std::string("Hypercube has not been set"));
     _mem = mem;
   }
+  /*!
+  Set compression usage object
+  \param com Compression object
+  */
   void setCompression(std::shared_ptr<SEP::IO::compress> com) { _comp = com; }
+  /*!
+  Set block usage object
+  \param block Block object
+  */
   void setBlocking(std::shared_ptr<SEP::IO::blocking> block) { _block = block; }
-
+  /*!
+ Create buffers
+  */
   virtual void createBuffers() = 0;
 
  protected:
-  std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;
-  std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr;
-  std::shared_ptr<SEP::IO::compress> _comp = nullptr;
-  std::shared_ptr<SEP::IO::blocking> _block = nullptr;
+  std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;     ///< Buffer object
+  std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr;  ///< Memory object
+  std::shared_ptr<SEP::IO::compress> _comp = nullptr;    ///< Compression object
+  std::shared_ptr<SEP::IO::blocking> _block = nullptr;   ///< Blocking object
 
 };  // namespace SEP
 

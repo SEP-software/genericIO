@@ -53,10 +53,9 @@ std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
     _par->error(def + " io has not been defined and/or built");
   return _ios[def];
 }
-std::shared_ptr<genericRegFile> ioModes::getRegFileTag(const std::string &tag,
-                                                       const std::string &def,
-                                                       const std::string &name,
-                                                       usage_code usage) {
+std::shared_ptr<genericRegFile> ioModes::getRegFileTag(
+    const std::string &tag, const std::string &ioname, const std::string &name,
+    usage_code usage) {
   if (_ios.count(def) == 0)
     _par->error(def + " io has not been defined and/or built");
   if (!_ios[def]->getValid())

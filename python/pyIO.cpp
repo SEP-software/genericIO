@@ -135,9 +135,9 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::putFloats,
            "Write  a vector or float parameters")
 
-      .def("readUCharStream",
+      .def("readByteStream",
            (void (genericRegFile ::*)(unsigned char *, const long long)) &
-               genericRegFile::readUCharStream,
+               genericRegFile::readByteStream,
            "Read a stream of unisigned chars")
 
       .def("readFloatStream",
@@ -157,9 +157,9 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericRegFile ::*)(std::complex<float> *, const long long)) &
                genericRegFile::readComplexStream,
            "Read a stream of complex numbers")
-      .def("writeUCharStream",
+      .def("writeByteStream",
            (void (genericRegFile ::*)(const unsigned char *, const long long)) &
-               genericRegFile::writeUCharStream,
+               genericRegFile::writeByteStream,
            "Write a stream of complex")
       .def("writeComplexStream",
            (void (genericRegFile ::*)(const std::complex<float> *,
@@ -177,11 +177,11 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
 
       .def("close", (void (genericRegFile ::*)()) & genericRegFile::close,
            "Close file")
-      .def("readUCharWindow",
+      .def("readByteWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
                const std::vector<int>, unsigned char *)) &
-               genericRegFile::readUCharWindow,
+               genericRegFile::readByteWindow,
            "Read a window of unsigned chars")
       .def("readFloatWindow",
            (void (genericRegFile ::*)(const std::vector<int> &,

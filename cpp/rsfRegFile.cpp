@@ -185,7 +185,7 @@ void rsfRegFile::readFloatStream(float *array, const long long npts) {
   }
 }
 
-void rsfRegFile::readUCharStream(unsigned char *array, const long long npts) {
+void rsfRegFile::readByteStream(unsigned char *array, const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   while (npts > nread) {
@@ -300,10 +300,10 @@ void rsfRegFile::writeComplexWindow(const std::vector<int> &nw,
   }
   myio->writeWindow(nw, fw, jw, array);
 }
-void rsfRegFile::readUCharWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 unsigned char *array) {
+void rsfRegFile::readByteWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                unsigned char *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->returnNs();
   if (ng.size() > nw.size()) {

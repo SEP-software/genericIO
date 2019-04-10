@@ -3,26 +3,122 @@
 #include <stdio.h>
 #include <memory>
 #include "genericFile.h"
-/*this is very rudimentary class for file io */
 namespace SEP {
+/*!
+ this is very rudimentary class for file io */
+
 class basicIO {
  public:
+  /*!
+    Create a basic IO classs
+    */
   basicIO() { _swapData = false; }
+  /*!
+    Read a window
+     \param nw,fw,jw  Windowing parmeters
+     \param data Data associated with window
+     \param head Header sassoicated with window
+*/
   void readWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                   const std::vector<int> &jw, void *data, void *head = 0);
+  /*!
+  Write a window
+   \param nw,fw,jw  Windowing parmeters
+   \param data Data associated with window
+   \param head Header sassoicated with window
+*/
   void writeWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                    const std::vector<int> &jw, const void *data,
                    void *head = 0);
+  /*!
+  Read a stream
+   \param sz Number of bytes
+   \param data Data associated with window
+*/
   virtual void readStream(const long long sz, void *data) {
     throw SEPException(std::string("readStream not defined"));
   }
+  /*!
+Write a stream
+ \param sz Number of bytes
+ \param data Data associated with window
+*/
   virtual void writeStream(const long long sz, const void *dat) {
     throw SEPException(std::string("writeStream not defined"));
   }
+  /*!
+Read a trace stream
+ \param sz Number of bytes
+ \param data Data associated with window
+ \param head Header sossicated with stream
+*/
   virtual void readTraceStream(const long long sz, void *dat, void *head = 0);
+  /*!
+Write a trace stream
+\param sz Number of bytes
+\param data Data associated with window
+\param head Header sossicated with stream
+*/
   virtual void writeTraceStream(const long long sz, const void *dat,
                                 const void *head = 0);
+  /*!
+    Write reel header
+    \param reelH Reel header
+    */
   virtual void writeReelHead(const void *reelH);
+  /*!
+    Get the current position in a file
+    */
+  virtual long long getCurrentPos() const {
+    throw SEPException(std::string("getCurrentPos not defined"));
+  }
+  /*!
+    Get the size of the dataset
+    */
+  virtual long long getSize() {
+    throw SEPException(std::string("getSize is undefined"));
+  }
+  /*!
+     Swap bytes of floats
+     \param n Number of floats
+     \param buf Buffer to swap the bytes
+     */
+  void swap_float_bytes(const int n, float *buf);
+  /*
+    Seek to a position in a file
+    \param off Offset
+    \param whence from 0-begining, 1-current, 2-end of file
+    */
+  virtual inline void seekTo(const long long off, const int whence) {
+    throw SEPException(std::string("seekTo is undefined"));
+  }
+  /*!
+    Seek to a gicen position in a file
+    \param pos Position to go to
+    */
+  virtual inline void seekToPos(const long long pos) {
+    throw SEPException(std::string("seekToPos is undefined"));
+  }
+  /*!
+     Set file parameters
+     \param nm Name of file
+     \param usage Usage for file
+     \param reelH Reel header
+     \param Trace header
+     \param Element size of data
+     \param swapData Whether or not to swap the bytes of the dataset
+     \param hyper Hypercube assoicated with the dataset
+     */
+  void setFileParams(const std::string nm, const usage_code usage,
+                     const int reelH, const int traceH, const int esize,
+                     const bool swapData, std::shared_ptr<hypercube> hyper);
+
+ private:
+  /*<
+    Read blocks of a dataset
+      \param naxes Number of axes
+      \param nwo,fwo,jwo
+      */
   void readBlocks(const int naxes, const std::vector<int> &nwo,
                   const std::vector<int> &fwo, const std::vector<int> &jwo,
                   const std::vector<int> &nwi, const std::vector<int> &fwi,
@@ -41,22 +137,6 @@ class basicIO {
                             const std::vector<int> &fw,
                             const std::vector<int> &jw, const void *in,
                             void *out, void *head);
-  virtual long long getCurrentPos() const {
-    throw SEPException(std::string("getCurrentPos not defined"));
-  }
-  virtual long long getSize() {
-    throw SEPException(std::string("getSize is undefined"));
-  }
-  void swap_float_bytes(const int n, float *buf);
-  virtual inline void seekTo(const long long off, const int whence) {
-    throw SEPException(std::string("seekTo is undefined"));
-  }
-  virtual inline void seekToPos(const long long pos) {
-    throw SEPException(std::string("seekToPos is undefined"));
-  }
-  void setFileParams(const std::string nm, const usage_code usage,
-                     const int reelH, const int traceH, const int esize,
-                     const bool swapData, std::shared_ptr<hypercube> hyper);
 
  protected:
   usage_code _usage;

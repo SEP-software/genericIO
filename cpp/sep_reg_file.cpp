@@ -216,7 +216,7 @@ void sepRegFile::readComplexStream(std::complex<float> *array,
     error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
 }
-void sepRegFile::readUCharStream(unsigned char *array, const long long npts) {
+void sepRegFile::readByteStream(unsigned char *array, const long long npts) {
   long long nptsT = npts * 1;
   long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
   if (ierr != nptsT)
@@ -231,8 +231,8 @@ void sepRegFile::writeFloatStream(const float *array, const long long npts) {
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
 }
-void sepRegFile::writeUCharStream(const unsigned char *array,
-                                  const long long npts) {
+void sepRegFile::writeByteStream(const unsigned char *array,
+                                 const long long npts) {
   long long nptsT = npts * 1;
   long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
   if (ierr != nptsT)
@@ -376,10 +376,10 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
     error(std::string("trouble writing data to tag ") + _tag);
 }
 
-void sepRegFile::readUCharWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 unsigned char *array) {
+void sepRegFile::readByteWindow(const std::vector<int> &nw,
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                unsigned char *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
@@ -416,10 +416,10 @@ void sepRegFile::writeFloatWindow(const std::vector<int> &nw,
                         jw.data(), 4, array))
     error(std::string("trouble writing data to tag ") + _tag);
 }
-void sepRegFile::writeUCharWindow(const std::vector<int> &nw,
-                                  const std::vector<int> &fw,
-                                  const std::vector<int> &jw,
-                                  const unsigned char *array) {
+void sepRegFile::writeByteWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 const unsigned char *array) {
   setDataType(DATA_FLOAT);
 
   std::shared_ptr<hypercube> hyper = getHyper();

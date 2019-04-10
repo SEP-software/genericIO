@@ -24,9 +24,11 @@ class gcpBuffersRegFile : public buffersRegFile {
       \param usage Usage for file
       \param tag Tag associated with GCP file
       \param progName Program name
+      \param ndimMax Minimum number of dimensions
 */
   gcpBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
-                    const std::string &tag, const std::string &progName);
+                    const std::string &tag, const std::string &progName,
+		    const int ndimMax);
   /*!
     Setup GCP environment
 

@@ -40,14 +40,20 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   if (_usage == usageIn)
     _newFile = false;
   else if (_usage == usageInOut) {
-    google::cloud::storage::Client client;
+	      namespace gcs = google::cloud::storage;
+
+	          google::cloud::v0::StatusOr<gcs::Client> client =
+			          gcs::Client::CreateDefaultClient();
+        if (!client)
+		      throw(SEPException(std::string("Trouble creating default client")));
+
 
     try {
       namespace gcs = google::cloud::storage;
       [](gcs::Client client, std::string bucket_name, std::string object_name) {
         gcs::ObjectMetadata meta =
             client.GetObjectMetadata(bucket_name, object_name);
-      }(client, _jsonFile, std::string("desc"));
+      }(client.value(), _jsonFile, std::string("desc"));
     } catch (std::exception const &ex) {
       _newFile = true;
     }
@@ -58,7 +64,11 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   }
 
   if (_usage == usageIn || !_newFile) {
-    google::cloud::storage::Client client;
+    namespace gcs = google::cloud::storage;
+        google::cloud::v0::StatusOr<gcs::Client> client =
+		        gcs::Client::CreateDefaultClient();
+	    if (!client)
+		          throw(SEPException(std::string("Trouble creating default client")));
 
     try {
       namespace gcs = google::cloud::storage;
@@ -69,7 +79,7 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
         stream >> jsonArgs;
       }
       //! [read object] [END storage_download_file]
-      (std::move(client), _jsonFile, std::string("desc"), jsonArgs);
+      (client.value(), _jsonFile, std::string("desc"), jsonArgs);
     } catch (std::exception const &ex) {
       error(std::string("can not open object ") + _jsonFile);
     }
@@ -77,7 +87,11 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
 }
 void gcpBuffersRegFile::close() {
   if (getUsage() == usageOut || getUsage() == usageInOut) {
-    google::cloud::storage::Client client;
+    namespace gcs = google::cloud::storage;
+        google::cloud::v0::StatusOr<gcs::Client> client =
+		        gcs::Client::CreateDefaultClient();
+	    if (!client)
+		          throw(SEPException(std::string("Trouble creating default client")));
 
     namespace gcs = google::cloud::storage;
     [](gcs::Client client, std::string bucket_name, std::string object_name,
@@ -89,7 +103,7 @@ void gcpBuffersRegFile::close() {
       stream.Close();
     }
     //! [write object]
-    (std::move(client), jsonArgs["name"].asString(), std::string("desc"),
+    (client.value(), jsonArgs["name"].asString(), std::string("desc"),
      jsonArgs);
   }
 

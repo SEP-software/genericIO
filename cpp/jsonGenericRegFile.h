@@ -229,7 +229,7 @@ Read entire file
 \param hyp byteHyper (from sepVector) to grab file contents from
 */
 
-  virtual void readyByteStream(unsigned char *array,
+  virtual void readByteStream(unsigned char *array,
                                const long long npts) override;
 
   /*! Seek to a given position inot a file
@@ -254,6 +254,16 @@ Write entire file
                                const long long npts) override;
   /*!
 Write a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp byteHyper (from sepVector) storage
+*/
+  virtual void writeByteWindow(const std::vector<int> &nw,
+                              const std::vector<int> &fw,
+                              const std::vector<int> &jw,
+                              unsigned char const *array) override;
+  /*!
+Read a portion of file based on window parameters
 
 \param nw,fw,jw Standard window parameters
 \param hyp byteHyper (from sepVector) storage

@@ -56,11 +56,11 @@ std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
 std::shared_ptr<genericRegFile> ioModes::getRegFileTag(
     const std::string &tag, const std::string &ioname, const std::string &name,
     usage_code usage) {
-  if (_ios.count(def) == 0)
-    _par->error(def + " io has not been defined and/or built");
-  if (!_ios[def]->getValid())
-    _par->error(def + std::string(" has not been initialized correctly"));
-  return _ios[def]->getRegFile(name, usage);
+  if (_ios.count(ioname) == 0)
+    _par->error(ioname + " io has not been ioname and/or built");
+  if (!_ios[ioname]->getValid())
+    _par->error(ioname + std::string(" has not been initialized correctly"));
+  return _ios[ioname]->getRegFile(name, usage);
 }
 std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(
     const std::string &name, const usage_code usage) {

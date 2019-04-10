@@ -5,7 +5,8 @@
 using namespace SEP;
 
 std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+     const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
@@ -15,13 +16,15 @@ std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericFile> x(
-      new gcpBuffersRegFile(jsonArgs, usage, name, _progName));
+  std::shared_ptr<jsonGenericRegFile> x(
+      new gcpBuffersRegFile(jsonArgs, usage, name, _progName,ndimMax));
   addRegFile(tag, x);
   return x;
 }
 std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage) {
+    const std::string &tag, const std::string &name, const usage_code usage,
+    const int ndimMax
+    ) {
   if (!_init && !_sentError) {
   }
   /*
@@ -30,10 +33,13 @@ std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericFile> x(
-      new gcpBuffersRegFile(jsonArgs, usage, name, _progName));
+  /*
+  std::shared_ptr<jsonGenericIrregFile> x(
+      new gcpBuffersIrregFile(jsonArgs, usage, name, _progName,ndimMax));
   addIrregFile(tag, x);
   return x;
+  */
+  return 0;
 }
 std::shared_ptr<paramObj> gcpBuffersIO::getParamObj() {
   if (!_init && !_sentError) {
@@ -45,14 +51,16 @@ std::shared_ptr<paramObj> gcpBuffersIO::getParamObj() {
   return _param;
 }
 void gcpBuffersIO::close() {
+	/*
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericRegFile> x =
+        std::static_pointer_cast<jsonGenericRegFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
+  */
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i) {
-    std::shared_ptr<jsonGenericFile> x =
-        std::static_pointer_cast<jsonGenericFile>(i->second);
+    std::shared_ptr<jsonGenericRegFile> x =
+        std::static_pointer_cast<jsonGenericRegFile>(i->second);
     jsonArgs[i->first] = x->getArgs();
   }
   filesClose();

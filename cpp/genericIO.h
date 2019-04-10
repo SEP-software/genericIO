@@ -60,6 +60,7 @@ class genericIO {
   virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
       const std::string &name, const std::string usage,
       const int ndimMax = -1) {
+	    SEP::usage_code code;
     if (usage == std::string("UsageIn")) {
       code = usageIn;
     } else if (usage == std::string("UsageInOut"))

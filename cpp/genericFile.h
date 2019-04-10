@@ -111,12 +111,6 @@ Write a portion of file based on window parameters
                         std::shared_ptr<SEP::floatHyper> hyp);
 #ifdef USE_BYTE
   /*!
-Write entire file
-
-\param hyp byteHyper (from sepVector) to grab file contents from
-*/
-  bool writeByteStream(const std::shared_ptr<SEP::byteHyper> hyp);
-  /*!
 Read entire file
 
 \param hyp byteHyper (from sepVector) to grab file contents from
@@ -144,7 +138,7 @@ Write a portion of file based on window parameters
 \param nw,fw,jw Standard window parameters
 \param hyp byteHyper (from sepVector) storage
 */
-  bool bool writeByteWindow(const std::vector<int> &nw,
+  bool writeByteWindow(const std::vector<int> &nw,
                             const std::vector<int> &fw,
                             const std::vector<int> &jw,
                             std::shared_ptr<SEP::byteHyper> hyp);
@@ -589,7 +583,6 @@ Write  the description of the file
   std::shared_ptr<SEP::hypercube> _hyper = 0;  ///< Hypercube describing the RSF
   dataType _type = SEP::DATA_UNKNOWN;          ///< The dataype for for the RSF
 };
-/*
 
 class genericHeaderObj {
  public:
@@ -648,7 +641,6 @@ class genericIrregFile : public genericRegFile {
                                  std::shared_ptr<genericHeaderObj> header,
                                  std::vector<bool> &exists) = 0;
 };
-*/
 }  // namespace SEP
 
 #endif

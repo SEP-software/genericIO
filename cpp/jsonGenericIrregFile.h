@@ -218,7 +218,6 @@ Get floats from a file
 */
   virtual void putFloats(const std::string &par,
                          const std::vector<float> &val) override;
-  /*
   virtual std::shared_ptr<genericHeaderObj> readHeaderWindow(
       const std::vector<int> &nw, const std::vector<int> &fw,
       const std::vector<int> &jw) override {}
@@ -228,7 +227,6 @@ Get floats from a file
                                  std::shared_ptr<genericHeaderObj> header,
                                  std::vector<bool> &exists) override {
     ;
-    */
 }
 
 protected : Json::Value jsonArgs;  ///< JSON values

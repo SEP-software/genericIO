@@ -180,7 +180,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("readByteWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int>, unsigned char *)) &
+               const std::vector<int> &, unsigned char *)) &
                genericRegFile::readByteWindow,
            "Read a window of unsigned chars")
       .def("readFloatWindow",

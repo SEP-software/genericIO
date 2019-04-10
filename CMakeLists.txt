@@ -122,6 +122,7 @@ configure_package_config_file(genericIOConfig.cmake.in
                               cmake/SEP/IO)
 
 
+if(BUILD_DOC)
 find_package(Doxygen)
 if (DOXYGEN_FOUND)
     # set input and output files
@@ -141,6 +142,7 @@ if (DOXYGEN_FOUND)
 else (DOXYGEN_FOUND)
   message("Doxygen need to be installed to generate the doxygen documentation")
 endif (DOXYGEN_FOUND)
+endif(BUILD_DOC)
 
 
 install(EXPORT genericIOTargets

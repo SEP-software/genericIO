@@ -28,7 +28,7 @@ class gcpBuffersRegFile : public buffersRegFile {
 */
   gcpBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
                     const std::string &tag, const std::string &progName,
-		    const int ndimMax);
+                    const int ndimMax);
   /*!
     Setup GCP environment
 
@@ -45,11 +45,17 @@ class gcpBuffersRegFile : public buffersRegFile {
   */
   void createBuffers();
 
- private:
-  /*!
-Setup GCP
-*/
-  void setupGCP();
+ protected:
+  google::cloud::v0::StatusOr<google::cloud::storage::Client>
+
+      private :
+      /*!
+    Setup GCP
+    */
+      void
+      setupGCP();
+  std::string _bucket;  ///< Name of the bucker
+  std::string _dir;     ///< Directory
 
 };  // namespace SEP
 

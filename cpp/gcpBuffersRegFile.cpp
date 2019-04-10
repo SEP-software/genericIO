@@ -11,7 +11,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const usage_code usage,
                                      const std::string &tag,
                                      const std::string &progName,
-const int ndimMax) {
+                                     const int ndimMax) {
   setUsage(usage);
   setupGCP(arg, tag);
   if (!_newFile) {
@@ -30,7 +30,31 @@ const int ndimMax) {
 void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
                                  const std::string &tag) {
   _tag = tag;
+  std::string bucket, baseName;
 
+  int pos;
+  if ((pos = dir.find("/")) == std::string::npos) {  // No subdirectory
+    bucket = tage;
+    baseName = ;
+  } else {
+    _baseName = dir;
+    bucket = baseName.substr(0, baseName.find("/"));
+    baseName.erase(0, baseName.find("/") + 1);
+  }
+  _bucket = bucket;
+  _dir = basename;
+  _projectID = getEnvVar("projectID", "NONE");
+  _region = getEnvVar("region", "us-west1");
+  if (_projectID == std::string("NONE")) {
+    std::cerr << "Must set environmental variable " << _projectID << std::endl;
+    exit(1);
+  }
+  namespace gcs = google::cloud::storage;
+  google::cloud::v0::StatusOr<gcs::Client> client =
+      gcs::Client::CreateDefaultClient();
+  if (!client)
+    throw(SEPException(std::string("Trouble creating default client")));
+  _client = client;
   if (arg[tag].isNull()) {
     _jsonFile = _tag;
   } else {
@@ -40,73 +64,50 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   if (_usage == usageIn)
     _newFile = false;
   else if (_usage == usageInOut) {
-	      namespace gcs = google::cloud::storage;
-
-	          google::cloud::v0::StatusOr<gcs::Client> client =
-			          gcs::Client::CreateDefaultClient();
-        if (!client)
-		      throw(SEPException(std::string("Trouble creating default client")));
-
-
     try {
-      namespace gcs = google::cloud::storage;
-      [](gcs::Client client, std::string bucket_name, std::string object_name) {
-        gcs::ObjectMetadata meta =
-            client.GetObjectMetadata(bucket_name, object_name);
-      }(client.value(), _jsonFile, std::string("desc"));
-    } catch (std::exception const &ex) {
-      _newFile = true;
-    }
-
-    std::ifstream f(getJSONFileName());
-    _newFile = !f.good();
-    f.close();
-  }
-
-  if (_usage == usageIn || !_newFile) {
-    namespace gcs = google::cloud::storage;
-        google::cloud::v0::StatusOr<gcs::Client> client =
-		        gcs::Client::CreateDefaultClient();
-	    if (!client)
-		          throw(SEPException(std::string("Trouble creating default client")));
-
-    try {
-      namespace gcs = google::cloud::storage;
       [](gcs::Client client, std::string bucket_name, std::string object_name,
-         Json::Value jsonArgs) {
+         std::shared_ptr<storeByte> buf) {
         gcs::ObjectReadStream stream =
             client.ReadObject(bucket_name, object_name);
-        stream >> jsonArgs;
-      }
-      //! [read object] [END storage_download_file]
-      (client.value(), _jsonFile, std::string("desc"), jsonArgs);
+        jsonArgs << stream;
+        stream.Close();
+      }(std::move(_client.value()), bucketName, basename + std::string("/dir"),
+        val);
     } catch (std::exception const &ex) {
-      error(std::string("can not open object ") + _jsonFile);
+      std::cerr << "Trouble reading from bucket " << _name << std::endl;
+      exit(1);
+    }
+  }
+  if (_usage == usageIn || !_newFile) {
+    try {
+      [](gcs::Client client, std::string bucket_name, std::string object_name,
+         std::shared_ptr<storeByte> buf) {
+        gcs::ObjectReadStream stream =
+            client.ReadObject(bucket_name, object_name);
+        jsonArgs << stream;
+        stream.Close();
+      }(std::move(_client.value()), bucketName, basename + std::string("/dir"),
+        val);
+    } catch (std::exception const &ex) {
+      std::cerr << "Trouble reading from bucket " << _name << std::endl;
+      exit(1);
     }
   }
 }
 void gcpBuffersRegFile::close() {
-  if (getUsage() == usageOut || getUsage() == usageInOut) {
-    namespace gcs = google::cloud::storage;
-        google::cloud::v0::StatusOr<gcs::Client> client =
-		        gcs::Client::CreateDefaultClient();
-	    if (!client)
-		          throw(SEPException(std::string("Trouble creating default client")));
-
-    namespace gcs = google::cloud::storage;
-    [](gcs::Client client, std::string bucket_name, std::string object_name,
-       Json::Value jsonArgs) {
-      std::string const text = "Lorem ipsum dolor sit amet";
+  if (getUsage() == usageOut) ||getUsage() == usageInOut) {
       gcs::ObjectWriteStream stream =
-          client.WriteObject(bucket_name, object_name);
+          _client.value().WriteObject(_bucketName, _dir + std::string("/dir"));
       stream << jsonArgs;
       stream.Close();
+      google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
+          std::move(stream).metadata();
+      if (!metadata) {
+        std::cerr << "FAILURE " << _name << std::endl;
+        std::cerr << metadata.status().message() << std::endl;
+        throw SEPException(std::string("Trouble writing object"));
+      }
     }
-    //! [write object]
-    (client.value(), jsonArgs["name"].asString(), std::string("desc"),
-     jsonArgs);
-  }
-
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {

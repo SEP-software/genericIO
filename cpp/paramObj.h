@@ -110,6 +110,12 @@ Get a boolean from a file
     error("Undefined getBol");
     return true;
   }
+  /*!
+Get integer from a file
+
+\param arg Name of the prameter
+\param nvals Number of values
+*/
   virtual std::vector<int> getInts(const std::string& arg,
                                    const int nvals) const {
     error("Undefined getInts");
@@ -120,7 +126,7 @@ Get a boolean from a file
 Get integer from a file
 
 \param arg Name of the prameter
-\param nvals Number of values
+\param defs Default values
 */
   virtual std::vector<int> getInts(const std::string& arg,
                                    const std::vector<int>& defs) const {

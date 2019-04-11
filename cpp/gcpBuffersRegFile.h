@@ -4,6 +4,8 @@
 #include <string>
 #include "basicIO.h"
 #include "buffers.h"
+#include "google/cloud/status_or.h"
+#include "google/cloud/storage/client.h"
 #include "buffersRegFile.h"
 #include "json.h"
 namespace SEP {
@@ -45,10 +47,15 @@ class gcpBuffersRegFile : public buffersRegFile {
   */
   void createBuffers();
 
- protected:
-  google::cloud::v0::StatusOr<google::cloud::storage::Client>
+  std::string getEnvVar(std::string const &key, std::string const &defaultV) const{
+	  char *val=getenv(key.c_str());
+	  return val== NULL? defaultV: std::string(val);
+  }
 
-      private :
+ protected:
+  google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;
+
+      private:
       /*!
     Setup GCP
     */

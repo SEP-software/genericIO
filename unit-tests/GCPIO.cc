@@ -10,6 +10,8 @@
 #include "ioModes.h"
 #include "ioTypes.h"
 #include "blocking.h"
+#include "gcpBuffersRegFile.h"
+#include "ZfpCompress.h"
 using namespace std::chrono;
 
 using std::string;
@@ -25,8 +27,8 @@ return buf;
 
 TEST(TESTBucketCreation, gcpBuffers) {
   std::vector<SEP::axis> axes;
-  long long n = 40;
-  //long long n = 200;
+//  long long n = 40;
+  long long n = 100;
   long long n123 = 1;
   int ndim = 4;
   std::vector<int> ns(ndim, n), fs(ndim, 0), js(ndim, 1);
@@ -52,43 +54,76 @@ TEST(TESTBucketCreation, gcpBuffers) {
   std::shared_ptr<ioModes> io(new ioModes(args));
 
   std::shared_ptr<genericIO> gcp = io->getIO("GCPBUFFERS");
-  std::shared_ptr<genericRegFile> fle0;
+  {
+  std::shared_ptr<genericRegFile> fle0,fle1;
+    
 
 
   ASSERT_NO_THROW(fle0 = gcp->getRegFile(bucket1, SEP::usageOut));
+  std::dynamic_pointer_cast<gcpBuffersRegFile>(fle0)->setBlocking(block);
 
   ASSERT_NO_THROW(fle0->setHyper(hyper));
 
   high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
-  ASSERT_NO_THROW(fle0->writeFloatStream(ar));
+   std::cerr<<"Before write float stream "<<std::endl;
+  fle0->writeFloatStream(ar);
   high_resolution_clock::time_point t2 = high_resolution_clock::now();
+  auto d1 = duration_cast<microseconds>(t2 - t1).count();
+
+  double s1 = (double)n123 * 4 / d1;
+  std::cerr << "To cloud " << s1 << " MB/s " << std::endl;
+
 
   ASSERT_NO_THROW(fle0->writeDescription());
-
   ASSERT_NO_THROW(fle0->close());
+  std::cerr<<"leaving block"<<std::endl;
+}
 
-  std::shared_ptr<genericRegFile> fle1;
+  {
+	  std::cerr<<"entering 2"<<std::endl;
 
-  ASSERT_NO_THROW(
-      fle1 = gcp->getRegFile(bucket1, SEP::usageIn));
-  ASSERT_NO_THROW(fle1->readDescription(4));
+  std::shared_ptr<genericRegFile> fle0,fle1;
+  ASSERT_NO_THROW(fle1 = gcp->getRegFile(bucket2, SEP::usageOut));
+  std::dynamic_pointer_cast<gcpBuffersRegFile>(fle1)->setBlocking(block);
 
-  ASSERT_NO_THROW(fle1->readFloatStream(ar));
-  high_resolution_clock::time_point t3 = high_resolution_clock::now();
+  ASSERT_NO_THROW(fle1->setHyper(hyper));
 
-  ASSERT_NO_THROW(fle1->close());
+  high_resolution_clock::time_point t1 = high_resolution_clock::now();
 
+   std::cerr<<"Before write float stream "<<std::endl;
+  fle1->writeFloatStream(ar);
+  high_resolution_clock::time_point t2 = high_resolution_clock::now();
   auto d1 = duration_cast<microseconds>(t2 - t1).count();
 
   double s1 = (double)n123 * 4 / d1;
   std::cerr << "To buffer " << s1 << " MB/s " << std::endl;
+
+
+  ASSERT_NO_THROW(fle1->writeDescription());
+
+  ASSERT_NO_THROW(fle1->close());
+  }
+{ 
+
+  std::shared_ptr<genericRegFile> fle0,fle1;
+      fle1 = gcp->getRegFile(bucket1, SEP::usageIn);
+  ASSERT_NO_THROW(fle1->readDescription(4));
+
+   std::cerr<<"Before read float stream "<<std::endl;
+  high_resolution_clock::time_point t2 = high_resolution_clock::now();
+  fle1->readFloatStream(ar);
+  high_resolution_clock::time_point t3 = high_resolution_clock::now();
+
+  ASSERT_NO_THROW(fle1->close());
+
   ;
 
   auto d2 = duration_cast<microseconds>(t3 - t2).count();
   double s2 = (double)n123 * 4 / d2;
   std::cerr << "From cloud " << (double)n123 * 4 / d2 << " MB/s " << std::endl;
   ;
+}
 
   namespace gcs = google::cloud::storage;
   google::cloud::v0::StatusOr<gcs::Client> client =

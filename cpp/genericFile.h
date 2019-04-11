@@ -79,18 +79,18 @@ class genericRegFile : public paramObj {
   */
   std::shared_ptr<regSpace> read();
   /*!
+   Write entire file
+
+   \param hyp FloatHyper (from sepVector) to store file contents into
+*/
+  bool writeFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
+  /*!
    Read entire file
 
    \param hyp FloatHyper (from sepVector) to store file contents into
 */
   bool readFloatStream(std::shared_ptr<SEP::floatHyper> hyp);
 
-  /*!
- Write entire file
-
- \param hyp FloatHyper (from sepVector) to grab file contents from
-*/
-  bool writeFloatStream(const std::shared_ptr<SEP::floatHyper> hyp);
   /*!
  Read a portion of file based on window parameters
 

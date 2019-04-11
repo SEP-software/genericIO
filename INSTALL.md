@@ -8,30 +8,35 @@ GenericIO works on any modern linuxOS and normally MacOS (there is currently big
 should be fixed soon). 
 
 
-# Pre-steps on Debian:
+# Pre-steps on Debian/Ubuntu:
 
-1. Install basic tools
-
-apt-get -y install  g++ python3-numpy git make gcc libboost-all-dev  wget pybind11-python
-
-2. Install up to date version of cmake
-
-cd /tmp &&  \
-   wget https://github.com/Kitware/CMake/releases/download/v3.14.0-rc2/cmake-3.14.0-rc2.tar.gz
-cd /tmp && \
-  tar xf /opt/cmake/cmake-3.14.0-rc2.tar.gz &&\
-  cd  /tmp/cmake-3.14.0-rc2 && \
- ./bootstrap &&\
- make -j 8 &&\
- make install
+apt-get -y update &&\
+    apt-get -y  install g++ python3-numpy git make gcc libboost-all-dev  libboost-dev &&\
+    apt-get -y install  cmake python3-dev python3-pytest python3-numpy-dbg libtbb-dev&& \
+git clone https://github.com/pybind/pybind11.git /opt/pybind11/src && \
+  mkdir /opt/pybind11/build &&\
+  cd /opt/pybind11/build && \
+  cmake -DCMAKE_INSTALL_PREFIX=/usr ../src  &&\
+  make -j 4 install
+pdate-alternatives --install /usr/bin/python python /usr/bin/python3.5 1
 
 
 # Pre-steps on CentOS
 
 
 
-
-
+yum -y install gcc gcc-c++ epel-release make git cmake  && \
+yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
+yum -y install tbb-devel  boost-devel boost-filesystem python36u-devel python36u-pip  python36u-pytest cmake3  && \
+yum -y clean all
+update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+/usr/bin/python3.6 -m pip install pytest
+git clone https://github.com/pybind/pybind11.git /opt/pybind11/src && \
+  mkdir /opt/pybind11/build &&\
+  cd /opt/pybind11/build && \
+  cmake3 -DCMAKE_INSTALL_PREFIX=/usr ../src  &&\
+  make -j 4 install
+pip3.6 install numpy
 
 
 

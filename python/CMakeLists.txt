@@ -7,7 +7,6 @@ find_package(NumPy REQUIRED)
 # This is a CMake example for Python
 find_package(pybind11)
 if(pybind11_FOUND)
-  find_package(PythonLibs)
   find_package(PythonInterp 3 REQUIRED)
 
   pybind11_add_module(pyGenericIO MODULE pyIO.cpp)

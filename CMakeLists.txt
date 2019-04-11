@@ -14,8 +14,10 @@ if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
   option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
   option(BUILD_UTIL "Build utilities" ON)
+    option(BUILD_TEST "Build with test support" OFF)
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
+ option(BUILD_TEST "Build with test support" ON)
 endif(NOT SUBPACKAGE)
 option(BUILD_GCP "Build GCP" OFF)
 set(SUBPACKAGE true)
@@ -144,6 +146,17 @@ else (DOXYGEN_FOUND)
 endif (DOXYGEN_FOUND)
 endif(BUILD_DOC)
 
+enable_testing()
+if(BUILD_TESTS)
+  include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include)
+
+  execute_process(COMMAND git submodule update --init --recursive --
+                          external/googletest
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+      add_subdirectory(external/googletest)
+else()
+endif(BUILD_TESTS)
 
 install(EXPORT genericIOTargets
         FILE genericIOTargets.cmake

@@ -25,9 +25,9 @@ void ioModes::setup(const int argc, char **argv) {
   std::shared_ptr<fileBuffersIO> m(new fileBuffersIO(argc, argv));
   _ios["FILEBUFFERS"] = m;
 
-#ifdef BUILD_GCP
-  std::shared_ptr<gcpBuffersIO> m(new gcpBuffersIO(argc, argv));
-  _ios["GCPBUFFERS"] = m;
+#ifdef USE_GCP
+  std::shared_ptr<gcpBuffersIO> y(new gcpBuffersIO(argc, argv));
+  _ios["GCPBUFFERS"] = y;
 #endif
 
 #ifdef USE_RSF
@@ -50,7 +50,7 @@ std::shared_ptr<genericIO> ioModes::getDefaultIO() {
 
 std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
   if (_ios.count(def) != 1)
-    _par->error(def + " io has not been defined and/or built");
+	  throw SEPException(def + std::string(" io has not been defined and/or built"));
   return _ios[def];
 }
 std::shared_ptr<genericRegFile> ioModes::getRegFileTag(

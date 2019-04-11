@@ -57,7 +57,8 @@ int genericRegFile::getDataEsize() {
       return -1;
   }
 }
-bool genericRegFile::readFloatStream(std::shared_ptr<SEP::floatHyper> vec) {
+bool genericRegFile::readFloatStream(
+    const std::shared_ptr<SEP::floatHyper> vec) {
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -69,8 +70,9 @@ bool genericRegFile::readFloatStream(std::shared_ptr<SEP::floatHyper> vec) {
     std::cerr << "Trying to read beyond specified file size" << std::endl;
     return false;
   }
-
-  readFloatStream(vec->getVals(), n123);
+  std::vector<int> nw=vec->getHyper()->getNs();
+  std::vector<int> fw(nw.size(),0),jw(nw.size(),1);
+  readFloatWindow(nw,fw,jw,vec->getVals());
   return true;
 }
 bool genericRegFile::writeFloatStream(
@@ -86,7 +88,9 @@ bool genericRegFile::writeFloatStream(
     std::cerr << "Trying to read beyond specified file size" << std::endl;
     return false;
   }
-  writeFloatStream(vec->getVals(), n123);
+  std::vector<int> nw=vec->getHyper()->getNs();
+  std::vector<int> fw(nw.size(),0),jw(nw.size(),1);
+  writeFloatWindow(nw,fw,jw,vec->getVals());
   return true;
 }
 bool genericRegFile::readFloatWindow(const std::vector<int> &nw,

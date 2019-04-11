@@ -17,6 +17,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
   if (!_newFile) {
     readDescription(ndimMax);
 
+
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
     _bufs.reset(
@@ -85,9 +86,9 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
       [&](gcs::Client client, std::string bucket_name, std::string object_name){
         gcs::ObjectReadStream stream =
             client.ReadObject(bucket_name, object_name);
-	 std::string errs;
-	 Json::CharReaderBuilder builder;
-	  Json::parseFromStream(builder,stream, &jsonArgs,&errs);
+	std::string data(std::istreambuf_iterator<char>(stream),{});
+	 Json::Reader read;
+	read.parse(data,jsonArgs);
         stream.Close();
       }(std::move(_client.value()), _bucket, _dir + std::string("/desc"));
     } catch (std::exception const &ex) {
@@ -106,7 +107,7 @@ void gcpBuffersRegFile::close() {
       google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
           std::move(stream).metadata();
       if (!metadata) {
-        std::cerr << "FAILURE " << _bucket+_dir << std::endl;
+        std::cerr << "FAILURE " << _bucket+std::string("/")+_dir << std::endl;
         std::cerr << metadata.status().message() << std::endl;
         throw SEPException(std::string("Trouble writing object"));
       }

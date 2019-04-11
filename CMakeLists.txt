@@ -14,10 +14,10 @@ if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
   option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
   option(BUILD_UTIL "Build utilities" ON)
-    option(BUILD_TEST "Build with test support" OFF)
+  option(BUILD_TESTS "Build with test support" OFF)
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
- option(BUILD_TEST "Build with test support" ON)
+  option(BUILD_TESTS "Build with test support" ON)
 endif(NOT SUBPACKAGE)
 option(BUILD_GCP "Build GCP" OFF)
 set(SUBPACKAGE true)
@@ -58,6 +58,12 @@ find_path(RSFINCDIR rsf.h ${RSF_DIR}/include)
 set(USE_SEPVECTOR true)
 include_directories(${sepVector_DIRNAME_include})
 
+if(BUILD_GCP)
+	message("IN BUILD_GCP")
+set(USE_GCP ON)
+else(BUILD_GCP)
+endif(BUILD_GCP)
+
 find_package(SEPlib)
 set(EXTERNAL_TARGETS )
 if(SEPlib_FOUND)
@@ -91,16 +97,6 @@ configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
   #      DESTINATION lib/cmake
 #        COMPONENT Development)
 
-#if(BUILD_GCP)
- # set(USE_GCP true)
-  #find_package(storage_client 0.3.0 REQUIRED)
-
-  #if(GOOGLE_STORAGE_ROOT)
-  #  include_directories(${GOOGLE_STORAGE_ROOT}/include)
-  ## message(FATAL_ERROR "Must specitfy GOOGLE_STORAGE_ROOT")
- # endif(GOOGLE_STORAGE_ROOT)
-#else(BUILD_GCP)
-#endif(BUILD_GCP)
 
 add_subdirectory(cpp)
 
@@ -148,15 +144,10 @@ endif(BUILD_DOC)
 
 enable_testing()
 if(BUILD_TESTS)
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/googletest/googletest/include)
-
-  execute_process(COMMAND git submodule update --init --recursive --
-                          external/googletest
-                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-      add_subdirectory(external/googletest)
+		  add_subdirectory(unit-tests)
 else()
 endif(BUILD_TESTS)
+
 
 install(EXPORT genericIOTargets
         FILE genericIOTargets.cmake

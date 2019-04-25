@@ -18,7 +18,7 @@ git clone https://github.com/pybind/pybind11.git /opt/pybind11/src && \
   cd /opt/pybind11/build && \
   cmake -DCMAKE_INSTALL_PREFIX=/usr ../src  &&\
   make -j 4 install
-pdate-alternatives --install /usr/bin/python python /usr/bin/python3.5 1
+update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 
 
 # Pre-steps on CentOS
@@ -29,7 +29,7 @@ yum -y install gcc gcc-c++ epel-release make git cmake  && \
 yum -y install https://centos7.iuscommunity.org/ius-release.rpm && \
 yum -y install tbb-devel  boost-devel boost-filesystem python36u-devel python36u-pip  python36u-pytest cmake3  && \
 yum -y clean all
-update-alternatives --install /usr/bin/python python /usr/bin/python3.6 1
+update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 /usr/bin/python3.6 -m pip install pytest
 git clone https://github.com/pybind/pybind11.git /opt/pybind11/src && \
   mkdir /opt/pybind11/build &&\

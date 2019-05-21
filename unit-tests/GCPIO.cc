@@ -53,7 +53,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
   std::string bucket1 = bucket + std::string("/dataset1");
   std::string bucket2 = bucket + std::string("/dataset2");
 
-  std::vector<int> big(4, 80), bs(4, 2);
+  std::vector<int> big(4, 40), bs(4, 2);
   big[0] = 200;
 
   std::shared_ptr<SEP::IO::blocking> block(new SEP::IO::blocking(bs, big));
@@ -75,13 +75,13 @@ TEST(TESTBucketCreation, gcpBuffers) {
     std::cerr << "Before write float stream " << std::endl;
     fle0->writeFloatStream(ar);
     high_resolution_clock::time_point t2 = high_resolution_clock::now();
+    ASSERT_NO_THROW(fle0->writeDescription());
+    ASSERT_NO_THROW(fle0->close());
     auto d1 = duration_cast<microseconds>(t2 - t1).count();
 
     double s1 = (double)n123 * 4 / d1;
     std::cerr << "To cloud " << s1 << " MB/s " << std::endl;
 
-    ASSERT_NO_THROW(fle0->writeDescription());
-    ASSERT_NO_THROW(fle0->close());
     std::cerr << "leaving block" << std::endl;
   }
 
@@ -95,6 +95,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
     ASSERT_NO_THROW(fle1->readFloatStream(ar2));
     high_resolution_clock::time_point t3 = high_resolution_clock::now();
     for(int i=0; i < 27; i++){
+	      std::cerr<<ar->getVals()[i*13]<<" "<<ar2->getVals()[i*13]<<std::endl;
 	     ASSERT_EQ(ar->getVals()[i*13],ar2->getVals()[i*13]);
     }
     ASSERT_NO_THROW(fle1->close());

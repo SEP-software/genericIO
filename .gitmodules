@@ -5,8 +5,3 @@
 [submodule "external/buffers"]
 	path = external/buffers
 	url = http://cees-gitlab.Stanford.EDU/bob/buffers.git
-        ignore = dirty
-[submodule "buffers"]
-	branch = master
-[submodule "sepVector"]
-	branch = master

@@ -35,7 +35,7 @@ set(INCLUDES
     buffersIrregFile.h)
 
 if(USE_SEP)
- include_directories(${(SEPlib_INCLUDE_DIRS}))
+ include_directories(${SEPlib_INCLUDE_DIRS})
   set(SOURCES
       ${SOURCES}
       sepIO.cpp

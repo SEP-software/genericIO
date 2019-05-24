@@ -351,6 +351,7 @@ class AppendFile:
         self.flush = flush
         self.hyper = vec.getHyper()
         self.hyper.addAxis(Hypercube.axis(n=maxLength))
+        self.nmax = maxLength
         if isinstance(vec, SepVector.floatVector):
             storage = "float"
         elif isinstance(vec, SepVector.doubleVector):
@@ -380,12 +381,13 @@ class AppendFile:
         self.vecs = []
         return vs
 
-    def finish(self):
+    def finish(self, iextra=0):
         """Fix the correct number of frames in a file and update description"""
-        self.hyper.axes[len(self.hyper.axes) - 1].n = self.icount
+        self.hyper.axes[len(self.hyper.axes) - 1].n = self.icount + iextra
         self.hyper.buildCpp()
         self.file.cppMode.setHyper(self.hyper.cppMode)
         self.file.cppMode.writeDescription()
+        self.nmax = self.icount + iextra
 
 
 class io:
@@ -534,6 +536,8 @@ class io:
                 self.cppMode, tag, vec, maxLength, flush)
         if self.appendFiles[tag].addVector(vec):
             vs = self.appendFiles[tag].flushVectors()
+            if self.appendFiles[tag].icount > self.appendFiles[tag].nmax:
+                self.appendFiles[tag].finish()
             self.writeVectors(
                 self.appendFiles[tag].file,
                 vs, self.appendFiles[tag].icount - len(vs))
@@ -546,7 +550,6 @@ class io:
         self.writeVectors(
             self.appendFiles[tag].file,
             vs, self.appendFiles[tag].icount - len(vs))
-        self.appendFiles[tag].finish()
-
+        self.appendFiles[tag].finish(0)
 
 defaultIO = io()

@@ -463,18 +463,20 @@ class io:
             file = self.getRegFile(tag)
 
         hyper = file.getHyper()
-
+        nw = file.getHyper().getNs()
+        fw = [0] * len(nw)
+        jw = [1] * len(nw)
         vec = SepVector.getSepVector(hyper)
         if file.storage == "dataFloat":
-            file.getCpp().readFloatStream(vec.getCpp())
+            file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataComplex":
-            file.getCpp().readComplexStream(vec.getCpp())
+            file.getCpp().readComplexWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataByte":
-            file.getCpp().readByteStream(vec.getCpp())
+            file.getCpp().readByteWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataInt":
-            file.getCpp().readIntStream(vec.getCpp())
+            file.getCpp().readIntWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataDouble":
-            file.getCpp().readDoubleStream(vec.getCpp())
+            file.getCpp().readDoubleWindow(nw, fw, jw, vec.getCpp())
         file.close()
         return vec
 
@@ -483,32 +485,43 @@ class io:
            tag - File to write to
            vec - Vector to write"""
         file = regFile(self.cppMode, tag, fromVector=vec)
+        nw = file.getHyper().getNs()
+        fw = [0] * len(nw)
+        jw = [1] * len(nw)
         if file.storage == "dataFloat":
-            file.getCpp().writeFloatStream(vec.getCpp())
+            file.getCpp().writeFloatWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataComplex":
-            file.getCpp().writeComplexStream(vec.getCpp())
+            file.getCpp().writeComplexWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataByte":
-            file.getCpp().writeByteStream(vec.getCpp())
+            file.getCpp().writeByteWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataInt":
-            file.getCpp().writeIntStream(vec.getCpp())
+            file.getCpp().writeIntWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataDouble":
-            file.getCpp().writeDoubleStream(vec.getCpp())
+            file.getCpp().writeDoubleWindow(nw, fw, jw, vec.getCpp())
 
-    def writeVectors(self, file, vecs):
+    def writeVectors(self, file, vecs, ifirst):
         """Write a collection of vectors to a file
                 file - regFile
-                vecs - Vectors"""
+                vecs - Vectors
+                ifirst - Position in file for first vector"""
+        nw = file.getHyper().getNs()
+        fw = [0] * len(nw)
+        jw = [1] * len(nw)
+        nw[len(nw) - 1] = 1
+        iouter = ifirst
         for vec in vecs:
+            fw[len(fw) - 1] = iouter
+            iouter += 1
             if file.storage == "dataFloat":
-                file.getCpp().writeFloatStream(vec.getCpp())
+                file.getCpp().writeFloatWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataComplex":
-                file.getCpp().writeComplexStream(vec.getCpp())
+                file.getCpp().writeComplexWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataByte":
-                file.getCpp().writeByteStream(vec.getCpp())
+                file.getCpp().writeByteWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataInt":
-                file.getCpp().writeIntStream(vec.getCpp())
+                file.getCpp().writeIntWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataDouble":
-                file.getCpp().writeDoubleStream(vec.getCpp())
+                file.getCpp().writeDoubleWindow(nw, fw, jw, vec.getCpp())
 
     def appendVector(self, tag, vec, maxLength=1000, flush=1):
         """Write entire sepVector to disk
@@ -520,17 +533,19 @@ class io:
             self.appendFiles[tag] = AppendFile(
                 self.cppMode, tag, vec, maxLength, flush)
         if self.appendFiles[tag].addVector(vec):
+            vs = self.appendFiles[tag].flushVectors()
             self.writeVectors(
                 self.appendFiles[tag].file,
-                self.appendFiles[tag].flushVectors())
+                vs, self.appendFiles[tag].icount - len(vs))
 
     def closeAppendFile(self, tag):
         """Close an append file and fix the description to the right number of frames"""
         if tag not in self.appendFiles:
             raise Exception("No record of appended file")
+        vs = self.appendFiles[tag].flushVectors()
         self.writeVectors(
             self.appendFiles[tag].file,
-            self.appendFiles[tag].flushVectors())
+            vs, self.appendFiles[tag].icount - len(vs))
         self.appendFiles[tag].finish()
 
 

@@ -39,7 +39,7 @@ class pythonParams:
                         d += "," + l
             if found:
                 self.pars[k] = vout
-        self.cppMode = pyGenericIO.pythonParams(self.pars)
+        self.cppMode = pyGenericIO.dictParams(self.pars)
 
     def getCpp(self):
         return self.cppMode

@@ -3,11 +3,11 @@
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include "dictParams.h"
 #include "floatHyper.h"
 #include "genericFile.h"
 #include "genericIO.h"
 #include "ioModes.h"
-#include "pythonParams.h"
 
 namespace py = pybind11;
 namespace giee {
@@ -94,10 +94,18 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                paramObj::getFloats,
            "Get a series of floats, if not specified use the default");
 
-  py::class_<pythonParams, paramObj, std::shared_ptr<pythonParams>>(
-      clsGeneric, "pythonParams")
+  py::class_<dictParams, paramObj, std::shared_ptr<dictParams>>(clsGeneric,
+                                                                "pythonParams")
       .def(py::init<std::map<std::string, std::string>>(),
-           "Initialize a pythonParams object");
+           "Initialize a pythonParams object")
+      .def("resetParams",
+           (void (dictParams::*)(const std::map<std::string, std::string>)) &
+               dictParams::resetParams,
+           "Reset parameters")
+      .def("addParams",
+           (void (dictParams::*)(const std::map<std::string, std::string>)) &
+               dictParams::resetParams,
+           "Add parameters");
 
   py::class_<genericRegFile, paramObj, std::shared_ptr<genericRegFile>>(
       clsGeneric, "genericRegFile")

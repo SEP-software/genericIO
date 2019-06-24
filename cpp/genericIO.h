@@ -60,7 +60,7 @@ class genericIO {
   virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
       const std::string &name, const std::string usage,
       const int ndimMax = -1) {
-	    SEP::usage_code code;
+    SEP::usage_code code;
     if (usage == std::string("UsageIn")) {
       code = usageIn;
     } else if (usage == std::string("UsageInOut"))
@@ -99,6 +99,14 @@ class genericIO {
   void addRegFile(std::string name, std::shared_ptr<genericRegFile> fle) {
     _regFiles[name] = fle;
   }
+
+  /*!
+     Replace parameter type
+
+     \param obj Replace parameter object
+  */
+  void replaceParamObj(std::shared_ptr<paramObj> obj) { _param = obj; }
+
   /*!
    Add file to the list of irregular files being used by this IO type
 

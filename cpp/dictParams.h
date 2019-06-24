@@ -1,5 +1,5 @@
-#ifndef SEP_PARAM_FUNC_H
-#define SEP_PARAM_FUNC_H 1
+#ifndef DICT_PARAM_FUNC_H
+#define DICT_PARAM_FUNC_H 1
 #include <stdbool.h>
 #include <map>
 #include <string>
@@ -9,13 +9,28 @@ namespace SEP {
   Python parameter object.
     Emulate command line parameter reading from a python map
   */
-class pythonParams : public SEP::paramObj {
+class dictParams : public SEP::paramObj {
  public:
   /*!
      Initialize python parameter object
      \param pars Parameters in a dictionary -> map
      */
-  pythonParams(std::map<std::string, std::string> pars);
+  dictParams(std::map<std::string, std::string> pars);
+
+  /*!
+  Reset the parameter database
+
+\param pars Name of the prameter
+*/
+  void resetParams(const std::map<std::string, std::string> pars);
+
+  /*!
+  Add to parameter database
+
+\param pars Name of the prameter
+*/
+  void addParams(const std::map<std::string, std::string> pars);
+
   /*!
 Get an integer from a file
 

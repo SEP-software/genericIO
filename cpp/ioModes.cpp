@@ -40,6 +40,7 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
+ 
 
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];

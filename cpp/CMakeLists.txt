@@ -4,7 +4,7 @@ project(Generic-cpp)
 find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
-set(SOURCES basicIO.cpp genericFile.cpp pythonParams.cpp jsonGenericRegFile.cpp)
+set(SOURCES basicIO.cpp genericFile.cpp dictParams.cpp jsonGenericRegFile.cpp)
 set(SOURCES
     ${SOURCES}
     jsonParamObj.cpp
@@ -27,7 +27,7 @@ set(INCLUDES
     genericFile.h
     ioModes.h
     segyIO.h
-    pythonParams.h
+    dictParams.h
     fileBuffersIO.h
     fileBuffersRegFile.h
     buffersRegFile.h

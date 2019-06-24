@@ -29,7 +29,7 @@ class dictParams : public SEP::paramObj {
 
 \param pars Name of the prameter
 */
-  void addParams(std::map<std::string, std::string> pars);
+  void addParams(const std::map<std::string, std::string> pars);
 
   /*!
 Get an integer from a file

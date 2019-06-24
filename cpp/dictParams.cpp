@@ -11,8 +11,7 @@ void dictParams::resetParams(const std::map<std::string, std::string> pars) {
 }
 
 void dictParams::addParams(const std::map<std::string, std::string> pars) {
-  for (std::map<std::string, std::string>::iterator it = pars.begin();
-       it != pars.end(); ++it)
+  for (auto it = pars.begin(); it != pars.end(); ++it)
     _pars[it->first] = it->second;
 }
 

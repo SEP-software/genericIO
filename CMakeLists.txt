@@ -67,7 +67,7 @@ endif(BUILD_GCP)
 message("TEST " ${SEPLIB_BUILD})
 
 if(SEPLIB_BUILD)
-	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d ${CMAKE_CURRENT_SOURCE_DIR}/../../sep)
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d ${CMAKE_CURRENT_SOURCE_DIR}/../../sep ${CMAKE_CURRENT_SOURCE_DIR}/../../include)
   set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} SEP:sep3d)
   set(USE_SEP true)
   message("SEPLIB BUILD OF GENERIC IO")

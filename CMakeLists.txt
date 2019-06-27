@@ -64,6 +64,8 @@ set(USE_GCP ON)
 else(BUILD_GCP)
 endif(BUILD_GCP)
 
+message("TEST " ${SEPLIB_BUILD})
+
 if(SEPLIB_BUILD)
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d ${CMAKE_CURRENT_SOURCE_DIR}/../../sep)
   set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} SEP:sep3d)

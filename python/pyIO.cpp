@@ -104,7 +104,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            "Reset parameters")
       .def("addParams",
            (void (dictParams::*)(const std::map<std::string, std::string>)) &
-               dictParams::resetParams,
+               dictParams::addParams,
            "Add parameters");
 
   py::class_<genericRegFile, paramObj, std::shared_ptr<genericRegFile>>(

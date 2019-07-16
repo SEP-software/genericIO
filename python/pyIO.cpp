@@ -311,6 +311,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                               genericIO::getParamObj);
   py::class_<ioModes>(clsGeneric, "ioModes")
       .def(py::init<std::vector<std::string>>(), "Initlialize a new IO")
+      .def("getInputIO",
+           (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getInputIO)
+      .def("getOutputIO",
+           (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getOutputIO)
+      .def("getParamObj",
+           (std::shared_ptr<paramObj>(ioModes::*)()) & ioModes::getParamObj)
       .def("getDefaultIO",
            (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getDefaultIO)
       .def("getIO", (std::shared_ptr<genericIO>(ioModes::*)(std::string)) &

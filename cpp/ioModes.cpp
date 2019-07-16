@@ -40,7 +40,6 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
- 
 
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
@@ -51,7 +50,8 @@ std::shared_ptr<genericIO> ioModes::getDefaultIO() {
 
 std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
   if (_ios.count(def) != 1)
-	  throw SEPException(def + std::string(" io has not been defined and/or built"));
+    throw SEPException(def +
+                       std::string(" io has not been defined and/or built"));
   return _ios[def];
 }
 std::shared_ptr<genericRegFile> ioModes::getRegFileTag(
@@ -67,6 +67,41 @@ std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(
     const std::string &name, const usage_code usage) {
   return _defaultIO->getRegFile(name, usage);
 }
+
+std::shared_ptr<genericIO> ioModes::getInputIO() {
+  std::string iouse = getParamObj()->getString(
+      "inputIO", getParamObj()->getString("IO", std::string("DEFAULT")));
+  if (strcmp(iouse.c_str(), "DEFAULT") == 0) return getDefaultIO();
+  try {
+    return getIO(iouse);
+  } catch (SEPException &x) {
+    throw x;
+  }
+}
+
+std::shared_ptr<genericIO> ioModes::getOutputIO() {
+  std::string iouse = getParamObj()->getString(
+      "outputIO", getParamObj()->getString("IO", std::string("DEFAULT")));
+  if (strcmp(iouse.c_str(), "DEFAULT") == 0) return getDefaultIO();
+  try {
+    return getIO(iouse);
+  } catch (SEPException &x) {
+    throw x;
+  }
+}
+std::shared_ptr<paramObj> ioModes::getParamObj() {
+  std::string iouse = getDefaultIO()->getParamObj()->getString(
+      "paramIO",
+      getDefaultIO()->getParamObj()->getString("IO", std::string("DEFAULT")));
+  if (strcmp(iouse.c_str(), "DEFAULT") == 0)
+    return getDefaultIO()->getParamObj();
+  try {
+    return getIO(iouse)->getParamObj();
+  } catch (SEPException &x) {
+    throw x;
+  }
+}
+
 std::shared_ptr<ioModesFortran> ioModesFortran::instance = nullptr;
 void ioModesFortran::setup(const int argc, char **argv) {
   std::shared_ptr<ioModes> x(new ioModes(argc, argv));

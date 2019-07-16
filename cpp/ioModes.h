@@ -65,6 +65,21 @@ class ioModes {
                                                 const std::string &name,
                                                 const usage_code usage);
   /*!
+         Return IO user wants to use for input
+  */
+  std::shared_ptr<genericIO> getInputIO();
+
+  /*!
+         Return IO user wants to use for output
+  */
+  std::shared_ptr<genericIO> getOutputIO();
+
+  /*!
+         Return paramObj  user wants to user for parameter handle
+  */
+  std::shared_ptr<paramObj> getParamObj();
+
+  /*!
     Return file object from default IO
     \param name Name of file
     \param Usage for file

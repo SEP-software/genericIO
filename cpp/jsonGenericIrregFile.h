@@ -227,20 +227,34 @@ Get floats from a file
                                  std::shared_ptr<genericHeaderObj> header,
                                  std::vector<bool> &exists) override {
     ;
-}
+  }
 
-protected : Json::Value jsonArgs;  ///< JSON values
-bool _newFile;                     ///< Whether or not a new file
-dataType _dtype;                   ///< Datatype associated with the dataset
+  virtual Json::Value getDescription() override { return jsonArgs; }
+  /*!
 
-std::string _tag;                ///< Tag assicated with the dataset
-usage_code _usage;               ///< Usage file
-std::string _jsonFile;           ///< Description file
-std::string _dataFile;           ///< Binary data file
-std::shared_ptr<myFileIO> myio;  ///< Basic IO ovject
-int _reelH;                      ///< Reel header
-int _traceH;                     ///< Trace header
-};                               // namespace SEP
+    \param title Name to give the history
+
+    \param desc Description to putDescription
+*/
+
+  virtual void putDescription(const std::string &title,
+                              const Json::Value &desc) override {
+    jsonArgs[title] = desc;
+  }
+
+ protected:
+  Json::Value jsonArgs;  ///< JSON values
+  bool _newFile;         ///< Whether or not a new file
+  dataType _dtype;       ///< Datatype associated with the dataset
+
+  std::string _tag;                ///< Tag assicated with the dataset
+  usage_code _usage;               ///< Usage file
+  std::string _jsonFile;           ///< Description file
+  std::string _dataFile;           ///< Binary data file
+  std::shared_ptr<myFileIO> myio;  ///< Basic IO ovject
+  int _reelH;                      ///< Reel header
+  int _traceH;                     ///< Trace header
+};                                 // namespace SEP
 }  // namespace SEP
 
 #endif

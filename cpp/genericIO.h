@@ -3,7 +3,9 @@
 #include <map>
 #include <memory>
 #include "genericFile.h"
+#include "json.h"
 #include "paramObj.h"
+
 namespace SEP {
 /*! Abstract Class for different types IO*/
 class genericIO {
@@ -187,8 +189,22 @@ class genericIO {
 
 */
   virtual void close() { filesClose(); }
+
   /*!
-    Delete IO type (close files)
+     Copy info from one file to another
+
+     \param fileIn Input file to grab history from
+
+     \param title Title in ouput description to describe info
+
+     \param fileOut  Output description to write to
+     */
+
+  void addFileDescription(const std::shared_ptr<genericRegFile> fileIn,
+                          const std::string &title,
+                          std::shared_ptr<genericRegFile> fileOut);
+  /*!
+ Delete IO type (close files)
 
 */
   ~genericIO() { close(); }

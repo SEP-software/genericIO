@@ -350,6 +350,20 @@ Write  the description of the file
   virtual void putFloats(const std::string &par,
                          const std::vector<float> &val) override;
 
+  /*!
+     Grab the history of a given file */
+  virtual Json::Value getDescription() override;
+
+  /*!
+    Put the content of JSON value into descrption file
+
+    \param  title How to refer to in the file
+
+    \param desc Description
+    */
+  void putDescription(const std::string &title,
+                      const Json::Value &desc) override;
+
  private:
   std::string _tag;  ///< Tag associated with dataset
 };

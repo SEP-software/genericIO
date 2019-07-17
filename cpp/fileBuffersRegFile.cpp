@@ -21,7 +21,7 @@ fileBuffersRegFile::fileBuffersRegFile(const Json::Value &arg,
     _bufs.reset(
         new SEP::IO::fileBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
   }
-
+  _usage = usage;
   jsonArgs["progName"] = progName;
   jsonArgs["name"] = tag;
 }

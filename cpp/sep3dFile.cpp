@@ -9,6 +9,7 @@ using namespace SEP;
 sep3dFile::sep3dFile(const std::string &tag, const SEP::usage_code usage,
                      int ndimMax) {
   _tag = tag;
+  _usage = usage;
   switch (usage) {
     case usageIn:
       if (_tag != "in") auxin(_tag.c_str());

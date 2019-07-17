@@ -46,3 +46,10 @@ void genericIO::fileDebug(const std::string nm, const float* data, const int n1,
   fle->writeDescription();
   fle->writeFloatStream(data, (long long)n1 * (long long)n2);
 }
+
+void genericIO::addFileDescription(const std::shared_ptr<genericRegFile> fileIn,
+                                   const std::string& title,
+                                   std::shared_ptr<genericRegFile> fileOut) {
+  Json::Value val = fileIn->getDescription();
+  fileOut->putDescription(title, val);
+}

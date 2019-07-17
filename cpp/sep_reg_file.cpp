@@ -3,10 +3,12 @@ extern "C" {
 #include "sep3d.h"
 #include "seplib.h"
 }
+#include <sstream>
 using namespace SEP;
 sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
                        const int ndim) {
   _tag = tag;
+  _usage = usage;
   switch (usage) {
     case usageIn:
       if (_tag != "in")
@@ -535,4 +537,32 @@ void sepRegFile::message(const std::string &arg) const {
 }
 void sepRegFile::seekTo(const long long iv, const int whence) {
   sseek(_tag.c_str(), iv, whence);
+}
+Json::Value sepRegFile::getDescription() {
+  char *tmp_ch;
+  int nsz = 100000;
+  int nout = nsz * 2;
+  tmp_ch = new char[1];
+  grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
+  nsz = nout + 1;
+  delete[] tmp_ch;
+  tmp_ch = new char[nout];
+  grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
+  std::string d = tmp_ch;
+  delete[] tmp_ch;
+  Json::Value j;
+  j["SEPFILE"] = d;
+  return j;
+}
+
+void sepRegFile::putDescription(const std::string &title,
+                                const Json::Value &desc) {
+  std::stringstream stream;
+  stream << desc;
+  std::string tmp = std::string("FROM ") + title;
+  char delim = '\n';  // Ddefine the delimiter to split by
+  auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
+  while (std::getline(stream, tmp, delim)) {
+    auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
+  }
 }

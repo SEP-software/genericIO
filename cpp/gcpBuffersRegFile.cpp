@@ -17,13 +17,12 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
   if (!_newFile) {
     readDescription(ndimMax);
 
-
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
     _bufs.reset(
         new SEP::IO::gcpBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
   }
-
+  _usage = usage;
   jsonArgs["progName"] = progName;
   jsonArgs["name"] = tag;
 }
@@ -66,52 +65,56 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
     _newFile = false;
   else if (_usage == usageInOut) {
     try {
-      [&](gcs::Client client, std::string bucket_name, std::string object_name){
+      [&](gcs::Client client, std::string bucket_name,
+          std::string object_name) {
         gcs::ObjectReadStream stream =
             client.ReadObject(bucket_name, object_name);
-	std::string data(std::istreambuf_iterator<char>(stream), {});
-	 std::string errs;
-	 Json::CharReaderBuilder builder;
-	  Json::parseFromStream(builder,stream, &jsonArgs,&errs);
-//        jsonArgs=JSON::parse(data);
+        std::string data(std::istreambuf_iterator<char>(stream), {});
+        std::string errs;
+        Json::CharReaderBuilder builder;
+        Json::parseFromStream(builder, stream, &jsonArgs, &errs);
+        //        jsonArgs=JSON::parse(data);
         stream.Close();
       }(std::move(_client.value()), _bucket, _dir + std::string("/desc"));
     } catch (std::exception const &ex) {
-      std::cerr << "Trouble reading from bucket " << _bucket+_dir+"/desc" << std::endl;
+      std::cerr << "Trouble reading from bucket " << _bucket + _dir + "/desc"
+                << std::endl;
       exit(1);
     }
   }
   if (_usage == usageIn || !_newFile) {
     try {
-      [&](gcs::Client client, std::string bucket_name, std::string object_name){
+      [&](gcs::Client client, std::string bucket_name,
+          std::string object_name) {
         gcs::ObjectReadStream stream =
             client.ReadObject(bucket_name, object_name);
-	std::string data(std::istreambuf_iterator<char>(stream),{});
-	 Json::Reader read;
-	read.parse(data,jsonArgs);
+        std::string data(std::istreambuf_iterator<char>(stream), {});
+        Json::Reader read;
+        read.parse(data, jsonArgs);
         stream.Close();
       }(std::move(_client.value()), _bucket, _dir + std::string("/desc"));
     } catch (std::exception const &ex) {
-      std::cerr << "Trouble reading from bucket " << _bucket+_dir+std::string("/desc") << std::endl;
+      std::cerr << "Trouble reading from bucket "
+                << _bucket + _dir + std::string("/desc") << std::endl;
       exit(1);
     }
   }
 }
 void gcpBuffersRegFile::close() {
   namespace gcs = google::cloud::storage;
-  if (getUsage() == usageOut ||getUsage() == usageInOut) {
-      gcs::ObjectWriteStream stream =
-          _client.value().WriteObject(_bucket, _dir + std::string("/desc"));
-      stream << jsonArgs;
-      stream.Close();
-      google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
-          std::move(stream).metadata();
-      if (!metadata) {
-        std::cerr << "FAILURE " << _bucket+std::string("/")+_dir << std::endl;
-        std::cerr << metadata.status().message() << std::endl;
-        throw SEPException(std::string("Trouble writing object"));
-      }
+  if (getUsage() == usageOut || getUsage() == usageInOut) {
+    gcs::ObjectWriteStream stream =
+        _client.value().WriteObject(_bucket, _dir + std::string("/desc"));
+    stream << jsonArgs;
+    stream.Close();
+    google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
+        std::move(stream).metadata();
+    if (!metadata) {
+      std::cerr << "FAILURE " << _bucket + std::string("/") + _dir << std::endl;
+      std::cerr << metadata.status().message() << std::endl;
+      throw SEPException(std::string("Trouble writing object"));
     }
+  }
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
@@ -120,6 +123,6 @@ void gcpBuffersRegFile::createBuffers() {
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
   _bufs.reset(
-      new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block,_comp, _mem));
+      new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block, _comp, _mem));
   _bufs->setName(jsonArgs["name"].asString(), true);
 }

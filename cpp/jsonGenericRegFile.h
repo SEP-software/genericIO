@@ -230,7 +230,7 @@ Read entire file
 */
 
   virtual void readByteStream(unsigned char *array,
-                               const long long npts) override;
+                              const long long npts) override;
 
   /*! Seek to a given position inot a file
    \param iv Relative location
@@ -259,9 +259,9 @@ Write a portion of file based on window parameters
 \param hyp byteHyper (from sepVector) storage
 */
   virtual void writeByteWindow(const std::vector<int> &nw,
-                              const std::vector<int> &fw,
-                              const std::vector<int> &jw,
-                              unsigned char const *array) override;
+                               const std::vector<int> &fw,
+                               const std::vector<int> &jw,
+                               unsigned char const *array) override;
   /*!
 Read a portion of file based on window parameters
 
@@ -398,6 +398,22 @@ Write a integer window
                               const std::vector<int> &fw,
                               const std::vector<int> &jw,
                               const int *array) override;
+  /*!
+    Get the description of pthe current file
+
+    */
+  virtual Json::Value getDescription() override { return jsonArgs; }
+  /*!
+
+    \param title Name to give the history
+
+    \param desc Description to putDescription
+*/
+
+  virtual void putDescription(const std::string &title,
+                              const Json::Value &desc) override {
+    jsonArgs[title] = desc;
+  }
 
  protected:
   Json::Value jsonArgs;  ///< JSON values

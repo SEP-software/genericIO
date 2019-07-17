@@ -12,6 +12,7 @@
 #include "intHyper.h"
 #include "ioConfig.h"
 #include "ioTypes.h"
+#include "json.h"
 #include "paramObj.h"
 #include "sepVectorConfig.h"
 namespace SEP {
@@ -138,11 +139,11 @@ Write a portion of file based on window parameters
 \param nw,fw,jw Standard window parameters
 \param hyp byteHyper (from sepVector) storage
 */
-  bool writeByteWindow(const std::vector<int> &nw,
-                            const std::vector<int> &fw,
-                            const std::vector<int> &jw,
-                            std::shared_ptr<SEP::byteHyper> hyp);
+  bool writeByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                       const std::vector<int> &jw,
+                       std::shared_ptr<SEP::byteHyper> hyp);
 #endif
+
 #ifdef USE_INT
   /*!
 Read entire file
@@ -573,6 +574,21 @@ Write  the description of the file
     Get the data type as a string
     */
   std::string getDataTypeString();
+
+  /*!
+     Get usage for file
+
+  */
+  usage_code getUsageCode() { return _usage; }
+
+  virtual Json::Value getDescription() = 0;
+
+  virtual void putDescription(const std::string &title,
+                              const Json::Value &desc) = 0;
+
+  /*!
+   Return hypercube describing dataset
+   */
   const std::shared_ptr<SEP::hypercube> getHyper() {
     if (!_hyper) throw SEPException(std::string("hypercube not defined"));
 
@@ -582,6 +598,7 @@ Write  the description of the file
  protected:
   std::shared_ptr<SEP::hypercube> _hyper = 0;  ///< Hypercube describing the RSF
   dataType _type = SEP::DATA_UNKNOWN;          ///< The dataype for for the RSF
+  usage_code _usage;
 };
 
 class genericHeaderObj {

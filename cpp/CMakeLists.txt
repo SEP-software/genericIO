@@ -8,9 +8,9 @@ set(SOURCES basicIO.cpp genericFile.cpp dictParams.cpp jsonGenericRegFile.cpp)
 set(SOURCES
     ${SOURCES}
     jsonParamObj.cpp
+    paramObj.cpp
     genericIO.cpp
     jsonGenericIrregFile.cpp
-    document.cpp
     buffersIrregFile.cpp)
 set(SOURCES
     ${SOURCES}
@@ -30,7 +30,6 @@ set(INCLUDES
     segyIO.h
     dictParams.h
     fileBuffersIO.h
-    document.h
     fileBuffersRegFile.h
     buffersRegFile.h
     jsonGenericIrregFile.h

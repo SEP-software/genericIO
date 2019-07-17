@@ -28,6 +28,19 @@ class genericIO {
                                                   const int ndimMax = -1);
 
   /*!
+     Return a genericRegFile object
+
+    \param tag Tag used to access dataset
+    \param doc Documentataion for file
+    \param name Name of dataset
+    \param usage Usage for file (in,out,scratch)
+    \param ndimMax Output file should have ndimMax axes
+  */
+  std::shared_ptr<SEP::genericRegFile> getDocRegFile(
+      const std::string &name, const std::string &doc,
+      const SEP::usage_code usage, const int ndimMax = -1);
+
+  /*!
    Return a genericIrregFile object
 
   \param tag Tag used to access dataset
@@ -51,6 +64,18 @@ class genericIO {
   virtual std::shared_ptr<SEP::genericRegFile> getRegFileTag(
       const std::string &tag, const std::string &name,
       const SEP::usage_code usage, const int ndimMax = -1) = 0;
+
+  /*!
+     Return a genericRegFile object
+
+    \param name Name of dataset
+    \param doc Documentation for file
+    \param usage Usage for file (in,out,scratch)
+    \param ndimMax Output file should have ndimMax axes
+  */
+  virtual std::shared_ptr<SEP::genericRegFile> getDocRegFile(
+      const std::string &name, const std::string &doc, const std::string usage,
+      const int ndimMax = -1);
 
   /*!
      Return a genericRegFile object

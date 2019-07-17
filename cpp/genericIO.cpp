@@ -14,6 +14,34 @@ std::shared_ptr<SEP::genericRegFile> genericIO::getRegFile(
   std::string filename = par->getString(name, name);
   return getRegFileTag(name, filename, usage, ndimMax);
 }
+
+std::shared_ptr<SEP::genericRegFile> genericIO::getDocRegFile(
+    const std::string& name, const std::string& doc,
+    const SEP::usage_code usage, const int ndimMax) {
+  std::shared_ptr<paramObj> par = getParamObj();
+  std::string filename = par->getString(name, name);
+  std::shared_ptr<SEP::genericRegFile> v;
+  try {
+    v = getRegFileTag(name, filename, usage, ndimMax);
+  } catch (SEPException& x) {
+    std::string tmp = std::string(x.what()) + std::string("\n\t") + doc;
+    throw SEPException(tmp);
+  }
+  return v;
+}
+std::shared_ptr<SEP::genericRegFile> genericIO::getDocRegFile(
+    const std::string& name, const std::string& doc, const std::string usage,
+    const int ndimMax) {
+  std::shared_ptr<SEP::genericRegFile> v;
+  try {
+    v = getRegFile(name, usage, ndimMax);
+  } catch (SEPException& x) {
+    std::string tmp = std::string(x.what()) + std::string("\n\t") + doc;
+    throw SEPException(tmp);
+  }
+  return v;
+}
+
 std::shared_ptr<SEP::genericIrregFile> genericIO::getIrregFile(
     const std::string& name, const SEP::usage_code usage, const int ndimMax) {
   std::shared_ptr<paramObj> par = getParamObj();

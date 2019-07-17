@@ -12,8 +12,8 @@ int paramObj::getDocInt(const std::string& arg, const std::string& doc) {
   return v;
 }
 
-int paramObj::gettDocInt(const std::string& arg, const std::string& doc,
-                         const int def) {
+int paramObj::getDocInt(const std::string& arg, const std::string& doc,
+                        const int def) {
   int v;
   try {
     v = getInt(arg, def);
@@ -23,8 +23,8 @@ int paramObj::gettDocInt(const std::string& arg, const std::string& doc,
   }
   return v;
 }
-float paramObj::gettDocFloat(const std::string& arg, const std::string& doc,
-                             const float def) {
+float paramObj::getDocFloat(const std::string& arg, const std::string& doc,
+                            const float def) {
   float v;
   try {
     v = getFloat(arg, def);
@@ -34,7 +34,7 @@ float paramObj::gettDocFloat(const std::string& arg, const std::string& doc,
   }
   return v;
 }
-float paramObj::gettDocFloat(const std::string& arg, const std::string& doc) {
+float paramObj::getDocFloat(const std::string& arg, const std::string& doc) {
   float v;
   try {
     v = getFloat(arg);
@@ -44,8 +44,8 @@ float paramObj::gettDocFloat(const std::string& arg, const std::string& doc) {
   }
   return v;
 }
-std::string paramObj::gettDocString(const std::string& arg,
-                                    const std::string& doc) {
+std::string paramObj::getDocString(const std::string& arg,
+                                   const std::string& doc) {
   std::string v;
   try {
     v = getString(arg);
@@ -55,9 +55,9 @@ std::string paramObj::gettDocString(const std::string& arg,
   }
   return v;
 }
-std::string paramObj::gettDocString(const std::string& arg,
-                                    const std::string& doc,
-                                    const std::string& def) {
+std::string paramObj::getDocString(const std::string& arg,
+                                   const std::string& doc,
+                                   const std::string& def) {
   std::string v;
   try {
     v = getString(arg, def);
@@ -67,8 +67,8 @@ std::string paramObj::gettDocString(const std::string& arg,
   }
   return v;
 }
-bool paramObj::gettDocBool(const std::string& arg, const std::string& doc,
-                           const bool def) {
+bool paramObj::getDocBool(const std::string& arg, const std::string& doc,
+                          const bool def) {
   bool v;
   try {
     v = getBool(arg, def);
@@ -78,7 +78,7 @@ bool paramObj::gettDocBool(const std::string& arg, const std::string& doc,
   }
   return v;
 }
-bool paramObj::gettDocBool(const std::string& arg, const std::string& doc) {
+bool paramObj::getDocBool(const std::string& arg, const std::string& doc) {
   bool v;
   try {
     v = getBool(arg);
@@ -88,9 +88,8 @@ bool paramObj::gettDocBool(const std::string& arg, const std::string& doc) {
   }
   return v;
 }
-std::vector<int> paramObj::gettDocInts(const std::string& arg,
-                                       const std::string& doc,
-                                       const int nvals) {
+std::vector<int> paramObj::getDocInts(const std::string& arg,
+                                      const std::string& doc, const int nvals) {
   std::vector<int> v;
   try {
     v = getInts(arg, nvals);
@@ -100,9 +99,9 @@ std::vector<int> paramObj::gettDocInts(const std::string& arg,
   }
   return v;
 }
-std::vector<int> paramObj::gettDocInts(const std::string& arg,
-                                       const std::string& doc,
-                                       const std::vector<int>& defs) {
+std::vector<int> paramObj::getDocInts(const std::string& arg,
+                                      const std::string& doc,
+                                      const std::vector<int>& defs) {
   std::vector<int> v;
   try {
     v = getInts(arg, defs);
@@ -112,8 +111,8 @@ std::vector<int> paramObj::gettDocInts(const std::string& arg,
   }
   return v;
 }
-std::vector<float> paramObj::gettDocFloats(const std::string& arg,
-                                           const std::string& doc, int nvals) {
+std::vector<float> paramObj::getDocFloats(const std::string& arg,
+                                          const std::string& doc, int nvals) {
   std::vector<float> v;
   try {
     v = getFloats(arg, nvals);
@@ -123,9 +122,9 @@ std::vector<float> paramObj::gettDocFloats(const std::string& arg,
   }
   return v;
 }
-std::vector<float> paramObj::gettDocFloats(const std::string& arg,
-                                           const std::string& doc,
-                                           const std::vector<float>& defs) {
+std::vector<float> paramObj::getDocFloats(const std::string& arg,
+                                          const std::string& doc,
+                                          const std::vector<float>& defs) {
   std::vector<float> v;
   try {
     v = getFloats(arg, defs);

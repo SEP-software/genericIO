@@ -170,8 +170,8 @@ Get boolean from a file
 
   \param def Default value (if not found in file)
   */
-  virtual int gettDocInt(const std::string& arg, const std::string& doc,
-                         const int def);
+  virtual int getDocInt(const std::string& arg, const std::string& doc,
+                        const int def);
   /*!
   Get a float from a file
 
@@ -181,8 +181,8 @@ Get boolean from a file
 
   \param def Default value (if not found in file)
   */
-  virtual float gettDocFloat(const std::string& arg, const std::string& doc,
-                             const float def);
+  virtual float getDocFloat(const std::string& arg, const std::string& doc,
+                            const float def);
   /*!
   Get a float from a file
 
@@ -191,7 +191,7 @@ Get boolean from a file
   \param doc Documentation for parameter
 
   */
-  virtual float gettDocFloat(const std::string& arg, const std::string& doc);
+  virtual float getDocFloat(const std::string& arg, const std::string& doc);
   /*!
   Get a string  from a file
 
@@ -200,8 +200,8 @@ Get boolean from a file
   \param doc Documentation for parameter
 
   */
-  virtual std::string gettDocString(const std::string& arg,
-                                    const std::string& doc);
+  virtual std::string getDocString(const std::string& arg,
+                                   const std::string& doc);
   /*!
   Get a string from a file
 
@@ -211,9 +211,9 @@ Get boolean from a file
 
   \param def Default value (if not found in file)
   */
-  virtual std::string gettDocString(const std::string& arg,
-                                    const std::string& doc,
-                                    const std::string& def);
+  virtual std::string getDocString(const std::string& arg,
+                                   const std::string& doc,
+                                   const std::string& def);
 
   /*!
   Get boolean from a file
@@ -224,8 +224,8 @@ Get boolean from a file
 
   \param def Default value (if not found in file)
   */
-  virtual bool gettDocBool(const std::string& arg, const std::string& doc,
-                           const bool def);
+  virtual bool getDocBool(const std::string& arg, const std::string& doc,
+                          const bool def);
   /*!
   Get a boolean from a file
 
@@ -234,7 +234,7 @@ Get boolean from a file
   \param doc Documentation for parameter
 
   */
-  virtual bool gettDocBool(const std::string& arg, const std::string& doc);
+  virtual bool getDocBool(const std::string& arg, const std::string& doc);
   /*!
   Get integer from a file
 
@@ -244,8 +244,8 @@ Get boolean from a file
 
   \param nvals Number of values
   */
-  virtual std::vector<int> gettDocInts(const std::string& arg,
-                                       const std::string& doc, const int nvals);
+  virtual std::vector<int> getDocInts(const std::string& arg,
+                                      const std::string& doc, const int nvals);
   /*!
   Get integer from a file
 
@@ -255,9 +255,9 @@ Get boolean from a file
 
   \param defs Default values
   */
-  virtual std::vector<int> gettDocInts(const std::string& arg,
-                                       const std::string& doc,
-                                       const std::vector<int>& defs);
+  virtual std::vector<int> getDocInts(const std::string& arg,
+                                      const std::string& doc,
+                                      const std::vector<int>& defs);
   /*!
   Get an floats from a file
 
@@ -267,8 +267,8 @@ Get boolean from a file
 
   \param nval Number of values to look for
   */
-  virtual std::vector<float> gettDocFloats(const std::string& arg,
-                                           const std::string& doc, int nvals);
+  virtual std::vector<float> getDocFloats(const std::string& arg,
+                                          const std::string& doc, int nvals);
   /*!
   Get floats from a file
 
@@ -278,9 +278,9 @@ Get boolean from a file
 
   \param def Default value (if not found in file)
   */
-  virtual std::vector<float> gettDocFloats(const std::string& arg,
-                                           const std::string& doc,
-                                           const std::vector<float>& defs);
+  virtual std::vector<float> getDocFloats(const std::string& arg,
+                                          const std::string& doc,
+                                          const std::vector<float>& defs);
 };  // namespace SEP
 }  // namespace SEP
 

@@ -103,11 +103,6 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
               << std::endl;
     return false;
   }
-  std::cerr << " what 1 " << nw[0] << std::endl;
-  std::cerr << " what 2 " << fw[0] << std::endl;
-  std::cerr << " what 3 " << jw[0] << std::endl;
-  std::cerr << " what 4 " << vec->getVals()[0] << std::endl;
-
   readFloatWindow(nw, fw, jw, vec->getVals());
   return true;
 }

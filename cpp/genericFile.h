@@ -595,6 +595,8 @@ Write  the description of the file
     return _hyper;
   }
 
+  virtual ~genericRegFile() { ; }
+
  protected:
   std::shared_ptr<SEP::hypercube> _hyper = 0;  ///< Hypercube describing the RSF
   dataType _type = SEP::DATA_UNKNOWN;          ///< The dataype for for the RSF

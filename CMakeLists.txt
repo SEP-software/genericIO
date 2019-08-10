@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
 
-
 if(POLICY CMP0028)
-   cmake_policy(SET CMP0028 NEW)
+  cmake_policy(SET CMP0028 NEW)
 endif()
 
 if(POLICY CMP0042)
-   cmake_policy(SET CMP0042 NEW)
+  cmake_policy(SET CMP0042 NEW)
 endif()
 
 if(NOT SUBPACKAGE)
@@ -15,12 +14,13 @@ if(NOT SUBPACKAGE)
   option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
   option(BUILD_UTIL "Build utilities" ON)
   option(BUILD_TESTS "Build with test support" OFF)
- option(BUILD_DEBUG_LIBS "Build gperftool libs" OFF)
+  option(BUILD_DEBUG_LIBS "Build gperftool libs" OFF)
+  option(BUILD_GCP "Build GCP" OFF)
+
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
   option(BUILD_TESTS "Build with test support" ON)
 endif(NOT SUBPACKAGE)
-option(BUILD_GCP "Build GCP" OFF)
 set(SUBPACKAGE true)
 
 set(CMAKE_CXX_STANDARD 11)
@@ -46,7 +46,7 @@ if(NOT TARGET sepVector)
                           external/sepVector
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
-  
+
   execute_process(COMMAND git submodule update --init --recursive --
                           external/buffers
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -60,28 +60,31 @@ set(USE_SEPVECTOR true)
 include_directories(${sepVector_DIRNAME_include})
 
 if(BUILD_GCP)
-	message("IN BUILD_GCP")
-set(USE_GCP ON)
+  message("IN BUILD_GCP")
+  set(USE_GCP ON)
 else(BUILD_GCP)
+
 endif(BUILD_GCP)
 
-
 if(SEPLIB_BUILD)
-	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d ${CMAKE_CURRENT_SOURCE_DIR}/../../sep ${CMAKE_CURRENT_SOURCE_DIR}/../../include ${CMAKE_CURRENT_BINARY_DIR}/../../)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d
+                      ${CMAKE_CURRENT_SOURCE_DIR}/../../sep
+                      ${CMAKE_CURRENT_SOURCE_DIR}/../../include
+                      ${CMAKE_CURRENT_BINARY_DIR}/../../)
   set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} sep3d sep)
   set(USE_SEP true)
   message("SEPLIB BUILD OF GENERIC IO")
 else(SEPLIB_BUILD)
-find_package(SEPlib)
-set(EXTERNAL_TARGETS )
-if(SEPlib_FOUND)
-	message("INSTALLING WITH SEPLIB  DIR ${SEPlib_INCLUDE_DIRS}")
-	include_directories(${SEPlib_INCLUDE_DIRS})
-  set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} SEP:sep3d)
-  set(USE_SEP true)
-else()
-  message("NOT INSTALLING WITH SEPlib")
-endif()
+  find_package(SEPlib)
+  set(EXTERNAL_TARGETS)
+  if(SEPlib_FOUND)
+    message("INSTALLING WITH SEPLIB  DIR ${SEPlib_INCLUDE_DIRS}")
+    include_directories(${SEPlib_INCLUDE_DIRS})
+    set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} SEP:sep3d)
+    set(USE_SEP true)
+  else()
+    message("NOT INSTALLING WITH SEPlib")
+  endif()
 endif(SEPLIB_BUILD)
 
 if(USE_SEP)
@@ -99,14 +102,12 @@ set(genericIO_DIRNAME_include "include")
 set(genericIO_DIRNAME_cmake "cmake")
 # cmake file
 configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
-#configure_file(genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake
- #              @ONLY)
+# configure_file(genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake
+# @ONLY)
 
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
- #             ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake
-  #      DESTINATION lib/cmake
-#        COMPONENT Development)
-
+# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
+# ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake DESTINATION lib/cmake
+# COMPONENT Development)
 
 add_subdirectory(cpp)
 
@@ -124,15 +125,15 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 include(CMakePackageConfigHelpers)
-configure_package_config_file(genericIOConfig.cmake.in
-                              "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
-                              INSTALL_DESTINATION
-                              cmake/SEP/IO)
-
+configure_package_config_file(
+  genericIOConfig.cmake.in
+  "${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake"
+  INSTALL_DESTINATION
+  cmake/SEP/IO)
 
 if(BUILD_DOC)
-find_package(Doxygen)
-if (DOXYGEN_FOUND)
+  find_package(Doxygen)
+  if(DOXYGEN_FOUND)
     # set input and output files
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/docs/Doxyfile.in)
     set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/docs/Doxyfile)
@@ -141,23 +142,25 @@ if (DOXYGEN_FOUND)
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
     message("Doxygen build started")
 
-    # note the option ALL which allows to build the docs together with the application
-    add_custom_target( doc_doxygen_genericio ALL
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
-        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-        COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
-else (DOXYGEN_FOUND)
-  message("Doxygen need to be installed to generate the doxygen documentation")
-endif (DOXYGEN_FOUND)
+    # note the option ALL which allows to build the docs together with the
+    # application
+    add_custom_target(doc_doxygen_genericio ALL
+                      COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+                      WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                      COMMENT "Generating API documentation with Doxygen"
+                      VERBATIM)
+  else(DOXYGEN_FOUND)
+    message(
+      "Doxygen need to be installed to generate the doxygen documentation")
+  endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
 
 enable_testing()
 if(BUILD_TESTS)
-		  add_subdirectory(unit-tests)
+  add_subdirectory(unit-tests)
 else()
-endif(BUILD_TESTS)
 
+endif(BUILD_TESTS)
 
 install(EXPORT genericIOTargets
         FILE genericIOTargets.cmake

@@ -12,7 +12,6 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const std::string &tag,
                                      const std::string &progName,
                                      const int ndimMax) {
-  std::cerr << "creating gcp " << std::endl;
   setUsage(usage);
   setupGCP(arg, tag);
   if (!_newFile) {
@@ -30,7 +29,6 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
 
 void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
                                  const std::string &tag) {
-  std::cerr << "in setup gcp " << _blocking < " " << std::endl;
   _tag = tag;
   std::string bucket, baseName;
 

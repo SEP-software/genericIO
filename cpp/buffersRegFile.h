@@ -15,7 +15,7 @@ class buffersRegFile : public jsonGenericRegFile {
   /*!
      Initialize an irregular file
  */
-  buffersRegFile() { std::cerr << "in buffers reg file create " << std::endl; }
+  buffersRegFile() { ; }
   /*!
      Write the description for the file
  */

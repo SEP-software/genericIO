@@ -16,7 +16,7 @@ void buffersRegFile::writeDescription() {
     putString(std::string("label") + std::to_string(i), axes[i - 1].label);
   }
 
-  if (_bufs)
+  if (!_bufs)
     throw SEPException("buffer info not setup");
   else
     std::cerr << "bufs is setup " << _bufs << std::endl;

@@ -40,7 +40,10 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
-
+  std::shared_ptr<paramObj> _par = getParamObj();
+  for (auto it = _ios.begin(); it != _ios.end(); it++) {
+    it->second->setParamObj(par)
+  }
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 }

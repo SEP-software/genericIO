@@ -233,6 +233,8 @@ class genericIO {
 
 */
   ~genericIO() { close(); }
+
+  void setParamObj(std::shared_ptr<paramObj> par) { _param = par; }
   /*!
   Close all files
 

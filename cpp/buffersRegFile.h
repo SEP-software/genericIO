@@ -15,7 +15,7 @@ class buffersRegFile : public jsonGenericRegFile {
   /*!
      Initialize an irregular file
  */
-  buffersRegFile() { ; }
+  buffersRegFile() { std::cerr << "in buffers reg file create " << std::endl; }
   /*!
      Write the description for the file
  */
@@ -110,7 +110,7 @@ Read a portion of file based on window parameters
                               const std::vector<int> &fw,
                               const std::vector<int> &jw,
                               unsigned char *array) {
-	   setDataType(DATA_FLOAT);
+    setDataType(DATA_FLOAT);
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
@@ -123,7 +123,7 @@ Read a portion of file based on window parameters
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
-	   setDataType(DATA_FLOAT);
+    setDataType(DATA_FLOAT);
     createBuffers();
 
     _bufs->getWindow(nw, fw, jw, (void *)array);
@@ -138,7 +138,7 @@ Write a portion of file based on window parameters
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 const float *array) {
-	   setDataType(DATA_FLOAT);
+    setDataType(DATA_FLOAT);
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }

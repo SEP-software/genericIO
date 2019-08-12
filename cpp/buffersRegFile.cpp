@@ -15,7 +15,11 @@ void buffersRegFile::writeDescription() {
     putFloat(std::string("d") + std::to_string(i), axes[i - 1].d);
     putString(std::string("label") + std::to_string(i), axes[i - 1].label);
   }
-  std::cerr << "2hat is going on " << std::endl;
+
+  if (_bufs)
+    throw SEPException("buffer info not setup");
+  else
+    std::cerr << "bufs is setup " << _bufs << std::endl;
   jsonArgs["bufferInfo"] = _bufs->getDescription();
   std::cerr << "what is going on " << std::endl;
   jsonArgs["dataType"] = getTypeString(getDataType());

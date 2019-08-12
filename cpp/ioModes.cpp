@@ -46,7 +46,6 @@ void ioModes::setup(const int argc, char **argv) {
 
   std::shared_ptr<paramObj> _par = getParamObj();
   for (auto it = _ios.begin(); it != _ios.end(); it++) {
-    std::cerr << it->first << std::endl;
     it->second->setParamObj(_par);
   }
 }

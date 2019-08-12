@@ -30,7 +30,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
 
 void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
                                  const std::string &tag) {
-  std::cerr << "in setup gcp" << std::endl;
+  std::cerr << "in setup gcp " << _blocking < " " << std::endl;
   _tag = tag;
   std::string bucket, baseName;
 

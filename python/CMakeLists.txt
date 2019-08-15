@@ -5,8 +5,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 find_package(NumPy REQUIRED)
 
 # This is a CMake example for Python
-find_package(pybind11)
-if(pybind11_FOUND)
+
   find_package(PythonInterp 3 REQUIRED)
 
   pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
@@ -21,6 +20,4 @@ if(pybind11_FOUND)
   target_link_libraries(pyGenericIO PRIVATE genericCpp)
   install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
   install(FILES genericIO.py DESTINATION lib/python)
-else(pybind11_FOUND)
-  message("Did not find pybid11")
-endif(pybind11_FOUND)
+

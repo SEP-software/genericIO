@@ -45,9 +45,7 @@ void ioModes::setup(const int argc, char **argv) {
   _defaultIO = _ios[_defaultType];
 
   std::shared_ptr<paramObj> _par = getParamObj();
-  for (auto it = _ios.begin(); it != _ios.end(); it++) {
-    it->second->setParamObj(_par);
-  }
+  changeParamObj(_par);
 }
 std::shared_ptr<genericIO> ioModes::getDefaultIO() {
   return getIO(_defaultType);
@@ -83,7 +81,13 @@ std::shared_ptr<genericIO> ioModes::getInputIO() {
     throw x;
   }
 }
-
+std::vector<std::string> ioModes::getIOs() const {
+  std::vector<std::string> ios;
+  for (auto io = _ios.begin(); io != _ios.end(); ++io) {
+    ios.push_back(io->first);
+  }
+  return ios;
+}
 std::shared_ptr<genericIO> ioModes::getOutputIO() {
   std::string iouse = getParamObj()->getString(
       "outputIO", getParamObj()->getString("IO", std::string("DEFAULT")));
@@ -92,6 +96,11 @@ std::shared_ptr<genericIO> ioModes::getOutputIO() {
     return getIO(iouse);
   } catch (SEPException &x) {
     throw x;
+  }
+}
+void ioModes::changeParamObj(std::shared_ptr<paramObj> par) {
+  for (auto it = _ios.begin(); it != _ios.end(); it++) {
+    it->second->setParamObj(par);
   }
 }
 std::shared_ptr<paramObj> ioModes::getParamObj() {

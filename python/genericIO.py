@@ -45,6 +45,18 @@ class pythonParams:
         return self.cppMode
 
 
+class argParseParams:
+
+    def __init__(self, inpars):
+        """Create a parameter object that uses info from argsparse module"""
+        self.pars = {}
+        for k, v in self.inpars.items():
+            if v:
+                self.pars[k] = v
+        self.cppMode = pyGenericIO.dictParams(self.pars)
+        ioModes.changeParamObj(self.cppMode)
+
+
 class regFile:
 
     def __init__(self, ioM, tag, **kw):

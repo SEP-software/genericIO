@@ -313,10 +313,13 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def(py::init<std::vector<std::string>>(), "Initlialize a new IO")
       .def("getInputIO",
            (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getInputIO)
+      .def("getIOs", (std::vector<std::string>(ioModes::*)()) & ioModes::getIOs)
       .def("getOutputIO",
            (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getOutputIO)
       .def("getParamObj",
            (std::shared_ptr<paramObj>(ioModes::*)()) & ioModes::getParamObj)
+      .def("changeParamObj", (void (ioModes::*)(std::shared_ptr<paramObj>)) &
+                                 ioModes::changeParamObj)
       .def("getDefaultIO",
            (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getDefaultIO)
       .def("getIO", (std::shared_ptr<genericIO>(ioModes::*)(std::string)) &

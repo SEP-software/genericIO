@@ -52,6 +52,13 @@ class ioModes {
     \param def IO type to grab
     */
   std::shared_ptr<genericIO> getIO(const std::string &def);
+
+  /*!
+    Get all of the IOs available
+
+    @return list of IOs
+  */
+  std::vector<std::string> getIOs() const;
   /*!
      Return a file object
      \param tag Tag for file
@@ -75,15 +82,21 @@ class ioModes {
   std::shared_ptr<genericIO> getOutputIO();
 
   /*!
-         Return paramObj  user wants to user for parameter handle
+         Return paramObj  user wants to use for parameter handle
   */
   std::shared_ptr<paramObj> getParamObj();
+
+  /*!
+     Set param object used for all IO objects
+   */
+  void changeParamObj(std::shared_ptr<paramObj> par);
 
   /*!
     Return file object from default IO
     \param name Name of file
     \param Usage for file
     */
+
   std::shared_ptr<genericRegFile> getGenericRegFile(const std::string &name,
                                                     const usage_code usage);
   /*

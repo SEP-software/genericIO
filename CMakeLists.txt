@@ -161,12 +161,10 @@ if(BUILD_TESTS)
 else()
 
 endif(BUILD_TESTS)
-message("BEFORE 1")
 #install(EXPORT genericIOTargets
 #        FILE genericIOTargets.cmake
 ##        NAMESPACE SEP::IO
  #       DESTINATION cmake/sep/io)
-message("BEFORE 2")
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")

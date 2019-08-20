@@ -10,8 +10,7 @@
 #include "ioModes.h"
 
 namespace py = pybind11;
-namespace giee {
-using namespace SEP;
+namespace SEP {
 
 /*
 
@@ -200,55 +199,55 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
 
       .def(
           "writeFloatStream",
-          (bool (genericRegFile ::*)(const std::shared_ptr<giee::floatHyper>)) &
+          (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
               genericRegFile::writeFloatStream,
           "Write a float stream into a sepVector")
 
       .def("writeDoubleStream",
            (bool (genericRegFile ::*)(
-               const std::shared_ptr<giee::doubleHyper>)) &
+               const std::shared_ptr<doubleHyper>)) &
                genericRegFile::writeDoubleStream,
            "Write a double stream into a sepVector")
       .def("writeComplexStream",
            (bool (genericRegFile ::*)(
-               const std::shared_ptr<giee::complexHyper>)) &
+               const std::shared_ptr<complexHyper>)) &
                genericRegFile::writeComplexStream,
            "Write a complex stream into a sepVector")
       .def("writeByteStream",
-           (bool (genericRegFile ::*)(const std::shared_ptr<giee::byteHyper>)) &
+           (bool (genericRegFile ::*)(const std::shared_ptr<byteHyper>)) &
                genericRegFile::writeByteStream,
            "Write a byte stream into a sepVector")
       .def("readFloatStream",
-           (bool (genericRegFile ::*)(std::shared_ptr<giee::floatHyper>)) &
+           (bool (genericRegFile ::*)(std::shared_ptr<floatHyper>)) &
                genericRegFile::readFloatStream,
            "Read  a float stream into a sepVector")
       .def("readDoubleStream",
-           (bool (genericRegFile ::*)(std::shared_ptr<giee::doubleHyper>)) &
+           (bool (genericRegFile ::*)(std::shared_ptr<doubleHyper>)) &
                genericRegFile::readDoubleStream,
            "Read  a double stream into a sepVector")
       .def("readIntStream",
-           (bool (genericRegFile ::*)(std::shared_ptr<giee::intHyper>)) &
+           (bool (genericRegFile ::*)(std::shared_ptr<intHyper>)) &
                genericRegFile::readIntStream,
            "Read  a int stream into a sepVector")
       .def("readComplexStream",
-           (bool (genericRegFile ::*)(std::shared_ptr<giee::complexHyper>)) &
+           (bool (genericRegFile ::*)(std::shared_ptr<complexHyper>)) &
                genericRegFile::readComplexStream,
            "Read  a complex stream into a sepVector")
       .def("readByteStream",
-           (bool (genericRegFile ::*)(std::shared_ptr<giee::byteHyper>)) &
+           (bool (genericRegFile ::*)(std::shared_ptr<byteHyper>)) &
                genericRegFile::readByteStream,
            "Read  a byte stream into a sepVector")
       .def("readFloatWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int> &, std::shared_ptr<giee::floatHyper>)) &
+               const std::vector<int> &, std::shared_ptr<floatHyper>)) &
                genericRegFile::readFloatWindow,
            "Read  a window of floats  into a sepVector")
       .def("writeFloatWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
                const std::vector<int> &,
-               const std::shared_ptr<giee::floatHyper>)) &
+               const std::shared_ptr<floatHyper>)) &
                genericRegFile::writeFloatWindow,
            "Write  a window of floats  into a sepVector")
       .def("readComplexWindow",
@@ -325,4 +324,4 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("getIO", (std::shared_ptr<genericIO>(ioModes::*)(std::string)) &
                         ioModes::getIO);
 }
-}  // namespace giee
+}  // namespace SEP

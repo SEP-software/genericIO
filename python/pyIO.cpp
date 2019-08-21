@@ -197,20 +197,17 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::readFloatWindow,
            "Read a window of floats")
 
-      .def(
-          "writeFloatStream",
-          (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
-              genericRegFile::writeFloatStream,
-          "Write a float stream into a sepVector")
+      .def("writeFloatStream",
+           (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
+               genericRegFile::writeFloatStream,
+           "Write a float stream into a sepVector")
 
       .def("writeDoubleStream",
-           (bool (genericRegFile ::*)(
-               const std::shared_ptr<doubleHyper>)) &
+           (bool (genericRegFile ::*)(const std::shared_ptr<doubleHyper>)) &
                genericRegFile::writeDoubleStream,
            "Write a double stream into a sepVector")
       .def("writeComplexStream",
-           (bool (genericRegFile ::*)(
-               const std::shared_ptr<complexHyper>)) &
+           (bool (genericRegFile ::*)(const std::shared_ptr<complexHyper>)) &
                genericRegFile::writeComplexStream,
            "Write a complex stream into a sepVector")
       .def("writeByteStream",
@@ -246,8 +243,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("writeFloatWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int> &,
-               const std::shared_ptr<floatHyper>)) &
+               const std::vector<int> &, const std::shared_ptr<floatHyper>)) &
                genericRegFile::writeFloatWindow,
            "Write  a window of floats  into a sepVector")
       .def("readComplexWindow",
@@ -321,6 +317,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                  ioModes::changeParamObj)
       .def("getDefaultIO",
            (std::shared_ptr<genericIO>(ioModes::*)()) & ioModes::getDefaultIO)
+      .def("getDefaultType",
+           (std::string(ioModes::*)()) & ioModes::getDefaultType)
       .def("getIO", (std::shared_ptr<genericIO>(ioModes::*)(std::string)) &
                         ioModes::getIO);
 }

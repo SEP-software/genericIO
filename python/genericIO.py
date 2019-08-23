@@ -55,7 +55,6 @@ class argParseParams:
             if v:
                 if isinstance(v,str):
                     self.pars[k] = v
-        print(type(self.pars), " ", inpars)
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)
 

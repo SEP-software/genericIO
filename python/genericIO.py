@@ -50,7 +50,7 @@ class argParseParams:
     def __init__(self, inpars):
         """Create a parameter object that uses info from argsparse module"""
         self.pars = {}
-        for k, v in self.inpars.items():
+        for k, v in inpars.items():
             if v:
                 self.pars[k] = v
         self.cppMode = pyGenericIO.dictParams(self.pars)

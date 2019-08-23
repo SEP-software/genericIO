@@ -53,7 +53,7 @@ class argParseParams:
         self.pars["junk"] = "jUnK"
         for k, v in inpars.items():
             if v:
-                if isinstance(v,basestring):
+                if isinstance(v,str):
                     self.pars[k] = v
         print(type(self.pars), " ", inpars)
         self.cppMode = pyGenericIO.pythonParams(self.pars)

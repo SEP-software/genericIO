@@ -409,7 +409,7 @@ class io:
     def __init__(self, *arg):
         """Initialize IO"""
         if len(arg) > 0:
-            self.cppMode = ioModes.getIO(arg)
+            self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
         self.param = self.cppMode.getParamObj()

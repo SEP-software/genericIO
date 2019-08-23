@@ -50,6 +50,7 @@ class argParseParams:
     def __init__(self, inpars):
         """Create a parameter object that uses info from argsparse module"""
         self.pars = {}
+        args.parse["junk", "jUnK"]
         for k, v in inpars.items():
             if v:
                 self.pars[k] = v

@@ -23,7 +23,7 @@ class pythonParams:
     def __init__(self, inPars):
         """Create a parameter object that reads from a python dictionary"""
         self.pars = {}
-        self.inpars = {}
+        self.inPars = {}
         print("IN HERE")
         if isinstance(inPars, list):
             prse = re.compile("(.+)=(.+)")

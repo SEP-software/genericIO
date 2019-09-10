@@ -27,7 +27,7 @@ class pythonParams:
         print("IN HERE")
         if isinstance(inPars, list):
             prse = re.compile("(.+)=(.+)")
-            for l in inparse:
+            for l in inPars:
                 m = prse.search(l)
                 if m:
                     self.inpars[m.group(1)] = m.group(2)

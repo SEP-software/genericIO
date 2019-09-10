@@ -425,6 +425,8 @@ class io:
             self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
+            self.cppMode.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
+        self.param
         self.param = self.cppMode.getParamObj()
         self.appendFiles = {}
 

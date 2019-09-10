@@ -24,7 +24,8 @@ void ioModes::setup(const int argc, char **argv) {
 
   std::shared_ptr<fileBuffersIO> m(new fileBuffersIO(argc, argv));
   _ios["FILEBUFFERS"] = m;
-
+  std::shared_ptr<dictParams> e(new dictParams(argc, argv));
+  _ios["DICTPARAMS"] = e;
 #ifdef USE_GCP
   std::shared_ptr<gcpBuffersIO> y(new gcpBuffersIO(argc, argv));
   _ios["GCPBUFFERS"] = y;
@@ -40,7 +41,8 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
-
+  std::shared_ptr<sepIO> c(new sepIO(argc, argv));
+  _ios["SEP"] = c;
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 

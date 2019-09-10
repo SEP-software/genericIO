@@ -442,7 +442,6 @@ class io:
         if "params" in kw:
             self.pa = pythonParams(kw["params"])
             self.cppMode.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
-        self.param
         self.param = self.cppMode.getParamObj()
         self.appendFiles = {}
 

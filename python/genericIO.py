@@ -436,16 +436,13 @@ class io:
 
     def __init__(self, *arg, **kw):
         """Initialize IO"""
-        print("die 1")
         if len(arg) > 0:
-            print("die 2")
             self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
         if "params" in kw:
-            print("die 3")
             self.pa = pythonParams(kw["params"])
-            self.cppMode.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
+            ioModes.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
         self.param = self.cppMode.getParamObj()
         self.appendFiles = {}
 

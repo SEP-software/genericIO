@@ -24,7 +24,6 @@ class pythonParams:
         """Create a parameter object that reads from a python dictionary"""
         self.pars = {}
         self.inPars = {}
-        print("IN HERE")
         if isinstance(inPars, list):
             prse = re.compile("(.+)=(.+)")
             for l in inPars:
@@ -68,6 +67,21 @@ class argParseParams:
             if v:
                 if isinstance(v, str):
                     self.pars[k] = v
+            found = False
+            if isinstance(v, int) or isinstance(
+                    v, float) or isinstance(v, str):
+                vout = str(v)
+                found = True
+            elif isinstance(v, list):
+                d = None
+                found = True
+                for l in v:
+                    if not d:
+                        d = l
+                    else:
+                        d += "," + l
+            if found:
+                self.pars[k] = vout
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)
 
@@ -419,12 +433,14 @@ class AppendFile:
 
 class io:
 
-    def __init__(self, *arg):
+    def __init__(self, *arg, **kw):
         """Initialize IO"""
         if len(arg) > 0:
             self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
+        if "params" in kw:
+            self.pa = pythonParams(kw["params"])
             self.cppMode.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
         self.param
         self.param = self.cppMode.getParamObj()

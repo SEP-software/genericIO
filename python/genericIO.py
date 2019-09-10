@@ -1,6 +1,7 @@
 import pyGenericIO
 import SepVector
 import Hypercube
+import re
 storageConvert = {"dataFloat": pyGenericIO.dataType.dataFloat,
                   "dataInt": pyGenericIO.dataType.dataInt,
                   "dataByte": pyGenericIO.dataType.dataByte,
@@ -22,7 +23,18 @@ class pythonParams:
     def __init__(self, inPars):
         """Create a parameter object that reads from a python dictionary"""
         self.pars = {}
-        self.inPars = inPars
+        self.inpars = {}
+        print("IN HERE")
+        if isinstance(inPars, list):
+            prse = re.compile("(.+)=(.+)")
+            for l in inparse:
+                m = prse.search(l)
+                if m:
+                    self.inpars[m.group(1)] = m.group(2)
+        elif isinstance(inPars, dict):
+            self.inPars = inPars
+        else:
+            raise Exception("Must initialize with either list or dictionary")
         for k, v in self.inPars.items():
             found = False
             if isinstance(v, int) or isinstance(

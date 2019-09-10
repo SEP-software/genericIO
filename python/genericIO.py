@@ -441,8 +441,7 @@ class io:
             self.cppMode = ioModes.getDefaultIO()
         if "params" in kw:
             self.pa = pythonParams(kw["params"])
-            self.pp = pyGenericIO.pythonParams(self.pars)
-            ioModes.changeParamObj(self.pp)
+            ioModes.changeParamObj(self.pa)
         self.param = self.cppMode.getParamObj()
         self.appendFiles = {}
 

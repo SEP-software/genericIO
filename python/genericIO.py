@@ -40,6 +40,7 @@ class pythonParams:
             if found:
                 self.pars[k] = vout
         self.cppMode = pyGenericIO.pythonParams(self.pars)
+        ioModes.changeParamObj(self.cppMode)
 
     def getCpp(self):
         return self.cppMode
@@ -53,7 +54,7 @@ class argParseParams:
         self.pars["junk"] = "jUnK"
         for k, v in inpars.items():
             if v:
-                if isinstance(v,str):
+                if isinstance(v, str):
                     self.pars[k] = v
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)

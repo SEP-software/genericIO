@@ -30,7 +30,7 @@ class pythonParams:
             for l in inPars:
                 m = prse.search(l)
                 if m:
-                    self.inpars[m.group(1)] = m.group(2)
+                    self.inPars[m.group(1)] = m.group(2)
         elif isinstance(inPars, dict):
             self.inPars = inPars
         else:

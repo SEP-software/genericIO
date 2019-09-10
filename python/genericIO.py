@@ -50,6 +50,7 @@ class pythonParams:
                         d += "," + l
             if found:
                 self.pars[k] = vout
+        print("PARS", self.pars)
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)
 
@@ -436,15 +437,12 @@ class io:
     def __init__(self, *arg, **kw):
         """Initialize IO"""
         if len(arg) > 0:
-            if "params" in kw:
-                self.pa = pythonParams(kw["params"])
-                self.cppMode.changeParamObj(
-                    self.cppMode.getParamObj("DICTPARAMS"))
-            else:
-                self.cppMode = ioModes.getIO(arg[0])
+            self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
-
+        if "params" in kw:
+            self.pa = pythonParams(kw["params"])
+            self.cppMode.changeParamObj(self.cppMode.getParamObj("DICTPARAMS"))
         self.param = self.cppMode.getParamObj()
         self.appendFiles = {}
 

@@ -41,8 +41,6 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
-  std::shared_ptr<sepIO> c(new sepIO(argc, argv));
-  _ios["SEP"] = c;
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 

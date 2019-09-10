@@ -1,6 +1,7 @@
 #include "ioModes.h"
 #include <iostream>
 #include "buffersConfig.h"
+#include "dictParams.h"
 #include "fileBuffersIO.h"
 #include "ioConfig.h"
 #include "segyIO.h"

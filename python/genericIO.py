@@ -176,43 +176,43 @@ class regFile:
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getInt(tag, arg)
+            return self.cppMode.getInt(tag, arg[0])
         return self.cppMode.getInt(tag)
 
     def getFloat(self, tag, *arg):
         """Get a float from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getFloat(tag, arg)
+            return self.cppMode.getFloat(tag, arg[0])
         return self.cppMode.getFloat(tag)
 
     def getBool(self, tag, *arg):
         """Get a boolean from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getBool(tag, arg)
+            return self.cppMode.getBool(tag, arg[0])
         return self.cppMode.getBool(tag)
 
     def getString(self, tag, *arg):
         """Get a string from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getString(tag, arg)
+            return self.cppMode.getString(tag, arg[0])
         return self.cppMode.getString(tag)
 
     def getInts(self, tag, *arg):
         """Get integers from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getInts(tag, arg)
+            return self.cppMode.getInts(tag, arg[0])
         return self.cppMode.getInts(tag)
 
     def getInts(self, tag, *arg):
         """Get integers from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getInts(tag, arg)
+            return self.cppMode.getInts(tag, arg[0])
         return self.cppMode.getInts(tag)
 
     def getFloats(self, tag, *arg):
         """Get floats from a given IO"""
         if(len(arg) == 1):
-            return self.cppMode.getFloats(tag, arg)
+            return self.cppMode.getFloats(tag, arg[0])
         return self.cppMode.getFloats(tag)
 
     def readWindow(self, vec, **kw):

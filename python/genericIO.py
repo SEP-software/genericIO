@@ -448,43 +448,43 @@ class io:
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
         if(len(arg) == 1):
-            return self.param.getInt(tag, arg)
+            return self.param.getInt(tag, arg[0])
         return self.param.getInt(tag)
 
     def getFloat(self, tag, *arg):
         """Get a float from a given IO"""
         if(len(arg) == 1):
-            return self.param.getFloat(tag, arg)
+            return self.param.getFloat(tag, arg[0])
         return self.param.getFloat(tag)
 
     def getBool(self, tag, *arg):
         """Get a boolean from a given IO"""
         if(len(arg) == 1):
-            return self.param.getBool(tag, arg)
+            return self.param.getBool(tag, arg[0])
         return self.param.getBool(tag)
 
     def getString(self, tag, *arg):
         """Get a string from a given IO"""
         if(len(arg) == 1):
-            return self.param.getString(tag, arg)
+            return self.param.getString(tag, arg[0])
         return self.param.getString(tag)
 
     def getInts(self, tag, *arg):
         """Get integers from a given IO"""
         if(len(arg) == 1):
-            return self.param.getInts(tag, arg)
+            return self.param.getInts(tag, arg[0])
         return self.param.getInts(tag)
 
     def getInts(self, tag, *arg):
         """Get integers from a given IO"""
         if(len(arg) == 1):
-            return self.param.getInts(tag, arg)
+            return self.param.getInts(tag, arg[0])
         return self.param.getInts(tag)
 
     def getFloats(self, tag, *arg):
         """Get floats from a given IO"""
         if(len(arg) == 1):
-            return self.param.getFloats(tag, arg)
+            return self.param.getFloats(tag, arg[0])
         return self.param.getFloats(tag)
 
     def getRegFile(self, tag, **kw):

@@ -13,14 +13,13 @@ if(NOT SUBPACKAGE)
   option(BUILD_PYTHON "Build python interfaces" ON)
   option(INSTALL_CMAKE_ENV "Install cmake build environment" ON)
   option(BUILD_UTIL "Build utilities" ON)
-  option(BUILD_TESTS "Build with test support" OFF)
+  option(BUILD_TEST "Build with test support" OFF)
   option(BUILD_DEBUG_LIBS "Build gperftool libs" OFF)
   option(BUILD_GCP "Build GCP" OFF)
   option(BUILD_SEP "Build with SEPlib support if found" OFF)
 
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
-  option(BUILD_TESTS "Build with test support" ON)
 endif(NOT SUBPACKAGE)
 set(SUBPACKAGE true)
 
@@ -61,13 +60,12 @@ set(USE_SEPVECTOR true)
 include_directories(${sepVector_DIRNAME_include})
 
 if(BUILD_GCP)
-  message("IN BUILD_GCP")
   set(USE_GCP ON)
 else(BUILD_GCP)
 
 endif(BUILD_GCP)
 
-if(SEPLIB_BUILD )
+if(SEPLIB_BUILD)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d
                       ${CMAKE_CURRENT_SOURCE_DIR}/../../sep
                       ${CMAKE_CURRENT_SOURCE_DIR}/../../include
@@ -76,9 +74,9 @@ if(SEPLIB_BUILD )
   set(USE_SEP true)
   message("SEPLIB BUILD OF GENERIC IO")
 else(SEPLIB_BUILD)
-  if(BUILD_SEP) 
-  find_package(SEPlib)
-   endif(BUILD_SEP)
+  if(BUILD_SEP)
+    find_package(SEPlib)
+  endif(BUILD_SEP)
   set(EXTERNAL_TARGETS)
   if(SEPlib_FOUND)
     message("INSTALLING WITH SEPLIB  DIR ${SEPlib_INCLUDE_DIRS}")
@@ -112,7 +110,15 @@ configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
 # ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake DESTINATION lib/cmake
 # COMPONENT Development)
 
-add_subdirectory(cpp)
+
+if(BUILD_TEST)
+enable_testing()
+else()
+
+endif(BUILD_TEST)
+
+add_subdirectory(lib)
+
 
 if(BUILD_PYTHON)
   add_subdirectory(python)
@@ -158,16 +164,8 @@ if(BUILD_DOC)
   endif(DOXYGEN_FOUND)
 endif(BUILD_DOC)
 
-enable_testing()
-if(BUILD_TESTS)
-  add_subdirectory(unit-tests)
-else()
-
-endif(BUILD_TESTS)
-#install(EXPORT genericIOTargets
-#        FILE genericIOTargets.cmake
-##        NAMESPACE SEP::IO
- #       DESTINATION cmake/sep/io)
+# install(EXPORT genericIOTargets FILE genericIOTargets.cmake NAMESPACE SEP::IO
+# DESTINATION cmake/sep/io)
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${PROJECT_SOURCE_DIR}/LICENSE")

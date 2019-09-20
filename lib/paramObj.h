@@ -37,6 +37,7 @@ Get an integer from a file
 \param arg Name of the prameter
 */
   virtual int getInt(const std::string& arg) const {
+    std::cerr << "in default" << std::endl;
     if (arg == "")
       ;
   }

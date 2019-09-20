@@ -72,3 +72,14 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${INCLUDES} DESTINATION include)
   install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
+
+add_executable(testDict test_dictParams.cpp)
+target_link_libraries(testDict genericCpp gtest gtest_main gtest)
+add_test(NAME dict_params COMMAND testDict)
+
+if(USE_SEP)
+
+endif(USE_SEP)
+
+if(BUILD_GCP)
+endif(BUILD_GCP)

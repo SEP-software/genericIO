@@ -52,6 +52,7 @@ class pythonParams:
                 self.pars[k] = vout
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)
+        defaultIO.setParamObj(self.cppMode)
 
     def getCpp(self):
         return self.cppMode
@@ -84,6 +85,7 @@ class argParseParams:
                 self.pars[k] = vout
         self.cppMode = pyGenericIO.pythonParams(self.pars)
         ioModes.changeParamObj(self.cppMode)
+        defaultIO.setParamObj(self.cppMode)
 
 
 class regFile:
@@ -447,6 +449,8 @@ class io:
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
+
+        print("UB a", tag)
         if(len(arg) == 1):
             return self.param.getInt(tag, arg[0])
         return self.param.getInt(tag)
@@ -596,4 +600,7 @@ class io:
             vs, self.appendFiles[tag].icount - len(vs))
         self.appendFiles[tag].finish(0)
 
+    def setParamObj(self, par):
+        """Set parameter object"""
+        self.param = par
 defaultIO = io()

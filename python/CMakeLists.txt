@@ -6,7 +6,7 @@ find_package(NumPy REQUIRED)
 
 # This is a CMake example for Python
 
-  find_package(PythonInterp 3 REQUIRED)
+find_package (Python3 COMPONENTS Interpreter Development REQUIRED)
 
   pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
   target_include_directories(
@@ -21,3 +21,8 @@ find_package(NumPy REQUIRED)
   install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
   install(FILES genericIO.py DESTINATION lib/python)
 
+if(Python3_Interpreter_FOUND)
+  message(Python3::Interpreter  ${CMAKE_CURRENT_SOURCE_DIR} )
+  add_test(NAME genericIO_Python COMMAND python3.5 -m pytest -r a -v ${CMAKE_CURRENT_SOURCE_DIR})
+else()
+endif()

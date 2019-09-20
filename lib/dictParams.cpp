@@ -17,7 +17,7 @@ void dictParams::addParams(const std::map<std::string, std::string> pars) {
 
 int dictParams::getInt(const std::string &arg) const {
   if (_pars.count(arg) == 1) return std::stoi(_pars.at(arg));
-  error(std::string("1trouble grabbing parameter ") + arg +
+  error(std::string("trouble grabbing parameter ") + arg +
         std::string(" from parameters"));
   return 0;
 }
@@ -33,7 +33,7 @@ float dictParams::getFloat(const std::string &arg, const float def) const {
 float dictParams::getFloat(const std::string &arg) const {
   if (_pars.count(arg) == 1) return std::stof(_pars.at(arg));
 
-  error(std::string("trouble grabbing parameter ") + arg +
+  error(std::string("trofuble grabbing parameter ") + arg +
         std::string(" from parameters"));
   return 0.;
 }
@@ -44,7 +44,7 @@ void dictParams::message(const std::string &arg) const {
 std::string dictParams::getString(const std::string &arg) const {
   if (_pars.count(arg) == 1) return _pars.at(arg);
 
-  error(std::string("trouble grabbing parameter ") + arg +
+  error(std::string("trouhble grabbing parameter ") + arg +
         std::string(" from parameters"));
   return "null";
 }
@@ -71,7 +71,7 @@ bool dictParams::getBool(const std::string &arg) const {
       return true;
     return false;
   }
-  error(std::string("trouble grabbing parameter ") + arg +
+  error(std::string("troublue grabbing parameter ") + arg +
         std::string(" from parameters"));
   return false;
 }
@@ -92,7 +92,7 @@ std::vector<std::string> dictParams::splitString(const std::string &str) const {
 std::vector<int> dictParams::getInts(const std::string &arg,
                                      const int nvals) const {
   if (_pars.count(arg) == 0) {
-    error(std::string("trouble grabbing parameter ") + arg +
+    error(std::string("troubl3 grabbing parameter ") + arg +
           std::string(" from parameters"));
   }
 
@@ -120,7 +120,7 @@ std::vector<int> dictParams::getInts(const std::string &arg,
 std::vector<float> dictParams::getFloats(const std::string &arg,
                                          const int nvals) const {
   if (_pars.count(arg) == 0) {
-    error(std::string("trouble grabbing parameter ") + arg +
+    error(std::string("tromuble grabbing parameter ") + arg +
           std::string(" from parameters"));
   }
 

@@ -11,7 +11,7 @@ int sepParam::getInt(const std::string &arg) const {
   char fmt[3];
   strcpy(fmt, "d");
   if (0 == getch(arg.c_str(), fmt, &x))
-    error(std::string("1trouble grabbing parameter ") + arg +
+    error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
   return x;
 }

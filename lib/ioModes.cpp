@@ -43,8 +43,8 @@ void ioModes::setup(const int argc, char **argv) {
 #else
 #endif
   std::map<std::string, std::string> dict;
-  std::shared_ptr<memoryIO> c(new memoryIO(dict));
-  _ios["memory"] = c;
+  std::shared_ptr<memoryIO> e(new memoryIO(dict));
+  _ios["memory"] = e;
 
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];

@@ -118,7 +118,7 @@ Output a message and exit with an error
 
    \param pars List of parameters to add
    */
-  virtual void addParams(std::map<std::string, std::string> pars);
+  virtual void addParams(std::map<std::string, std::string> &pars);
 };
 }  // namespace SEP
 

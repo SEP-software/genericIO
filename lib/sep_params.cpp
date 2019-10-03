@@ -42,7 +42,7 @@ float sepParam::getFloat(const std::string &arg) const {
 void sepParam::message(const std::string &arg) const {
   sepwarn(0, arg.c_str());
 }
-void sepParams::addParams(std::map<std::string, std::string> &pars) {
+void sepParam::addParams(std::map<std::string, std::string> &pars) {
   for (auto p = pars.begin(); p != pars.end(); p++) {
     std::string x = p->first + "=" + p->second;
     getch_add_string(x.c_str());

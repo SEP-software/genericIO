@@ -132,6 +132,13 @@ Output a message and exit with an error
     */
   std::vector<std::string> splitString(const std::string &in) const;
 
+  /*!
+   Add additional parameters
+
+   \param pars List of parameters to add
+   */
+  virtual void addParams(std::map<std::string, std::string> &pars);
+
  private:
   std::map<std::string, std::string>
       _pars;  ///< Map containing the equivielent of command line arguments

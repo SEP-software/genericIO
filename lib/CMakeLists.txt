@@ -11,7 +11,9 @@ set(SOURCES
     paramObj.cpp
     genericIO.cpp
     jsonGenericIrregFile.cpp
-    buffersIrregFile.cpp)
+    buffersIrregFile.cpp
+    memoryIO.cpp
+    memoryFile.cpp)
 set(SOURCES
     ${SOURCES}
     jsonGenericIO.cpp
@@ -31,12 +33,14 @@ set(INCLUDES
     dictParams.h
     fileBuffersIO.h
     fileBuffersRegFile.h
+    memoryIO.h
+    memoryFile.h
     buffersRegFile.h
     jsonGenericIrregFile.h
     buffersIrregFile.h)
 
 if(USE_SEP)
- include_directories(${SEPlib_INCLUDE_DIRS})
+  include_directories(${SEPlib_INCLUDE_DIRS})
   set(SOURCES
       ${SOURCES}
       sepIO.cpp
@@ -65,7 +69,6 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../>
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
 
-
 target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
@@ -74,9 +77,9 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 if(BUILD_TEST)
-add_executable(testDict test_dictParams.cpp)
-target_link_libraries(testDict genericCpp gtest gtest_main gtest)
-add_test(NAME dict_params COMMAND testDict)
+  add_executable(testDict test_dictParams.cpp)
+  target_link_libraries(testDict genericCpp gtest gtest_main gtest)
+  add_test(NAME dict_params COMMAND testDict)
 endif(BUILD_TEST)
 
 if(USE_SEP)
@@ -84,4 +87,5 @@ if(USE_SEP)
 endif(USE_SEP)
 
 if(BUILD_GCP)
+
 endif(BUILD_GCP)

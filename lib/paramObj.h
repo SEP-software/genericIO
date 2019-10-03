@@ -2,6 +2,7 @@
 #define PARAM_OBJ_H 1
 #include <stdbool.h>
 #include <iostream>
+#include <map>
 #include <string>
 #include <vector>
 #include "SEPException.h"
@@ -270,6 +271,12 @@ Get boolean from a file
   */
   virtual std::vector<float> getDocFloats(const std::string& arg,
                                           const std::string& doc, int nvals);
+  /*!
+   Add additional parameters
+
+   \param pars List of parameters to add
+   */
+  virtual void addParams(std::map<std::string, std::string>& pars);
   /*!
   Get floats from a file
 

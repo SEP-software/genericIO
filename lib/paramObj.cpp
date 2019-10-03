@@ -134,3 +134,6 @@ std::vector<float> paramObj::getDocFloats(const std::string& arg,
   }
   return v;
 }
+void paramObj::addParams(std::map<std::string, std::string>& pars) {
+  throw SEPException(std::string("Must override addParams"));
+}

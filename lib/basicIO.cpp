@@ -155,7 +155,8 @@ void basicIO::readBlocks(const int naxes, const std::vector<int> &nwo,
                 seekToPos(pti + _reelH);
 
                 readStream(sz, buf);
-                blockToParts(nwi, fwi, jwi, buf, &(((char *)(dat))[pto]), head);
+                blockToParts(_hyper, _traceH, _esize, nwi, fwi, jwi, buf,
+                             &(((char *)(dat))[pto]), head);
                 float *d2 = (float *)dat;
                 pto += add;
               }
@@ -202,7 +203,8 @@ void basicIO::writeBlocks(const int naxes, const std::vector<int> &nwo,
               for (long long i0 = 0; i0 < nwo[0]; i0++) {
                 long long pti =
                     pt1 + ((long long)(fwo[0] + jwo[0] * i0)) * blk[0];
-                partsToBlock(nwi, fwi, jwi, buf, (char *)dat + pto, head);
+                partsToBlock(_hyper, _traceH, _esize, nwi, fwi, jwi, buf,
+                             (char *)dat + pto, head);
                 pto += add;
 
                 seekToPos(pti + _reelH);
@@ -337,16 +339,16 @@ void myFileIO::writeStream(const long long sz, const void *data) {
   if (sz != ierr) throw SEPException(std::string("trouble writing stream"));
   ;
 }
-void basicIO::blockToParts(const std::vector<int> &nwo,
-                           const std::vector<int> &fwo,
-                           const std::vector<int> &jwo, const void *in,
-                           void *out, void *head) {
-  std::vector<axis> axes = _hyper->returnAxes(8);
+void SEP::blockToParts(const std::shared_ptr<hypercube> hyper, const int traceH,
+                       const int esize, const std::vector<int> &nwo,
+                       const std::vector<int> &fwo, const std::vector<int> &jwo,
+                       const void *in, void *out, void *head) {
+  std::vector<axis> axes = hyper->returnAxes(8);
   char *inH = (char *)in, *outH = (char *)out, *headH = (char *)head;
   long long ih = 0, id = 0;
   float *of = (float *)out;
   std::vector<long long> blk(8, 1);
-  blk[0] = _esize;
+  blk[0] = esize;
   for (int i = 0; i < 7; i++) blk[i + 1] = blk[i] * (long long)axes[i].n;
   for (long long i6 = 0; i6 < nwo[6]; i6++) {
     long long pt6 = ((long long)(fwo[6] + jwo[6] * i6)) * blk[6];
@@ -363,14 +365,14 @@ void basicIO::blockToParts(const std::vector<int> &nwo,
                   pt2 + ((long long)(fwo[1] + jwo[1] * i1)) * blk[1];
               /* we are now at the trace level*/
               if (head != 0) {
-                memcpy(&headH[ih], &inH[pt1], _traceH);
-                ih += _traceH;
+                memcpy(&headH[ih], &inH[pt1], traceH);
+                ih += traceH;
               }
-              pt1 += _traceH;
+              pt1 += traceH;
 
-              for (int i0 = 0; i0 < nwo[0]; i0++, id += _esize) {
+              for (int i0 = 0; i0 < nwo[0]; i0++, id += esize) {
                 memcpy(&outH[id], &inH[pt1 + (fwo[0] + jwo[0] * i0) * blk[0]],
-                       _esize);
+                       esize);
               }
             }
           }
@@ -379,19 +381,19 @@ void basicIO::blockToParts(const std::vector<int> &nwo,
     }
   }
 }
-void basicIO::partsToBlock(const std::vector<int> &nwo,
-                           const std::vector<int> &fwo,
-                           const std::vector<int> &jwo, void *in,
-                           const void *out, const void *head) {
-  std::vector<axis> axes = _hyper->returnAxes(8);
+void SEP::partsToBlock(const std::shared_ptr<hypercube> hyper, const int traceH,
+                       const int esize, const std::vector<int> &nwo,
+                       const std::vector<int> &fwo, const std::vector<int> &jwo,
+                       void *in, const void *out, const void *head) {
+  std::vector<axis> axes = hyper->returnAxes(8);
   char *inH = (char *)in, *outH = (char *)out, *headH = (char *)head;
   long long ih = 0, id = 0;
 
-  if (_traceH != 0)
+  if (traceH != 0)
     throw SEPException(std::string(
         "partsToBlock doesn't make sense given a 0 length trace header"));
   std::vector<long long> blk(8, 1);
-  blk[0] = _esize;
+  blk[0] = esize;
   for (int i = 0; i < 7; i++) blk[i + 1] = blk[i] * (long long)axes[i].n;
   for (long long i6 = 0; i6 < nwo[6]; i6++) {
     long long pt6 = ((long long)(fwo[6] + jwo[6] * i6)) * blk[6];
@@ -408,13 +410,13 @@ void basicIO::partsToBlock(const std::vector<int> &nwo,
                   pt2 + ((long long)(fwo[1] + jwo[1] * i1)) * blk[1];
               /* we are now at the trace level*/
               if (head != 0) {
-                memcpy(&headH[ih], &inH[pt1], _traceH);
-                ih += _traceH;
+                memcpy(&headH[ih], &inH[pt1], traceH);
+                ih += traceH;
               }
-              pt1 += _traceH;
+              pt1 += traceH;
               for (int i0 = 0; i0 < nwo[0]; i0++, id++) {
                 memcpy(&inH[pt1 + (fwo[0] + jwo[0] * i0) * blk[0]], &outH[id],
-                       _esize);
+                       esize);
               }
             }
           }

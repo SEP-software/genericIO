@@ -27,6 +27,12 @@ float jsonParamObj::getFloat(const std::string &arg, const float def) const {
   x = jsonArgs.get(arg, def).asFloat();
   return x;
 }
+
+void jsonParamObj::addParams(std::map<std::string, std::string> &pars) {
+  for (auto p = pars.begin(); p != pars.end(); p++) {
+    jsonArgs[p->first] = p->second;
+  }
+}
 float jsonParamObj::getFloat(const std::string &arg) const {
   float x;
   if (jsonArgs[arg].isNull())

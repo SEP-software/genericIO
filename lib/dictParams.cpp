@@ -144,6 +144,11 @@ std::vector<float> dictParams::getFloats(const std::string &arg,
   }
   return array;
 }
+void dictParams::addParams(std::map<std::string, std::string> &pars) {
+  for (auto p = pars.begin(); p != pars.end(); p++) {
+    _pars[p->first] = p->second;
+  }
+}
 
 void dictParams::error(const std::string &errm) const {
   throw SEPException(errm);

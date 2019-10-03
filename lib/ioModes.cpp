@@ -4,6 +4,7 @@
 #include "dictParams.h"
 #include "fileBuffersIO.h"
 #include "ioConfig.h"
+#include "memoryIO.h"
 #include "segyIO.h"
 #ifdef USE_RSF
 #include "rsfIO.h"
@@ -41,6 +42,10 @@ void ioModes::setup(const int argc, char **argv) {
   _ios["SEP"] = c;
 #else
 #endif
+  std::map<std::string, std::string> dict;
+  std::shared_ptr<memoryIO> c(new memoryIO(dict));
+  _ios["memory"] = c;
+
   _defaultType = DEFAULTIO;
   _defaultIO = _ios[_defaultType];
 

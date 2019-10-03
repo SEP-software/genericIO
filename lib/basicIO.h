@@ -129,14 +129,6 @@ Write a trace stream
                    const std::vector<int> &nwi, const std::vector<int> &fwi,
                    const std::vector<int> &jwi, const long long buf,
                    const void *data, const void *head);
-  virtual void partsToBlock(const std::vector<int> &nw,
-                            const std::vector<int> &fw,
-                            const std::vector<int> &jw, void *in,
-                            const void *out, const void *head);
-  virtual void blockToParts(const std::vector<int> &nw,
-                            const std::vector<int> &fw,
-                            const std::vector<int> &jw, const void *in,
-                            void *out, void *head);
 
  protected:
   usage_code _usage;
@@ -185,6 +177,15 @@ class myFileIO : public basicIO {
   ~myFileIO() { close(); }
   FILE *myf = 0;
 };
+
+void partsToBlock(const std::shared_ptr<hypercube> hyper, const int traceH,
+                  const int esize, const std::vector<int> &nw,
+                  const std::vector<int> &fw, const std::vector<int> &jw,
+                  void *in, const void *out, const void *head);
+void blockToParts(const std::shared_ptr<hypercube> hyper, const int traceH,
+                  const int esize, const std::vector<int> &nw,
+                  const std::vector<int> &fw, const std::vector<int> &jw,
+                  const void *in, void *out, void *head);
 
 }  // namespace SEP
 

@@ -441,16 +441,21 @@ class io:
             self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
+            self.param = self.cppMode.getParamObj()
         if "params" in kw:
-            self.pa = pythonParams(kw["params"])
-            ioModes.changeParamObj(self.pa.cppMode)
-        self.param = self.cppMode.getParamObj()
+            if isinstance(kw["params"], dict):
+                self.param.addParams(kw["params"])
+            elif isinstance(kw["params"], list):
+                d = {}
+                for x in kw["params"]:
+                    y = x.split("=")
+                    if len(y) == 2:
+                        d[y[0]] = y[1]
+                self.param.addParams(d)
         self.appendFiles = {}
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
-
-        print("UB a", tag)
         if(len(arg) == 1):
             return self.param.getInt(tag, arg[0])
         return self.param.getInt(tag)

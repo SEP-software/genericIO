@@ -109,6 +109,12 @@ Output a message and exit with an error
 \param err Message to output
 */
   virtual void error(const std::string &err) const;
+  /*!
+   Add additional parameters
+
+   \param pars List of parameters to add
+   */
+  virtual void addParams(std::map<std::string, std::string> &pars);
 
  protected:
   Json::Value jsonArgs;  ///< JSON parameter object

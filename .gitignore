@@ -1,6 +1,5 @@
 build*
 *.sw*
-lib
 include
 RUN_THIS
 .DS_Store

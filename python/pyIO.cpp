@@ -91,6 +91,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (paramObj::*)(std::map<std::string, std::string> &)) &
                paramObj::addParams,
            "Add parameters")
+      .def("addParams",
+           (void (paramObj::*)(std::vector<std::string> &)) &
+               paramObj::addParams,
+           "Add parameters")
       .def("getFloats",
            (std::vector<float>(paramObj::*)(const std::string &,
                                             const std::vector<float> &) const) &

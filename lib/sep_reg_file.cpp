@@ -514,7 +514,6 @@ void sepRegFile::readDescription(const int ndimMax) {
     error(std::string("Only know about esize=4 or 1"));
 }
 void sepRegFile::writeDescription() {
-  std::cerr << "in write description " << std::endl;
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
 

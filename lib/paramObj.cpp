@@ -137,3 +137,13 @@ std::vector<float> paramObj::getDocFloats(const std::string& arg,
 void paramObj::addParams(std::map<std::string, std::string>& pars) {
   throw SEPException(std::string("Must override addParams"));
 }
+void paramObj::addParams(std::vector<std::string>& pars) {
+  for (auto a : pars) {
+    int index = a.find("=");
+    if (index != std::string::npos) {
+      std::map<std::string, std::string> x;
+      x[a.substr(0, index)] = a.substr(index + 1);
+      addParams(x);
+    }
+  }
+}

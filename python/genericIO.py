@@ -441,17 +441,12 @@ class io:
             self.cppMode = ioModes.getIO(arg[0])
         else:
             self.cppMode = ioModes.getDefaultIO()
-            self.param = self.cppMode.getParamObj()
+        self.param = self.cppMode.getParamObj()
         if "params" in kw:
             if isinstance(kw["params"], dict):
                 self.param.addParams(kw["params"])
             elif isinstance(kw["params"], list):
-                d = {}
-                for x in kw["params"]:
-                    y = x.split("=")
-                    if len(y) == 2:
-                        d[y[0]] = y[1]
-                self.param.addParams(d)
+                self.param.addParams(kw["parameters"])
         self.appendFiles = {}
 
     def getInt(self, tag, *arg):

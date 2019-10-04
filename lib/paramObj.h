@@ -277,6 +277,14 @@ Get boolean from a file
    \param pars List of parameters to add
    */
   virtual void addParams(std::map<std::string, std::string>& pars);
+
+  /*!
+   Add additional parameters
+
+   \param pars List of parameters to add = list
+   */
+  virtual void addParams(std::vector<std::string>& pars);
+
   /*!
   Get floats from a file
 

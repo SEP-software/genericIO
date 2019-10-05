@@ -77,7 +77,12 @@ if(NOT SUPPORT_LIBRARIES_BUILD)
 endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 if(BUILD_TEST)
-  add_executable(testDict test_dictParams.cpp)
+  add_executable(testMemoryFile test_memoryFile.cpp)
+  target_link_libraries(testMemoryFile genericCpp gtest gtest_main gtest)
+  add_test(NAME memory_test COMMAND testMemoryFile)
+
+
+    add_executable(testDict test_dictParams.cpp)
   target_link_libraries(testDict genericCpp gtest gtest_main gtest)
   add_test(NAME dict_params COMMAND testDict)
 endif(BUILD_TEST)

@@ -20,12 +20,22 @@ class ioModes {
     \param args Command line arguments
     */
   ioModes(std::vector<std::string> args) {
-    char **argv = new char *[args.size()];
-    for (auto i = 0; i < args.size(); i++) {
-      argv[i] = new char[args[i].size() + 1];
-      strcpy(argv[i], args[i].c_str());
+    int nc = args.size();
+    char **argv;
+    if (nc == 0) {
+      nc = 1;
+      argv = new char *[1];
+      argv[0] = new char[1];
+      strcpy(argv[0], "");
+
+    } else {
+      argv = new char *[args.size()];
+      for (auto i = 0; i < args.size(); i++) {
+        argv[i] = new char[args[i].size() + 1];
+        strcpy(argv[i], args[i].c_str());
+      }
     }
-    setup(args.size(), argv);
+    setup(nc, argv);
     /*
     for (auto i = 0; i < args.size(); i++) {
       delete[] argv[i];

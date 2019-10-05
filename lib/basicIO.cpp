@@ -340,10 +340,15 @@ void myFileIO::writeStream(const long long sz, const void *data) {
   ;
 }
 void SEP::blockToParts(const std::shared_ptr<hypercube> hyper, const int traceH,
-                       const int esize, const std::vector<int> &nwo,
-                       const std::vector<int> &fwo, const std::vector<int> &jwo,
+                       const int esize, const std::vector<int> &nw,
+                       const std::vector<int> &fw, const std::vector<int> &jw,
                        const void *in, void *out, void *head) {
   std::vector<axis> axes = hyper->returnAxes(8);
+  std::vector<int> nwo(8, 1), jwo(8, 1), fwo(8, 0);
+
+  for (int i = 0; i < nw.size(); i++) nwo[i] = nw[i];
+  for (int i = 0; i < fw.size(); i++) fwo[i] = fw[i];
+  for (int i = 0; i < jw.size(); i++) jwo[i] = jw[i];
   char *inH = (char *)in, *outH = (char *)out, *headH = (char *)head;
   long long ih = 0, id = 0;
   float *of = (float *)out;
@@ -382,12 +387,16 @@ void SEP::blockToParts(const std::shared_ptr<hypercube> hyper, const int traceH,
   }
 }
 void SEP::partsToBlock(const std::shared_ptr<hypercube> hyper, const int traceH,
-                       const int esize, const std::vector<int> &nwo,
-                       const std::vector<int> &fwo, const std::vector<int> &jwo,
+                       const int esize, const std::vector<int> &nw,
+                       const std::vector<int> &fw, const std::vector<int> &jw,
                        void *in, const void *out, const void *head) {
   std::vector<axis> axes = hyper->returnAxes(8);
   char *inH = (char *)in, *outH = (char *)out, *headH = (char *)head;
   long long ih = 0, id = 0;
+  std::vector<int> nwo(8, 1), jwo(8, 1), fwo(8, 0);
+  for (int i = 0; i < nw.size(); i++) nwo[i] = nw[i];
+  for (int i = 0; i < fw.size(); i++) fwo[i] = fw[i];
+  for (int i = 0; i < jw.size(); i++) jwo[i] = jw[i];
 
   if (traceH != 0)
     throw SEPException(std::string(
@@ -414,7 +423,8 @@ void SEP::partsToBlock(const std::shared_ptr<hypercube> hyper, const int traceH,
                 ih += traceH;
               }
               pt1 += traceH;
-              for (int i0 = 0; i0 < nwo[0]; i0++, id++) {
+              for (int i0 = 0; i0 < nwo[0]; i0++, id += esize) {
+                float *a1 = (float *)(&outH[id]);
                 memcpy(&inH[pt1 + (fwo[0] + jwo[0] * i0) * blk[0]], &outH[id],
                        esize);
               }

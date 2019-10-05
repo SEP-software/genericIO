@@ -348,14 +348,7 @@ Read a portion of file based on window parameters
 
 */
   std::vector<std::string> splitString(const std::string &str) const;
-  /*!
-    Set hypercube
-    \param hyper
-*/
-  void setHyper(const std::shared_ptr<hypercube> hyper) {
-    _hyper = hyper->clone();
-    _buf.resize(hyper->getN123() * getDataEsize());
-  }
+
   /*!
     Read the description of the file
 */
@@ -369,6 +362,23 @@ Read a portion of file based on window parameters
 Write  the description of the file
 */
   virtual void writeDescription() override { ; }
+
+  /*!
+  Get storage pointer
+
+  \return pointer to memory
+  */
+  void *getPtr() { return (void *)_buf.data(); }
+
+  /*! get Vector
+   \return vector
+   */
+  std::vector<unsigned char> returnVec() { return _buf; }
+
+  /*!
+  Allocate if not allocated
+  */
+  void allocateCheck(dataType typ);
 
  private:
   std::string _tag;    ///< Tag associated with dataset

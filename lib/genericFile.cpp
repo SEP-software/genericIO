@@ -424,3 +424,7 @@ bool genericRegFile::writeWindow(const std::vector<int> &nw,
       std::dynamic_pointer_cast<floatHyper>(hyp);
   return writeFloatWindow(nw, fw, jw, fp);
 }
+void genericRegFile::setHyper(const std::shared_ptr<SEP::hypercube> hyp) {
+  _hyper = hyp->clone();
+  if (!_hyper) throw SEPException(std::string("hypercube not defined"));
+}

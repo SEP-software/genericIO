@@ -545,10 +545,7 @@ Write  the description of the file
     Set the hypercube for the file
     \param hyp Hypercube describing regular file
     */
-  virtual void setHyper(std::shared_ptr<SEP::hypercube> hyp) {
-    _hyper = hyp->clone();
-    if (!_hyper) throw SEPException(std::string("hypercube not defined"));
-  }
+  virtual void setHyper(const std::shared_ptr<SEP::hypercube> hyp);
   /*!
     Return datatype of file
     */

@@ -140,7 +140,7 @@ void memoryRegFile::putFloats(const std::string &par,
   _dict[par] = x;
 }
 void memoryRegFile::readFloatStream(float *array, const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_FLOAT);
 
   long long nptsT = npts * 4;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -148,7 +148,7 @@ void memoryRegFile::readFloatStream(float *array, const long long npts) {
   _pos += nptsT;
 }
 void memoryRegFile::readIntStream(int *array, const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_INT);
 
   long long nptsT = npts * 4;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -159,7 +159,7 @@ void memoryRegFile::readDoubleStream(double
 
                                          *array,
                                      const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_DOUBLE);
 
   long long nptsT = npts * 8;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -168,7 +168,7 @@ void memoryRegFile::readDoubleStream(double
 }
 void memoryRegFile::readComplexStream(std::complex<float> *array,
                                       const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_COMPLEX);
 
   long long nptsT = npts * 8;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -176,7 +176,7 @@ void memoryRegFile::readComplexStream(std::complex<float> *array,
   _pos += nptsT;
 }
 void memoryRegFile::readByteStream(unsigned char *array, const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_BYTE);
 
   long long nptsT = npts * 1;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -185,16 +185,19 @@ void memoryRegFile::readByteStream(unsigned char *array, const long long npts) {
 }
 
 void memoryRegFile::writeFloatStream(const float *array, const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_FLOAT);
 
   long long nptsT = npts * 4;
+
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+
   memcpy(_buf.data() + _pos, array, nptsT);
+
   _pos += nptsT;
 }
 void memoryRegFile::writeByteStream(const unsigned char *array,
                                     const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_BYTE);
 
   long long nptsT = npts * 1;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -202,7 +205,7 @@ void memoryRegFile::writeByteStream(const unsigned char *array,
   _pos += nptsT;
 }
 void memoryRegFile::writeIntStream(const int *array, const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_INT);
 
   long long nptsT = npts * 4;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -211,7 +214,7 @@ void memoryRegFile::writeIntStream(const int *array, const long long npts) {
 }
 void memoryRegFile::writeDoubleStream(const double *array,
                                       const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_DOUBLE);
 
   long long nptsT = npts * 8;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -222,12 +225,10 @@ void memoryRegFile::writeDoubleStream(const double *array,
 void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw, float *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_FLOAT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
-
-  setDataType(DATA_FLOAT);
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -247,12 +248,10 @@ void memoryRegFile::readDoubleWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      double *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_DOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
-
-  setDataType(DATA_DOUBLE);
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -268,12 +267,10 @@ void memoryRegFile::readDoubleWindow(const std::vector<int> &nw,
 void memoryRegFile::readIntWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw, int *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_INT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
-
-  setDataType(DATA_INT);
 
   SEP::blockToParts(hyper, 0, 4, nw, fw, jw, _buf.data(), array, array);
 }
@@ -282,12 +279,10 @@ void memoryRegFile::readComplexWindow(const std::vector<int> &nw,
                                       const std::vector<int> &fw,
                                       const std::vector<int> &jw,
                                       std::complex<float> *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
-
-  setDataType(DATA_COMPLEX);
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -303,7 +298,7 @@ void memoryRegFile::readComplexWindow(const std::vector<int> &nw,
 
 void memoryRegFile::writeComplexStream(const std::complex<float> *array,
                                        const long long npts) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_COMPLEX);
 
   long long nptsT = npts * 8;
   if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
@@ -315,9 +310,7 @@ void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
                                        const std::vector<int> &fw,
                                        const std::vector<int> &jw,
                                        const std::complex<float> *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
-
-  setDataType(DATA_COMPLEX);
+  allocateCheck(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
@@ -331,14 +324,14 @@ void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
     error("number of dimensions does not equal data size");
   }
   int ndim = ng.size();
-  SEP::partsToBlock(hyper, 0, 8, nw, fw, jw, _buf.data(), array, _buf.data());
+  SEP::partsToBlock(hyper, 0, 8, nw, fw, jw, _buf.data(), array, array);
 }
 
 void memoryRegFile::readByteWindow(const std::vector<int> &nw,
                                    const std::vector<int> &fw,
                                    const std::vector<int> &jw,
                                    unsigned char *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
+  allocateCheck(DATA_BYTE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
@@ -357,9 +350,7 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      const float *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
-
-  setDataType(DATA_FLOAT);
+  allocateCheck(DATA_FLOAT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
@@ -378,9 +369,7 @@ void memoryRegFile::writeByteWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw,
                                     const unsigned char *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
-
-  setDataType(DATA_BYTE);
+  allocateCheck(DATA_BYTE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
@@ -400,9 +389,7 @@ void memoryRegFile::writeDoubleWindow(const std::vector<int> &nw,
                                       const std::vector<int> &fw,
                                       const std::vector<int> &jw,
                                       const double *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
-
-  setDataType(DATA_DOUBLE);
+  allocateCheck(DATA_DOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
@@ -421,9 +408,7 @@ void memoryRegFile::writeIntWindow(const std::vector<int> &nw,
                                    const std::vector<int> &fw,
                                    const std::vector<int> &jw,
                                    const int *array) {
-  if (_hyper == nullptr) throw SEPException(std::string("Must set hyper"));
-
-  setDataType(DATA_INT);
+  allocateCheck(DATA_INT);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
@@ -463,4 +448,19 @@ std::vector<std::string> memoryRegFile::splitString(
     prev = pos + delim.length();
   } while (pos < str.length() && prev < str.length());
   return tokens;
+}
+
+void memoryRegFile::allocateCheck(dataType typ) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+
+  if (hyper == nullptr) throw SEPException("Hypercube not set");
+
+  dataType cur = getDataType();
+
+  if (cur == DATA_UNKNOWN) {
+    setDataType(typ);
+
+    _buf.resize(hyper->getN123() * getDataEsize());
+  } else if (cur != typ)
+    throw SEPException("Can not change data type once a write has started");
 }

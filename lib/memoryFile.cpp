@@ -225,10 +225,16 @@ void memoryRegFile::writeDoubleStream(const double *array,
 void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw, float *array) {
+  std::cerr << "wheat 1" << std::endl;
+
   allocateCheck(DATA_FLOAT);
+  std::cerr << "wheat 2" << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
+  std::cerr << "wheat 3" << std::endl;
+
   std::vector<int> ng = hyper->getNs();
+  std::cerr << "wheat 4" << std::endl;
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -238,8 +244,9 @@ void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
-
+  std::cerr << "wheat 5" << std::endl;
   int ndim = ng.size();
+  std::cerr << "wheat 7" << std::endl;
 
   SEP::blockToParts(hyper, 0, 4, nw, fw, jw, _buf.data(), array, array);
 }

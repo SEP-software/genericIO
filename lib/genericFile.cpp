@@ -367,6 +367,7 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 const std::shared_ptr<SEP::regSpace> hyp) {
+  std::cerr << "in read  window " << std::endl;
 #ifdef USE_COMPLEX
   std::shared_ptr<complexHyper> cp =
       std::dynamic_pointer_cast<complexHyper>(hyp);
@@ -387,8 +388,11 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
   std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
   if (ip) return readIntWindow(nw, fw, jw, ip);
 #endif
+  std::cerr << "in2 read  window " << std::endl;
 
   std::shared_ptr<floatHyper> fp = std::dynamic_pointer_cast<floatHyper>(hyp);
+  std::cerr << "in3 read  window " << std::endl;
+
   if (!fp) SEPException(std::string("Trouble with floatHyper cast"));
   return readFloatWindow(nw, fw, jw, fp);
 }

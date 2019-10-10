@@ -40,16 +40,16 @@ set(genericIO_VERSION_STRING
 set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-if(NOT TARGET sepVector))
-if( NOT SUBPACKAGE)
-  execute_process(COMMAND git submodule update --init --recursive --
-                          external/sepVector
-                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+if(NOT TARGET sepVector)
+  if(NOT SUBPACKAGE)
+    execute_process(COMMAND git submodule update --init --recursive --
+                            external/sepVector
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-  execute_process(COMMAND git submodule update --init --recursive --
-                          external/buffers
-                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-endif(NOT SUBPACKAGE)
+    execute_process(COMMAND git submodule update --init --recursive --
+                            external/buffers
+                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  endif(NOT SUBPACKAGE)
   include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
@@ -113,15 +113,13 @@ configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
 # ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake DESTINATION lib/cmake
 # COMPONENT Development)
 
-
 if(BUILD_TEST)
-enable_testing()
+  enable_testing()
 else()
 
 endif(BUILD_TEST)
 
 add_subdirectory(lib)
-
 
 if(BUILD_PYTHON)
   add_subdirectory(python)

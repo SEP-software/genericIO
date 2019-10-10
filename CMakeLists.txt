@@ -40,17 +40,20 @@ set(genericIO_VERSION_STRING
 set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-if(NOT TARGET sepVector)
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
+if(NOT TARGET sepVector))
+if( NOT SUBPACKAGE)
   execute_process(COMMAND git submodule update --init --recursive --
                           external/sepVector
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
 
   execute_process(COMMAND git submodule update --init --recursive --
                           external/buffers
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif(NOT SUBPACKAGE)
+  include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
+  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
+
   add_subdirectory(external/buffers)
 
 endif(NOT TARGET sepVector)

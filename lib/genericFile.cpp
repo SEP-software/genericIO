@@ -97,17 +97,14 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      std::shared_ptr<SEP::floatHyper> vec) {
-  std::cerr << "in generic readfloatwindow" << std::endl;
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
               << std::endl;
     return false;
   }
-  std::cerr << "in aaa readfloatwindow" << std::endl;
-  std::cerr << " ss " << vec->getVals()[0] << std::endl;
+
   readFloatWindow(nw, fw, jw, vec->getVals());
-  std::cerr << "in fail readfloatwindow" << std::endl;
 
   return true;
 }

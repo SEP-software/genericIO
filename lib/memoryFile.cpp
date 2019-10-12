@@ -225,16 +225,11 @@ void memoryRegFile::writeDoubleStream(const double *array,
 void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw, float *array) {
-  std::cerr << "wheat 1" << std::endl;
-
   allocateCheck(DATA_FLOAT);
-  std::cerr << "wheat 2" << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
-  std::cerr << "wheat 3" << std::endl;
 
   std::vector<int> ng = hyper->getNs();
-  std::cerr << "wheat 4" << std::endl;
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
@@ -244,9 +239,7 @@ void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
-  std::cerr << "wheat 5" << std::endl;
   int ndim = ng.size();
-  std::cerr << "wheat 7" << std::endl;
 
   SEP::blockToParts(hyper, 0, 4, nw, fw, jw, _buf.data(), array, array);
 }
@@ -357,30 +350,24 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      const float *array) {
-  std::cerr << "in 1write AAA float window 1" << std::endl;
   allocateCheck(DATA_FLOAT);
-  std::cerr << "in 2write float window 1" << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
-  std::cerr << "in 3write float window 1" << std::endl;
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
       if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
-  std::cerr << "in 4write float window 1" << std::endl;
 
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
-  std::cerr << "in 5write float window 1" << std::endl;
 
   SEP::partsToBlock(hyper, 0, 4, nw, fw, jw, _buf.data(), array, _buf.data());
 
   float *x = (float *)_buf.data();
-  std::cerr << "in 6write float window 1  " << x[1] << " " << x[2] << std::endl;
 }
 void memoryRegFile::writeByteWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
@@ -468,19 +455,14 @@ std::vector<std::string> memoryRegFile::splitString(
 }
 
 void memoryRegFile::allocateCheck(dataType typ) {
-  std::cerr << " alloacte hyperx" << std::endl;
-
   std::shared_ptr<hypercube> hyper = getHyper();
 
-  std::cerr << "begin of alloacte " << std::endl;
   if (hyper == nullptr) throw SEPException("Hypercube not set");
-  std::cerr << "not mull ptr" << std::endl;
   dataType cur = getDataType();
 
   if (cur == DATA_UNKNOWN) {
     setDataType(typ);
-    std::cerr << "allocating to " << hyper->getN123() << " " << getDataEsize()
-              << std::endl;
+
     _buf.resize(hyper->getN123() * getDataEsize());
   } else if (cur != typ) {
     throw SEPException("Can not change data type once a write has started");

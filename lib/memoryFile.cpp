@@ -357,20 +357,28 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      const float *array) {
+  std::cerr << "in 1write float window 1" << std::endl;
   allocateCheck(DATA_FLOAT);
+  std::cerr << "in 2write float window 1" << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = getHyper()->getNs();
+  std::cerr << "in 3write float window 1" << std::endl;
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
       if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
+  std::cerr << "in 4write float window 1" << std::endl;
+
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
+  std::cerr << "in 5write float window 1" << std::endl;
+
   SEP::partsToBlock(hyper, 0, 4, nw, fw, jw, _buf.data(), array, _buf.data());
+  std::cerr << "in 6write float window 1" << std::endl;
 }
 void memoryRegFile::writeByteWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,

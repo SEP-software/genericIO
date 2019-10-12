@@ -104,7 +104,11 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
               << std::endl;
     return false;
   }
+  std::cerr << "in aaa readfloatwindow" << std::endl;
+
   readFloatWindow(nw, fw, jw, vec->getVals());
+  std::cerr << "in fail readfloatwindow" << std::endl;
+
   return true;
 }
 bool genericRegFile::writeFloatWindow(

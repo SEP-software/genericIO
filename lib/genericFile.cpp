@@ -390,14 +390,10 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
   std::shared_ptr<intHyper> ip = std::dynamic_pointer_cast<intHyper>(hyp);
   if (ip) return readIntWindow(nw, fw, jw, ip);
 #endif
-  std::cerr << "in2 read  window " << std::endl;
 
   std::shared_ptr<floatHyper> fp = std::dynamic_pointer_cast<floatHyper>(hyp);
-  std::cerr << "in3 read  window " << typeid(fp).name() << std::endl;
-  std::cerr << "in3 read  window " << typeid(fp->getVals()).name() << std::endl;
 
   if (!fp) SEPException(std::string("Trouble with floatHyper cast"));
-  std::cerr << "in3a read  window " << std::endl;
 
   return readFloatWindow(nw, fw, jw, fp);
 }

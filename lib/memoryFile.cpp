@@ -357,7 +357,7 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      const float *array) {
-  std::cerr << "in 1write float window 1" << std::endl;
+  std::cerr << "in 1write AAA float window 1" << std::endl;
   allocateCheck(DATA_FLOAT);
   std::cerr << "in 2write float window 1" << std::endl;
 
@@ -466,6 +466,8 @@ std::vector<std::string> memoryRegFile::splitString(
 }
 
 void memoryRegFile::allocateCheck(dataType typ) {
+  std::cerr << " alloacte hyper" << std::endl;
+
   std::shared_ptr<hypercube> hyper = getHyper();
 
   std::cerr << "begin of alloacte " << std::endl;

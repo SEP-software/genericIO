@@ -378,7 +378,9 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
   std::cerr << "in 5write float window 1" << std::endl;
 
   SEP::partsToBlock(hyper, 0, 4, nw, fw, jw, _buf.data(), array, _buf.data());
-  std::cerr << "in 6write float window 1" << std::endl;
+
+  float *x = _buf.data();
+  std::cerr << "in 6write float window 1  " << x[1] << " " << x[2] << std::endl;
 }
 void memoryRegFile::writeByteWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,

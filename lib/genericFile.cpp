@@ -369,7 +369,6 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 const std::shared_ptr<SEP::regSpace> hyp) {
-  std::cerr << "in read  window " << std::endl;
 #ifdef USE_COMPLEX
   std::shared_ptr<complexHyper> cp =
       std::dynamic_pointer_cast<complexHyper>(hyp);

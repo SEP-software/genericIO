@@ -466,7 +466,7 @@ std::vector<std::string> memoryRegFile::splitString(
 }
 
 void memoryRegFile::allocateCheck(dataType typ) {
-  std::cerr << " alloacte hyper" << std::endl;
+  std::cerr << " alloacte hyperx" << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
 
@@ -474,12 +474,18 @@ void memoryRegFile::allocateCheck(dataType typ) {
   if (hyper == nullptr) throw SEPException("Hypercube not set");
   std::cerr << "not mull ptr" << std::endl;
   dataType cur = getDataType();
+  x
 
-  if (cur == DATA_UNKNOWN) {
+      if (cur == DATA_UNKNOWN) {
     setDataType(typ);
     std::cerr << "allocating to " << hyper->getN123() << " " << getDataEsize()
               << std::endl;
     _buf.resize(hyper->getN123() * getDataEsize());
-  } else if (cur != typ)
+  }
+  else if (cur != typ) {
     throw SEPException("Can not change data type once a write has started");
+    if (_buf.size() == 0) {
+      _buf.resize(hyper->getN123() * getDataEsize());
+    }
+  }
 }

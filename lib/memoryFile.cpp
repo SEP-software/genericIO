@@ -482,8 +482,8 @@ void memoryRegFile::allocateCheck(dataType typ) {
     _buf.resize(hyper->getN123() * getDataEsize());
   } else if (cur != typ) {
     throw SEPException("Can not change data type once a write has started");
-    if (_buf.size() == 0) {
-      _buf.resize(hyper->getN123() * getDataEsize());
-    }
+  }
+  if (_buf.size() == 0) {
+    _buf.resize(hyper->getN123() * getDataEsize());
   }
 }

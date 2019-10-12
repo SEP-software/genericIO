@@ -472,7 +472,7 @@ void memoryRegFile::allocateCheck(dataType typ) {
 
   dataType cur = getDataType();
 
-  if (cur == DATA_UNKNOWN) {
+  if (cur != DATA_UNKNOWN) {
     setDataType(typ);
 
     _buf.resize(hyper->getN123() * getDataEsize());

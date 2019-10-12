@@ -468,8 +468,9 @@ std::vector<std::string> memoryRegFile::splitString(
 void memoryRegFile::allocateCheck(dataType typ) {
   std::shared_ptr<hypercube> hyper = getHyper();
 
+  std::cerr << "begin of alloacte " << std::endl;
   if (hyper == nullptr) throw SEPException("Hypercube not set");
-
+  std::cerr << "not mull ptr" << std::endl;
   dataType cur = getDataType();
 
   if (cur == DATA_UNKNOWN) {

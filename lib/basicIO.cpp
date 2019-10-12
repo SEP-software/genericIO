@@ -425,6 +425,7 @@ void SEP::partsToBlock(const std::shared_ptr<hypercube> hyper, const int traceH,
               pt1 += traceH;
               for (int i0 = 0; i0 < nwo[0]; i0++, id += esize) {
                 float *a1 = (float *)(&outH[id]);
+                std::cerr<<"copying from "<<id<<"  to "<<pt1 + (fwo[0] + jwo[0] * i0<<std::endl;
                 memcpy(&inH[pt1 + (fwo[0] + jwo[0] * i0) * blk[0]], &outH[id],
                        esize);
               }

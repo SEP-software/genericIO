@@ -97,6 +97,7 @@ bool genericRegFile::readFloatWindow(const std::vector<int> &nw,
                                      const std::vector<int> &fw,
                                      const std::vector<int> &jw,
                                      std::shared_ptr<SEP::floatHyper> vec) {
+  std::cerr << "in generic readfloatwindow" << std::endl;
   std::shared_ptr<hypercube> hypV = vec->getHyper();
   if (vec->getSpaceOnly()) {
     std::cerr << "Trying to read in to a vector that has not been allocated"
@@ -394,6 +395,8 @@ bool genericRegFile::readWindow(const std::vector<int> &nw,
   std::cerr << "in3 read  window " << std::endl;
 
   if (!fp) SEPException(std::string("Trouble with floatHyper cast"));
+  std::cerr << "in3a read  window " << std::endl;
+
   return readFloatWindow(nw, fw, jw, fp);
 }
 

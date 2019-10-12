@@ -399,6 +399,7 @@ Read a float window
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
+    std::cerr << "in generic " << std::endl;
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
     throw SEPException(std::string("readFloatWindow is undefined"));

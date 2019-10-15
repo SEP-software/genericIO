@@ -273,12 +273,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &, const std::complex<float> *)) &
                genericRegFile::writeComplexWindow,
            "Write a window of complex")
-      .def("writeFloatWindow",
+      .def("writeComplexWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
                const std::vector<int> &, const std::shared_ptr<complexHyper>)) &
-               genericRegFile::writeFloatWindow,
-           "Write  a window of floats  into a sepVector")
+               genericRegFile::writeComplexWindow,
+           "Write  a window of complex floats  into a sepVector")
       .def("readDescription", (void (genericRegFile::*)(const int)) &
                                   genericRegFile::readDescription)
       .def("writeDescription",

@@ -43,13 +43,14 @@ void sepRegFile::remove() {
   std::stringstream test(temp);
   std::string segment;
 
-  while (std::getline(test, segment, ';')) std::remove(segment);  // delete file
+  while (std::getline(test, segment, ';'))
+    std::remove(segment.c_str());  // delete file
 
   strcpy(temp, _tag.c_str());
   auxpar(_tag.c_str(), "s", temp, _tag.c_str());
   segment = temp;
 
-  std::remove(segment);  // delete file
+  std::remove(segment.c_str());  // delete file
 }
 int sepRegFile::getInt(const std::string &arg) const {
   int x;

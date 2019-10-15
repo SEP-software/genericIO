@@ -131,8 +131,12 @@ void gcpBuffersRegFile::createBuffers() {
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
+  std::cerr << "in1 create buffers " << std::endl;
+
   _bufs.reset(
       new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block, _comp, _mem));
+  std::cerr << "in2 create buffers " << std::endl;
+
   _bufs->setName(jsonArgs["name"].asString(), true);
   std::cerr << "out create buffers " << std::endl;
 }

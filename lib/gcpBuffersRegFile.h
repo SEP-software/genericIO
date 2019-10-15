@@ -4,9 +4,9 @@
 #include <string>
 #include "basicIO.h"
 #include "buffers.h"
+#include "buffersRegFile.h"
 #include "google/cloud/status_or.h"
 #include "google/cloud/storage/client.h"
-#include "buffersRegFile.h"
 #include "json.h"
 namespace SEP {
 /*!
@@ -38,29 +38,36 @@ class gcpBuffersRegFile : public buffersRegFile {
     \param tag Tag associated with file
     */
   void setupGCP(const Json::Value &arg, const std::string &tag);
+
+  /*!
+   Remove Description and directory
+   */
+  virtual void removeDescDir() override;
+
   /*!
     Close file
     */
+
   virtual void close();
   /*!
       Create buffers
   */
   void createBuffers();
 
-  std::string getEnvVar(std::string const &key, std::string const &defaultV) const{
-	  char *val=getenv(key.c_str());
-	  return val== NULL? defaultV: std::string(val);
+  std::string getEnvVar(std::string const &key,
+                        std::string const &defaultV) const {
+    char *val = getenv(key.c_str());
+    return val == NULL ? defaultV : std::string(val);
   }
 
  protected:
   google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;
 
-      private:
-      /*!
-    Setup GCP
-    */
-      void
-      setupGCP();
+ private:
+  /*!
+Setup GCP
+*/
+  void setupGCP();
   std::string _bucket;  ///< Name of the bucker
   std::string _dir;     ///< Directory
 

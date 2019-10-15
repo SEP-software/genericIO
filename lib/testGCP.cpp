@@ -17,6 +17,7 @@ TEST(TESTGCP, basic) {
     buf->getVals()[i] = i;
   }
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
+  file->setHyper(hyper);
   file->writeFloatWindow(nw, fw, jw, buf);
   file->close();
 }

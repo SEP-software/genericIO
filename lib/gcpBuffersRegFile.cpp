@@ -117,7 +117,8 @@ void gcpBuffersRegFile::close() {
     google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
         std::move(stream).metadata();
     if (!metadata) {
-      std::cerr << "FAILURE " << _bucket + std::string("/") + _dir << std::endl;
+      std::cerr << "trouble closing " << _bucket + std::string("/") + _dir
+                << std::endl;
       std::cerr << metadata.status().message() << std::endl;
       throw SEPException(std::string("Trouble writing object"));
     }
@@ -125,6 +126,7 @@ void gcpBuffersRegFile::close() {
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
+  std::cerr << "in create buffers " << std::endl;
   if (_bufs) return;
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
@@ -132,4 +134,5 @@ void gcpBuffersRegFile::createBuffers() {
   _bufs.reset(
       new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block, _comp, _mem));
   _bufs->setName(jsonArgs["name"].asString(), true);
+  std::cerr << "out create buffers " << std::endl;
 }

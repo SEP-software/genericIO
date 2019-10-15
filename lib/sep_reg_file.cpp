@@ -556,7 +556,6 @@ void sepRegFile::writeDescription() {
 
   auxputch("esize", "d", &esize, _tag.c_str());
 }
-}
 void sepRegFile::message(const std::string &arg) const {
   sepwarn(0, arg.c_str());
 }

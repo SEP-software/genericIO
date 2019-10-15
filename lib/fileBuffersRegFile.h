@@ -29,7 +29,10 @@ class fileBuffersRegFile : public buffersRegFile {
   fileBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
                      const std::string &tag, const std::string &progName,
                      const int ndimMax = -1);
-
+  /*!
+  Remove description and directory
+  */
+  virtual void removeDescDir() override;
   /*! Close the file */
   virtual void close();
   /*! Create buffers */

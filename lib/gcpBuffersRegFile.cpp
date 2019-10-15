@@ -100,6 +100,13 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
     }
   }
 }
+void gcpBuffersRegFile::removeDescDir() {
+  namespace gcs = google::cloud::storage;
+  google::cloud::v0::StatusOr<gcs::Client> client =
+      gcs::Client::CreateDefaultClient();
+
+  client.value().DeleteObject(bucket_name, _baseName + std::string("/desc"));
+}
 void gcpBuffersRegFile::close() {
   namespace gcs = google::cloud::storage;
   if (getUsage() == usageOut || getUsage() == usageInOut) {

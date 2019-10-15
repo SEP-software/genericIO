@@ -19,6 +19,19 @@ class buffersRegFile : public jsonGenericRegFile {
   /*!
      Write the description for the file
  */
+  virtual void remove() override {
+    _bufs->remove();
+    removeDescDir();
+  }
+  /*!
+  Remove description and directory
+  */
+  virtual void removeDescDir() {
+    perror("must override description and directory");
+  }
+  /*!
+  Write description
+  */
   virtual void writeDescription();
   /*!
 Read entire file

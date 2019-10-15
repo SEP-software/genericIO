@@ -55,6 +55,12 @@ void fileBuffersRegFile::createBuffers() {
   _bufs->setName(jsonArgs["name"].asString(), true);
 }
 
+void fileBuffersRegFile::removeDescDir() {
+  std::string desc = _tag + std::string("/des.dat");
+  std::remove(desc.c_str);
+  rmdir(_tag.c_str());
+}
+
 fileBuffersIrregFile::fileBuffersIrregFile(const Json::Value &arg,
                                            const usage_code usage,
                                            const std::string &tag,

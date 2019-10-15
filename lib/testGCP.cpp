@@ -1,7 +1,7 @@
 #include <float3DReg.h>
 #include <gtest/gtest.h>  // googletest header file
 #include <ioModes.h>
-
+using namespace SEP;
 TEST(TESTGCP, basic) {
   std::vector<std::string> args;
   args.push_back("args");

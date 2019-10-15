@@ -535,7 +535,7 @@ void sepRegFile::writeDescription() {
 
   switch (getDataType()) {
     case DATA_INT:
-      = set_format(_tag.c_str(), "xdr_int");
+      set_format(_tag.c_str(), "xdr_int");
       break;
     case DATA_DOUBLE:
       set_format(_tag.c_str(), "native_float");

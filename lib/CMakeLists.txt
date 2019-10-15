@@ -81,10 +81,15 @@ if(BUILD_TEST)
   target_link_libraries(testMemoryFile genericCpp gtest gtest_main gtest)
   add_test(NAME memory_test COMMAND testMemoryFile)
 
-
-    add_executable(testDict test_dictParams.cpp)
+  add_executable(testDict test_dictParams.cpp)
   target_link_libraries(testDict genericCpp gtest gtest_main gtest)
   add_test(NAME dict_params COMMAND testDict)
+
+  if(BUILD_GCP)
+    add_executable(testGCP testGCP.cpp)
+    target_link_libraries(testGCP genericCpp gtest gtest_main gtest)
+    add_test(NAME testGCP COMMAND testGCP)
+  endif(BUILD_GCP)
 endif(BUILD_TEST)
 
 if(USE_SEP)

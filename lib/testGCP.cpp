@@ -9,7 +9,7 @@ TEST(TESTGCP, basic) {
   std::shared_ptr<genericIO> io = modes.getIO("GCPBUFFERS");
 
   std::shared_ptr<genericRegFile> file =
-      io->getRegFile("unitTestB/testFile", usageOut);
+      io->getRegFile("unit-test-b/test-dir", usageOut);
 
   std::shared_ptr<hypercube> hyper(new hypercube(1000, 1000, 1000));
   std::shared_ptr<float3DReg> buf(new float3DReg(hyper));

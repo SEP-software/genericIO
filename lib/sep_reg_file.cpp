@@ -531,6 +531,31 @@ void sepRegFile::writeDescription() {
     float o = 0., d = 1.;
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, "none");
   }
+  int esize = 4;
+
+  switch (getDataType()) {
+    case DATA_INT:
+      = set_format(_tag.c_str(), "xdr_int");
+      break;
+    case DATA_DOUBLE:
+      set_format(_tag.c_str(), "native_float");
+      esize = 8;
+      break;
+    case DATA_COMPLEX:
+      set_format(_tag.c_str(), "xdr_int");
+      esize = 8;
+      break;
+    case DATA_BYTE:
+      set_format(_tag.c_str(), "xdr_byte");
+      esize = 1;
+      break;
+    default:
+      set_format(_tag.c_str(), "xdr_float");
+      break;
+  }
+
+  auxputch("esize", "d", &esize, _tag.c_str());
+}
 }
 void sepRegFile::message(const std::string &arg) const {
   sepwarn(0, arg.c_str());

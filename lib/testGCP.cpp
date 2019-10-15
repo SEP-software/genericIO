@@ -3,7 +3,7 @@
 #include <ioModes.h>
 
 TEST(TESTGCP, basic) {
-  std::vector<string> args;
+  std::vector<std::string> args;
   args.push_back("args");
   ioModes modes(args);
   std::shared_ptr<genericIO> io = modes->getIO("GCPBUFFERS");

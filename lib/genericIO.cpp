@@ -29,6 +29,15 @@ std::shared_ptr<SEP::genericRegFile> genericIO::getDocRegFile(
   }
   return v;
 }
+
+void genericIO::removeRegFile(const std::string fle) {
+  if (_regFiles.count(fle) == 0)
+    throw SEPException(std::string("Requested to remove file ") + fle +
+                       std::string("that has not been initialized"));
+  _regFiles[fle]->remove();
+  _regFiles.erase(fle);
+}
+
 std::shared_ptr<SEP::genericRegFile> genericIO::getDocRegFile(
     const std::string& name, const std::string& doc, const std::string usage,
     const int ndimMax) {

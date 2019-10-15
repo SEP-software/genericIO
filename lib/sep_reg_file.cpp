@@ -3,6 +3,9 @@ extern "C" {
 #include "sep3d.h"
 #include "seplib.h"
 }
+#include <cstring>
+#include <fstream>
+#include <iostream>
 #include <sstream>
 using namespace SEP;
 sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
@@ -34,6 +37,20 @@ sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
   }
 }
 
+void sepRegFile::remove() {
+  char temp[20000];
+  auxpar("in", "s", temp, _tag.c_str());
+  std::stringstream test(temp);
+  std::string segment;
+
+  while (std::getline(test, segment, ';')) std::remove(segment);  // delete file
+
+  strcpy(temp, _tag.c_str());
+  auxpar(_tag.c_str(), "s", temp, _tag.c_str());
+  segment = temp;
+
+  std::remove(segment);  // delete file
+}
 int sepRegFile::getInt(const std::string &arg) const {
   int x;
   if (0 == auxpar(arg.c_str(), "d", &x, _tag.c_str()))

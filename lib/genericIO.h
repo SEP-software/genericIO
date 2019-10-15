@@ -228,6 +228,11 @@ class genericIO {
   void addFileDescription(const std::shared_ptr<genericRegFile> fileIn,
                           const std::string &title,
                           std::shared_ptr<genericRegFile> fileOut);
+
+  /*!
+    Remove file from the system
+    */
+  void removeRegFile(const std::string fle);
   /*!
  Delete IO type (close files)
 

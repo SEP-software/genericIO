@@ -18,6 +18,11 @@ class sepRegFile : public SEP::genericRegFile {
   */
   sepRegFile(const std::string &tg, const SEP::usage_code usage,
              const int ndimMax = -1);
+
+  /*!
+     Remove file
+     */
+  virtual void remove() override;
   /*!
  Get an integer from a file
 

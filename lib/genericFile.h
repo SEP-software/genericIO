@@ -37,6 +37,10 @@ class genericRegFile : public paramObj {
      \param par Name of parameter
      \param val Value to write to file description
   */
+  /*!
+    Remove file from system
+    */
+  virtual void remove() { perror("must override remove"); }
   virtual void putInt(const std::string &par, const int val) = 0;
   /*!
    Put float to file description

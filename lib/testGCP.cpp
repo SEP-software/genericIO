@@ -16,8 +16,14 @@ TEST(TESTGCP, basic) {
   for (int i = 0; i < 1000 * 1000 * 1000; i++) {
     buf->getVals()[i] = i;
   }
+  std::cerr << "what 2is the problemn " << std::endl;
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
   file->setHyper(hyper);
+  std::cerr << "what 4is the problemn " << std::endl;
+
   file->writeFloatWindow(nw, fw, jw, buf);
+  std::cerr << "what 6is the problemn " << std::endl;
+
   file->close();
+  std::cerr << "what7 is the problemn " << std::endl;
 }

@@ -14,7 +14,7 @@ TEST(TESTGCP, basic) {
   std::shared_ptr<hypercube> hyper(new hypercube(1000, 1000, 1000));
   std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
   for (int i = 0; i < 1000 * 1000 * 1000; i++) {
-    _hyper->getVals()[i] = i;
+    buf->getVals()[i] = i;
   }
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
   file->writeFloatWindow(nw, fw, jw, buf);

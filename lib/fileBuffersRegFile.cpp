@@ -1,4 +1,5 @@
 #include "fileBuffersRegFile.h"
+#include <unistd.h>
 #include <cstdlib>
 #include <exception>
 #include <fstream>   // std::ifstream
@@ -57,7 +58,7 @@ void fileBuffersRegFile::createBuffers() {
 
 void fileBuffersRegFile::removeDescDir() {
   std::string desc = _tag + std::string("/des.dat");
-  std::remove(desc.c_str);
+  std::remove(desc.c_str());
   rmdir(_tag.c_str());
 }
 

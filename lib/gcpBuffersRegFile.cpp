@@ -105,7 +105,7 @@ void gcpBuffersRegFile::removeDescDir() {
   google::cloud::v0::StatusOr<gcs::Client> client =
       gcs::Client::CreateDefaultClient();
 
-  client.value().DeleteObject(bucket_name, _baseName + std::string("/desc"));
+  client.value().DeleteObject(_bucket, _dir + std::string("/desc"));
 }
 void gcpBuffersRegFile::close() {
   namespace gcs = google::cloud::storage;

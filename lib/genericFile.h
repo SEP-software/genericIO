@@ -535,7 +535,7 @@ Write a byte window
   /*!
     Read the description of the file
 */
-  virtual void readDescription(const int ndim=-1) = 0;
+  virtual void readDescription(const int ndim = -1) = 0;
 
   /*!
 Write  the description of the file
@@ -549,7 +549,7 @@ Write  the description of the file
     Set the hypercube for the file
     \param hyp Hypercube describing regular file
     */
-  virtual void setHyper(const std::shared_ptr<SEP::hypercube> hyp);
+  void setHyper(const std::shared_ptr<SEP::hypercube> hyp);
   /*!
     Return datatype of file
     */

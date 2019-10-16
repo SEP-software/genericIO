@@ -430,5 +430,7 @@ bool genericRegFile::writeWindow(const std::vector<int> &nw,
 }
 void genericRegFile::setHyper(const std::shared_ptr<SEP::hypercube> hyp) {
   _hyper = hyp->clone();
-  if (!_hyper) throw SEPException(std::string("hypercube not defined"));
+  std::cerr << "in set hyper" << std::endl;
+  if (!_hyper)
+    throw SEPException(std::string("hypercube not defined after clone"));
 }

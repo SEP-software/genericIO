@@ -32,14 +32,11 @@ TEST(TESTGCP, read) {
 
   std::shared_ptr<genericRegFile> file =
       io->getRegFile("unit-test-b/test-dir", usageIn);
-  file->readDescription();
-  std::cerr << "before get hyper" << std::endl;
   std::shared_ptr<hypercube> hyper = file->getHyper();
   std::cerr << hyper->getNdim() << "=ndims" << std::endl;
   std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
 
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
-  std::cerr << "before read float window" << std::endl;
   file->readFloatWindow(nw, fw, jw, buf);
   std::cerr << "close" << std::endl;
   file->close();

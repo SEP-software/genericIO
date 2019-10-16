@@ -166,7 +166,7 @@ Get the name of the JSON file
   /*!
     Read file description, with minimum nuber of dimensions
     */
-  virtual void readDescription(const int ndimMax) override;
+  virtual void readDescription(const int ndimMax=-1) override;
   /*!
     Write file description
     */

@@ -535,7 +535,7 @@ Write a byte window
   /*!
     Read the description of the file
 */
-  virtual void readDescription(const int ndim) = 0;
+  virtual void readDescription(const int ndim=-1) = 0;
 
   /*!
 Write  the description of the file

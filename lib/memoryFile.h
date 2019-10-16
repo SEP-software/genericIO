@@ -352,7 +352,7 @@ Read a portion of file based on window parameters
   /*!
     Read the description of the file
 */
-  virtual void readDescription(const int ndim) override { ; };
+  virtual void readDescription(const int ndim=-1) override { ; };
   virtual Json::Value getDescription() override { ; }
   virtual void putDescription(const std::string &title,
                               const Json::Value &desc) override {

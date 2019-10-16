@@ -128,7 +128,10 @@ void gcpBuffersRegFile::close() {
 }
 void gcpBuffersRegFile::createBuffers() {
   std::cerr << "in create buffers " << _bufs.size() << std::endl;
-  if (_bufs) return;
+  if (_bufs) {
+    std::cerr << "bufs already created" << std::endl : return;
+  }
+  std::cerr << "IN CREATE" << std::endl;
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");

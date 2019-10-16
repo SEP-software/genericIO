@@ -18,8 +18,26 @@ TEST(TESTGCP, basic) {
   }
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
   file->setHyper(hyper);
-
   file->writeFloatWindow(nw, fw, jw, buf);
-
   file->close();
+}
+TEST(TESTGCP, basic) {
+  std::vector<std::string> args;
+  args.push_back("args");
+  ioModes modes(args);
+  std::shared_ptr<genericIO> io = modes.getIO("GCPBUFFERS");
+
+  std::shared_ptr<genericRegFile> file2 =
+      io->getRegFile("unit-test-b/test-dir", usageIn);
+
+  std::shared_ptr<hypercube> hyper = file2->getHyper();
+  std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
+  for (int i = 0; i < 1000 * 1000 * 1000; i++) {
+    buf->getVals()[i] = i;
+  }
+  std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
+  file->setHyper(hyper);
+  file->readFloatWindow(nw, fw, jw, buf);
+  file->close();
+}
 }

@@ -127,9 +127,10 @@ void gcpBuffersRegFile::close() {
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
-  std::cerr << "in create buffers " << _bufs.size() << std::endl;
+  std::cerr << "in create buffers " << std::endl;
   if (_bufs) {
-    std::cerr << "bufs already created" << std::endl : return;
+    std::cerr << "bufs already created" << std::endl;
+    return;
   }
   std::cerr << "IN CREATE" << std::endl;
   if (!_hyper) error("Must set hypercube before blocking");

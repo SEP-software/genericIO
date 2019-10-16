@@ -1,4 +1,4 @@
-#include "gcpBuffersRegFile.h"
+/ clo #include "gcpBuffersRegFile.h"
 #include <cstdlib>
 #include <exception>
 #include <fstream>   // std::ifstream
@@ -6,7 +6,7 @@
 #include "gcpBuffers.h"
 #include "google/cloud/storage/client.h"
 #include "google/cloud/storage/oauth2/google_credentials.h"
-using namespace SEP;
+    using namespace SEP;
 gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const usage_code usage,
                                      const std::string &tag,
@@ -108,6 +108,7 @@ void gcpBuffersRegFile::removeDescDir() {
   client.value().DeleteObject(_bucket, _dir + std::string("/desc"));
 }
 void gcpBuffersRegFile::close() {
+  writeDescription();
   namespace gcs = google::cloud::storage;
   if (getUsage() == usageOut || getUsage() == usageInOut) {
     gcs::ObjectWriteStream stream =

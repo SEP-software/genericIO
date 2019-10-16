@@ -19,6 +19,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
 
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
+    std::cerr << "before this create" << std::endl;
     _bufs.reset(
         new SEP::IO::gcpBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
   }

@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>  // googletest header file
 #include <ioModes.h>
 using namespace SEP;
+/*
 TEST(TESTGCP, write) {
   std::vector<std::string> args;
   args.push_back("args");
@@ -22,6 +23,7 @@ TEST(TESTGCP, write) {
   file->writeDescription();
   file->close();
 }
+*/
 TEST(TESTGCP, read) {
   std::vector<std::string> args;
   args.push_back("args");
@@ -34,9 +36,7 @@ TEST(TESTGCP, read) {
   std::shared_ptr<hypercube> hyper = file->getHyper();
   std::cerr << hyper->getNdim() << "=ndims" << std::endl;
   std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
-  for (int i = 0; i < 1000 * 1000 * 1000; i++) {
-    buf->getVals()[i] = i;
-  }
+
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
   std::cerr << "before read float window" << std::endl;
   file->readFloatWindow(nw, fw, jw, buf);

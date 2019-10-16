@@ -127,7 +127,7 @@ void gcpBuffersRegFile::close() {
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
-  std::cerr << "in create buffers " << std::endl;
+  std::cerr << "in create buffers " << _bufs.size() << std::endl;
   if (_bufs) return;
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)

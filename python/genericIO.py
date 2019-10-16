@@ -446,7 +446,7 @@ class io:
             if isinstance(kw["params"], dict):
                 self.param.addParams(kw["params"])
             elif isinstance(kw["params"], list):
-                self.param.addParams(kw["parameters"])
+                self.param.addParams(kw["params"])
         self.appendFiles = {}
 
     def getInt(self, tag, *arg):

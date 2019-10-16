@@ -187,7 +187,7 @@ void jsonGenericIrregFile::putFloats(const std::string &par,
   for (int i = 0; i < val.size(); i++) vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericIrregFile::readDescription(const int ndimMax = -1) {
+void jsonGenericIrregFile::readDescription(const int ndimMax ) {
   int ndim;
   bool breakIt = false;
   int iax = 9;

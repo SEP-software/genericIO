@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>  // googletest header file
 #include <ioModes.h>
 using namespace SEP;
-TEST(TESTGCP, basic) {
+TEST(TESTGCP, write) {
   std::vector<std::string> args;
   args.push_back("args");
   ioModes modes(args);
@@ -21,7 +21,7 @@ TEST(TESTGCP, basic) {
   file->writeFloatWindow(nw, fw, jw, buf);
   file->close();
 }
-TEST(TESTGCP, basic) {
+TEST(TESTGCP, read) {
   std::vector<std::string> args;
   args.push_back("args");
   ioModes modes(args);

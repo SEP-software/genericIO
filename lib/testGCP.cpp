@@ -19,6 +19,7 @@ TEST(TESTGCP, write) {
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
   file->setHyper(hyper);
   file->writeFloatWindow(nw, fw, jw, buf);
+  file->writeDescription();
   file->close();
 }
 TEST(TESTGCP, read) {

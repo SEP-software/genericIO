@@ -30,7 +30,7 @@ TEST(TESTGCP, read) {
   std::shared_ptr<genericRegFile> file =
       io->getRegFile("unit-test-b/test-dir", usageIn);
 
-  std::shared_ptr<hypercube> hyper = file2->getHyper();
+  std::shared_ptr<hypercube> hyper = file->getHyper();
   std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
   for (int i = 0; i < 1000 * 1000 * 1000; i++) {
     buf->getVals()[i] = i;

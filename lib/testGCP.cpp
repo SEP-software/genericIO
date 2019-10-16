@@ -32,6 +32,7 @@ TEST(TESTGCP, read) {
 
   std::shared_ptr<genericRegFile> file =
       io->getRegFile("unit-test-b/test-dir", usageIn);
+  file->readDescription();
   std::cerr << "before get hyper" << std::endl;
   std::shared_ptr<hypercube> hyper = file->getHyper();
   std::cerr << hyper->getNdim() << "=ndims" << std::endl;

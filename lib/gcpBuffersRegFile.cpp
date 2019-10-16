@@ -127,10 +127,12 @@ void gcpBuffersRegFile::close() {
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
+  std::cerr << "in create buffers " << std::endl;
   if (_bufs) return;
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
+  std::cerr << "in c2reate buffers " << std::endl;
 
   _bufs.reset(
       new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block, _comp, _mem));

@@ -1,4 +1,4 @@
-/ clo #include "gcpBuffersRegFile.h"
+#include "gcpBuffersRegFile.h"
 #include <cstdlib>
 #include <exception>
 #include <fstream>   // std::ifstream
@@ -6,7 +6,7 @@
 #include "gcpBuffers.h"
 #include "google/cloud/storage/client.h"
 #include "google/cloud/storage/oauth2/google_credentials.h"
-    using namespace SEP;
+using namespace SEP;
 gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const usage_code usage,
                                      const std::string &tag,

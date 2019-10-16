@@ -136,9 +136,12 @@ Read a portion of file based on window parameters
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
                                const std::vector<int> &jw, float *array) {
+    std::cerr << "In read float window" << std::endl;
     setDataType(DATA_FLOAT);
+    std::cerr << "before create vuffers" << std::endl;
     createBuffers();
 
+    std::cerr << "before getWindow" << std::endl;
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
   /*!

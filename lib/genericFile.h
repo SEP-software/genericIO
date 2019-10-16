@@ -591,7 +591,8 @@ Write  the description of the file
    Return hypercube describing dataset
    */
   const std::shared_ptr<SEP::hypercube> getHyper() {
-    if (!_hyper) throw SEPException(std::string("hypercube not defined"));
+    if (_hyper == nullptr)
+      throw SEPException(std::string("hypercube not defined"));
 
     return _hyper;
   }
@@ -599,8 +600,9 @@ Write  the description of the file
   virtual ~genericRegFile() { ; }
 
  protected:
-  std::shared_ptr<SEP::hypercube> _hyper = 0;  ///< Hypercube describing the RSF
-  dataType _type = SEP::DATA_UNKNOWN;          ///< The dataype for for the RSF
+  std::shared_ptr<SEP::hypercube> _hyper =
+      nullptr;                         ///< Hypercube describing the RSF
+  dataType _type = SEP::DATA_UNKNOWN;  ///< The dataype for for the RSF
   usage_code _usage;
 };
 

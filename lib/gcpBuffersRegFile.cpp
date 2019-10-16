@@ -19,7 +19,6 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
 
     if (jsonArgs["bufferInfo"].isNull())
       error(std::string("bufferInfo not provided in JSON file"));
-    std::cerr << "before this create" << std::endl;
     _bufs.reset(
         new SEP::IO::gcpBuffers(getHyper(), tag, jsonArgs["bufferInfo"]));
   }
@@ -128,16 +127,12 @@ void gcpBuffersRegFile::close() {
   _bufs->changeState(SEP::IO::ON_DISK);
 }
 void gcpBuffersRegFile::createBuffers() {
-  std::cerr << "in create buffers " << std::endl;
   if (_bufs) {
-    std::cerr << "bufs already created" << std::endl;
     return;
   }
-  std::cerr << "IN CREATE" << std::endl;
   if (!_hyper) error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
-  std::cerr << "in c2reate buffers " << std::endl;
 
   _bufs.reset(
       new SEP::IO::gcpBuffers(getHyper(), getDataType(), _block, _comp, _mem));

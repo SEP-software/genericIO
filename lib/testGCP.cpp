@@ -27,7 +27,7 @@ TEST(TESTGCP, read) {
   ioModes modes(args);
   std::shared_ptr<genericIO> io = modes.getIO("GCPBUFFERS");
 
-  std::shared_ptr<genericRegFile> file2 =
+  std::shared_ptr<genericRegFile> file =
       io->getRegFile("unit-test-b/test-dir", usageIn);
 
   std::shared_ptr<hypercube> hyper = file2->getHyper();
@@ -36,8 +36,6 @@ TEST(TESTGCP, read) {
     buf->getVals()[i] = i;
   }
   std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
-  file->setHyper(hyper);
   file->readFloatWindow(nw, fw, jw, buf);
   file->close();
-}
 }

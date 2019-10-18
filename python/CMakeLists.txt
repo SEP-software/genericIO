@@ -2,7 +2,7 @@ project(Generic-IO)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 find_package(PythonInterp 3 REQUIRED)
-find_package (Python3 COMPONENTS Interpreter Development Numpy REQUIRED)
+find_package (Python3 COMPONENTS Interpreter Development  REQUIRED)
 
 # This is a CMake example for Python
 

@@ -98,8 +98,14 @@ set(genericIO_DIRNAME_cmake "cmake")
 configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
 
 set(SUBPACKAGE true)
+
+if(NOT TARGET sepVector)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
+endif(NOT TARGET sepVector)
+
+if(NOT TARGET buffers)
 add_subdirectory(external/buffers)
+endif(NOT TARGET buffers)
 
 if(BUILD_TEST)
   enable_testing()

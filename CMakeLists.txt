@@ -22,7 +22,6 @@ if(NOT SUBPACKAGE)
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
 endif(NOT SUBPACKAGE)
-set(SUBPACKAGE true)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -40,28 +39,19 @@ set(genericIO_VERSION_STRING
 set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
-if(NOT TARGET sepVector)
-  if(NOT SUBPACKAGE)
-    execute_process(COMMAND git submodule update --init --recursive --
-                            external/sepVector
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+if(NOT SUBPACKAGE)
+  execute_process(COMMAND git submodule update --init --recursive --
+                          external/sepVector
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-    execute_process(COMMAND git submodule update --init --recursive --
-                            external/buffers
-                    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
-  endif(NOT SUBPACKAGE)
-  include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector/external/hypercube/lib)
-  add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
-
-  add_subdirectory(external/buffers)
-
-endif(NOT TARGET sepVector)
+  execute_process(COMMAND git submodule update --init --recursive --
+                          external/buffers
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif(NOT SUBPACKAGE)
 
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include)
 
 set(USE_SEPVECTOR true)
-include_directories(${sepVector_DIRNAME_include})
 
 if(BUILD_GCP)
   set(USE_GCP ON)
@@ -106,12 +96,10 @@ set(genericIO_DIRNAME_include "include")
 set(genericIO_DIRNAME_cmake "cmake")
 # cmake file
 configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
-# configure_file(genericIOConfigVersion.cmake.in genericIOConfigVersion.cmake
-# @ONLY)
 
-# install(FILES ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfig.cmake
-# ${CMAKE_CURRENT_BINARY_DIR}/genericIOConfigVersion.cmake DESTINATION lib/cmake
-# COMPONENT Development)
+set(SUBPACKAGE true)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
+add_subdirectory(external/buffers)
 
 if(BUILD_TEST)
   enable_testing()

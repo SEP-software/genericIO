@@ -2,11 +2,10 @@ project(Generic-IO)
 cmake_minimum_required(VERSION 2.8)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
-find_package(NumPy REQUIRED)
+find_package (Python3 COMPONENTS Interpreter Development Numpy REQUIRED)
 
 # This is a CMake example for Python
 
-find_package (Python3 COMPONENTS Interpreter Development REQUIRED)
 
   pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
   target_include_directories(

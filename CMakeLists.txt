@@ -41,14 +41,23 @@ set(genericIO_VERSION_STRING
 set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
+message("111 ")
 if(NOT SUBPACKAGE)
+message("211 ")
+
+if(NOT TARGET sepVector)
+message("311 ")
   execute_process(COMMAND git submodule update --init --recursive --
                           external/sepVector
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  endif(NOT TARGET sepVector)
 
+  if(NOT TARGET buffers)
+message("411 ")
   execute_process(COMMAND git submodule update --init --recursive --
                           external/buffers
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  endif(NOT TARGET buffers)
 endif(NOT SUBPACKAGE)
 
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include)

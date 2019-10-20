@@ -66,8 +66,8 @@ Write a float stream
 \param array Array to read into
 \param npts Number of values to read
 */
-  virtual void writeFloatStream(const float *array, const long long npts) {
-    error(std::string("can not stream buffer datasets, must use window")) ocerride;
+  virtual void writeFloatStream(const float *array, const long long npts)override {
+    error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
 Read a float stream

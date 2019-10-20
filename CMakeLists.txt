@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
 
-find_package (Python3 COMPONENTS Interpreter Development NumPy REQUIRED)
+find_package (Python3 COMPONENTS Interpreter Development  REQUIRED)
 
 if(POLICY CMP0028)
   cmake_policy(SET CMP0028 NEW)

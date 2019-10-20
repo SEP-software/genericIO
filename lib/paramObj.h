@@ -38,9 +38,9 @@ Get an integer from a file
 \param arg Name of the prameter
 */
   virtual int getInt(const std::string& arg) const {
-    std::cerr << "in default" << std::endl;
     if (arg == "")
       ;
+    return 0;
   }
   /*!
 Get an integer from a file
@@ -51,6 +51,7 @@ Get an integer from a file
   virtual int getInt(const std::string& arg, const int def) const {
     if (arg == "" || def == 0)
       ;
+    return 0;
   }
   /*!
   Get a float from a file
@@ -61,6 +62,7 @@ Get an integer from a file
   virtual float getFloat(const std::string& arg, const float def) const {
     if (arg == "" || def == 0)
       ;
+    return 0.;
   }
   /*!
 Get a float from a file
@@ -70,6 +72,7 @@ Get a float from a file
   virtual float getFloat(const std::string& arg) const {
     if (arg == "")
       ;
+    return 1.;
   }
   /*!
 Get a string  from a file
@@ -79,6 +82,7 @@ Get a string  from a file
   virtual std::string getString(const std::string& arg) const {
     if (arg == "")
       ;
+    return std::string("");
   }
   /*!
 Get a string from a file
@@ -90,6 +94,7 @@ Get a string from a file
                                 const std::string& def) const {
     if (arg == def)
       ;
+    return std::string("");
   }
   /*!
 Get boolean from a file
@@ -100,6 +105,7 @@ Get boolean from a file
   virtual bool getBool(const std::string& arg, const bool def) const {
     if (arg == "" || def == 0)
       ;
+    return false;
   }
   /*!
   Get a boolean from a file
@@ -109,6 +115,7 @@ Get boolean from a file
   virtual bool getBool(const std::string& arg) const {
     if (arg == "")
       ;
+    return false;
   }
   /*!
   Get integer from a file
@@ -120,6 +127,7 @@ Get boolean from a file
                                    const int nvals) const {
     if (arg == "" || nvals == 0)
       ;
+    return std::vector<int>(1);
   }
   /*!
   Get integer from a file
@@ -131,6 +139,7 @@ Get boolean from a file
                                    const std::vector<int>& defs) const {
     if (arg == "" && defs.size() == -1)
       ;
+    return std::vector<int>(1);
   }
   /*!
   Get an floats from a file
@@ -142,6 +151,7 @@ Get boolean from a file
                                        int nvals) const {
     if (arg == "" || nvals == 0)
       ;
+    return std::vector<float>(1);
   }
   /*!
   Get floats from a file
@@ -153,6 +163,7 @@ Get boolean from a file
                                        const std::vector<float>& defs) const {
     if (arg == "" || defs.size() == -1)
       ;
+    return std::vector<float>(1);
   }
 
   /*!

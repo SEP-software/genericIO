@@ -354,7 +354,7 @@ Read a portion of file based on window parameters
 */
   virtual void readDescription(const int ndim=-1) override { ; };
   virtual Json::Value getDescription() override { 
-Json::value a;
+Json::Value a;
 return a; }
   virtual void putDescription(const std::string &title,
                               const Json::Value &desc) override {

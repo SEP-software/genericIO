@@ -18,7 +18,7 @@ std::shared_ptr<genericRegFile> memoryIO::getRegFileTag(
 std::shared_ptr<genericIrregFile> memoryIO::getIrregFileTag(
     const std::string &tag, const std::string &name,
     const SEP::usage_code usage, const int ndimMax) {
-  // std::shared_ptr<memoryRegFile> x(new memoryIrregFile(name, usage));
+  // std::shared_ptr<memoryIrregFile> x(new memoryIrregFile(name, usage));
   // addRegFile(tag, x);
   // return x;
 }

@@ -34,9 +34,9 @@ class fileBuffersRegFile : public buffersRegFile {
   */
   virtual void removeDescDir() override;
   /*! Close the file */
-  virtual void close();
+  virtual void close() override;
   /*! Create buffers */
-  void createBuffers();
+  void createBuffers() override;
 };
 /*!
   Create file buffer for irregular file

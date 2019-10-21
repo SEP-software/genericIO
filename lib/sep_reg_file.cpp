@@ -268,6 +268,7 @@ void sepRegFile::writeIntStream(const int *array, const long long npts) {
 }
 void sepRegFile::writeDoubleStream(const double *array, const long long npts) {
   long long nptsT = npts * 8;
+  set_format(_tag.c_str(), "native_double");
   long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
@@ -462,6 +463,7 @@ void sepRegFile::writeDoubleWindow(const std::vector<int> &nw,
                                    const std::vector<int> &fw,
                                    const std::vector<int> &jw,
                                    const double *array) {
+  set_format(_tag.c_str(), "native_double");
   setDataType(DATA_DOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -528,8 +530,18 @@ void sepRegFile::readDescription(const int ndimMax) {
       setDataType(DATA_INT);
     else
       error(std::string("Unknown data type " + format));
+  } else if (esize == 8) {
+    std::string format =
+        getString(std::string("data_format"), std::string("xdr_float"));
+    if (format == std::string("xdr_float") || format == "native_float")
+      setDataType(DATA_COMPLEX);
+    else if (format == std::string("nativie_double"))
+      setDataType(DATA_DOUBLE);
+    else  // For now default to complex
+      setDataType(DATA_COMPLEX);
+
   } else
-    error(std::string("Only know about esize=4 or 1"));
+    error(std::string("Only know about esize=8, 4 or 1"));
 }
 void sepRegFile::writeDescription() {
   std::shared_ptr<hypercube> hyper = getHyper();

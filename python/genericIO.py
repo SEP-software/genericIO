@@ -508,9 +508,9 @@ class io:
            Optional
              ndims - Force the hypercube to at least ndim axes"""
         if "ndims" in kw:
-            file = self.getRegFile(tag, ndims=kw["ndims"])
+            file = self.getRegFile(tag, ndims=kw["ndims"], **kw)
         else:
-            file = self.getRegFile(tag)
+            file = self.getRegFile(tag, **kw)
 
         hyper = file.getHyper()
         nw = file.getHyper().getNs()

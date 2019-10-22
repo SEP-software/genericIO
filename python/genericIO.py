@@ -516,7 +516,6 @@ class io:
         nw = file.getHyper().getNs()
         fw = [0] * len(nw)
         jw = [1] * len(nw)
-        print("IN get Vector ", file.storage)
         vec = SepVector.getSepVector(hyper, storage=file.storage)
         if file.storage == "dataFloat":
             file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())

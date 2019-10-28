@@ -1,9 +1,9 @@
 #include <float3DReg.h>
 #include <ioModes.h>
 #include <stdlib.h>
-#include <chrono>:write
+#include <chrono>
 using namespace SEP;
-
+using namespace std::chrono;
 int main(int argc, char **argv) {
   ioModes modes(argc, argv);
   std::shared_ptr<genericIO> io = modes.getIO("GCPBUFFERS");
@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     file->close();
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t3 - t2).count();
-    std::cout << "To cloud " << (double)buf->getHyper->getN123() * 4 / d2
+    std::cerr << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2
               << " MB/s " << std::endl;
 
   } else {
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
     file->close();
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t3 - t2).count();
-    std::cout << "From cloud " << (double)buf->getHyper->getN123() * 4 / d2
+    std::cerr << "From cloud " << (double)buf->getHyper()->getN123() * 4 / d2
               << " MB/s " << std::endl;
   }
 }

@@ -44,7 +44,6 @@ include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 if(NOT SUBPACKAGE)
 
 if(NOT TARGET sepVector)
-  message("SHOULD UBDATE")
   execute_process(COMMAND git submodule update --init --recursive --
                           external/sepVector
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
@@ -56,7 +55,6 @@ if(NOT TARGET sepVector)
                   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
   endif(NOT TARGET buffers)
 else()
-  message("SHOULD NOT UPDATe")
 endif(NOT SUBPACKAGE)
 
 find_path(RSFINCDIR rsf.h ${RSF_DIR}/include)

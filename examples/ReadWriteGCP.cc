@@ -48,8 +48,9 @@ int main(int argc, char **argv) {
     file->close();
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t3 - t2).count();
-    std::cerr << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2
-              << " MB/s " << std::endl;
+    std::cout << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2
+              << " MB/s " << d2 << " " << buf->getHyper()->getN123()
+              << std::endl;
 
   } else {
     std::shared_ptr<genericRegFile> file = io->getRegFile(dir, usageIn);
@@ -63,7 +64,7 @@ int main(int argc, char **argv) {
     file->close();
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t3 - t2).count();
-    std::cerr << "From cloud " << (double)buf->getHyper()->getN123() * 4 / d2
-              << " MB/s " << std::endl;
+    std::cout << "From cloud " << (double)buf->getHyper()->getN123() * 4 / d2
+              << " MB/s " << d2 << std::endl;
   }
 }

@@ -20,6 +20,7 @@ if(NOT SUBPACKAGE)
   option(BUILD_DEBUG_LIBS "Build gperftool libs" OFF)
   option(BUILD_GCP "Build GCP" OFF)
   option(BUILD_SEP "Build with SEPlib support if found" OFF)
+  option(BUILD_EXAMPLES "Build examples" OFF)
 
 else(NOT SUBPACKAGE)
   option(BUILD_UTIL "Build utilities" OFF)
@@ -125,6 +126,10 @@ endif(BUILD_TEST)
 add_subdirectory(lib)
 
 add_subdirectory(python)
+if(BUILD_EXAMPLES)
+
+add_subdirectory(examples)
+endif(BUILD_EXAMPLES)
 
 if(BUILD_UTIL)
   add_subdirectory(util)

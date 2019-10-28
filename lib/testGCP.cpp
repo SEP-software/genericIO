@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>  // googletest header file
 #include <ioModes.h>
 using namespace SEP;
-/*
+
 TEST(TESTGCP, write) {
   std::vector<std::string> args;
   args.push_back("args");
@@ -23,7 +23,7 @@ TEST(TESTGCP, write) {
   file->writeDescription();
   file->close();
 }
-*/
+
 TEST(TESTGCP, read) {
   std::vector<std::string> args;
   args.push_back("args");

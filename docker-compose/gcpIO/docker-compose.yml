@@ -11,7 +11,7 @@ services:
     volumes:
       - /home/bob/gcptest.json:/opt/gcpcred/gcptest.json
 
-    command: /opt/SEP/bin/ReadWriteGCP write aadsfjkskjl/testab 2000 1000 1000  >/tmp/speed&&
-       /opt/SEP/bin/ReadWriteGCP read aadsfjkskjl/testab >>/tmp/speed &&
+    command: /opt/SEP/bin/ReadWriteGCP write aadsfjkskjl/testab 1000 2000 1000  >/tmp/speed&&\
+       /opt/SEP/bin/ReadWriteGCP read aadsfjkskjl/testab >>/tmp/speed &&\
        cat /tmp/speed
 #    command: python manage.py runserver 0.0.0.0:8000

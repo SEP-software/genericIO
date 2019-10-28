@@ -41,9 +41,10 @@ int main(int argc, char **argv) {
     }
 
     file->setHyper(hyper);
-    t1 = high_resolution_clock::now();
 
     file->writeFloatWindow(nw, fw, jw, buf);
+    t1 = high_resolution_clock::now();
+
     file->writeDescription();
     file->close();
     t2 = high_resolution_clock::now();

@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
     file->writeDescription();
     file->close();
     t2 = high_resolution_clock::now();
-    auto d2 = duration_cast<microseconds>(t3 - t2).count();
+    auto d2 = duration_cast<microseconds>(t2 - t1).count();
     std::cout << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2
               << " MB/s " << d2 << " " << buf->getHyper()->getN123()
               << std::endl;
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
     file->readFloatWindow(nw, fw, jw, buf);
     file->close();
     t2 = high_resolution_clock::now();
-    auto d2 = duration_cast<microseconds>(t3 - t2).count();
+    auto d2 = duration_cast<microseconds>(t2 - t1).count();
     std::cout << "From cloud " << (double)buf->getHyper()->getN123() * 4 / d2
               << " MB/s " << d2 << std::endl;
   }

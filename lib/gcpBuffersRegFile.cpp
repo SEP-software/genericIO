@@ -46,7 +46,7 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   std::string _projectID = getEnvVar("projectID", "NONE");
   std::string _region = getEnvVar("region", "us-west1");
   if (_projectID == std::string("NONE")) {
-    std::cerr << "Must set environmental variable " << _projectID << std::endl;
+    std::cerr << "Must set environmental variable projectID " << _projectID << std::endl;
     exit(1);
   }
   namespace gcs = google::cloud::storage;

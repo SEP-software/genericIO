@@ -1,6 +1,7 @@
 #include <float3DReg.h>
 #include <ioModes.h>
 #include <stdlib.h>
+#include <chrono>:write
 using namespace SEP;
 
 int main(int argc, char **argv) {
@@ -19,6 +20,7 @@ int main(int argc, char **argv) {
     exit(-1);
   }
   std::string dir = std::string(argv[2]);
+  high_resolution_clock::time_point t2, t3, t1;
 
   if (mode == std::string("write")) {
     int n1 = 1000, n2 = 1000, n3 = 1000;
@@ -39,17 +41,29 @@ int main(int argc, char **argv) {
     }
 
     file->setHyper(hyper);
+    t1 = high_resolution_clock::now();
+
     file->writeFloatWindow(nw, fw, jw, buf);
     file->writeDescription();
     file->close();
+    t2 = high_resolution_clock::now();
+    auto d2 = duration_cast<microseconds>(t3 - t2).count();
+    std::cout << "To cloud " << (double)buf->getHyper->getN123() * 4 / d2
+              << " MB/s " << std::endl;
+
   } else {
     std::shared_ptr<genericRegFile> file = io->getRegFile(dir, usageIn);
     std::shared_ptr<hypercube> hyper = file->getHyper();
     std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
+    t1 = high_resolution_clock::now();
 
     std::vector<int> nw(3, 1000), fw(3, 0), jw(3, 1);
     nw = hyper->getNs();
     file->readFloatWindow(nw, fw, jw, buf);
     file->close();
+    t2 = high_resolution_clock::now();
+    auto d2 = duration_cast<microseconds>(t3 - t2).count();
+    std::cout << "From cloud " << (double)buf->getHyper->getN123() * 4 / d2
+              << " MB/s " << std::endl;
   }
 }

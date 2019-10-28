@@ -139,10 +139,10 @@ RUN cd /opt/google-common/build && \
 
 
 RUN mkdir -p /opt/genericIO/build
-RUN git  clone http://zapad.Stanford.EDU/bob/genericIO.git /opt/genericIO/src  &&\
+RUN git clone http://zapad.Stanford.EDU/bob/genericIO.git /opt/genericIO/src  &&\
    cd /opt/genericIO/build &&  \
-   cmake  -DCMAKE_CXX_FLAGS="-g -O3 -fPIC" -DBUILD_EXAMPLES=yes  -DBUILD_GCP=yes -DPYTHON_EXECUTABLE=/usr/bin/python3.5 -DCMAKE_INSTALL_PREFIX=/opt/SEP -DCMAKE_PREFIX_PATH=/opt/google-cloud-cpp-common-0.13.0/cmake-out/external/lib -DPYTHON_PATH=/usr/lib/python3.5 ../src &&\
+   cmake   -DCMAKE_CXX_FLAGS="-g -O3 -fPIC" -DBUILD_EXAMPLES=yes  -DBUILD_GCP=yes -DPYTHON_EXECUTABLE=/usr/bin/python3.5 -DCMAKE_INSTALL_PREFIX=/opt/SEP -DCMAKE_PREFIX_PATH=/opt/google-cloud-cpp-common-0.13.0/cmake-out/external/lib -DPYTHON_PATH=/usr/lib/python3.5 ../src &&\
    cd /opt/genericIO/build &&  \
-   make  -j 12 install &&\
-   rm -rf /opt/genericIO
+   make  -j 12 install 
+#   rm -rf /opt/genericIO
 

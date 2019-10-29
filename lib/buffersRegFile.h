@@ -155,14 +155,10 @@ Write a portion of file based on window parameters
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
                                 const float *array) override {
-    std::cerr << "write float" << std::endl;
     setDataType(DATA_FLOAT);
-    std::cerr << "where do i die " << std::endl;
     createBuffers();
-    std::cerr << "where2 do i die " << std::endl;
 
     _bufs->putWindow(nw, fw, jw, (void *)array);
-    std::cerr << "where do3 i die " << std::endl;
   }
   /*!
 Read a portion of file based on window parameters

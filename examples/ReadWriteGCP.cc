@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
   high_resolution_clock::time_point t2, t3, t1;
 
   if (mode == std::string("write")) {
-    int n1 = 1000, n2 = 1000, n3 = 1000;
+    int n1 = 1000, n2 = 1000, n3 = 200;
     if (argc >= 4) n1 = atoi(argv[3]);
     if (argc >= 5) n2 = atoi(argv[4]);
     if (argc >= 6) n3 = atoi(argv[5]);

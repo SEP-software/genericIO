@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
     t1 = high_resolution_clock::now();
 
     for (int iw = 0; iw < 10; iw++) {
-      fw[2] = 10 * iw;
+      fw[2] = n3 * iw;
       std::cerr << "where do i die " << n1 << " " << n2 << " " << n3
                 << std::endl;
       file->writeFloatWindow(nw, fw, jw, buf);

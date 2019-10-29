@@ -21,6 +21,46 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 FOREACH(lib ${GENERIC_EXPORT_LIB_DIRS})
   link_directories(${lib})
 ENDFOREACH(lib)
+include(ExternalProject)
+
+
+  externalproject_add(
+    gperftools_src
+    PREFIX
+    gperftools_src
+    INSTALL_DIR
+    ${CMAKE_INSTALL_PREFIX}
+    URL
+    https://github.com/gperftools/gperftools/releases/download/gperftools-2.7/gperftools-2.7.tar.gz
+    CONFIGURE_COMMAND
+    ./configure
+    --enable-frame-pointers
+    --prefix=<INSTALL_DIR>
+    BUILD_IN_SOURCE
+    1)
+
+  externalproject_get_property(gperftools_src INSTALL_DIR)
+  set(GPERF_LIBDIR ${INSTALL_DIR}/lib)
+  set(PROFILER_LIB profiler)
+  set(TCMALLOC_LIB tcmalloc)
+  add_library(${PROFILER_LIB} UNKNOWN IMPORTED)
+  add_library(${TCMALLOC_LIB} UNKNOWN IMPORTED)
+  set_property(
+    TARGET ${PROFILER_LIB}
+    PROPERTY
+      IMPORTED_LOCATION
+      ${GPERF_LIBDIR}/${CMAKE_SHARED_LIBRARY_PREFIX}profiler${CMAKE_SHARED_LIBRARY_SUFFIX}
+    )
+  set_property(
+    TARGET ${TCMALLOC_LIB}
+    PROPERTY
+      IMPORTED_LOCATION
+      ${GPERF_LIBDIR}/${CMAKE_SHARED_LIBRARY_PREFIX}tcmalloc${CMAKE_SHARED_LIBRARY_SUFFIX}
+    )
+  add_dependencies(${PROFILER_LIB} gperftools_src)
+  add_dependencies(${TCMALLOC_LIB} gperftools_src)
+
+
 
 if(BUILD_GCP)
 set(EXAMPlES ${EXAMPLES} ReadWriteGCP)
@@ -32,7 +72,7 @@ foreach(exam ${EXAMPlES})
   foreach(lib ${GENERIC_EXPORT_LIBS})
     TARGET_LINK_LIBRARIES(${exam} ${lib})
   endforeach(lib)
-  TARGET_LINK_LIBRARIES(${exam} sepVector buffers tbb)
+  TARGET_LINK_LIBRARIES(${exam} sepVector buffers tbb ${PROFILER_LIB} ${TCMALLOC_LIB})
   install(TARGETS ${exam} DESTINATION bin)
 endforeach(exam)
 

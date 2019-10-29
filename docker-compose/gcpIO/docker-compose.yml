@@ -5,10 +5,10 @@ services:
     build: .
     image: gcp-io-test
     environment:
-      - projectID=earth-clapp
+      - projectID=YOUR_PROJECT_ID
       - GOOGLE_APPLICATION_CREDENTIALS=/opt/gcpcred/gcptest.json
-      - region=us-west1
+      - region=YOUR_REGION
     volumes:
-      - /home/bob/gcptest.json:/opt/gcpcred/gcptest.json
+      - /lOCATION/OF/YOUR/APP/CREDENTIALS:/opt/gcpcred/gcptest.json
 
-    command: /opt/SEP/bin/ReadWriteGCP both  aadsfjkskjl/testab 1000 1000 200
+    command: /opt/SEP/bin/ReadWriteGCP both  BUCKET/DIRECTORY  1000 1000 200

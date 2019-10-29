@@ -14,15 +14,16 @@ int main(int argc, char **argv) {
     exit(-1);
   }
   std::string mode = argv[1];
-  if (mode != std::string("read") && mode != std::string("write")) {
-    std::cerr << argv[0] << "read/write directory"
+  if (mode != std::string("read") && mode != std::string("write") &&
+      mode != std::string("both")) {
+    std::cerr << argv[0] << "read/write/both directory"
               << " [n1 n2 n3]" << std::endl;
     exit(-1);
   }
   std::string dir = std::string(argv[2]);
   high_resolution_clock::time_point t2, t3, t1;
 
-  if (mode == std::string("write")) {
+  if (mode == std::string("write") || mode == std::string("both")) {
     int n1 = 1000, n2 = 1000, n3 = 200;
     if (argc >= 4) n1 = atoi(argv[3]);
     if (argc >= 5) n2 = atoi(argv[4]);
@@ -54,10 +55,9 @@ int main(int argc, char **argv) {
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t2 - t1).count();
     std::cout << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2
-              << " MB/s " << d2 << " " << buf->getHyper()->getN123()
-              << std::endl;
-
-  } else {
+              << " MB/s " << std::endl;
+  }
+  if (mode == std::string("read") || mode == std::string("both")) {
     std::shared_ptr<genericRegFile> file = io->getRegFile(dir, usageIn);
     std::shared_ptr<hypercube> hyper = file->getHyper();
     std::shared_ptr<float3DReg> buf(new float3DReg(hyper));

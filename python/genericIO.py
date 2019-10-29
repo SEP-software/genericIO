@@ -507,7 +507,7 @@ class io:
         """Get vector from a file and read its contents
            Optional
              ndims - Force the hypercube to at least ndim axes"""
-        file = self.getRegFile(tag, ndims=kw["ndims"], **kw)
+        file = self.getRegFile(tag, **kw)
 
         hyper = file.getHyper()
         nw = file.getHyper().getNs()

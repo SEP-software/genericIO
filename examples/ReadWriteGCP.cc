@@ -34,20 +34,24 @@ int main(int argc, char **argv) {
 
     std::shared_ptr<genericRegFile> file = io->getRegFile(dir, usageOut);
 
-    std::shared_ptr<hypercube> hyper(new hypercube(n1, n2, n3));
+    std::shared_ptr<hypercube> hyper(new hypercube(n1, n2, n3 * 10));
     std::shared_ptr<float3DReg> buf(new float3DReg(hyper));
     for (int i = 0; i < (long long)n1 * (long long)n2 * (long long)n3; i++) {
       buf->getVals()[i] = i;
     }
 
     file->setHyper(hyper);
-
-    std::cerr << "where do i die " << n1 << " " << n2 << " " << n3 << std::endl;
-    file->writeFloatWindow(nw, fw, jw, buf);
     t1 = high_resolution_clock::now();
-    std::cerr << "done write " << n1 << " " << n2 << " " << n3 << std::endl;
 
+    for (int iw = 0; iw < 10; iw++) {
+      fw[2] = 10 * iw;
+      std::cerr << "where do i die " << n1 << " " << n2 << " " << n3
+                << std::endl;
+      file->writeFloatWindow(nw, fw, jw, buf);
+      std::cerr << "done write " << n1 << " " << n2 << " " << n3 << std::endl;
+    }
     file->writeDescription();
+
     file->close();
     std::cerr << "done close " << n1 << " " << n2 << " " << n3 << std::endl;
 

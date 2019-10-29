@@ -38,7 +38,8 @@ Read entire file
 
 \param hyp byteHyper (from sepVector) to grab file contents from
 */
-  virtual void readByteStream(unsigned char *array, const long long npts) override {
+  virtual void readByteStream(unsigned char *array,
+                              const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -48,7 +49,7 @@ Read a portion of file based on window parameters
 \param hyp complexHyper (from sepVector) storage
 */
   virtual void writeComplexStream(const std::complex<float> *array,
-                                  const long long npts) override{
+                                  const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -57,7 +58,7 @@ Read entire file
 \param hyp complexHyper (from sepVector) to grab file contents from
 */
   virtual void readComplexStream(std::complex<float> *array,
-                                 const long long npts) override{
+                                 const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -66,7 +67,8 @@ Write a float stream
 \param array Array to read into
 \param npts Number of values to read
 */
-  virtual void writeFloatStream(const float *array, const long long npts)override {
+  virtual void writeFloatStream(const float *array,
+                                const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -85,7 +87,7 @@ Read a portion of file based on window parameters
 \param nw,fw,jw Standard window parameters
 \param hyp byteHyper (from sepVector) storage
 */
-  virtual void writeIntStream(const int *array, const long long npts) override{
+  virtual void writeIntStream(const int *array, const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -102,7 +104,8 @@ Read a portion of file based on window parameters
 \param nw,fw,jw Standard window parameters
 \param hyp doubleHyper (from sepVector) storage
 */
-  virtual void writeDoubleStream(const double *array, const long long npts) override {
+  virtual void writeDoubleStream(const double *array,
+                                 const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -110,7 +113,7 @@ Read entire file
 
 \param hyp doubleHyper (from sepVector) to grab file contents from
 */
-  virtual void readDoubleStream(double *array, const long long npts)  override{
+  virtual void readDoubleStream(double *array, const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
   /*!
@@ -122,7 +125,7 @@ Read a portion of file based on window parameters
   virtual void readByteWindow(const std::vector<int> &nw,
                               const std::vector<int> &fw,
                               const std::vector<int> &jw,
-                              unsigned char *array)  override{
+                              unsigned char *array) override {
     setDataType(DATA_FLOAT);
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
@@ -135,7 +138,8 @@ Read a portion of file based on window parameters
 */
   virtual void readFloatWindow(const std::vector<int> &nw,
                                const std::vector<int> &fw,
-                               const std::vector<int> &jw, float *array) override {
+                               const std::vector<int> &jw,
+                               float *array) override {
     setDataType(DATA_FLOAT);
     createBuffers();
 
@@ -150,10 +154,15 @@ Write a portion of file based on window parameters
   virtual void writeFloatWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
-                                const float *array) override{
+                                const float *array) override {
+    std::cerr << "write float" << std::endl;
     setDataType(DATA_FLOAT);
+    std::cerr << "where do i die " << std::endl;
     createBuffers();
+    std::cerr << "where2 do i die " << std::endl;
+
     _bufs->putWindow(nw, fw, jw, (void *)array);
+    std::cerr << "where do3 i die " << std::endl;
   }
   /*!
 Read a portion of file based on window parameters
@@ -177,7 +186,7 @@ Read a portion of file based on window parameters
   virtual void writeComplexWindow(const std::vector<int> &nw,
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
-                                  const std::complex<float> *array) override{
+                                  const std::complex<float> *array) override {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
@@ -189,7 +198,7 @@ Read a portion of file based on window parameters
 */
   virtual void readIntWindow(const std::vector<int> &nw,
                              const std::vector<int> &fw,
-                             const std::vector<int> &jw, int *array) override{
+                             const std::vector<int> &jw, int *array) override {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
@@ -201,7 +210,8 @@ Write a portion of file based on window parameters
 */
   virtual void writeIntWindow(const std::vector<int> &nw,
                               const std::vector<int> &fw,
-                              const std::vector<int> &jw, const int *array) override{
+                              const std::vector<int> &jw,
+                              const int *array) override {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }
@@ -213,7 +223,8 @@ Read a portion of file based on window parameters
 */
   virtual void readDoubleWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
-                                const std::vector<int> &jw, double *array) override{
+                                const std::vector<int> &jw,
+                                double *array) override {
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
@@ -226,7 +237,7 @@ Write a portion of file based on window parameters
   virtual void writeDoubleWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
-                                 const double *array)  override{
+                                 const double *array) override {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }

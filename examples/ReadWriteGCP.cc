@@ -48,8 +48,10 @@ int main(int argc, char **argv) {
       std::cerr << "where do i die " << n1 << " " << n2 << " " << n3
                 << std::endl;
       file->writeFloatWindow(nw, fw, jw, buf);
-      std::cerr << "done write " << n1 << " " << n2 << " " << n3 << std::endl;
+      std::cerr << "done write " << iw << " " << n1 << " " << n2 << " " << n3
+                << std::endl;
     }
+    std::cerr << "before write description" << std::endl;
     file->writeDescription();
 
     file->close();

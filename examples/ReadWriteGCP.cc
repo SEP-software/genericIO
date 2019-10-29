@@ -42,11 +42,15 @@ int main(int argc, char **argv) {
 
     file->setHyper(hyper);
 
+    std::cerr << "where do i die " << n1 << " " << n2 << " " << n3 << std::endl;
     file->writeFloatWindow(nw, fw, jw, buf);
     t1 = high_resolution_clock::now();
+    std::cerr << "done write " << n1 << " " << n2 << " " << n3 << std::endl;
 
     file->writeDescription();
     file->close();
+    std::cerr << "done close " << n1 << " " << n2 << " " << n3 << std::endl;
+
     t2 = high_resolution_clock::now();
     auto d2 = duration_cast<microseconds>(t2 - t1).count();
     std::cout << "To cloud " << (double)buf->getHyper()->getN123() * 4 / d2

@@ -146,7 +146,6 @@ class regFile:
             self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
-            print("BEFORE 2")
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()

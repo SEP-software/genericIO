@@ -10,12 +10,9 @@ sepIO::sepIO(int argc, char **argv) {
 std::shared_ptr<genericRegFile> sepIO::getRegFileTag(
     const std::string &tag, const std::string &name,
     const SEP::usage_code usage, const int ndimMax) {
-  std::cerr << "get regifle " << name << std::endl;
   std::shared_ptr<sepRegFile> x(new sepRegFile(name, usage));
-  std::cerr << "get3 regifle " << std::endl;
 
   addRegFile(tag, x);
-  std::cerr << "get4 regifle " << std::endl;
 
   return x;
 }

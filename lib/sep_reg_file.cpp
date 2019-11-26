@@ -18,7 +18,7 @@ sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
       std::cerr << "what22 1 " << tag.c_str() << std::endl;
 
       if (_tag != "in")
-        if (0 == auxin(_tag.c_str()))
+        if (NULL == auxin(_tag.c_str()))
           error(std::string("can not open file ") + tag);
       std::cerr << "33 1 " << std::endl;
 

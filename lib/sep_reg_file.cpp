@@ -15,7 +15,7 @@ sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
   _usage = usage;
   switch (usage) {
     case usageIn:
-      std::cerr << "what22 1 " << std::endl;
+      std::cerr << "what22 1 " << tag.c_str() << std::endl;
 
       if (_tag != "in")
         if (0 == auxin(_tag.c_str()))

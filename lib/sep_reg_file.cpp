@@ -550,7 +550,7 @@ void sepRegFile::readDescription(const int ndimMax) {
   } else
     error(std::string("Only know about esize=8, 4 or 1"));
 
-  fprintf(stderr, "IN read description %d\n",
+  fprintf(stderr, "IN read description %s\n",
           getTypeString(getDataType()).c_str());
 }
 void sepRegFile::writeDescription() {

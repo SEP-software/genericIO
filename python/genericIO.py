@@ -178,7 +178,7 @@ class regFile:
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)
             inv_map = {v: k for k, v in storageConvert.items()}
-            self.storage = inv_map[self.cppMode.dataType]
+            self.storage = inv_map[self.cppMode.getDataType()]
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""

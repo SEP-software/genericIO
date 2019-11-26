@@ -10,19 +10,20 @@ extern "C" {
 using namespace SEP;
 sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
                        const int ndim) {
-  std::cerr << "what 1 " << std::endl;
+  std::cerr << "ffff 1 " << std::endl;
   _tag = tag;
   _usage = usage;
   switch (usage) {
     case usageIn:
-      if (_tag != "in") std::cerr << "whaaat 1 " << std::endl;
+      std::cerr << "what22 1 " << std::endl;
 
-      if (0 == auxin(_tag.c_str()))
-        error(std::string("can not open file ") + tag);
-      std::cerr << "43243 1 " << std::endl;
+      if (_tag != "in")
+        if (0 == auxin(_tag.c_str()))
+          error(std::string("can not open file ") + tag);
+      std::cerr << "33 1 " << std::endl;
 
       readDescription(ndim);
-      std::cerr << "444 1 " << std::endl;
+      std::cerr << "44 1 " << std::endl;
 
       break;
     case usageOut:

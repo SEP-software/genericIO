@@ -524,7 +524,6 @@ void sepRegFile::readDescription(const int ndimMax) {
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
   int esize = getInt("esize", 4);
-  fprintf(stderr, "IN read description %d\n", esize);
   if (esize == 1)
     setDataType(DATA_BYTE);
   else if (esize == 4) {
@@ -550,6 +549,9 @@ void sepRegFile::readDescription(const int ndimMax) {
 
   } else
     error(std::string("Only know about esize=8, 4 or 1"));
+
+  fprintf(stderr, "IN read description %d\n",
+          getTypeString(getDataType()).c_str());
 }
 void sepRegFile::writeDescription() {
   std::shared_ptr<hypercube> hyper = getHyper();

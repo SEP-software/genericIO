@@ -172,10 +172,13 @@ class regFile:
             elif self.usage == "usageOut":
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
+            print("before get regfile")
             self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)
+            inv_map = {v: k for k, v in storageConvert.items()}
+            self.storage = inv_map[self.cppMode.dataType]
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""

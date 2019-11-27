@@ -142,7 +142,6 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
-            print("BEFORE GET REGFILE")
             self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
@@ -171,7 +170,6 @@ class regFile:
             elif self.usage == "usageOut":
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
-            print("before get regfile")
             self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
@@ -511,9 +509,7 @@ class io:
         """Get vector from a file and read its contents
            Optional
              ndims - Force the hypercube to at least ndim axes"""
-        print("IN GET VECTOR")
         file = self.getRegFile(tag, **kw)
-        print("IN2 GET VECTOR", file.storage)
 
         hyper = file.getHyper()
         nw = file.getHyper().getNs()

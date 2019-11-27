@@ -450,6 +450,7 @@ class io:
             elif isinstance(kw["params"], list):
                 self.param.addParams(kw["params"])
         self.appendFiles = {}
+        self._files = {}
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
@@ -503,14 +504,24 @@ class io:
                         fromVector - Vector
                         ndims   - Minimum dimension of file
         """
-        return regFile(self.cppMode, tag, **kw)
+        x = regFile(self.cppMode, tag, **kw)
+        self._files[tag] = x
+        return x
+
+    def getFile(self, tag):
+        """Return file assumed it has been read through io
+
+            tag - Tag associated with file
+        """
+
+        return self._files[tag]
 
     def getVector(self, tag, **kw):
         """Get vector from a file and read its contents
            Optional
              ndims - Force the hypercube to at least ndim axes"""
         file = self.getRegFile(tag, **kw)
-
+        self._files[tag] = file
         hyper = file.getHyper()
         nw = file.getHyper().getNs()
         fw = [0] * len(nw)

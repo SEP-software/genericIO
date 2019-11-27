@@ -513,6 +513,7 @@ class io:
 
             tag - Tag associated with file
         """
+        print(self._files, "files")
         if "tag" not in self._files:
             raise Exception("Requested tag not loaded into this IO")
         return self._files[tag]
@@ -523,6 +524,7 @@ class io:
              ndims - Force the hypercube to at least ndim axes"""
         file = self.getRegFile(tag, **kw)
         self._files[tag] = file
+        print("in get vector", self._files)
         hyper = file.getHyper()
         nw = file.getHyper().getNs()
         fw = [0] * len(nw)

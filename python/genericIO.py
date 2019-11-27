@@ -513,7 +513,8 @@ class io:
 
             tag - Tag associated with file
         """
-
+        if "tag" not in self._files:
+            raise Exception("Requested tag not loaded into this IO")
         return self._files[tag]
 
     def getVector(self, tag, **kw):

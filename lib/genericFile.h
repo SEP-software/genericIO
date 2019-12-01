@@ -1,6 +1,6 @@
 #ifndef GENERIC_FILE
 #define GENERIC_FILE 1
-#include <complex.h>
+#include <complex>
 #include <memory>
 #include <vector>
 #include "byteHyper.h"

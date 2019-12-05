@@ -1,6 +1,8 @@
 project(Generic-IO)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
+find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 find_package(PythonInterp 3 REQUIRED)
 find_package (Python3 COMPONENTS Interpreter Development  REQUIRED)
 

@@ -316,7 +316,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("getHyper",
            (std::shared_ptr<hypercube>(genericRegFile::*)()) &
                genericRegFile::getHyper,
-           "Set the hyper")
+           "Get the hypercube")
       .def_property("_hyper", &genericRegFile::getHyper,
                     &genericRegFile::setHyper,
                     py::return_value_policy::reference)

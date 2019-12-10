@@ -3,7 +3,6 @@ set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-find_package(pybind11)
 
 # This is a CMake example for Python
 

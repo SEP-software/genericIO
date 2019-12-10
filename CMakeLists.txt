@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
 
-find_package(pybind11)
 
 
 if(POLICY CMP0028)

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 project(Generic-cpp)
 
-find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
+#find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
 set(SOURCES basicIO.cpp genericFile.cpp dictParams.cpp jsonGenericRegFile.cpp)

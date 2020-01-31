@@ -9,7 +9,7 @@ std::map<std::string, std::string> createPars() {
   ps["testI1"] = std::to_string(1);
   ps["testf1"] = std::to_string(2.);
   ps["tests1"] = "blah";
-  ps["testl1"] = false;
+//  ps["testl1"] = false;
   ps["testiA"] = "2,3,4,6,8";
 
   ps["testfA"] = "2.5,3.5,4.5,5.5";

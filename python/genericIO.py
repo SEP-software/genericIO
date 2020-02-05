@@ -142,7 +142,7 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
-            self.cppMode = ioM.getRegFile(
+            self.cppMode = ioM.cppMode.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
@@ -258,7 +258,7 @@ class regFile:
             self.cppMode.readDoubleWindow(nw, fw, jw, vec.cppMode)
 
     def writeWindow(self, vec, **kw):
-        """Read a window of a file into the vector
+        """Write  a window of a file into the vector
                 Required:
                   vec - sepVector
                 Optional:

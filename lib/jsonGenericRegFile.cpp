@@ -1,6 +1,7 @@
 #include "jsonGenericRegFile.h"
 #include <cstdlib>
 #include <exception>
+#include<set>
 #include <fstream>   // std::ifstream
 #include <iostream>  // std::cout
 using namespace SEP;
@@ -27,7 +28,7 @@ jsonGenericRegFile::jsonGenericRegFile(const Json::Value &arg,
     if (const char *env_p = std::getenv("DATAPATH"))
       datapath = std::string(env_p);
     _dataFile =
-        datapath + std::string("/") + getJSONFileName() + std::string(".dat");
+        datapath  + getJSONFileBaseName() + std::string(".dat");
     jsonArgs["filename"] = _dataFile;
   }
   jsonArgs["progName"] = progName;
@@ -69,7 +70,22 @@ void jsonGenericRegFile::setupJson(const Json::Value &arg,
     _dataFile = jsonArgs[std::string("filename")].asString();
   }
 }
+
 std::string jsonGenericRegFile::getJSONFileName() const { return _jsonFile; }
+
+
+std::string jsonGenericRegFile::getJSONFileBaseName() const { 
+  
+  char seperator='/';
+   std::string filePath=getJSONFileName();
+	std::size_t sepPos = filePath.rfind(seperator);
+  
+	if(sepPos != std::string::npos)
+	{
+		return filePath.substr(sepPos + 1, filePath.size());
+	}
+	return filePath;
+}
 std::string jsonGenericRegFile::getDataFileName() const { return _dataFile; }
 int jsonGenericRegFile::getInt(const std::string &arg) const {
   int x;
@@ -507,22 +523,31 @@ void jsonGenericRegFile::writeFloatWindow(const std::vector<int> &nw,
                                           const float *array) {
   setDataType(DATA_FLOAT);
 
+
+
+
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
+
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
       if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
+
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
+
   if (!myio) {
+
     std::shared_ptr<myFileIO> iox(
         new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
                      jsonArgs.get("swapData", false).asBool(), getHyper()));
+    
     myio = iox;
   }
+
   myio->writeWindow(nw, fw, jw, array);
 }
 

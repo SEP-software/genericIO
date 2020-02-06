@@ -160,6 +160,13 @@ Get the name of the JSON file
 */
   virtual std::string getJSONFileName() const;
   /*!
+Get the name of the JSON file, no path
+*/
+  virtual std::string getJSONFileBaseName() const;
+
+
+
+  /*!
     Get the name of the data file
     */
   std::string getDataFileName() const;

@@ -114,7 +114,6 @@ Write a portion of file based on window parameters
   bool writeFloatWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                         const std::vector<int> &jw,
                         std::shared_ptr<SEP::floatHyper> hyp);
-#ifdef USE_BYTE
   /*!
 Read entire file
 
@@ -146,9 +145,7 @@ Write a portion of file based on window parameters
   bool writeByteWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                        const std::vector<int> &jw,
                        std::shared_ptr<SEP::byteHyper> hyp);
-#endif
 
-#ifdef USE_INT
   /*!
 Read entire file
 
@@ -180,8 +177,7 @@ Write a portion of file based on window parameters
   bool writeIntWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                       const std::vector<int> &jw,
                       std::shared_ptr<SEP::intHyper> hyp);
-#endif
-#ifdef USE_COMPLEX
+
   /*!
 Read entire file
 
@@ -215,8 +211,7 @@ Write a portion of file based on window parameters
                           const std::vector<int> &jw,
                           std::shared_ptr<SEP::complexHyper> hyp);
 
-#endif
-#ifdef USE_DOUBLE
+
   /*!
 Read entire file
 
@@ -248,7 +243,6 @@ Write a portion of file based on window parameters
   bool writeDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
                          const std::vector<int> &jw,
                          std::shared_ptr<SEP::doubleHyper> hyp);
-#endif
   /*!
 Read a portion of file based on window parameters
 
@@ -615,34 +609,27 @@ class genericHeaderObj {
                              const std::vector<bool> ind) = 0;
   virtual void writeFloatData(const std::shared_ptr<SEP::floatHyper> buf) = 0;
 
-#ifdef USE_BYTE
   virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf) = 0;
 
   virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf,
                             const std::vector<bool> ind) = 0;
   virtual void writeByteData(const std::shared_ptr<SEP::byteHyper> buf) = 0;
-#endif
 
-#ifdef USE_DOUBLE
   virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> buf) = 0;
   virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> *buf,
                               const std::vector<bool> ind) = 0;
   virtual void writeDoubleData(const std::shared_ptr<SEP::doubleHyper> buf) = 0;
-#endif
 
-#ifdef USE_COMPLEX
   virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf) = 0;
   virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf,
                                const std::vector<bool> ind) = 0;
   virtual void writeComplexData(
       const std::shared_ptr<SEP::complexHyper> buf) = 0;
-#endif
-#ifdef USE_INT
+
   virtual void readIntData(std::shared_ptr<SEP::intHyper> buf) = 0;
   virtual void readIntData(std::shared_ptr<SEP::intHyper> buf,
                            const std::vector<bool> ind) = 0;
   virtual void writeIntData(const std::shared_ptr<SEP::intHyper> buf) = 0;
-#endif
   std::shared_ptr<header> getHeader();
   std::shared_ptr<header> cloneHeader() { return _header->clone(); }
 

@@ -20,8 +20,23 @@ include_directories(${Boost_INCLUDE_DIR})
   install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
   install(FILES genericIO.py DESTINATION lib/python)
 
-  #if(Python3_Interpreter_FOUND)
-  #message(Python3::Interpreter  ${CMAKE_CURRENT_SOURCE_DIR} )
-  #add_test(NAME genericIO_Python COMMAND python3.5 -m pytest -r a -v ${CMAKE_CURRENT_SOURCE_DIR})
-  #else()
-  #endif()
+set(PYSEARCH ${CMAKE_CURRENT_BINARY_DIR}/../lib)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/python)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/python)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/lib)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/external/hypercube/python)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/external/hypercube/python)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/external/hypercube/lib)
+set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/external/python-solver/GenericSolver/python)
+
+  if(BUILD_TEST)
+  add_test(NAME genericIO 
+  COMMAND ${CMAKE_COMMAND} -E env
+  PYTHONPATH=${PYSEARCH}
+  LD_LIBRARY_PATH=${PYSEARCH}
+  DATAPATH=/tmp/
+  ${PYTHON_EXECUTABLE} -m test_GenericIO
+WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+endif(BUILD_TEST)

@@ -142,7 +142,7 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
-            self.cppMode = ioM.cppMode.getRegFile(
+            self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
@@ -263,8 +263,6 @@ class regFile:
                   vec - sepVector
                 Optional:
                   n,f,j - Standard windowing parameters"""
-        if not kw:
-            raise Exception("Must supply windowing parameters")
         nw, fw, jw = self.getWindowParam(**kw)
         if not isinstance(vec, SepVector.vector):
             raise Exception("vec must be deriverd SepVector.vector")
@@ -300,9 +298,6 @@ class regFile:
                 must supply n,f,or j"""
         axes = self.getHyper().axes
         ndim = len(axes)
-        if not ("n" in kw or "f" in kw or "j" in kw):
-            raise Exception(
-                "Must supply n, j, or f as lists the dimensions of your file")
         for a in ["f", "j", "n"]:
             if a in kw:
                 if not isinstance(kw[a], list):
@@ -326,7 +321,7 @@ class regFile:
                         (fs[i], axes[i].n, i + 1))
 
         else:
-            fs = [0] * 3
+            fs = [0] * ndim
         if "n" in kw:
             ns = kw["n"]
             for i in range(len(fs)):
@@ -337,7 +332,7 @@ class regFile:
         else:
             ns = []
             for i in range(ndim):
-                ns.append((axes[i].n - 1 - fs[i]) / js[i] + 1)
+                ns.append(int((axes[i].n - 1 - fs[i]) / js[i] + 1))
         for i in range(ndim):
             if axes[i].n < (1 + fs[i] + js[i] * (ns[i] - 1)):
                 raise Exception(

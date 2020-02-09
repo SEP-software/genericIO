@@ -32,11 +32,11 @@ set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/exter
 set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/external/python-solver/GenericSolver/python)
 
   if(BUILD_TEST)
-  add_test(NAME genericIO 
+  add_test(NAME genericIO_test
   COMMAND ${CMAKE_COMMAND} -E env
   PYTHONPATH=${PYSEARCH}
   LD_LIBRARY_PATH=${PYSEARCH}
   DATAPATH=/tmp/
-  ${PYTHON_EXECUTABLE} -m test_GenericIO
+  ${PYTHON_EXECUTABLE} -m test_Generic_IO
 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif(BUILD_TEST)

@@ -2,6 +2,7 @@ import genericIO
 import pytest
 import SepVector
 import Hypercube
+import unittest
 
 
 def testPythonParamsInt():

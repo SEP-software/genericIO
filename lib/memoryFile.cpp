@@ -175,6 +175,17 @@ void memoryRegFile::readComplexStream(std::complex<float> *array,
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
+void memoryRegFile::readComplexDoubleStream(std::complex<double> *array,
+                                      const long long npts) {
+  allocateCheck(DATA_COMPLEXDOUBLE);
+
+  long long nptsT = npts * 16;
+  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  memcpy(array, _buf.data() + _pos, nptsT);
+  _pos += nptsT;
+}
+
+
 void memoryRegFile::readByteStream(unsigned char *array, const long long npts) {
   allocateCheck(DATA_BYTE);
 
@@ -295,6 +306,26 @@ void memoryRegFile::readComplexWindow(const std::vector<int> &nw,
 
   SEP::blockToParts(hyper, 0, 8, nw, fw, jw, _buf.data(), array, array);
 }
+void memoryRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
+                                      const std::vector<int> &fw,
+                                      const std::vector<int> &jw,
+                                      std::complex<double> *array) {
+  allocateCheck(DATA_COMPLEXDOUBLE);
+
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+
+  SEP::blockToParts(hyper, 0, 16, nw, fw, jw, _buf.data(), array, array);
+}
 
 void memoryRegFile::writeComplexStream(const std::complex<float> *array,
                                        const long long npts) {
@@ -305,7 +336,15 @@ void memoryRegFile::writeComplexStream(const std::complex<float> *array,
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
+void memoryRegFile::writeComplexDoubleStream(const std::complex<double> *array,
+                                       const long long npts) {
+  allocateCheck(DATA_COMPLEXDOUBLE);
 
+  long long nptsT = npts * 16;
+  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  memcpy(_buf.data() + _pos, array, nptsT);
+  _pos += nptsT;
+}
 void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
                                        const std::vector<int> &fw,
                                        const std::vector<int> &jw,
@@ -326,7 +365,26 @@ void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
   int ndim = ng.size();
   SEP::partsToBlock(hyper, 0, 8, nw, fw, jw, _buf.data(), array, array);
 }
+void memoryRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
+                                       const std::vector<int> &fw,
+                                       const std::vector<int> &jw,
+                                       const std::complex<double> *array) {
+  allocateCheck(DATA_COMPLEXDOUBLE);
 
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  SEP::partsToBlock(hyper, 0, 16, nw, fw, jw, _buf.data(), array, array);
+}
 void memoryRegFile::readByteWindow(const std::vector<int> &nw,
                                    const std::vector<int> &fw,
                                    const std::vector<int> &jw,

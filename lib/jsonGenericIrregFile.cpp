@@ -217,6 +217,8 @@ void jsonGenericIrregFile::readDescription(const int ndimMax ) {
     setDataType(DATA_FLOAT);
   else if (dtyp == std::string("COMPLEX"))
     setDataType(DATA_COMPLEX);
+    else if (dtyp == std::string("COMPLEXDOUBLE"))
+    setDataType(DATA_COMPLEXDOUBLE);
   else if (dtyp == std::string("INTEGER"))
     setDataType(DATA_INT);
   else if (dtyp == std::string("DOUBLE"))

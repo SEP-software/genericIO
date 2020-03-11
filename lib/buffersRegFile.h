@@ -52,12 +52,34 @@ Read a portion of file based on window parameters
                                   const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
+
+  /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexDoubleHyper (from sepVector) storage
+*/
+  virtual void writeComplexDoubleStream(const std::complex<double> *array,
+                                  const long long npts) override {
+    error(std::string("can not stream buffer datasets, must use window"));
+  }
+
   /*!
 Read entire file
 
 \param hyp complexHyper (from sepVector) to grab file contents from
 */
   virtual void readComplexStream(std::complex<float> *array,
+                                 const long long npts) override {
+    error(std::string("can not stream buffer datasets, must use window"));
+  }
+
+    /*!
+Read entire file
+
+\param hyp complexDoubleHyper (from sepVector) to grab file contents from
+*/
+  virtual void readComplexDoubleStream(std::complex<double> *array,
                                  const long long npts) override {
     error(std::string("can not stream buffer datasets, must use window"));
   }
@@ -173,6 +195,20 @@ Read a portion of file based on window parameters
     createBuffers();
     _bufs->getWindow(nw, fw, jw, (void *)array);
   }
+
+    /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexDoubleHyper (from sepVector) storage
+*/
+  virtual void readComplexDoubleWindow(const std::vector<int> &nw,
+                                 const std::vector<int> &fw,
+                                 const std::vector<int> &jw,
+                                 std::complex<double> *array) override {
+    createBuffers();
+    _bufs->getWindow(nw, fw, jw, (void *)array);
+  }
   /*!
 Read a portion of file based on window parameters
 
@@ -183,6 +219,20 @@ Read a portion of file based on window parameters
                                   const std::vector<int> &fw,
                                   const std::vector<int> &jw,
                                   const std::complex<float> *array) override {
+    createBuffers();
+    _bufs->putWindow(nw, fw, jw, (void *)array);
+  }
+
+    /*!
+Read a portion of file based on window parameters
+
+\param nw,fw,jw Standard window parameters
+\param hyp complexDoubleHyper (from sepVector) storage
+*/
+  virtual void writeComplexDoubleWindow(const std::vector<int> &nw,
+                                  const std::vector<int> &fw,
+                                  const std::vector<int> &jw,
+                                  const std::complex<double> *array) override {
     createBuffers();
     _bufs->putWindow(nw, fw, jw, (void *)array);
   }

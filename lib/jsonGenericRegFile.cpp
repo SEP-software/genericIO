@@ -237,6 +237,8 @@ void jsonGenericRegFile::readDescription(const int ndimMax) {
     setDataType(DATA_INT);
   else if (dtyp == std::string("DOUBLE"))
     setDataType(DATA_DOUBLE);
+      else if (dtyp == std::string("COMPLEXDOUBLE"))
+    setDataType(DATA_COMPLEXDOUBLE);
   else if (dtyp == std::string("BYTE"))
     setDataType(DATA_BYTE);
 
@@ -641,6 +643,22 @@ void jsonGenericRegFile::readComplexStream(std::complex<float> *array,
   }
   myio->readTraceStream(npts, array);
 }
+
+void jsonGenericRegFile::readComplexDoubleStream(std::complex<double> *array,
+                                           const long long npts) {
+  long long maxsize = 10000000;
+  long long nread = 0;
+  long long nptsT = npts * 4;
+  setDataType(DATA_COMPLEXDOUBLE);
+
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 16,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->readTraceStream(npts, array);
+}
 void jsonGenericRegFile::writeComplexStream(const std::complex<float> *array,
                                             const long long npts) {
   long long maxsize = 10000000;
@@ -656,6 +674,22 @@ void jsonGenericRegFile::writeComplexStream(const std::complex<float> *array,
   }
   myio->writeTraceStream(npts, array);
 }
+void jsonGenericRegFile::writeComplexDoubleStream(const std::complex<double> *array,
+                                            const long long npts) {
+  long long maxsize = 10000000;
+  long long nwrite = 0;
+  long long nptsT = npts * 4;
+  setDataType(DATA_COMPLEXDOUBLE);
+
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 16,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeTraceStream(npts, array);
+}
+
 void jsonGenericRegFile::readComplexWindow(const std::vector<int> &nw,
                                            const std::vector<int> &fw,
                                            const std::vector<int> &jw,
@@ -675,6 +709,31 @@ void jsonGenericRegFile::readComplexWindow(const std::vector<int> &nw,
   if (!myio) {
     std::shared_ptr<myFileIO> iox(
         new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 8,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->readWindow(nw, fw, jw, array);
+}
+
+void jsonGenericRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
+                                           const std::vector<int> &fw,
+                                           const std::vector<int> &jw,
+                                           std::complex<double> *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  setDataType(DATA_COMPLEXDOUBLE);
+
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 16,
                      jsonArgs.get("swapData", false).asBool(), getHyper()));
     myio = iox;
   }
@@ -704,7 +763,30 @@ void jsonGenericRegFile::writeComplexWindow(const std::vector<int> &nw,
   }
   myio->writeWindow(nw, fw, jw, array);
 }
+void jsonGenericRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
+                                            const std::vector<int> &fw,
+                                            const std::vector<int> &jw,
+                                            const std::complex<double> *array) {
+  setDataType(DATA_COMPLEX);
 
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  if (!myio) {
+    std::shared_ptr<myFileIO> iox(
+        new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 16,
+                     jsonArgs.get("swapData", false).asBool(), getHyper()));
+    myio = iox;
+  }
+  myio->writeWindow(nw, fw, jw, array);
+}
 void jsonGenericRegFile::message(const std::string &errm) const {
   std::cerr << errm << std::endl;
 }

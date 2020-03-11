@@ -239,6 +239,15 @@ void sepRegFile::readComplexStream(std::complex<float> *array,
     error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
 }
+void sepRegFile::readComplexDoubleStream(std::complex<double> *array,
+                                   const long long npts) {
+  long long nptsT = npts * 16;
+  long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble reading from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+
 void sepRegFile::readByteStream(unsigned char *array, const long long npts) {
   long long nptsT = npts * 1;
   long long ierr = sreed_big(_tag.c_str(), (void *)array, nptsT);
@@ -369,6 +378,30 @@ void sepRegFile::readComplexWindow(const std::vector<int> &nw,
     error(std::string("trouble reading data from tag ") + _tag);
 }
 
+void sepRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
+                                   const std::vector<int> &fw,
+                                   const std::vector<int> &jw,
+                                   std::complex<double> *array) {
+  std::shared_ptr<hypercube> hyper = getHyper();
+  setDataType(DATA_COMPLEXDOUBLE);
+
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+
+  int ndim = ng.size();
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 16, array))
+    error(std::string("trouble reading data from tag ") + _tag);
+}
+
+
 void sepRegFile::writeComplexStream(const std::complex<float> *array,
                                     const long long npts) {
   long long nptsT = npts * 8;
@@ -377,6 +410,16 @@ void sepRegFile::writeComplexStream(const std::complex<float> *array,
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
 }
+
+void sepRegFile::writeComplexDoubleStream(const std::complex<double> *array,
+                                    const long long npts) {
+  long long nptsT = npts * 16;
+  long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
+  if (ierr != nptsT)
+    error(std::string("Trouble write from ") + _tag + std::string(" after ") +
+          std::to_string(ierr) + std::string(" bytes"));
+}
+
 
 void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
@@ -399,7 +442,27 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
                         jw.data(), 8, array))
     error(std::string("trouble writing data to tag ") + _tag);
 }
+void sepRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
+                                    const std::vector<int> &fw,
+                                    const std::vector<int> &jw,
+                                    const std::complex<double> *array) {
+  setDataType(DATA_COMPLEXDOUBLE);
 
+  std::shared_ptr<hypercube> hyper = getHyper();
+  std::vector<int> ng = hyper->getNs();
+  if (ng.size() > nw.size()) {
+    for (int i = nw.size(); i < ng.size(); i++) {
+      if (ng[i] > 1) error("number of dimension does not equal data size");
+    }
+  }
+  if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
+    error("number of dimensions does not equal data size");
+  }
+  int ndim = ng.size();
+  if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 16, array))
+    error(std::string("trouble writing data to tag ") + _tag);
+}
 void sepRegFile::readByteWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
                                 const std::vector<int> &jw,
@@ -542,7 +605,9 @@ void sepRegFile::readDescription(const int ndimMax) {
       setDataType(DATA_DOUBLE);
     else  // For now default to complex
       setDataType(DATA_COMPLEX);
-
+} else if (esize == 16) {
+    std::string format =std::string("nativie_double");
+    setDataType(DATA_COMPLEXDOUBLE);
   } else
     error(std::string("Only know about esize=8, 4 or 1"));
 
@@ -578,6 +643,10 @@ void sepRegFile::writeDescription() {
     case DATA_COMPLEX:
       set_format(_tag.c_str(), "xdr_int");
       esize = 8;
+      break;
+          case DATA_COMPLEXDOUBLE:
+      set_format(_tag.c_str(), "native_double");
+      esize = 16;
       break;
     case DATA_BYTE:
       set_format(_tag.c_str(), "xdr_byte");

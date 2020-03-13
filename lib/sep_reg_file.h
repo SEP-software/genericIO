@@ -153,7 +153,7 @@ Read entire file
 
 \param hyp complexDoubleHyper (from sepVector) to grab file contents from
 */
-  virtual void readComplexDoubleStream(std::complex<float> *array,
+  virtual void readComplexDoubleStream(std::complex<double> *array,
                                  const long long npts) override;
   
   /*!
@@ -162,7 +162,7 @@ Read a portion of file based on window parameters
 \param nw,fw,jw Standard window parameters
 \param hyp complexHyper (from sepVector) storage
 */
-  virtual void writeComplexStream(const std::complex<double> *array,
+  virtual void writeComplexStream(const std::complex<float> *array,
                                   const long long npts) override;
   
     /*!

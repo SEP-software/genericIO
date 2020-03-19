@@ -30,6 +30,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .value("dataShort", dataType ::DATA_SHORT)
       .value("dataInt", dataType::DATA_INT)
       .value("dataComplex", dataType::DATA_COMPLEX)
+      .value("dataComplexDouble", dataType::DATA_COMPLEXDOUBLE)
       .value("dataUndefined", dataType::DATA_UNKNOWN);
 
   py::class_<paramObj, std::shared_ptr<paramObj>>(clsGeneric,
@@ -181,6 +182,11 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                       const long long)) &
                genericRegFile::writeComplexStream,
            "Write a stream of complex")
+      .def("writeComplexDoubleStream",
+           (void (genericRegFile ::*)(const std::complex<double> *,
+                                      const long long)) &
+               genericRegFile::writeComplexDoubleStream,
+           "Write a stream of complex doubles")
       .def("writeFloatStream",
            (void (genericRegFile ::*)(const float *, const long long)) &
                genericRegFile::writeFloatStream,
@@ -218,6 +224,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (bool (genericRegFile ::*)(const std::shared_ptr<complexHyper>)) &
                genericRegFile::writeComplexStream,
            "Write a complex stream into a sepVector")
+      .def("writeComplexDoubleStream",
+           (bool (genericRegFile ::*)(const std::shared_ptr<complexDoubleHyper>)) &
+               genericRegFile::writeComplexDoubleStream,
+           "Write a complex double stream into a sepVector")
       .def("writeByteStream",
            (bool (genericRegFile ::*)(const std::shared_ptr<byteHyper>)) &
                genericRegFile::writeByteStream,
@@ -273,6 +283,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &, const std::shared_ptr<complexHyper>)) &
                genericRegFile::writeComplexWindow,
            "Write  a window of complex float  into a sepVector")
+      .def("writeComplexDoubleWindow",
+           (bool (genericRegFile ::*)(
+               const std::vector<int> &, const std::vector<int> &,
+               const std::vector<int> &, const std::shared_ptr<complexDoubleHyper>)) &
+               genericRegFile::writeComplexDoubleWindow,
+           "Write  a window of complex double  into a sepVector")
 
       .def("readComplexWindow",
            (void (genericRegFile ::*)(
@@ -286,6 +302,18 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &, std::shared_ptr<complexHyper>)) &
                genericRegFile::readComplexWindow,
            "Read  a window of complex  into a sepVector")
+      .def("readComplexDoubleWindow",
+           (void (genericRegFile ::*)(
+               const std::vector<int> &, const std::vector<int> &,
+               const std::vector<int> &, std::complex<double> *)) &
+               genericRegFile::readComplexDoubleWindow,
+           "Read a window of complex doubles")
+      .def("readComplexDoubleWindow",
+           (bool (genericRegFile ::*)(
+               const std::vector<int> &, const std::vector<int> &,
+               const std::vector<int> &, std::shared_ptr<complexDoubleHyper>)) &
+               genericRegFile::readComplexDoubleWindow,
+           "Read  a window of complex doubles into a sepVector")
       .def("writeFloatWindow",
            (void (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,

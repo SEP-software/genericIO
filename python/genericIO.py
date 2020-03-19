@@ -8,7 +8,8 @@ storageConvert = {"dataFloat": pyGenericIO.dataType.dataFloat,
                   "dataComplex": pyGenericIO.dataType.dataComplex,
                   "dataShort": pyGenericIO.dataType.dataShort,
 
-                  "dataDouble": pyGenericIO.dataType.dataDouble
+                  "dataDouble": pyGenericIO.dataType.dataDouble,
+                  "dataComplexDouble": pyGenericIO.dataType.dataComplexDouble
                   }
 usageConvert = {"usageIn": pyGenericIO.usage_code.usageIn,
                 "usageOut": pyGenericIO.usage_code.usageOut,
@@ -129,6 +130,8 @@ class regFile:
                 self.storage = "dataDouble"
             elif kw["storage"] == "complex":
                 self.storage = "dataComplex"
+            elif kw["storage"] == "complexDouble":
+                self.storage = "dataComplexDouble"
             else:
                 raise Exception(
                     "Only understand float,int,double,byte,and complex for storage")
@@ -528,6 +531,8 @@ class io:
             file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataComplex":
             file.getCpp().readComplexWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataComplexDouble":
+            file.getCpp().readComplexDoubleWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataByte":
             file.getCpp().readByteWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataInt":
@@ -549,6 +554,8 @@ class io:
             file.getCpp().writeFloatWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataComplex":
             file.getCpp().writeComplexWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataComplexDouble":
+            file.getCpp().writeComplexDoubleWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataByte":
             file.getCpp().writeByteWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataInt":
@@ -573,6 +580,8 @@ class io:
                 file.getCpp().writeFloatWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataComplex":
                 file.getCpp().writeComplexWindow(nw, fw, jw, vec.getCpp())
+            elif file.storage == "dataComplexDouble":
+                file.getCpp().writeComplexDoubleWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataByte":
                 file.getCpp().writeByteWindow(nw, fw, jw, vec.getCpp())
             elif file.storage == "dataInt":

@@ -602,6 +602,7 @@ void sepRegFile::readDescription(const int ndimMax) {
   std::vector<axis> axes;
   sep_get_number_data_axes(_tag.c_str(), &ndim);
   if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
+fprintf(stderr,"IN LOOP \n");
   putInt("esize",esize);
   for (int i = 1; i <= ndim; i++) {
     int n;
@@ -610,6 +611,7 @@ void sepRegFile::readDescription(const int ndimMax) {
     sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
     axes.push_back(axis(n, o, d, std::string(label)));
   }
+fprintf(stderr,"IN2LOOP \n");
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
 

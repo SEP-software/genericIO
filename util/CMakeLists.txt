@@ -22,7 +22,7 @@ FOREACH(lib ${GENERIC_EXPORT_LIB_DIRS})
   link_directories(${lib})
 ENDFOREACH(lib)
 
-set(UTILS Window Info)
+set(UTILS Info Convert)
 
 foreach(util ${UTILS})
   ADD_EXECUTABLE(${util} ${util}.cc)

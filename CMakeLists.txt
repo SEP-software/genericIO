@@ -23,7 +23,7 @@ if(NOT SUBPACKAGE)
   option(BUILD_EXAMPLES "Build examples" OFF)
 
 else(NOT SUBPACKAGE)
-  option(BUILD_UTIL "Build utilities" OFF)
+  option(BUILD_UTIL "Build utilities" ON)
 endif(NOT SUBPACKAGE)
 
 set(CMAKE_CXX_STANDARD 11)

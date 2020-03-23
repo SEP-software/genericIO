@@ -603,7 +603,7 @@ void sepRegFile::readDescription(const int ndimMax) {
     setDataType(DATA_COMPLEXDOUBLE);
   } else
     error(std::string("Only know about esize=16,8, 4 or 1"));
-  putInt("esize,esize);
+  putInt("esize",esize);
   for (int i = 1; i <= ndim; i++) {
     int n;
     float o, d;

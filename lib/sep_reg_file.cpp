@@ -571,6 +571,18 @@ void sepRegFile::writeIntWindow(const std::vector<int> &nw,
 
 void sepRegFile::readDescription(const int ndimMax) {
   int ndim;
+  sep_get_number_data_axes(_tag.c_str(), &ndim);
+  if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
+  std::vector<axis> axes;
+  for (int i = 1; i <= ndim; i++) {
+    int n;
+    float o, d;
+    char label[1024];
+    sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
+    axes.push_back(axis(n, o, d, std::string(label)));
+  }
+  std::shared_ptr<hypercube> hyper(new hypercube(axes));
+  setHyper(hyper);
   int esize = getInt("esize", 4);
   if (esize == 1)
     setDataType(DATA_BYTE);
@@ -598,22 +610,7 @@ void sepRegFile::readDescription(const int ndimMax) {
     std::string format =std::string("nativie_double");
     setDataType(DATA_COMPLEXDOUBLE);
   } else
-    error(std::string("Only know about esize=16,8, 4 or 1"));
-  std::vector<axis> axes;
-  sep_get_number_data_axes(_tag.c_str(), &ndim);
-  if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
-fprintf(stderr,"IN LOOP \n");
-  putInt("esize",esize);
-  for (int i = 1; i <= ndim; i++) {
-    int n;
-    float o, d;
-    char label[1024];
-    sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
-    axes.push_back(axis(n, o, d, std::string(label)));
-  }
-fprintf(stderr,"IN2LOOP \n");
-  std::shared_ptr<hypercube> hyper(new hypercube(axes));
-  setHyper(hyper);
+    error(std::string("Only know about esize=8, 4 or 1"));
 
 }
 void sepRegFile::writeDescription() {

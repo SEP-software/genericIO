@@ -599,11 +599,9 @@ void sepRegFile::readDescription(const int ndimMax) {
     setDataType(DATA_COMPLEXDOUBLE);
   } else
     error(std::string("Only know about esize=16,8, 4 or 1"));
-  std::shared_ptr<hypercube> hyper(new hypercube(axes));
-  setHyper(hyper);
+  std::vector<axis> axes;
   sep_get_number_data_axes(_tag.c_str(), &ndim);
   if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
-  std::vector<axis> axes;
   putInt("esize",esize);
   for (int i = 1; i <= ndim; i++) {
     int n;
@@ -612,6 +610,8 @@ void sepRegFile::readDescription(const int ndimMax) {
     sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
     axes.push_back(axis(n, o, d, std::string(label)));
   }
+  std::shared_ptr<hypercube> hyper(new hypercube(axes));
+  setHyper(hyper);
 
 }
 void sepRegFile::writeDescription() {

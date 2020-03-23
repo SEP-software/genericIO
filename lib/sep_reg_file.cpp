@@ -644,7 +644,7 @@ void sepRegFile::writeDescription() {
       set_format(_tag.c_str(), "xdr_int");
       esize = 8;
       break;
-          case DATA_COMPLEXDOUBLE:
+    case DATA_COMPLEXDOUBLE:
       set_format(_tag.c_str(), "native_double");
       esize = 16;
       break;

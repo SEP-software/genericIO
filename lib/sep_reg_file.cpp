@@ -413,6 +413,7 @@ void sepRegFile::writeComplexStream(const std::complex<float> *array,
 
 void sepRegFile::writeComplexDoubleStream(const std::complex<double> *array,
                                     const long long npts) {
+  set_format(_tag.c_str(), "native_double");
   long long nptsT = npts * 16;
   long long ierr = srite_big(_tag.c_str(), (void *)array, nptsT);
   if (ierr != nptsT)

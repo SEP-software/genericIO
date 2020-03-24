@@ -22,17 +22,7 @@ FOREACH(lib ${GENERIC_EXPORT_LIB_DIRS})
   link_directories(${lib})
 ENDFOREACH(lib)
 
-set(UTILS Info )
 
-foreach(util ${UTILS})
-  ADD_EXECUTABLE(${util} ${util}.cc)
-  TARGET_LINK_LIBRARIES(${util} genericCpp hypercube)
-  foreach(lib ${GENERIC_EXPORT_LIBS})
-    TARGET_LINK_LIBRARIES(${util} ${lib})
-  endforeach(lib)
-  TARGET_LINK_LIBRARIES(${util} sepVector buffers tbb)
-  install(TARGETS ${util} DESTINATION bin)
-endforeach(util)
 
 #find_package(ZFP)
 

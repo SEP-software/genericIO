@@ -6,8 +6,7 @@
 using namespace SEP;
 memoryRegFile::memoryRegFile(const std::string &tag, const usage_code usage,
                              const int ndim) {
-  _type = "Memory";
-  _data = "Memory";
+  _binary = "Memory";
 }
 
 int memoryRegFile::getInt(const std::string &arg) const {

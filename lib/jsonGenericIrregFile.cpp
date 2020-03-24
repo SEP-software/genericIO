@@ -14,7 +14,6 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
   setupJson(arg, tag);
   _reelH = reelH;
   _traceH = traceH;
-  _type = "JSON";
 
   if (!_newFile) {
     readDescription(ndim);

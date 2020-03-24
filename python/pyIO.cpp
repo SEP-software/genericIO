@@ -1,13 +1,13 @@
-#include <pybind11/chrono.h>
-#include <pybind11/complex.h>
-#include <pybind11/functional.h>
-#include <pybind11/pybind11.h>
-#include <pybind11/stl.h>
 #include "dictParams.h"
 #include "floatHyper.h"
 #include "genericFile.h"
 #include "genericIO.h"
 #include "ioModes.h"
+#include <pybind11/chrono.h>
+#include <pybind11/complex.h>
+#include <pybind11/functional.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 namespace py = pybind11;
 namespace SEP {
@@ -34,7 +34,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .value("dataUndefined", dataType::DATA_UNKNOWN);
 
   py::class_<paramObj, std::shared_ptr<paramObj>>(clsGeneric,
-                                                  "paramObj")  //
+                                                  "paramObj") //
       .def(py::init<>(), "Initlialize a new paramObj")
       .def("error",
            (void (paramObj::*)(const std::string &) const) & paramObj::error,
@@ -49,10 +49,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (int (paramObj::*)(const std::string &, const int) const) &
                paramObj::getInt,
            "Get an integer parameter, if not specified use the default")
-      .def(
-          "getFloat",
-          (float (paramObj::*)(const std::string &) const) & paramObj::getFloat,
-          "Get a required float parameters")
+      .def("getFloat",
+           (float (paramObj::*)(const std::string &) const) &
+               paramObj::getFloat,
+           "Get a required float parameters")
       .def("getFloat",
            (float (paramObj::*)(const std::string &, const float) const) &
                paramObj::getFloat,
@@ -168,7 +168,9 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericRegFile ::*)(int *, const long long)) &
                genericRegFile::readIntStream,
            "Read a stream of ints")
-
+      .def("getBinary",
+           (void (genericRegFile ::*)()) const &genericRegFile::getBinary,
+           "Return binary location")
       .def("readComplexStream",
            (void (genericRegFile ::*)(std::complex<float> *, const long long)) &
                genericRegFile::readComplexStream,
@@ -225,7 +227,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::writeComplexStream,
            "Write a complex stream into a sepVector")
       .def("writeComplexDoubleStream",
-           (bool (genericRegFile ::*)(const std::shared_ptr<complexDoubleHyper>)) &
+           (bool (genericRegFile ::*)(
+               const std::shared_ptr<complexDoubleHyper>)) &
                genericRegFile::writeComplexDoubleStream,
            "Write a complex double stream into a sepVector")
       .def("writeByteStream",
@@ -286,7 +289,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("writeComplexDoubleWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,
-               const std::vector<int> &, const std::shared_ptr<complexDoubleHyper>)) &
+               const std::vector<int> &,
+               const std::shared_ptr<complexDoubleHyper>)) &
                genericRegFile::writeComplexDoubleWindow,
            "Write  a window of complex double  into a sepVector")
 
@@ -369,8 +373,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("fileDebug", (void (genericIO::*)(const std::string, const float *,
                                              const int, const int, const int)) &
                             genericIO::fileDebug)
-      .def("getType", (std::string(genericIO::*)()
-                const) & genericIO::getType, "Get IO type")
+      .def("getType", (std::string(genericIO::*)() const) & genericIO::getType,
+           "Get IO type")
       .def("getParamObj", (std::shared_ptr<paramObj>(genericIO::*)()) &
                               genericIO::getParamObj);
   py::class_<ioModes>(clsGeneric, "ioModes")
@@ -391,4 +395,4 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("getIO", (std::shared_ptr<genericIO>(ioModes::*)(std::string)) &
                         ioModes::getIO);
 }
-}  // namespace SEP
+} // namespace SEP

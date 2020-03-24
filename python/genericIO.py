@@ -198,11 +198,24 @@ class regFile:
             x+="Data type=complex\n"
         elif  self.storage=="dataComplexDouble":
             x+="Data type=complexDouble\n"
-        elif  self.storage=="datInt":
+        else:
             x+="Data type=UKNOWN\n"
         x+="Binary=%s\n"%self.cppMode.getBinary()
         x+=str(self.getHyper())
         return x
+    def getEsize(self):
+        """Return element size"""
+        if  self.storage=="dataByte":
+           return 1
+        elif  self.storage=="dataDouble" or self.storage=="dataComplex":
+            return 8
+        elif  self.storage=="dataComplexDouble":
+            return 16
+        else:
+            return 4
+    def getStorageType(self):
+        """Return storage type"""
+        return self.storage
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""

@@ -1,4 +1,4 @@
-#!/usr/bin/env @Python3_EXECUTABLE@
+#!/usr/bin/env python3
 import argparse
 import genericIO
 

@@ -200,7 +200,7 @@ class regFile:
             x+="Data type=complexDouble\n"
         elif  self.storage=="datInt":
             x+="Data type=UKNOWN\n"
-        x+="Binary=%s"%getCpp().getBinary()
+        x+="Binary=%s"%self.cppMode.getBinary()
         x+=str(self.getHyper())
         return x
 

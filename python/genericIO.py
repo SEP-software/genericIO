@@ -200,6 +200,7 @@ class regFile:
             x+="Data type=complexDouble\n"
         elif  self.storage=="datInt":
             x+="Data type=UKNOWN\n"
+        x+="Binary=%s"%getCpp().getBinary()
         x+=str(self.getHyper())
         return x
 
@@ -313,7 +314,7 @@ class regFile:
         if self.storage == "dataComplexDouble":
             if not isinstance(vec, SepVector.complexDoubleVector):
                 raise Exception("File type is complexDouble vector type is not")
-            self.cppMode.writeComplexDoubleWindow(nw, fw, jw, vec.cppMode)
+            self.cppMode.writeComplexDoubleWindow(nw, fw, jw, vec.cppMode)        
         if self.storage == "dataByte":
             if not isinstance(vec, SepVector.byteVector):
                 raise Exception("File type is nyte vector type is not")

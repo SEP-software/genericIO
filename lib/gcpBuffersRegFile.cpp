@@ -1,11 +1,11 @@
 #include "gcpBuffersRegFile.h"
-#include <cstdlib>
-#include <exception>
-#include <fstream>   // std::ifstream
-#include <iostream>  // std::cout
 #include "gcpBuffers.h"
 #include "google/cloud/storage/client.h"
 #include "google/cloud/storage/oauth2/google_credentials.h"
+#include <cstdlib>
+#include <exception>
+#include <fstream>  // std::ifstream
+#include <iostream> // std::cout
 using namespace SEP;
 gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
                                      const usage_code usage,
@@ -25,6 +25,8 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
   _usage = usage;
   jsonArgs["progName"] = progName;
   jsonArgs["name"] = tag;
+  _type = "GCP Buffers";
+  _binary = "Multiple objects";
 }
 
 void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
@@ -33,7 +35,7 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   std::string bucket, baseName;
 
   int pos;
-  if ((pos = tag.find("/")) == std::string::npos) {  // No subdirectory
+  if ((pos = tag.find("/")) == std::string::npos) { // No subdirectory
     bucket = tag;
     baseName = "";
   } else {
@@ -46,7 +48,8 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
   std::string _projectID = getEnvVar("projectID", "NONE");
   std::string _region = getEnvVar("region", "us-west1");
   if (_projectID == std::string("NONE")) {
-    std::cerr << "Must set environmental variable projectID " << _projectID << std::endl;
+    std::cerr << "Must set environmental variable projectID " << _projectID
+              << std::endl;
     exit(1);
   }
   namespace gcs = google::cloud::storage;
@@ -130,7 +133,8 @@ void gcpBuffersRegFile::createBuffers() {
   if (_bufs) {
     return;
   }
-  if (!_hyper) error("Must set hypercube before blocking");
+  if (!_hyper)
+    error("Must set hypercube before blocking");
   if (getDataType() == SEP::DATA_UNKNOWN)
     error("Must set dataType before setting blocks");
 

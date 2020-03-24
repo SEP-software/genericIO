@@ -1,11 +1,11 @@
 #ifndef GENERIC_FILE
 #define GENERIC_FILE 1
+#include "byteHyper.h"
+#include "complexDoubleHyper.h"
+#include "complexHyper.h"
 #include <complex>
 #include <memory>
 #include <vector>
-#include "byteHyper.h"
-#include "complexHyper.h"
-#include "complexDoubleHyper.h"
 
 #include "doubleHyper.h"
 #include "floatHyper.h"
@@ -19,16 +19,16 @@
 #include "sepVectorConfig.h"
 namespace SEP {
 enum usage_code {
-  usageIn,     ///< File only for read operations
-  usageOut,    ///< File only for write operations
-  usageInOut,  ///< File for both input and output
-  usageScr     ///< Scratch file (remove at end)
+  usageIn,    ///< File only for read operations
+  usageOut,   ///< File only for write operations
+  usageInOut, ///< File for both input and output
+  usageScr    ///< Scratch file (remove at end)
 };
 /*!
    Generic regular file object (virtual)
 */
 class genericRegFile : public paramObj {
- public:
+public:
   /*!
    Default initialization
 */
@@ -186,7 +186,7 @@ Read entire file
 \param hyp complexHyper (from sepVector) to grab file contents from
 */
   bool readComplexStream(std::shared_ptr<SEP::complexHyper> hyp);
-  
+
   /*!
 Read entire file
 
@@ -200,14 +200,15 @@ Read a portion of file based on window parameters
 \param hyp complexHyper (from sepVector) storage
 */
   bool writeComplexStream(const std::shared_ptr<SEP::complexHyper> hyp);
- 
-   /*!
+
+  /*!
 Read a portion of file based on window parameters
 
 \param nw,fw,jw Standard window parameters
 \param hyp complexDoubleHyper (from sepVector) storage
 */
-  bool writeComplexDoubleStream(const std::shared_ptr<SEP::complexDoubleHyper> hyp);
+  bool
+  writeComplexDoubleStream(const std::shared_ptr<SEP::complexDoubleHyper> hyp);
   /*!
 Read a portion of file based on window parameters
 
@@ -218,16 +219,16 @@ Read a portion of file based on window parameters
                          const std::vector<int> &jw,
                          std::shared_ptr<SEP::complexHyper> hyp);
 
-
   /*!
 Read a portion of file based on window parameters
 
 \param nw,fw,jw Standard window parameters
 \param hyp complexDoubleHyper (from sepVector) storage
 */
-  bool readComplexDoubleWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-                         const std::vector<int> &jw,
-                         std::shared_ptr<SEP::complexDoubleHyper> hyp);
+  bool readComplexDoubleWindow(const std::vector<int> &nw,
+                               const std::vector<int> &fw,
+                               const std::vector<int> &jw,
+                               std::shared_ptr<SEP::complexDoubleHyper> hyp);
   /*!
 Write a portion of file based on window parameters
 
@@ -245,9 +246,9 @@ Write a portion of file based on window parameters
 \param hyp complexHyper (from sepVector) storage
 */
   bool writeComplexDoubleWindow(const std::vector<int> &nw,
-                          const std::vector<int> &fw,
-                          const std::vector<int> &jw,
-                          std::shared_ptr<SEP::complexDoubleHyper> hyp);
+                                const std::vector<int> &fw,
+                                const std::vector<int> &jw,
+                                std::shared_ptr<SEP::complexDoubleHyper> hyp);
 
   /*!
 Read entire file
@@ -378,19 +379,19 @@ Read a complex window
       ;
     throw SEPException(std::string("readComplexStream is undefined"));
   }
-   /*!
+  /*!
 Read a complexDouble window
 
 \param npts Number of elements
 \param array Array to read into
 */
   virtual void readComplexDoubleStream(std::complex<double> *array,
-                                 const long long npts) {
+                                       const long long npts) {
     if (array == 0 && npts == 0)
       ;
     throw SEPException(std::string("readComplexDoubleStream is undefined"));
   }
- 
+
   /*!
 Write a complex window
 
@@ -403,14 +404,14 @@ Write a complex window
       ;
     throw SEPException(std::string("writeComplexStream is undefined"));
   }
-    /*!
+  /*!
 Write a complex window
 
 \param npts Number of elements
 \param array Array to read into
 */
   virtual void writeComplexDoubleStream(const std::complex<double> *array,
-                                  const long long npts) {
+                                        const long long npts) {
     if (array == 0 && npts == 0)
       ;
     throw SEPException(std::string("writeComplexDoubleStream is undefined"));
@@ -429,17 +430,17 @@ Read a byte window
       ;
     throw SEPException(std::string("readComplexWindow is undefined"));
   }
- 
-   /*!
+
+  /*!
 Read a byte window
 
 \param nw,fw, jw Window parameters
 \param array Array to read into
 */
   virtual void readComplexDoubleWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 std::complex<double> *array) {
+                                       const std::vector<int> &fw,
+                                       const std::vector<int> &jw,
+                                       std::complex<double> *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
     throw SEPException(std::string("readComplexDoubleWindow is undefined"));
@@ -459,16 +460,16 @@ Write a complex window
     throw SEPException(std::string("writeComplexWindow is undefined"));
   }
 
-    /*!
+  /*!
 Write a complexDouble window
 
 \param nw,fw, jw Window parameters
 \param array Array to read into
 */
   virtual void writeComplexDoubleWindow(const std::vector<int> &nw,
-                                  const std::vector<int> &fw,
-                                  const std::vector<int> &jw,
-                                  const std::complex<double> *array) {
+                                        const std::vector<int> &fw,
+                                        const std::vector<int> &jw,
+                                        const std::complex<double> *array) {
     if (nw.size() == 0 && fw.size() == 0 && jw.size() == 0 && array != 0)
       ;
     throw SEPException(std::string("writeComplexDoubleWindow is undefined"));
@@ -685,15 +686,25 @@ Write  the description of the file
 
   virtual ~genericRegFile() { ; }
 
- protected:
+  /*!
+  Return binary location
+
+  @return binary location
+  */
+
+  std::string getBinary() const { return _binary; }
+
+protected:
+  std::string _binary;
+
   std::shared_ptr<SEP::hypercube> _hyper =
-      nullptr;                         ///< Hypercube describing the RSF
-  dataType _type = SEP::DATA_UNKNOWN;  ///< The dataype for for the RSF
+      nullptr;                        ///< Hypercube describing the RSF
+  dataType _type = SEP::DATA_UNKNOWN; ///< The dataype for for the RSF
   usage_code _usage;
 };
 
 class genericHeaderObj {
- public:
+public:
   genericHeaderObj() { ; }
 
   virtual void readFloatData(std::shared_ptr<SEP::floatHyper> buf) = 0;
@@ -715,11 +726,13 @@ class genericHeaderObj {
   virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf) = 0;
   virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf,
                                const std::vector<bool> ind) = 0;
-  virtual void writeComplexData(
-      const std::shared_ptr<SEP::complexHyper> buf) = 0;
-  virtual void readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf) = 0;
-  virtual void readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf,
-                               const std::vector<bool> ind) = 0;
+  virtual void
+  writeComplexData(const std::shared_ptr<SEP::complexHyper> buf) = 0;
+  virtual void
+  readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf) = 0;
+  virtual void
+  readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf,
+                        const std::vector<bool> ind) = 0;
   virtual void writeComplexDoubleData(
       const std::shared_ptr<SEP::complexDoubleHyper> buf) = 0;
   virtual void readIntData(std::shared_ptr<SEP::intHyper> buf) = 0;
@@ -729,23 +742,23 @@ class genericHeaderObj {
   std::shared_ptr<header> getHeader();
   std::shared_ptr<header> cloneHeader() { return _header->clone(); }
 
- private:
+private:
   std::shared_ptr<header> _header;
 };
 
 class genericIrregFile : public genericRegFile {
- public:
+public:
   genericIrregFile() {}
 
-  virtual std::shared_ptr<genericHeaderObj> readHeaderWindow(
-      const std::vector<int> &nw, const std::vector<int> &fw,
-      const std::vector<int> &jw) = 0;
+  virtual std::shared_ptr<genericHeaderObj>
+  readHeaderWindow(const std::vector<int> &nw, const std::vector<int> &fw,
+                   const std::vector<int> &jw) = 0;
   virtual void writeHeaderWindow(const std::vector<int> &nw,
                                  const std::vector<int> &fw,
                                  const std::vector<int> &jw,
                                  std::shared_ptr<genericHeaderObj> header,
                                  std::vector<bool> &exists) = 0;
 };
-}  // namespace SEP
+} // namespace SEP
 
 #endif

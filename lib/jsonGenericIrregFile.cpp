@@ -1,8 +1,8 @@
 #include "jsonGenericIrregFile.h"
 #include <cstdlib>
 #include <exception>
-#include <fstream>   // std::ifstream
-#include <iostream>  // std::cout
+#include <fstream>  // std::ifstream
+#include <iostream> // std::cout
 using namespace SEP;
 jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
                                            const usage_code usage,
@@ -14,6 +14,7 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
   setupJson(arg, tag);
   _reelH = reelH;
   _traceH = traceH;
+  _type = "JSON";
 
   if (!_newFile) {
     readDescription(ndim);
@@ -29,6 +30,7 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
     _dataFile =
         datapath + std::string("/") + getJSONFileName() + std::string(".dat");
     jsonArgs["filename"] = _dataFile;
+    _binary = _dataFile;
   }
   jsonArgs["progName"] = progName;
 }
@@ -67,6 +69,7 @@ void jsonGenericIrregFile::setupJson(const Json::Value &arg,
       throw std::exception();
     }
     _dataFile = jsonArgs[std::string("filename")].asString();
+    _binary = _dataFile;
   }
 }
 std::string jsonGenericIrregFile::getJSONFileName() const { return _jsonFile; }
@@ -125,17 +128,21 @@ std::vector<int> jsonGenericIrregFile::getInts(const std::string &arg,
   const Json::Value vals = jsonArgs[arg];
 
   std::vector<int> x;
-  for (int i = 0; i < nvals; i++) x.push_back(vals[i].asInt());
+  for (int i = 0; i < nvals; i++)
+    x.push_back(vals[i].asInt());
   return x;
 }
-std::vector<int> jsonGenericIrregFile::getInts(
-    const std::string &arg, const std::vector<int> &defs) const {
+std::vector<int>
+jsonGenericIrregFile::getInts(const std::string &arg,
+                              const std::vector<int> &defs) const {
   std::vector<int> x;
   if (jsonArgs[arg].isNull()) {
-    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(defs[i]);
   } else {
     const Json::Value vals = jsonArgs[arg];
-    for (int i = 0; i < defs.size(); i++) x.push_back(vals[i].asInt());
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(vals[i].asInt());
   }
   return x;
 }
@@ -147,17 +154,21 @@ std::vector<float> jsonGenericIrregFile::getFloats(const std::string &arg,
   const Json::Value vals = jsonArgs[arg];
 
   std::vector<float> x;
-  for (int i = 0; i < nvals; i++) x.push_back(vals[i].asFloat());
+  for (int i = 0; i < nvals; i++)
+    x.push_back(vals[i].asFloat());
   return x;
 }
-std::vector<float> jsonGenericIrregFile::getFloats(
-    const std::string &arg, const std::vector<float> &defs) const {
+std::vector<float>
+jsonGenericIrregFile::getFloats(const std::string &arg,
+                                const std::vector<float> &defs) const {
   std::vector<float> x;
   if (jsonArgs[arg].isNull()) {
-    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(defs[i]);
   } else {
     const Json::Value vals = jsonArgs[arg];
-    for (int i = 0; i < defs.size(); i++) x.push_back(vals[i].asFloat());
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(vals[i].asFloat());
   }
   return x;
 }
@@ -178,16 +189,18 @@ void jsonGenericIrregFile::putBool(const std::string &par, const bool val) {
 void jsonGenericIrregFile::putInts(const std::string &par,
                                    const std::vector<int> &val) {
   Json::Value vals;
-  for (int i = 0; i < val.size(); i++) vals.append(val[i]);
+  for (int i = 0; i < val.size(); i++)
+    vals.append(val[i]);
   jsonArgs[par] = vals;
 }
 void jsonGenericIrregFile::putFloats(const std::string &par,
                                      const std::vector<float> &val) {
   Json::Value vals;
-  for (int i = 0; i < val.size(); i++) vals.append(val[i]);
+  for (int i = 0; i < val.size(); i++)
+    vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericIrregFile::readDescription(const int ndimMax ) {
+void jsonGenericIrregFile::readDescription(const int ndimMax) {
   int ndim;
   bool breakIt = false;
   int iax = 9;
@@ -201,7 +214,8 @@ void jsonGenericIrregFile::readDescription(const int ndimMax ) {
     else
       iax--;
   }
-  if (iax == 0) error("couldn't find any axes");
+  if (iax == 0)
+    error("couldn't find any axes");
   ndim = iax;
 
   std::vector<axis> axes;
@@ -217,7 +231,7 @@ void jsonGenericIrregFile::readDescription(const int ndimMax ) {
     setDataType(DATA_FLOAT);
   else if (dtyp == std::string("COMPLEX"))
     setDataType(DATA_COMPLEX);
-    else if (dtyp == std::string("COMPLEXDOUBLE"))
+  else if (dtyp == std::string("COMPLEXDOUBLE"))
     setDataType(DATA_COMPLEXDOUBLE);
   else if (dtyp == std::string("INTEGER"))
     setDataType(DATA_INT);

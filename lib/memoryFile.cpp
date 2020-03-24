@@ -1,11 +1,14 @@
 #include "memoryFile.h"
-#include <sstream>
 #include "SEPException.h"
 #include "basicIO.h"
 #include "string.h"
+#include <sstream>
 using namespace SEP;
 memoryRegFile::memoryRegFile(const std::string &tag, const usage_code usage,
-                             const int ndim) {}
+                             const int ndim) {
+  _type = "Memory";
+  _data = "Memory";
+}
 
 int memoryRegFile::getInt(const std::string &arg) const {
   if (0 == _dict.count(arg))
@@ -14,12 +17,14 @@ int memoryRegFile::getInt(const std::string &arg) const {
   return stoi(_dict.at(arg));
 }
 int memoryRegFile::getInt(const std::string &arg, const int def) const {
-  if (0 == _dict.count(arg)) return def;
+  if (0 == _dict.count(arg))
+    return def;
   return stoi(_dict.at(arg));
 }
 
 float memoryRegFile::getFloat(const std::string &arg, const float def) const {
-  if (0 == _dict.count(arg)) return def;
+  if (0 == _dict.count(arg))
+    return def;
   return stof(_dict.at(arg));
 }
 float memoryRegFile::getFloat(const std::string &arg) const {
@@ -37,12 +42,14 @@ std::string memoryRegFile::getString(const std::string &arg) const {
 }
 std::string memoryRegFile::getString(const std::string &arg,
                                      const std::string &def) const {
-  if (0 == _dict.count(arg)) return def;
+  if (0 == _dict.count(arg))
+    return def;
   return _dict.at(arg);
 }
 
 bool memoryRegFile::getBool(const std::string &arg, const bool def) const {
-  if (0 == _dict.count(arg)) return def;
+  if (0 == _dict.count(arg))
+    return def;
   bool b;
   std::istringstream(_dict.at(arg)) >> b;
 
@@ -66,17 +73,20 @@ std::vector<int> memoryRegFile::getInts(const std::string &arg, int num) const {
           std::string(" from parameters"));
   std::vector<std::string> tmp = splitString(_dict.at(arg));
   std::vector<int> x;
-  for (int i = 0; i < tmp.size(); i++) x.push_back(stoi(tmp[i]));
+  for (int i = 0; i < tmp.size(); i++)
+    x.push_back(stoi(tmp[i]));
   return x;
 }
 std::vector<int> memoryRegFile::getInts(const std::string &arg,
                                         const std::vector<int> &defs) const {
   std::vector<int> x = defs;
 
-  if (0 == _dict.count(arg)) return defs;
+  if (0 == _dict.count(arg))
+    return defs;
   std::vector<std::string> tmp = splitString(_dict.at(arg));
 
-  for (int i = 0; i < tmp.size(); i++) x[i] = stoi(tmp[i]);
+  for (int i = 0; i < tmp.size(); i++)
+    x[i] = stoi(tmp[i]);
   return x;
 }
 
@@ -87,16 +97,20 @@ std::vector<float> memoryRegFile::getFloats(const std::string &arg,
           std::string(" from parameters"));
   std::vector<std::string> tmp = splitString(_dict.at(arg));
   std::vector<float> x(tmp.size());
-  for (int i = 0; i < tmp.size(); i++) x[i] = stof(tmp[i]);
+  for (int i = 0; i < tmp.size(); i++)
+    x[i] = stof(tmp[i]);
   return x;
 }
-std::vector<float> memoryRegFile::getFloats(
-    const std::string &arg, const std::vector<float> &defs) const {
+std::vector<float>
+memoryRegFile::getFloats(const std::string &arg,
+                         const std::vector<float> &defs) const {
   std::vector<float> x = defs;
 
-  if (0 == _dict.count(arg)) return defs;
+  if (0 == _dict.count(arg))
+    return defs;
   std::vector<std::string> tmp = splitString(_dict.at(arg));
-  for (int i = 0; i < tmp.size(); i++) x.push_back(stof(tmp[i]));
+  for (int i = 0; i < tmp.size(); i++)
+    x.push_back(stof(tmp[i]));
   return x;
 }
 void memoryRegFile::close() { return; }
@@ -118,7 +132,8 @@ void memoryRegFile::putString(const std::string &par, const std::string &val) {
 
 void memoryRegFile::putBool(const std::string &par, const bool val) {
   std::string x = "0";
-  if (val) x = "1";
+  if (val)
+    x = "1";
   _dict[par] = x;
 }
 void memoryRegFile::putInts(const std::string &par,
@@ -143,7 +158,8 @@ void memoryRegFile::readFloatStream(float *array, const long long npts) {
   allocateCheck(DATA_FLOAT);
 
   long long nptsT = npts * 4;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
@@ -151,7 +167,8 @@ void memoryRegFile::readIntStream(int *array, const long long npts) {
   allocateCheck(DATA_INT);
 
   long long nptsT = npts * 4;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
@@ -162,7 +179,8 @@ void memoryRegFile::readDoubleStream(double
   allocateCheck(DATA_DOUBLE);
 
   long long nptsT = npts * 8;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
@@ -171,26 +189,28 @@ void memoryRegFile::readComplexStream(std::complex<float> *array,
   allocateCheck(DATA_COMPLEX);
 
   long long nptsT = npts * 8;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
 void memoryRegFile::readComplexDoubleStream(std::complex<double> *array,
-                                      const long long npts) {
+                                            const long long npts) {
   allocateCheck(DATA_COMPLEXDOUBLE);
 
   long long nptsT = npts * 16;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
-
 
 void memoryRegFile::readByteStream(unsigned char *array, const long long npts) {
   allocateCheck(DATA_BYTE);
 
   long long nptsT = npts * 1;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(array, _buf.data() + _pos, nptsT);
   _pos += nptsT;
 }
@@ -200,7 +220,8 @@ void memoryRegFile::writeFloatStream(const float *array, const long long npts) {
 
   long long nptsT = npts * 4;
 
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
 
   memcpy(_buf.data() + _pos, array, nptsT);
 
@@ -211,7 +232,8 @@ void memoryRegFile::writeByteStream(const unsigned char *array,
   allocateCheck(DATA_BYTE);
 
   long long nptsT = npts * 1;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
@@ -219,7 +241,8 @@ void memoryRegFile::writeIntStream(const int *array, const long long npts) {
   allocateCheck(DATA_INT);
 
   long long nptsT = npts * 4;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
@@ -228,7 +251,8 @@ void memoryRegFile::writeDoubleStream(const double *array,
   allocateCheck(DATA_DOUBLE);
 
   long long nptsT = npts * 8;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
@@ -244,7 +268,8 @@ void memoryRegFile::readFloatWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -266,7 +291,8 @@ void memoryRegFile::readDoubleWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -297,7 +323,8 @@ void memoryRegFile::readComplexWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -307,9 +334,9 @@ void memoryRegFile::readComplexWindow(const std::vector<int> &nw,
   SEP::blockToParts(hyper, 0, 8, nw, fw, jw, _buf.data(), array, array);
 }
 void memoryRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
-                                      const std::vector<int> &fw,
-                                      const std::vector<int> &jw,
-                                      std::complex<double> *array) {
+                                            const std::vector<int> &fw,
+                                            const std::vector<int> &jw,
+                                            std::complex<double> *array) {
   allocateCheck(DATA_COMPLEXDOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -317,7 +344,8 @@ void memoryRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -332,16 +360,18 @@ void memoryRegFile::writeComplexStream(const std::complex<float> *array,
   allocateCheck(DATA_COMPLEX);
 
   long long nptsT = npts * 8;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
 void memoryRegFile::writeComplexDoubleStream(const std::complex<double> *array,
-                                       const long long npts) {
+                                             const long long npts) {
   allocateCheck(DATA_COMPLEXDOUBLE);
 
   long long nptsT = npts * 16;
-  if (nptsT + _pos > _buf.size()) error(std::string("outside array"));
+  if (nptsT + _pos > _buf.size())
+    error(std::string("outside array"));
   memcpy(_buf.data() + _pos, array, nptsT);
   _pos += nptsT;
 }
@@ -356,7 +386,8 @@ void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -365,10 +396,9 @@ void memoryRegFile::writeComplexWindow(const std::vector<int> &nw,
   int ndim = ng.size();
   SEP::partsToBlock(hyper, 0, 8, nw, fw, jw, _buf.data(), array, array);
 }
-void memoryRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
-                                       const std::vector<int> &fw,
-                                       const std::vector<int> &jw,
-                                       const std::complex<double> *array) {
+void memoryRegFile::writeComplexDoubleWindow(
+    const std::vector<int> &nw, const std::vector<int> &fw,
+    const std::vector<int> &jw, const std::complex<double> *array) {
   allocateCheck(DATA_COMPLEXDOUBLE);
 
   std::shared_ptr<hypercube> hyper = getHyper();
@@ -376,7 +406,8 @@ void memoryRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -396,7 +427,8 @@ void memoryRegFile::readByteWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -415,7 +447,8 @@ void memoryRegFile::writeFloatWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
 
@@ -438,7 +471,8 @@ void memoryRegFile::writeByteWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -458,7 +492,8 @@ void memoryRegFile::writeDoubleWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -476,7 +511,8 @@ void memoryRegFile::writeIntWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -497,16 +533,18 @@ void memoryRegFile::seekTo(const long long iv, const int whence) {
     _pos = _buf.size() + iv;
 }
 
-std::vector<std::string> memoryRegFile::splitString(
-    const std::string &str) const {
+std::vector<std::string>
+memoryRegFile::splitString(const std::string &str) const {
   std::string delim = ",";
   std::vector<std::string> tokens;
   size_t prev = 0, pos = 0;
   do {
     pos = str.find(delim, prev);
-    if (pos == std::string::npos) pos = str.length();
+    if (pos == std::string::npos)
+      pos = str.length();
     std::string token = str.substr(prev, pos - prev);
-    if (!token.empty()) tokens.push_back(token);
+    if (!token.empty())
+      tokens.push_back(token);
     prev = pos + delim.length();
   } while (pos < str.length() && prev < str.length());
   return tokens;
@@ -515,7 +553,8 @@ std::vector<std::string> memoryRegFile::splitString(
 void memoryRegFile::allocateCheck(dataType typ) {
   std::shared_ptr<hypercube> hyper = getHyper();
 
-  if (hyper == nullptr) throw SEPException("Hypercube not set");
+  if (hyper == nullptr)
+    throw SEPException("Hypercube not set");
   dataType cur = getDataType();
 
   if (cur == DATA_UNKNOWN) {

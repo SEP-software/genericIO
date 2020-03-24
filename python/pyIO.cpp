@@ -169,7 +169,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::readIntStream,
            "Read a stream of ints")
       .def("getBinary",
-           (std::string(genericRegFile ::*)()) const &genericRegFile::getBinary,
+           (std::string(genericRegFile ::*)() const) &
+               genericRegFile::getBinary,
            "Return binary location")
       .def("readComplexStream",
            (void (genericRegFile ::*)(std::complex<float> *, const long long)) &

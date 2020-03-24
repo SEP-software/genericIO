@@ -107,6 +107,7 @@ class regFile:
         self.tag = tag
         self.usage = None
         ndimMax = -1
+        self._type=ioM.getType()
         if "ndims" in kw:
             ndimMax = kw["ndims"]
         if "usage" in kw:
@@ -184,7 +185,7 @@ class regFile:
 
     def __repr__(self):
         """Print information about file"""
-        x="Regular file type=%s\n"%self.cppMode.getType()
+        x="Regular file type=%s\n"%self._type
         if self.storage=="dataFloat":
             x+="Data type=float\n"
         elif  self.storage=="datInt":

@@ -185,7 +185,7 @@ class regFile:
 
     def __repr__(self):
         """Print information about file"""
-        x="Regular file type=%s\n"%self._type
+        x="Regular file type=%s \t "%self._type
         if self.storage=="dataFloat":
             x+="Data type=float\n"
         elif  self.storage=="datInt":
@@ -200,7 +200,7 @@ class regFile:
             x+="Data type=complexDouble\n"
         elif  self.storage=="datInt":
             x+="Data type=UKNOWN\n"
-        x+="Binary=%s"%self.cppMode.getBinary()
+        x+="Binary=%s\n"%self.cppMode.getBinary()
         x+=str(self.getHyper())
         return x
 

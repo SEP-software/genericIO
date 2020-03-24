@@ -4,6 +4,7 @@ using namespace SEP;
 memoryIO::memoryIO(std::map<std::string, std::string> dict) {
   std::shared_ptr<dictParams> x(new dictParams(dict));
   _param = x;
+  _type="MEMORY";
   setValid(true);
 }
 

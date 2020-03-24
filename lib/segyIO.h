@@ -10,7 +10,9 @@ Initialize IO with command line arguments
 \param argc C number of command line arguments
 \param argv List of command line arguments
 */
-  segyIO(const int argc, char **argv) { initJsonPars(argc, argv); }
+  segyIO(const int argc, char **argv) { initJsonPars(argc, argv); 
+  _type="SEGY";
+}
   /*!
    Return a genericRegFile object
 

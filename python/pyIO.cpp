@@ -371,6 +371,11 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                             genericIO::fileDebug)
       .def("getParamObj", (std::shared_ptr<paramObj>(genericIO::*)()) &
                               genericIO::getParamObj);
+      .def("getType",
+           (std::string(genericIO::*)()
+                const) &
+               genericIO::getType,
+           "Get IO type")
   py::class_<ioModes>(clsGeneric, "ioModes")
       .def(py::init<std::vector<std::string>>(), "Initlialize a new IO")
       .def("getInputIO",

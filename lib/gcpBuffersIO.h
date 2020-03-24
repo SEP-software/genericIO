@@ -18,7 +18,8 @@ class gcpBuffersIO : public jsonGenericIO {
   \param argc C number of command line arguments
   \param argv List of command line arguments
 */
-  gcpBuffersIO(const int argc, char **argv) { initJsonPars(argc, argv); }
+  gcpBuffersIO(const int argc, char **argv) { initJsonPars(argc, argv);
+  _type="GCP Buffers"; }
   /*!
      Return a genericRegFile object
 

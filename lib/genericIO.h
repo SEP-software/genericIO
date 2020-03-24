@@ -244,6 +244,11 @@ class genericIO {
   Close all files
 
 */
+
+  /*!
+     @return ioType
+   */
+  std::string getType() const { return _type;}
   virtual void filesClose();
   std::string _type;  ///< IO type
 

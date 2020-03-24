@@ -9,6 +9,7 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   std::string fileIn, fileOut;
   int i = 0;
   _progName = std::string(argv[0]);
+  _type="JSON";
   /*Looking for jsonIn and jsonOut"*/
   while (i < argc && !foundIn) {
     std::string arg = std::string(argv[i]);

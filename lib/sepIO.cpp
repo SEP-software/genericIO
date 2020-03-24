@@ -5,6 +5,7 @@ sepIO::sepIO(int argc, char **argv) {
   std::shared_ptr<sepParam> x(new sepParam(argc, argv));
   _param = x;
   setValid(true);
+  _type="SEP";
 }
 
 std::shared_ptr<genericRegFile> sepIO::getRegFileTag(

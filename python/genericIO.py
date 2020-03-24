@@ -25,6 +25,7 @@ class pythonParams:
         """Create a parameter object that reads from a python dictionary"""
         self.pars = {}
         self.inPars = {}
+        self._hyper=None
         if isinstance(inPars, list):
             prse = re.compile("(.+)=(.+)")
             for l in inPars:
@@ -179,6 +180,27 @@ class regFile:
             self.cppMode.readDescription(ndimMax)
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
+
+
+    def __repr__(self):
+        """Print information about file"""
+        x="Regular file type=%s\n"%self.cppMode.getType()
+        if self.storage=="dataFloat":
+            x+="Data type=float\n"
+        elif  self.storage=="datInt":
+            x+="Data type=integer\n"
+        elif  self.storage=="dataByte":
+            x+="Data type=byte\n"
+        elif  self.storage=="dataDouble":
+            x+="Data type=double\n"
+        elif  self.storage=="dataComplex":
+            x+="Data type=complex\n"
+        elif  self.storage=="dataComplexDouble":
+            x+="Data type=complexDouble\n"
+        elif  self.storage=="datInt":
+            x+="Data type=UKNOWN\n"
+        x+=str(self.getHyper())
+        return x
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""

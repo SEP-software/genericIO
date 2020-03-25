@@ -113,9 +113,9 @@ def real2Complex(inA,outA,realFlag):
 if __name__ == "__main__":
     print("in main")
     parser = argparse.ArgumentParser(description='Print info about files')
-    parser.add_argument('input', metavar='Files', type=str,
+    parser.add_argument('input', metavar='Input', type=str,
                         help='Input file')
-    parser.add_argument('output', metavar='Files', type=str,
+    parser.add_argument('output', metavar='Output', type=str,
                         help='Output file')                   
     parser.add_argument("--ioIn", type=str,choices=["SEP","JSON"], help='IO type. Defaults to defaultIO')
     parser.add_argument("--ioOut", type=str,choices=["SEP","JSON"], help='IO type. Defaults to defaultIO')

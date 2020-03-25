@@ -75,7 +75,7 @@ class regSpace:
         while not found:
             nc[idim]=nb
             if mem>= self._job.returnSize(nc):
-                return True 
+                found= True 
             else:
                 nb-=1
         print("3IN MAKE2 parts")

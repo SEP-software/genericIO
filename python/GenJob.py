@@ -72,7 +72,6 @@ class regSpace:
         self._outputBuffer=None
         self._inputBuffer=None
 
-    
     def processBuffer(self,iwind,nw,fw,jw ):
 
         if self._inputFile:

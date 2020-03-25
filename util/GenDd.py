@@ -29,23 +29,23 @@ class ddJob(genJob.regSpace):
         inN=np.reshape(ina.getNdArray(),(n123,))
         outN=np.reshape(outa.getNdArray(),(n123,))
 
-        if self.inputType=="dataComplex" or self.inputType=="dataComplexDouble":
-            if self.outputType=="dataShort":
+        if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
+            if self._outputType=="dataShort":
                 complex2Short(inN,outN,self._real)
-            elif self.outputType=="dataInt":
+            elif self._outputType=="dataInt":
                 complex2Int(inN,outN,self._real)
-            elif self.outputType=="dataFloat" or self.outputType=="dataDouble":
+            elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
                 complex2Real(inN,outN,self._real)
-            elif self.outputType=="dataComplex" or self.outputType=="dataComplexDouble":
+            elif self._outputType=="dataComplex" or self._outputType=="dataComplexDouble":
                 complex2Complex(inN,outN)
         else:
-            if self.outputType=="dataShort":
+            if self._outputType=="dataShort":
                 real2Short(inN,outN)
-            elif self.outputType=="dataInt":
+            elif self._outputType=="dataInt":
                 real2Int(inN,outN)
-            elif self.outputType=="dataFloat" or self.outputType=="dataDouble":
+            elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
                 real2Real(inN,outN)
-            elif self.outputType=="dataComplex" or self.dataType=="dataComplexDouble":
+            elif self._outputType=="dataComplex" or self._dataType=="dataComplexDouble":
                 real2Complex(inN,outN,self_real)
 
 @jit(nopython=True, parallel=True)

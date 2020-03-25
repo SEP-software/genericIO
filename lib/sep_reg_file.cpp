@@ -474,7 +474,7 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
     error(std::string("trouble writing data to tag ") + _tag);
   std::cerr << "befo56re write window " << std::endl;
 
-  _binary = getString("in");
+  //_binary = getString("in");
   std::cerr << "befo58re write window " << std::endl;
 }
 void sepRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,

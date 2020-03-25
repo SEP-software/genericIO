@@ -107,7 +107,7 @@ class regFile:
         self.tag = tag
         self.usage = None
         ndimMax = -1
-        print(ioM)
+        print(ioM,"XXXX")
         self._type=ioM.getType()
         if "ndims" in kw:
             ndimMax = kw["ndims"]

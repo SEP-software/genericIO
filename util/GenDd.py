@@ -6,7 +6,7 @@ import genSplit
 import numpy as np
 from numba import jit
 
-class ddJob(GenJob.regSpace):
+class ddJob(genJob.regSpace):
     def __init__(self,inputType,outputType,real):
         """Intialize object
 

@@ -128,7 +128,15 @@ class regSpace:
                                             self._fw.append(f_w)
                                             self._jw.append(j_w)
                                             self._job.calcInputWindow(n_w,f_w,j_w)
-            
+                                            n_done[0]+=n_w[0]
+                                        n_done[1]+=n_w[1]
+                                    n_done[2]+=n_w[2]
+                                n_done[3]+=n_w[3]
+                            n_done[4]+=n_w[4]
+                        n_done[5]+=n_w[5]
+                    n_done[6]+=n_w[6]
+                n_done[7]+=n_w[7]
+
 
         
 

@@ -71,7 +71,7 @@ class regSpace:
         self._inputBuffer=None
 
     
-    def processBuffer(self,iwind,nw,fw,jw )
+    def processBuffer(self,iwind,nw,fw,jw ):
 
         if self._inputFile:
             ndim=self._inputFile.getHyper().getNdims()

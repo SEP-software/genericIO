@@ -86,7 +86,7 @@ class regSpace:
         nblock=[1]*8
         for i in range(len(nc)):
             nblock[i]=nc[i]
-
+        print("LOOPING",nblock,ns)
         while ndone[7]< ns[7]:
             f_w[7]=ndone[7]
             n_w[7]=min(n_w[7]-f_w[7],nblock[7])

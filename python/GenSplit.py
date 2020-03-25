@@ -58,7 +58,7 @@ class regSpace:
                 found=True 
             else:
                 idim+=1
-        print("IN MAKE2 parts")
+        print("IN MAKE2 parts",idim,mc)
 
         
         nc=ns[0:idim]

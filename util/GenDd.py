@@ -105,7 +105,7 @@ def real2Complex(inA,outA,realFlag):
             outA[i]=inA[i]
     else:
         for i in prange(outA.shape[0]):
-            outA[i]=0+inA[i]j
+            outA[i]=complex(0,inA[i])
 
 
 

@@ -18,7 +18,7 @@ include_directories(${Boost_INCLUDE_DIR})
 
   target_link_libraries(pyGenericIO PRIVATE genericCpp)
   install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
-  install(FILES genericIO.py DESTINATION lib/python)
+  install(FILES genJob.py genSplit.py genericIO.py DESTINATION lib/python)
 
 set(PYSEARCH ${CMAKE_CURRENT_BINARY_DIR}/../lib)
 set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/)

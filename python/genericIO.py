@@ -107,7 +107,6 @@ class regFile:
         self.tag = tag
         self.usage = None
         ndimMax = -1
-        print(ioM,"XXXX")
         self._type=ioM.getType()
         if "ndims" in kw:
             ndimMax = kw["ndims"]
@@ -148,9 +147,14 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
-            self.cppMode = ioM.getRegFile(
-                self.tag, usageConvert[
-                    self.usage], ndimMax)
+            if isInstance(ioM,io):
+                self.cppMode = ioM.cppMode.getRegFile(
+                    self.tag, usageConvert[
+                        self.usage], ndimMax)
+            else:
+                self.cppMode = ioM.getRegFile(
+                    self.tag, usageConvert[
+                        self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
@@ -164,6 +168,7 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
+            
             self.cppMode = ioM.getRegFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)

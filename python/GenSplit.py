@@ -165,7 +165,7 @@ class serialRegSpace(regSpace):
         #GET INPUT BUFFER
         
         inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subcube(self._nw[0],self._fw[0],self._jw[0]),0)
+        outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         readThread=threading.Thread(target=read_func, args=(inputFile,inputVec,nw,fw,jw))
         readThread.start()
     

@@ -132,10 +132,11 @@ if __name__ == "__main__":
         ioIn=genericIO.io(args.ioIn)
 
     if args.ioOut:
-        ioIn=genericIO.io(args.ioOut)
+        ioOut=genericIO.io(args.ioOut)
 
     inFile=ioIn.getRegFile(args.input)
     outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
+    outFile.writeDescription()
     job=ddJob(inFile.getStorageType(),outFile.getStorageType(),args.real)
     job.setOutputFile(outFile)
     job.setCompleteHyperOut(outFile.getHyper())

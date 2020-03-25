@@ -110,13 +110,13 @@ class regSpace:
         self._ioBufferOut=self.outputBuffer
         self._outputBuffer=tmp
     
-    def swapIObufferPtrsIn(self)
+    def swapIObufferPtrsIn(self):
         """SWap buffer pointers to allow for IO overlap"""
         tmp=self._ioBufferIn
         self._ioBufferIn=self.inputBuffer
         self._inputBuffer=tmp
 
-        
+
     def processBuffer(self,iwind,nw,fw,jw ):
 
         if self._inputFile:

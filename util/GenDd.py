@@ -138,6 +138,7 @@ if __name__ == "__main__":
     outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
     job=ddJob(inFile.getStorageType(),outFile.getStorageType(),args.real)
     job.setOutputFile(outFile)
+    job.setCompleteHyperOut(outFile.getHyper())
     job.setInputFile(inFile)
     split=genSplit.serialRegSpace(job, args.memory)
     split.loop()

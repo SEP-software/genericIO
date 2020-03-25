@@ -129,28 +129,23 @@ class regSpace:
         if self._inputJob:
             self._inputJob.calcInputWindow(nw,fw,jw)
 
-    def getOutputDomain(self):
-        """Return output domain for job. 
-        If self._hyperOut is not set returns error"""
-        if not self._hyperOut:
-            return None
-        return self._hyperOut
 
-    def setHyperOut(self,hyper):
+
+    def setCompleteHyperOut(self,hyper):
         """Set output hypercube"""
         self._hyperOut=hyper
-        self._hyperIn=self.getHyperIn()
+        self._hyperIn=self.getHyperIn(self._hyperOut)
         if self._inputJob:
             self._inputJob.setHyperOut(self._hyperIn)
 
 
-    def getHyperOut(self):
+    def getCompleteHyperOut(self):
         """Return hypercube out"""
         if not self._hyperOut:
             raise Exception("Hyperout has not been set")
         return self._hyperOut
 
-    def getHyperIn(self):
+    def getCompleteHyperIn(self):
         """Return hypercube in"""
         if not self._hyperIn:
             raise Exception("Hyperin has not been set")

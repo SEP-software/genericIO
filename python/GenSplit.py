@@ -33,7 +33,7 @@ class regSpace:
         if mem < 0:
             raise Exception("Out of memory due to job base requirements")
 
-        hyperOut=self._job.getHyperOut()
+        hyperOut=self._job.getCompleteHyperOut()
         self._hyperOut=hyperOut
         ns=hyperOut.getNs()
         for i in range(8-ns.size()):

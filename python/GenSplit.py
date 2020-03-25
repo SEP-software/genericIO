@@ -159,12 +159,12 @@ class serialRegSpace(regSpace):
         print("IN LOOP",len(self._nw))
         for i in range(len(self._nw)):
             print("allocate")
-            self._job.allocateBuffer(self._hyperOut.subCube(self._nw,self._fw,self._jw),i)
+            self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             print("process")
-            self._job.proceesBuffer(i,self._nw,self._fw,self_jw)
+            self._job.proceesBuffer(i,self._nw[i],self._fw[i],self_jw[i])
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
-                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
+                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
                 printNext+=printPct
                 
 

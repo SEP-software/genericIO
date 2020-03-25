@@ -15,7 +15,7 @@ class regSpace:
         self._mem=mem
         self._job=job
 
-        if not isinstance(self._job,GenJob.regSpace):
+        if not isinstance(self._job,genJob.regSpace):
             raise Exception("Expecting job to be dervied from GenJob.regSpace")
         
         self.makeParts()

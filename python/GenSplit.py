@@ -65,9 +65,11 @@ class regSpace:
         nc.append(1)
         found=False
         nb=mem/self._job.returnSize(nc)
+        print("1IN MAKE2 parts")
 
         if nb <1:
             raise Exception("Error in job description. Adding a 1 to size should produce same size")
+        print("2IN MAKE2 parts")
 
         nb=int(nb)
         while not found:
@@ -76,9 +78,11 @@ class regSpace:
                 return True 
             else:
                 nb-=1
-        
+        print("3IN MAKE2 parts")
+
         #NC now should contain maximum chunk size
         #Construct outer and inner loops
+        print("4IN MAKE2 parts")
 
      
         j_w=[1]*8

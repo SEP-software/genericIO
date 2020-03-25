@@ -27,6 +27,7 @@ class regSpace:
     def makeParts(self):
         """ Make loops through the dataset"""
 
+        print("IN MAKE parts")
         mem=self._mem
         mem-=self._job.returnBaseMemory()
 
@@ -57,6 +58,7 @@ class regSpace:
                 found=True 
             else:
                 idim+=1
+        print("IN MAKE2 parts")
 
         
         nc=ns[0:idim]

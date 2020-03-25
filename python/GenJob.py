@@ -83,7 +83,7 @@ class regSpace:
         self.process(self._inputBuffer,self._outputBuffer)
 
         if self._outputFile:
-            self._outputFile.getHyper().getNdims()
+            ndim=len(self._outputFile.getHyper().axes)
             self._inputFile.readWindow(self._inputBuffer,nw=nw[:ndim],fw=fw[:ndim],jw=jw[:ndim])
 
 

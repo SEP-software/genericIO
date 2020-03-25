@@ -134,7 +134,7 @@ if __name__ == "main":
     if args.ioOut:
         ioIn=genericIO.io(args.ioOut)
 
-    inFile=ioIn.getRegFile(args.input))
+    inFile=ioIn.getRegFile(args.input)
     outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
     job=ddJob(inFile.getStorage(),outFile.getStorage(),args.real)
     job.setOutputFile(outFile)

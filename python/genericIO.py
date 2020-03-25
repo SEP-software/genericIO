@@ -327,8 +327,10 @@ class regFile:
                 raise Exception("File type is int vector type is not")
             self.cppMode.writeIntWindow(nw, fw, jw, vec.cppMode)
         if self.storage == "dataComplex":
+            print("should be here")
             if not isinstance(vec, SepVector.complexVector):
                 raise Exception("File type is complex vector type is not")
+            print("should be ready to write")
             self.cppMode.writeComplexWindow(nw, fw, jw, vec.cppMode)
         if self.storage == "dataComplexDouble":
             if not isinstance(vec, SepVector.complexDoubleVector):

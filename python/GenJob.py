@@ -84,6 +84,7 @@ class regSpace:
 
         if self._outputFile:
             ndim=len(self._outputFile.getHyper().axes)
+            print("write request",nw[:ndim])
             self._outputFile.writeWindow(self._outputBuffer,nw=nw[:ndim],fw=fw[:ndim],jw=jw[:ndim])
 
 

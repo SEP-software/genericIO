@@ -123,17 +123,17 @@ class regFile:
                     "Only understand input,output, and inout for usage")
         self.storage = "dataFloat"
         if "storage" in kw:
-            if kw["storage"] == "float":
+            if kw["storage"] == "dataFloat":
                 self.storage = "dataFloat"
-            elif kw["storage"] == "int":
+            elif kw["storage"] == "dataInt":
                 self.storage = "dataInt"
-            elif kw["storage"] == "byte":
+            elif kw["storage"] == "dataByte":
                 self.storage = "dataByte"
-            elif kw["storage"] == "double":
+            elif kw["storage"] == "dataDouble":
                 self.storage = "dataDouble"
-            elif kw["storage"] == "complex":
+            elif kw["storage"] == "dataComplex":
                 self.storage = "dataComplex"
-            elif kw["storage"] == "complexDouble":
+            elif kw["storage"] == "dataComplexDouble":
                 self.storage = "dataComplexDouble"
             else:
                 raise Exception(

@@ -96,7 +96,7 @@ class regSpace:
         """Set input file"""
         self._inputFile=inputFile
 
-    def checkLogic(self):
+    def checkLogic(self,first=True):
         if first:
             if not self._outputFile:
                 raise Exception("Output file must exist at the end of the chain")
@@ -110,7 +110,7 @@ class regSpace:
         else:
             if self._inType != self._inputJob.outType:
                 raise Exception("Output/Input type mismatch in pipe")
-            self._inputJob.checkLogic()
+            self._inputJob.checkLogic(False)
 
     def returnBaseMemory(self):
         """Return base memory needed by job"""

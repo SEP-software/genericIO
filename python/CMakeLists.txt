@@ -34,7 +34,7 @@ set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/exter
   if(BUILD_TEST)
   set(TESTS  Generic_IO GenSplit GenJob)
 FOREACH(prg ${TESTS})
-  add_test(NAME TEST_${prog}
+  add_test(NAME TEST_${prg}
   COMMAND ${CMAKE_COMMAND} -E env
   PYTHONPATH=${PYSEARCH}
   LD_LIBRARY_PATH=${PYSEARCH}

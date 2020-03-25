@@ -121,7 +121,7 @@ if __name__ == "__main__":
     parser.add_argument("--ioOut", type=str,choices=["SEP","JSON"], help='IO type. Defaults to defaultIO')
     parser.add_argument("--storage",type=str,choices=["dataByte","dataInt","dataFloat","dataComplex","dataShort",
     "dataComplexDouble","dataDouble"],default="dataFloat")
-    parser.add_argument("memory",type=int,help="Memory in terms of GB",default=20)
+    parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=20)
     parser.add_argument("--real",type=bool, help="Convert float to real portion of complex")
     args = parser.parse_args()
 

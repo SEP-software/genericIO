@@ -186,7 +186,7 @@ class serialRegSpace(regSpace):
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
-                printNext+=printPct'
+                printNext+=printPct
         writeThread.join()
         self._job.deallocateBuffers()
 

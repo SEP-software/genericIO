@@ -87,7 +87,7 @@ class regSpace:
 
 
 
-    def setOuputFile(self,outputFile):
+    def setOutputFile(self,outputFile):
         """Set the output file"""
         self._outputFile=outputFile
     

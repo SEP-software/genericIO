@@ -449,9 +449,7 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
                                     const std::vector<int> &jw,
                                     const std::complex<float> *array) {
 
-  std::cerr << "before2 write window " << std::endl;
   setDataType(DATA_COMPLEX);
-  std::cerr << "before3 write window " << std::endl;
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
@@ -461,21 +459,15 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
         error("number of dimension does not equal data size");
     }
   }
-  std::cerr << "befo4re write window " << std::endl;
 
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
     error("number of dimensions does not equal data size");
   }
-  std::cerr << "befo5re write window " << std::endl;
 
   int ndim = ng.size();
   if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
                         jw.data(), 8, array))
     error(std::string("trouble writing data to tag ") + _tag);
-  std::cerr << "befo56re write window " << std::endl;
-
-  //_binary = getString("in");
-  std::cerr << "befo58re write window " << std::endl;
 }
 void sepRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
                                           const std::vector<int> &fw,

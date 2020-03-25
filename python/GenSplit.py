@@ -152,7 +152,7 @@ class serialRegSpace(regSpace):
         for i in range(len(self._job._nw)):
             self._job.allocateBuffer(self._hyperOut.subHyper(nw,fw,jw),i)
             self._job.proceesBuffer(i,nw,fw,jw)
-            pct=int(i*10000/len(self._job._nw))/100.:
+            pct=int(i*10000/len(self._job._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._job._nw)))
                 printNext+=printPct

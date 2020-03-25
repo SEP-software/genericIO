@@ -110,32 +110,32 @@ class regSpace:
                         n_w[4]=min(n_w[4]-f_w[4],nblock[4])
                         ndone[3]=0       
                         while ndone[3]< ns[3]:
-                                f_w[3]=ndone[3]
-                                n_w[3]=min(n_w[3]-f_w[3],nblock[3])
-                                ndone[2]=0            
-                                while ndone[1]< ns[2]:
-                                    f_w[2]=ndone[2]
-                                    n_w[2]=min(n_w[2]-f_w[2],nblock[2])
-                                    ndone[1]=0        
-                                    while ndone[1]< ns[1]:
-                                        f_w[1]=ndone[1]
-                                        n_w[1]=min(n_w[1]-f_w[1],nblock[1])
-                                        ndone[0]=0       
-                                        while ndone[0]< ns[0]:
-                                            f_w[0]=ndone[0]
-                                            n_w[0]=min(n_w[0]-f_w[0],nblock[0])
-                                            self._nw.append(n_w)
-                                            self._fw.append(f_w)
-                                            self._jw.append(j_w)
-                                            self._job.calcInputWindow(n_w,f_w,j_w)
-                                            n_done[0]+=n_w[0]
-                                        n_done[1]+=n_w[1]
-                                    n_done[2]+=n_w[2]
-                                n_done[3]+=n_w[3]
-                            n_done[4]+=n_w[4]
-                        n_done[5]+=n_w[5]
-                    n_done[6]+=n_w[6]
-                n_done[7]+=n_w[7]
+                            f_w[3]=ndone[3]
+                            n_w[3]=min(n_w[3]-f_w[3],nblock[3])
+                            ndone[2]=0            
+                            while ndone[1]< ns[2]:
+                                f_w[2]=ndone[2]
+                                n_w[2]=min(n_w[2]-f_w[2],nblock[2])
+                                ndone[1]=0        
+                                while ndone[1]< ns[1]:
+                                    f_w[1]=ndone[1]
+                                    n_w[1]=min(n_w[1]-f_w[1],nblock[1])
+                                    ndone[0]=0       
+                                    while ndone[0]< ns[0]:
+                                        f_w[0]=ndone[0]
+                                        n_w[0]=min(n_w[0]-f_w[0],nblock[0])
+                                        self._nw.append(n_w)
+                                        self._fw.append(f_w)
+                                        self._jw.append(j_w)
+                                        self._job.calcInputWindow(n_w,f_w,j_w)
+                                        n_done[0]+=n_w[0]
+                                    n_done[1]+=n_w[1]
+                                n_done[2]+=n_w[2]
+                            n_done[3]+=n_w[3]
+                        n_done[4]+=n_w[4]
+                    n_done[5]+=n_w[5]
+                n_done[6]+=n_w[6]
+            n_done[7]+=n_w[7]
 
 
         

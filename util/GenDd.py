@@ -110,7 +110,7 @@ def real2Complex(inA,outA,realFlag):
 
 
         
-if __name__ == "main":
+if __name__ == "__main__":
     print("in main")
     parser = argparse.ArgumentParser(description='Print info about files')
     parser.add_argument('input', metavar='Files', type=str,

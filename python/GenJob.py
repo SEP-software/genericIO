@@ -44,11 +44,11 @@ class regSpace:
             iwind    - Block number
         """
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
-        self._outputBuffer=self.reallocBuffer(self._outputBuffer,hyperOut)
+        self._outputBuffer=self.reallocBuffer(self._outputBuffer,hyperOut,self._outputType)
         if not self._inputJob:
-            self._inputBuffer=self.reallocBuffer(self._inputBuffer,hyperIn,self._outputType)
+            self._inputBuffer=self.reallocBuffer(self._inputBuffer,hyperIn,self._inputType)
         else:
-            self._inputJob.allocateBuffer(hyperIn,iwind,self._inputType)
+            self._inputJob.allocateBuffer(hyperIn,iwind)
 
 
     def reallocBuffer(self,buf,hyper,typ):

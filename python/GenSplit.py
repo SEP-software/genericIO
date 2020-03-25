@@ -36,7 +36,7 @@ class regSpace:
         hyperOut=self._job.getCompleteHyperOut()
         self._hyperOut=hyperOut
         ns=hyperOut.getNs()
-        for i in range(8-ns.size()):
+        for i in range(8-len(ns)):
             ns.append(1)
         
         ndimLoop=None

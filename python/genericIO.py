@@ -137,7 +137,7 @@ class regFile:
                 self.storage = "dataComplexDouble"
             else:
                 raise Exception(
-                    "Only understand float,int,double,byte, complexDouble,and complex for storage")
+                    "Only understand dataFloat,dataInt,dataDouble,dataByte, dataComplexDouble,and dataComplex for storage not=%s"%storage)
 
         if "fromHyper" in kw:
             if not isinstance(kw["fromHyper"], Hypercube.hypercube):

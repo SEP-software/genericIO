@@ -1,6 +1,6 @@
 import Hypercube
 
-esizeFromType={"float":4,"double":8,"int":4,"complex":8,"short":2,"complexDouble":16,"byte":1} 
+esizeFromType={"f=="dataFloat":4,"dataDouble":8,"dataInt":4,"dataComplex":8,"dataShort":2,"dataComplexDouble":16,"dataByte":1} 
 
 
 class regSpace:

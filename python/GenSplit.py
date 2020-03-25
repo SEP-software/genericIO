@@ -39,7 +39,7 @@ class regSpace:
         ns=hyperOut.getNs()
         for i in range(8-len(ns)):
             ns.append(1)
-        
+        print("NS",ns)
         ndimLoop=None
         mem=mem*1000*1000*1000
         minDim=self._job.returnMinDim(0)

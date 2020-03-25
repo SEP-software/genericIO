@@ -111,7 +111,6 @@ def real2Complex(inA,outA,realFlag):
 
         
 if __name__ == "__main__":
-    print("in main")
     parser = argparse.ArgumentParser(description='Print info about files')
     parser.add_argument('input', metavar='Input', type=str,
                         help='Input file')
@@ -142,8 +141,7 @@ if __name__ == "__main__":
     job.setInputFile(inFile)
     split=genSplit.serialRegSpace(job, args.memory)
     split.loop()
-else:
-    print("not in main")
+
 
 
 

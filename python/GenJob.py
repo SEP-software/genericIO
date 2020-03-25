@@ -37,6 +37,8 @@ class regSpace:
         self._outputFile=None
         self._inputBuffer=None
         self._outputBuffer=None
+        self._ioBufferIn=None
+        self._ioBufferOut=None
 
     
     def allocateBuffer(self,hyperOut,iwind):
@@ -50,6 +52,32 @@ class regSpace:
             self._inputBuffer=self.reallocBuffer(self._inputBuffer,hyperIn,self._inputType)
         else:
             self._inputJob.allocateBuffer(hyperIn,iwind)
+
+    
+    def allocateIOBufferOut(self,hyperOut,iwind):
+        """Allocate buffer needed for this window
+            hyperOut - Output hypercube
+            iwind    - Block number
+
+            @returnIOBuffer Out, file object
+        """
+        self._ioBufferOut=self.reallocBuffer(self._ioBufferOut,hyperOut,self._outputType)
+        return self._ioBufferOut,self._outputFile
+    
+    def allocateIOBufferIn(self,hyperOut,iwind):
+        """Allocate buffer needed for this window
+            hyperOut - Output hypercube
+            iwind    - Block number
+
+            @returns IOBufferIn,File object
+        """
+        hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
+        if not self._inputJob:
+            self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
+            return self._ioBufferIn,self._inputFile
+        else:
+            return self._inputJob.allocateIOBufferIn(hyperIn,iwind)
+
 
 
     def reallocBuffer(self,buf,hyper,typ):
@@ -71,7 +99,24 @@ class regSpace:
         """Deallocate buffers"""
         self._outputBuffer=None
         self._inputBuffer=None
+        self._ioBufferIn=None
+        self._ioBufferOut=None
+        if self._inputJob:
+            self._inputJob.deallocateBuffers()
 
+    def swapIOBufferPtrsOut(self):
+        """SWap buffer pointers to allow for IO overlap"""
+        tmp=self._ioBufferOut
+        self._ioBufferOut=self.outputBuffer
+        self._outputBuffer=tmp
+    
+    def swapIObufferPtrsIn(self)
+        """SWap buffer pointers to allow for IO overlap"""
+        tmp=self._ioBufferIn
+        self._ioBufferIn=self.inputBuffer
+        self._inputBuffer=tmp
+
+        
     def processBuffer(self,iwind,nw,fw,jw ):
 
         if self._inputFile:
@@ -186,7 +231,7 @@ class regSpace:
             nbytes*=n
 
         if self._inputJob:
-           nbytes+=self.returnSize(ns)
+           nbytes+=self._inputJob.returnSize(ns)
         else:
             nb=self._ein
             for n in ns:

@@ -24,6 +24,7 @@ class regSpace:
         self._ein=esizeFromType[inputType]
         self._eout=esizeFromType[outputType]
         self._hyperOut=None
+        self._hyperIn=None
         if inputJob:
             if not isinstance(regSpace,inputJob):
                 raise Exception("Expecting genericJob.regSpace instance to be passed in")
@@ -145,16 +146,16 @@ class regSpace:
 
     def getHyperOut(self):
         """Return hypercube out"""
-        return hyperIn
+        return self._hyperOut
 
     def getHyperIn(self):
         """Return hypercube in"""
-        return hyperOut
+        return self._hyperIn
         
     def createHyperOut(self,hyperIn):
         """Return hypercube out given hypercube in.
         Defaults to same hypercube"""
-        return hyperIn
+        return self._hyperIn
 
     def createHyperIn(self,hyperOut):
         """Return hypercube in given hypercube out.

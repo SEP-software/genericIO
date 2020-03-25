@@ -143,17 +143,23 @@ class regSpace:
             self._inputJob.setHyperOut(self._hyperIn)
 
 
-    def getHyperOut(self,hyperIn):
+    def getHyperOut(self):
+        """Return hypercube out"""
+        return hyperIn
+
+    def getHyperIn(self):
+        """Return hypercube in"""
+        return hyperOut
+        
+    def createHyperOut(self,hyperIn):
         """Return hypercube out given hypercube in.
         Defaults to same hypercube"""
         return hyperIn
 
-    def getHyperIn(self,hyperOut):
+    def createHyperIn(self,hyperOut):
         """Return hypercube in given hypercube out.
             Defaults to same hypercube"""
         return hyperOut
-        
-
     def returnMinDim(self,minDimOut):
         """
             Return the minimum dimension needed in output space.

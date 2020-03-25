@@ -18,10 +18,10 @@ class regSpace:
         if not isinstance(self._job,genJob.regSpace):
             raise Exception("Expecting job to be dervied from GenJob.regSpace")
         
-        self.makeParts()
         self._nw=[]
         self._fw=[]
         self._jw=[]
+        self.makeParts()
 
     
     def makeParts(self):

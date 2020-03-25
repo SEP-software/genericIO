@@ -139,7 +139,8 @@ if __name__ == "__main__":
     job=ddJob(inFile.getStorageType(),outFile.getStorageType(),args.real)
     job.setOutputFile(outFile)
     job.setInputFile(inFile)
-    split=GenSplit.serialRegSpace(job, args.memory)
+    split=genSplit.serialRegSpace(job, args.memory)
+    split.loop()
 else:
     print("not in main")
 

@@ -4,7 +4,7 @@ import genericIO
 import genJob
 import genSplit
 import numpy as np
-from numba import jit
+from numba import jit,prange
 
 class ddJob(genJob.regSpace):
     def __init__(self,inputType,outputType,real):

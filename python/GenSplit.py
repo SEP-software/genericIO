@@ -166,7 +166,7 @@ class serialRegSpace(regSpace):
         
         inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        readThread=threading.Thread(target=read_func, args=(inputFile,inputVec,nw,fw,jw))
+        readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
         readThread.start()
     
 
@@ -176,13 +176,13 @@ class serialRegSpace(regSpace):
             if i!= len(self._nw)-1:
                 self._job.swapIOBufferPtrsIn()
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),1)
-                readThread=threading.Thread(target=read_func, args=(inputFile,inputVec,nw,fw,jw))
+                readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
                 readThread.start()           
             self._job.processBuffer(i,self._nw[i],self._fw[i],self._jw[i])
             if i!=0:
                 writeThread.join()
             self._job.swapIOBufferPtrsOut()
-            writeThread=threading.thread(target=write_func,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+            writeThread=threading.thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))

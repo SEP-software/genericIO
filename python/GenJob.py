@@ -75,7 +75,7 @@ class regSpace:
     def processBuffer(self,iwind,nw,fw,jw ):
 
         if self._inputFile:
-            ndim=self._inputFile.getHyper().getNdims()
+            ndim=len(self._inputFile.getHyper().axes)
             self._inputFile.readWindow(self._inputBuffer,nw=self._nw[iwind][:ndim],fw=self._fw[iwind][:ndim],jw=self._jw[iwind][:ndim])
         else:
             self._inputJob.processBuffer(iwind,self._nw[iwind],self._fw[iwind],self._jw[iwind])

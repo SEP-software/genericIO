@@ -134,9 +134,9 @@ class regSpace:
     def setCompleteHyperOut(self,hyper):
         """Set output hypercube"""
         self._hyperOut=hyper
-        self._hyperIn=self.getHyperIn(self._hyperOut)
+        self._hyperIn=self.createHyperIn(self._hyperOut)
         if self._inputJob:
-            self._inputJob.setHyperOut(self._hyperIn)
+            self._inputJob.setCompleteHyperOut(self._hyperIn)
 
 
     def getCompleteHyperOut(self):

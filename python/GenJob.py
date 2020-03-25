@@ -74,9 +74,9 @@ class regSpace:
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
         if not self._inputJob:
             self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
-            return self._ioBufferIn,self._inputFile
+            return self._ioBufferIn,self._inputFile,self._nw[iwind],self._fw[iwind],self._jw[iwind]
         else:
-            return self._inputJob.allocateIOBufferIn(hyperIn,iwind)
+            return self._inputJob.allocateIOBufferIn(hyperIn,iwind),self._nw[iwind],self._fw[iwind],self._jw[iwind]
 
 
 

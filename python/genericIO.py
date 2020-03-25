@@ -492,6 +492,10 @@ class io:
         self.appendFiles = {}
         self._files = {}
 
+    def getType(self):
+        """Return type"""
+        return self.cppMode.getType()
+
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
         if(len(arg) == 1):

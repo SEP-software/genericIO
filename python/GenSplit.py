@@ -130,6 +130,7 @@ class regSpace:
                                         self._jw.append(j_w)
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
+                                        print("XX",n_w,n_done,f_w)
                                     ndone[1]+=n_w[1]
                                 ndone[2]+=n_w[2]
                             ndone[3]+=n_w[3]

@@ -27,7 +27,6 @@ class regSpace:
     def makeParts(self):
         """ Make loops through the dataset"""
 
-        print("IN MAKE parts")
         mem=self._mem
         mem-=self._job.returnBaseMemory()
 
@@ -58,18 +57,15 @@ class regSpace:
                 found=True 
             else:
                 idim+=1
-        print("IN MAKE2 parts",idim,nc)
 
         
         nc=ns[0:idim]
         nc.append(1)
         found=False
         nb=mem/self._job.returnSize(nc)
-        print("1IN MAKE2 parts",nc)
 
         if nb <1:
             raise Exception("Error in job description. Adding a 1 to size should produce same size")
-        print("2IN MAKE2 parts")
 
         nb=int(nb)
         while not found:
@@ -79,11 +75,9 @@ class regSpace:
             else:
                 nb-=1
     
-        print("3IN MAKE2 parts",nc)
         nc[idim]=min(nc[idim],ns[idim])
         #NC now should contain maximum chunk size
         #Construct outer and inner loops
-        print("4IN MAKE2 parts",nc)
 
      
         j_w=[1]*8
@@ -93,7 +87,6 @@ class regSpace:
         nblock=[1]*8
         for i in range(len(nc)):
             nblock[i]=nc[i]
-        print("LOOPING",nblock,ns)
         while ndone[7]< ns[7]:
             f_w[7]=ndone[7]
             n_w[7]=min(ns[7]-f_w[7],nblock[7])
@@ -130,7 +123,6 @@ class regSpace:
                                         self._jw.append(j_w)
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
-                                        print("XX",n_w,ndone,f_w)
                                     ndone[1]+=n_w[1]
                                 ndone[2]+=n_w[2]
                             ndone[3]+=n_w[3]
@@ -167,7 +159,7 @@ class serialRegSpace(regSpace):
         print("IN LOOP",len(self._job._nw))
         for i in range(len(self._job._nw)):
             print("allocate")
-            self._job.allocateBuffer(self._hyperOut.subHyper(nw,fw,jw),i)
+            self._job.allocateBuffer(self._hyperOut.subCube(nw,fw,jw),i)
             print("process")
             self._job.proceesBuffer(i,nw,fw,jw)
             pct=int(i*10000/len(self._job._nw))/100.

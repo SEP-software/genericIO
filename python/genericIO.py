@@ -147,7 +147,7 @@ class regFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
-            if isInstance(ioM,io):
+            if isinstance(ioM,io):
                 self.cppMode = ioM.cppMode.getRegFile(
                     self.tag, usageConvert[
                         self.usage], ndimMax)

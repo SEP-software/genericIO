@@ -134,12 +134,10 @@ class regSpace:
 def readFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
     file.readWindow(buffer,nw=nw[:ndim],fw=fw[:ndim],jw=jw[:ndim])
-    print(buffer.getNdArray(),"read")
 
 
 def writeFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
-    print(buffer.getNdArray(),"write")
     file.writeWindow(buffer,nw=nw[:ndim],fw=fw[:ndim],jw=jw[:ndim])
     
 class serialRegSpace(regSpace):
@@ -181,16 +179,12 @@ class serialRegSpace(regSpace):
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
                 readThread.start()
                   
-            print("before process")
             self._job.processBuffer()
-            print("after process")
             if i!=0:
                 writeThread.join()
             outputVec=self._job.swapIOBufferPtrsOut()
-            print("IN THREAD",outputVec.getNdArray())
             writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             writeThread.start()
-            print("AFTER THREAD")
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))

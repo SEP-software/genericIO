@@ -109,7 +109,6 @@ class regSpace:
         tmp=self._ioBufferOut
         self._ioBufferOut=self._outputBuffer
         self._outputBuffer=tmp
-        print(self._outputBuffer.getNdArray(),"=out after swap io=",self._ioBufferOut.getNdArray())
         return self._ioBufferOut
     
     def swapIObufferPtrsIn(self):
@@ -117,13 +116,11 @@ class regSpace:
         tmp=self._ioBufferIn
         self._ioBufferIn=self._inputBuffer
         self._inputBuffer=tmp
-        print("after swapping input",self._inputBuffer,"=in io=",self._ioBufferIn)
 
 
     def processBuffer(self ):
         """Function that actuall does the work"""
         self.process(self._inputBuffer,self._outputBuffer)
-        print("AFTER PROCESS",self._outputBuffer.getNdArray())
 
 
 

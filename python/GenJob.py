@@ -124,6 +124,7 @@ class regSpace:
     def processBuffer(self ):
         """Function that actuall does the work"""
         self.process(self._inputBuffer,self._outputBuffer)
+        print("AFTER PROCESS",self._outputBuffer.getNdArray())
 
 
 

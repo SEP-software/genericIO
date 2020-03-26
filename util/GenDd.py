@@ -37,7 +37,11 @@ class ddJob(genJob.regSpace):
             elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
                 complex2Real(inN,outN,self._real)
             elif self._outputType=="dataComplex" or self._outputType=="dataComplexDouble":
+                print("in complex",inN)
                 complex2Complex(inN,outN)
+                print("out complex",outN)
+            elif self._outType=="dataByte":
+                complex2Byte(inN,outN,self._real)
         else:
             if self._outputType=="dataShort":
                 real2Short(inN,outN)
@@ -47,9 +51,20 @@ class ddJob(genJob.regSpace):
                 real2Real(inN,outN)
             elif self._outputType=="dataComplex" or self._dataType=="dataComplexDouble":
                 real2Complex(inN,outN,self_real)
+            elif self._outputType=="dataByte":
+                real2Byte(inN,outN)
 
 @jit(nopython=True, parallel=True)
-def complex2Int(inA,outA,realFlag):
+def complex2Short(inA,outA,realFlag):
+    if realFlag:
+        for i in prange(outA.shape[0]):
+            outA[i]=min(255,max(0, int(.5+real(inA[i]))))
+    else:
+        for i in prange(outA.shape[0]):
+            outA[i]=min(255,max(0, int(.5+imag(inA[i]))))
+            
+@jit(nopython=True, parallel=True)
+def complex2Short(inA,outA,realFlag):
     if realFlag:
         for i in prange(outA.shape[0]):
             outA[i]=min(32567,max(-32567, int(.5+real(inA[i]))))
@@ -83,7 +98,12 @@ def complex2Complex(inA,outA):
         outA[i]=inA[i]
 
 @jit(nopython=True, parallel=True)
-def real2Int(inA,outA):
+def real2Byte(inA,outA):
+    for i in prange(outA.shape[0]):
+        outA[i]=min(255,max(0, int(.5+inA[i])))
+
+@jit(nopython=True, parallel=True)
+def real2Short(inA,outA):
     for i in prange(outA.shape[0]):
         outA[i]=min(32567,max(-32567, int(.5+inA[i])))
 

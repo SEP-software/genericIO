@@ -175,7 +175,7 @@ class serialRegSpace(regSpace):
         for i in range(len(self._nw)):
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             readThread.join()
-            self._job.swapIOBufferPtrsIn()
+            self._job.swapIObufferPtrsIn()
             if i!= len(self._nw)-1:
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),1)
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))

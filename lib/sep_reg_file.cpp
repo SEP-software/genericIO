@@ -420,11 +420,10 @@ void sepRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
 
   int ndim = ng.size();
   fprintf(stderr, "in read window %d ng=%d %d nw=%d %d  f=%d %d \n", ndim,
-          ng[0], ng[1], nw[0], nw[1], fw[0],
-          fw[1]) if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(),
-                                       nw.data(), fw.data(), jw.data(), 16,
-                                       array))
-      error(std::string("trouble reading data from tag ") + _tag);
+          ng[0], ng[1], nw[0], nw[1], fw[0], fw[1]);
+  if (0 != sreed_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
+                        jw.data(), 16, array))
+    error(std::string("trouble reading data from tag ") + _tag);
 }
 
 void sepRegFile::writeComplexStream(const std::complex<float> *array,

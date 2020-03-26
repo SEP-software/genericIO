@@ -116,9 +116,11 @@ class regSpace:
     
     def swapIObufferPtrsIn(self):
         """SWap buffer pointers to allow for IO overlap"""
+        print("before swapping input",self._inputBuffer,"=in io=",self._ioBufferIn)
         tmp=self._ioBufferIn
         self._ioBufferIn=self._inputBuffer
         self._inputBuffer=tmp
+        print("after swapping input",self._inputBuffer,"=in io=",self._ioBufferIn)
 
 
     def processBuffer(self ):

@@ -106,10 +106,12 @@ class regSpace:
 
     def swapIOBufferPtrsOut(self):
         """SWap buffer pointers to allow for IO overlap"""
+        print(self._outputBuffer.getNdArray(),"=out before swap io=",self._ioBufferOut.getNdArray())
+
         tmp=self._ioBufferOut
         self._ioBufferOut=self._outputBuffer
         self._outputBuffer=tmp
-        print(self._outputBuffer.getNdArray(),"=out io=",self._ioBufferOut.getNdArray())
+        print(self._outputBuffer.getNdArray(),"=out after swap io=",self._ioBufferOut.getNdArray())
         return self._outputBuffer
     
     def swapIObufferPtrsIn(self):

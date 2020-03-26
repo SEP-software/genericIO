@@ -181,7 +181,7 @@ class serialRegSpace(regSpace):
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
                 readThread.start()           
             print("before process")
-            self._job.processBuffer(i,self._nw[i],self._fw[i],self._jw[i])
+            self._job.processBuffer()
             print("after process")
             if i!=0:
                 writeThread.join()

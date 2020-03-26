@@ -121,9 +121,8 @@ class regSpace:
         self._inputBuffer=tmp
 
 
-    def processBuffer(self,iwind,nw,fw,jw ):
-
-        
+    def processBuffer(self ):
+        """Function that actuall does the work"""
         self.process(self._inputBuffer,self._outputBuffer)
 
 

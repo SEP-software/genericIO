@@ -490,7 +490,6 @@ void sepRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
   if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
                         jw.data(), 16, array))
     error(std::string("trouble writing data to tag ") + _tag);
-  _binary = getString("in");
 }
 void sepRegFile::readByteWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,

@@ -294,6 +294,10 @@ class regFile:
             if not isinstance(vec, SepVector.complexVector):
                 raise Exception("File type is complex vector type is not")
             self.cppMode.readComplexWindow(nw, fw, jw, vec.cppMode)
+        if self.storage == "dataComplex":
+            if not isinstance(vec, SepVector.complexDoubleVector):
+                raise Exception("File type is complex double vector type is not")
+            self.cppMode.readComplexDoubleWindow(nw, fw, jw, vec.cppMode)
         if self.storage == "dataByte":
             if not isinstance(vec, SepVector.byteVector):
                 raise Exception("File type is nyte vector type is not")

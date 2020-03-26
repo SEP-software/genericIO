@@ -38,8 +38,11 @@ class ddJob(genJob.regSpace):
                 complex2Real(inN,outN,self._real)
             elif self._outputType=="dataComplex" or self._outputType=="dataComplexDouble":
                 complex2Complex(inN,outN)
+                print("through complex to complex",outN)
             elif self._outType=="dataByte":
                 complex2Byte(inN,outN,self._real)
+            else:
+                print("Uknown conversion %s"%self._outputType)
         else:
             if self._outputType=="dataShort":
                 real2Short(inN,outN)
@@ -51,6 +54,8 @@ class ddJob(genJob.regSpace):
                 real2Complex(inN,outN,self_real)
             elif self._outputType=="dataByte":
                 real2Byte(inN,outN)
+            else:
+                print("Unknown conversion %s to %s"%(self._inputType,self._outputType))
 
 @jit(nopython=True, parallel=True)
 def complex2Short(inA,outA,realFlag):

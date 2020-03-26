@@ -183,7 +183,7 @@ class serialRegSpace(regSpace):
             self._job.processBuffer(i,self._nw[i],self._fw[i],self._jw[i])
             if i!=0:
                 writeThread.join()
-            self._job.swapIOBufferPtrsOut()
+            outputVec=self._job.swapIOBufferPtrsOut()
             print("IN THREAD")
             writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             writeThread.start()

@@ -37,9 +37,7 @@ class ddJob(genJob.regSpace):
             elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
                 complex2Real(inN,outN,self._real)
             elif self._outputType=="dataComplex" or self._outputType=="dataComplexDouble":
-                print("in complex",inN)
                 complex2Complex(inN,outN)
-                print("out complex",outN)
             elif self._outType=="dataByte":
                 complex2Byte(inN,outN,self._real)
         else:

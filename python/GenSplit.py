@@ -186,7 +186,7 @@ class serialRegSpace(regSpace):
             if i!=0:
                 writeThread.join()
             outputVec=self._job.swapIOBufferPtrsOut()
-            print("IN THREAD")
+            print("IN THREAD",outputVec.getNdArray())
             writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             writeThread.start()
             print("AFTER THREAD")

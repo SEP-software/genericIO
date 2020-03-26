@@ -28,7 +28,7 @@ def testPythonWrite():
         raise Exception("Failed")
 
 def testPythonDoubleComplex():
-	x=SepVector.getSepVector(ns=[10,10])
+	x=SepVector.getSepVector(ns=[10,10],storage="dataComplexDouble")
 	io=genericIO.defaultIO
 	y=x.getNdArray()
 	for i2 in range(10):

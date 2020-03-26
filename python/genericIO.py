@@ -282,31 +282,32 @@ class regFile:
         if n123 != vec.getHyper().getN123():
             raise Exception(
                 "Data size of vector not the same size as window parameters")
-        if self.storage == "dataFloat":
+        elif self.storage == "dataFloat":
             if not isinstance(vec, SepVector.floatVector):
                 raise Exception("File type is float vector type is not")
             self.cppMode.readFloatWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataInt":
+        elif self.storage == "dataInt":
             if not isinstance(vec, SepVector.intVector):
                 raise Exception("File type is int vector type is not")
             self.cppMode.readIntWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataComplex":
+        elif self.storage == "dataComplex":
             if not isinstance(vec, SepVector.complexVector):
                 raise Exception("File type is complex vector type is not")
             self.cppMode.readComplexWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataComplex":
+        elif self.storage == "dataComplexDouble":
             if not isinstance(vec, SepVector.complexDoubleVector):
                 raise Exception("File type is complex double vector type is not")
             self.cppMode.readComplexDoubleWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataByte":
+        elif self.storage == "dataByte":
             if not isinstance(vec, SepVector.byteVector):
                 raise Exception("File type is nyte vector type is not")
             self.cppMode.readByteWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataDouble":
+        elif self.storage == "dataDouble":
             if not isinstance(vec, SepVector.doubleVector):
                 raise Exception("File type is double vector type is not")
             self.cppMode.readDoubleWindow(nw, fw, jw, vec.cppMode)
-
+        else:
+            print("Unknown or unhandled storage type "%self.storage)
     def writeWindow(self, vec, **kw):
         """Write  a window of a file into the vector
                 Required:
@@ -322,32 +323,33 @@ class regFile:
         if n123 != vec.getHyper().getN123():
             raise Exception(
                 "Data size of vector not the same size as window parameters")
-        if self.storage == "dataFloat":
+        elif self.storage == "dataFloat":
             if not isinstance(vec, SepVector.floatVector):
                 raise Exception("File type is float vector type is not")
             self.cppMode.writeFloatWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataInt":
+        elif self.storage == "dataInt":
             if not isinstance(vec, SepVector.intVector):
                 raise Exception("File type is int vector type is not")
             self.cppMode.writeIntWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataComplex":
+        elif self.storage == "dataComplex":
             if not isinstance(vec, SepVector.complexVector):
                 raise Exception("File type is complex vector type is not")
             self.cppMode.writeComplexWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataComplexDouble":
+        elif self.storage == "dataComplexDouble":
             if not isinstance(vec, SepVector.complexDoubleVector):
                 raise Exception("File type is complexDouble vector type is not")
             print("Write complex double window")
             self.cppMode.writeComplexDoubleWindow(nw, fw, jw, vec.cppMode)        
-        if self.storage == "dataByte":
+        elif self.storage == "dataByte":
             if not isinstance(vec, SepVector.byteVector):
                 raise Exception("File type is nyte vector type is not")
             self.cppMode.writeByteWindow(nw, fw, jw, vec.cppMode)
-        if self.storage == "dataDouble":
+        elif self.storage == "dataDouble":
             if not isinstance(vec, SepVector.doubleVector):
                 raise Exception("File type is double vector type is not")
             self.cppMode.writeDoubleWindow(nw, fw, jw, vec.cppMode)
-
+        else:
+            print("Unknown or unhandled storage type "%self.storage)
     def getWindowParam(self, **kw):
         """Return window parameters
                 must supply n,f,or j"""

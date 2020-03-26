@@ -180,7 +180,9 @@ class serialRegSpace(regSpace):
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),1)
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
                 readThread.start()           
+            print("before process")
             self._job.processBuffer(i,self._nw[i],self._fw[i],self._jw[i])
+            print("after process")
             if i!=0:
                 writeThread.join()
             outputVec=self._job.swapIOBufferPtrsOut()

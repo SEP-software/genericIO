@@ -112,7 +112,6 @@ class regSpace:
                                 ndone[1]=0        
                                 while ndone[1]< ns[1]:
                                     f_w[1]=ndone[1]
-                                    print("setting f1",f_w[1])
                                     n_w[1]=min(ns[1]-f_w[1],nblock[1])
                                     ndone[0]=0       
                                     while ndone[0]< ns[0]:
@@ -120,6 +119,7 @@ class regSpace:
                                         n_w[0]=min(ns[0]-f_w[0],nblock[0])
                                         self._nw.append(n_w)
                                         self._fw.append(f_w)
+                                        print("setting f1",f_w)
                                         self._jw.append(j_w)
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
@@ -170,7 +170,7 @@ class serialRegSpace(regSpace):
         
         inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        read_func(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0])
+        readFunc(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0])
         return;
        # readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
         #readThread.start()

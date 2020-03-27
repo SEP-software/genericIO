@@ -180,9 +180,9 @@ class serialRegSpace(regSpace):
                 print("BEFORE INTIT IO")
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),1)
                 print("CHECK THIS",inputFile,inputVec,'DONE')
-                #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
+                #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw[i+1],fw[i+1],jw[i+1]))
                 #readThread.start()
-                readFunc(inputFile,inputVec,nw,fw,jw)
+                readFunc(inputFile,inputVec,nw[i+1],fw[i+1],jw[i+1])
                 print("read",fw,inputVec.getNdArray(),"input")
             self._job.processBuffer()
             #if i!=0:

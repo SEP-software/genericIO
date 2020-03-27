@@ -100,8 +100,9 @@ class regSpace:
             print("IN ALLOC")
             return SepVector.getSepVector(hyper,storage=typ)
         else:
-            print("IN ADJUST")
+            print("IN ADJUST",buf)
             buf.adjustHyper(hyper)
+            print("OUT ADJUST",buf)
 
     def deallocateBuffers(self):
         """Deallocate buffers"""

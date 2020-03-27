@@ -117,10 +117,10 @@ class regSpace:
                                     while ndone[0]< ns[0]:
                                         f_w[0]=ndone[0]
                                         n_w[0]=min(ns[0]-f_w[0],nblock[0])
-                                        self._nw.append(n_w)
-                                        self._fw.append(f_w)
+                                        self._nw.append(copy.deepcopy(n_w))
+                                        self._fw.append(copy.deepcopy(f_w))
                                         print("setting f1",f_w)
-                                        self._jw.append(j_w)
+                                        self._jw.append(copy.deepcopy(j_w))
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
                                     ndone[1]+=n_w[1]

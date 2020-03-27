@@ -1,5 +1,6 @@
 import Hypercube
 import SepVector
+import copy
 
 esizeFromType={"dataFloat":4,"dataDouble":8,"dataInt":4,"dataComplex":8,"dataShort":2,"dataComplexDouble":16,"dataByte":1} 
 
@@ -167,9 +168,9 @@ class regSpace:
         """Calculate input window size from output window size
 
            nw,fw,jw - Standard window parameters"""
-        self._nw.append(nw)
-        self._fw.append(fw)
-        self._jw.append(jw)
+        self._nw.append(copy.deepcopy(nw))
+        self._fw.append(copy.deepcopy(fw))
+        self._jw.append(copy.deepcopy(jw))
         if self._inputJob:
             self._inputJob.calcInputWindow(nw,fw,jw)
 

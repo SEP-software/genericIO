@@ -168,9 +168,9 @@ class serialRegSpace(regSpace):
         
         inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
-        readThread.start()
-    
+        #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
+        #readThread.start()
+        redFunc(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
 
         for i in range(len(self._nw)):
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
@@ -180,15 +180,16 @@ class serialRegSpace(regSpace):
                 print("BEFORE INTIT IO")
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),1)
                 print("CHECK THIS",inputFile,inputVec,'DONE')
-                readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
-                readThread.start()
-                  
+                #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
+                #readThread.start()
+                readFunc(inputFile,inputVec,nw,fw,jw)
             self._job.processBuffer()
             if i!=0:
                 writeThread.join()
             outputVec=self._job.swapIOBufferPtrsOut()
-            writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
-            writeThread.start()
+            #writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+            #writeThread.start()
+            writeFunc(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i])
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))

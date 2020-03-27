@@ -174,6 +174,7 @@ class serialRegSpace(regSpace):
         readFunc(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0])
 
         for i in range(len(self._nw)):
+            print("LOOPING",i)
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             #readThread.join()
             self._job.swapIObufferPtrsIn()

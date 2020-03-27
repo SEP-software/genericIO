@@ -125,6 +125,7 @@ class regSpace:
         tmp=self._ioBufferIn
         self._ioBufferIn=self._inputBuffer
         self._inputBuffer=tmp
+        print("AFTER SWAP ",self._ioBufferIn,"<-ioin inbu->",self._inputBuffer)
 
 
     def processBuffer(self ):

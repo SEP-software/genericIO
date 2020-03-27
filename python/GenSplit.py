@@ -77,8 +77,6 @@ class regSpace:
         nc[idim]=min(nc[idim],ns[idim])
         #NC now should contain maximum chunk size
         #Construct outer and inner loops
-        nc[1]=1
-        nc[0]=4
      
         j_w=[1]*8
         f_w=[0]*8

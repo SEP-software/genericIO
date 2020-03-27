@@ -273,7 +273,9 @@ class regFile:
                   n,f,j - Standard windowing parameters"""
         if not kw:
             raise Exception("Must supply windowing parameters")
+        print(kw,"KW")
         nw, fw, jw = self.getWindowParam(**kw)
+        print("NW",nw)
         if not isinstance(vec, SepVector.vector):
             raise Exception("vec must be deriverd SepVector.vector")
         n123 = 1

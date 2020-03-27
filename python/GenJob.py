@@ -86,25 +86,19 @@ class regSpace:
 
     def reallocBuffer(self,buf,hyper,typ):
         alloc=False
-        print("IN REALLOC")
         if not buf:
             alloc=True 
-            print("DOES NOT EXIST")
         else:
-            print("DOES EXIST")
             nc=buf.getHyper().getNs()
             nn=hyper.getNs()
             for i in range(len(nn)):
                 if nn[i] != nc[i]:
                     alloc=True 
         if alloc:
-            print("IN ALLOC")
             return SepVector.getSepVector(hyper,storage=typ)
         else:
-            print("IN ADJUST",buf)
             buf.adjustHyper(hyper)
             return buf
-            print("OUT ADJUST",buf)
 
     def deallocateBuffers(self):
         """Deallocate buffers"""

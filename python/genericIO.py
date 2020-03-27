@@ -282,7 +282,7 @@ class regFile:
             n123 = n123 * n
         if n123 != vec.getHyper().getN123():
             raise Exception(
-                "Data size of vector not the same size as window parameters")
+                "Data size of vector not the same size as window parameters window=%s vec=%s"%(str(nw),str(vec)))
         elif self.storage == "dataFloat":
             if not isinstance(vec, SepVector.floatVector):
                 raise Exception("File type is float vector type is not")

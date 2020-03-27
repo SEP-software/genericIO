@@ -184,7 +184,7 @@ class serialRegSpace(regSpace):
                 print("CHECK THIS",inputFile,inputVec,'DONE')
                 #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
                 #readThread.start()
-                print("BEFORe rEAD",inputFile,self._nw[i+1])
+                print("BEFORe rEAD",inputVec,self._nw[i+1])
                 readFunc(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1])
                 print("read",fw,inputVec.getNdArray(),"input")
             self._job.processBuffer()

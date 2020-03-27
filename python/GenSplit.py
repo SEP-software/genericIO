@@ -134,7 +134,7 @@ class regSpace:
 def readFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
     print(file,buffer,nw[:ndim])
-
+    write(fw,"READ")
     file.readWindow(buffer,nw=nw[:ndim],fw=fw[:ndim],jw=jw[:ndim])
 
 

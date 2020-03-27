@@ -72,12 +72,9 @@ class regSpace:
 
             @returns IOBufferIn,File object
         """
-        print("IN IO BUFFER IN")
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
         if not self._inputJob:
-            print("IN NO INPUT")
             self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
-            print("CHECK BUFF HERE",self._ioBufferIn)
             return self._ioBufferIn,self._inputFile,self._nw[iwind],self._fw[iwind],self._jw[iwind]
         else:
             return self._inputJob.allocateIOBufferIn(hyperIn,iwind),self._nw[iwind],self._fw[iwind],self._jw[iwind]
@@ -121,7 +118,6 @@ class regSpace:
         tmp=self._ioBufferIn
         self._ioBufferIn=self._inputBuffer
         self._inputBuffer=tmp
-        print("AFTER SWAP ",self._ioBufferIn,"<-ioin inbu->",self._inputBuffer)
 
 
     def processBuffer(self ):

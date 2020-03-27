@@ -183,6 +183,7 @@ class serialRegSpace(regSpace):
                 #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,nw,fw,jw))
                 #readThread.start()
                 readFunc(inputFile,inputVec,nw,fw,jw)
+                print("read",fw,inputVec.getNdArray(),"input")
             self._job.processBuffer()
             #if i!=0:
             #    writeThread.join()

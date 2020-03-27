@@ -174,7 +174,7 @@ class serialRegSpace(regSpace):
 
         for i in range(len(self._nw)):
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
-            readThread.join()
+            #readThread.join()
             self._job.swapIObufferPtrsIn()
             if i!= len(self._nw)-1:
                 print("BEFORE INTIT IO")
@@ -194,6 +194,6 @@ class serialRegSpace(regSpace):
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
                 printNext+=printPct
-        writeThread.join()
+        #writeThread.join()
         self._job.deallocateBuffers()
 

@@ -73,6 +73,7 @@ class regSpace:
             @returns IOBufferIn,File object
         """
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
+        print("IO IN HYPER",self._nw,hyperIn)
         if not self._inputJob:
             self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
             return self._ioBufferIn,self._inputFile,self._nw[iwind],self._fw[iwind],self._jw[iwind]

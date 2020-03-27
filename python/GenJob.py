@@ -89,6 +89,7 @@ class regSpace:
             nc=buf.getHyper().getNs()
             nn=hyper.getNs()
             for i in range(len(nn)):
+                print("IN COMPARISON",i,nc[i],nn[i])
                 if nn[i] != nc[i]:
                     alloc=True 
         if alloc:

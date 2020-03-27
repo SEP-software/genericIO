@@ -135,8 +135,6 @@ class regSpace:
 
 def readFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
-    print(file,buffer,nw[:ndim])
-    print(nw,"READ",fw)
     file.readWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
 
@@ -170,10 +168,8 @@ class serialRegSpace(regSpace):
         
         inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        readFunc(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0])
-        return;
-       # readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
-        #readThread.start()
+        readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
+        readThread.start()
     
 
         for i in range(len(self._nw)):

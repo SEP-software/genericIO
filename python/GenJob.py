@@ -73,7 +73,6 @@ class regSpace:
             @returns IOBufferIn,File object
         """
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
-        print("IO IN HYPER",iwind,self._nw[iwind],hyperIn)
         if not self._inputJob:
             self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
             return self._ioBufferIn,self._inputFile,self._nw[iwind],self._fw[iwind],self._jw[iwind]
@@ -90,7 +89,6 @@ class regSpace:
             nc=buf.getHyper().getNs()
             nn=hyper.getNs()
             for i in range(len(nn)):
-                print("IN COMPARISON",i,nc[i],nn[i])
                 if nn[i] != nc[i]:
                     alloc=True 
         if alloc:

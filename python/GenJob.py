@@ -71,8 +71,10 @@ class regSpace:
 
             @returns IOBufferIn,File object
         """
+        print("IN IO BUFFER IN")
         hyperIn=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
         if not self._inputJob:
+            print("IN NO INPUT")
             self._ioBufferIn=self.reallocBuffer(self._ioBufferIn,hyperIn,self._inputType)
             return self._ioBufferIn,self._inputFile,self._nw[iwind],self._fw[iwind],self._jw[iwind]
         else:
@@ -82,17 +84,22 @@ class regSpace:
 
     def reallocBuffer(self,buf,hyper,typ):
         alloc=False
+        print("IN REALLOC")
         if not buf:
             alloc=True 
+            print("DOES NOT EXIST")
         else:
+            print("DOES EXIST")
             nc=buf.getHyper().getNs()
             nn=hyper.getNs()
             for i in range(len(nn)):
                 if nn[i] != nc[i]:
                     alloc=True 
         if alloc:
-           return SepVector.getSepVector(hyper,storage=typ)
+            print("IN ALLOC")
+            return SepVector.getSepVector(hyper,storage=typ)
         else:
+            print("IN ADJUST")
             buf.adjustHyper(hyper)
 
     def deallocateBuffers(self):

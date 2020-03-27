@@ -120,7 +120,6 @@ class regSpace:
                                         n_w[0]=min(ns[0]-f_w[0],nblock[0])
                                         self._nw.append(copy.deepcopy(n_w))
                                         self._fw.append(copy.deepcopy(f_w))
-                                        print("setting f1",f_w)
                                         self._jw.append(copy.deepcopy(j_w))
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
@@ -131,8 +130,7 @@ class regSpace:
                     ndone[5]+=n_w[5]
                 ndone[6]+=n_w[6]
             ndone[7]+=n_w[7]
-        print("NW",self._nw)
-        print("FW",self._fw)
+
 
 def readFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)

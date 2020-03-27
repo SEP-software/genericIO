@@ -129,7 +129,7 @@ class regSpace:
                     ndone[5]+=n_w[5]
                 ndone[6]+=n_w[6]
             ndone[7]+=n_w[7]
-    print("NW",self._nw)
+        print("NW",self._nw)
 
 def readFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)

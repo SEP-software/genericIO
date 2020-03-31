@@ -182,7 +182,7 @@ if __name__ == "__main__":
         print("norm = %f"%job._sqs)
         print("maximum value = %f at "%job._mx,hx.toCart(job._imax))
         print("minimum value = %d at "%job._mn,hx.toCart(job._imin))
-        print("number of nonzero sammples =",self._nzero)
+        print("number of nonzero sammples =",job._nzero)
         print("total number of samples =",n123)
     elif args.want=="min":
         print(job._min)

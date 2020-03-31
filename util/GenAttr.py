@@ -5,7 +5,50 @@ import genJob
 import genSplit
 import numpy as np
 import numba
+import copy
 import threading
+
+
+import copy
+
+class helix2cart:
+    """Convert to and from cartesian and helix space"""
+    def __init__(self,nd):
+        """Initialize conversion
+
+             nd - Data dimensions"""
+        if not isinstance(nd,list):
+            raise Exception("Expecting nd to be a list")
+
+        self._ndim=copy.deepcopy(nd)
+        self._b=[1]
+        sz=1
+        for n in self._ndim:
+            if not isinstance(n,int):
+                raise Exception("Expecting a list of ints")
+            sz=sz*n
+            self._b.append(sz)
+
+
+    def toCart(self,hlx):
+        cart=[0]*len(self._ndim)
+        lft=hlx
+        for i in range(len(self._ndim)-1,-1,-1):
+            cart[i]=int(lft/self._b[i])
+            lft-=cart[i]*self._b[i]
+        return cart
+
+
+    def toHelix(self,cart):
+        """Convert from cartesian space to helix space"""
+        if len(cart) != len(self._ndim):
+            raise Exception("Expecting cart to be same size as data")
+        hlx=0
+        for i in range(len(self._ndim)):
+            if not isinstance(cart[i],int):
+                raise Exception("Expecting cart to be a list of ints")
+            hlx+=cart[i]*self._b[i]
+        return hlx
 
 class attrJob(genJob.regSpace):
     def __init__(self,inputType):
@@ -13,7 +56,7 @@ class attrJob(genJob.regSpace):
 
             inputType - Input type
         """
-        super().__init__(self.convertBuf,0,0,outputType=outputType)
+        super().__init__(self.convertBuf,0,0,inputType=inputType)
         self._thr=threading.thread() 
         self._lock=self._thr.Lock() 
         self._mn=1e99
@@ -119,15 +162,38 @@ if __name__ == "__main__":
 
     if args.io:
         ioIn=genericIO.io(args.io)
-
+    
 
 
     inFile=ioIn.getRegFile(args.input)
-    job=attrJob(inFile.getStorageType(),outFile.getStorageType(),args.real)
+    job=attrJob(inFile.getStorageType())
     job.setCompleteHyperOut(inFile.getHyper())
     split=genSplit.serialRegSpace(job, args.memory)
     split.loop()
+    
+    hx=helix2cart(inFile.getNs())
 
+    n123=inFile.getHyper().getn123()
+    if args.want=="all":
+        print("rms = %f"%job._sqs/n123)
+        print("mean = %f"%job._sm/n123)
+        print("norm = %f"%job._sqs)
+        print("maximum value = %f at "%job._max,hx.toCart(job._imax))
+        print("minimum value = %d at "%job._min,hx.toCart(job._imin))
+        print("number of nonzero sammples =",self._nzero)
+        print("total number of samples =",n123)
+    elif args.want=="min":
+        print(job._min)
+    elif args.want=="max":
+        print(job._max)
+    elif args.want=="mean":
+        print(job._sm/n123)
+    elif args.want=="rms":
+        print(self._sqs/n123)
+    elif args.want=="norm":
+        print(self._sqs)
+    else:
+        print(self._nzero/n123)
 
 
 

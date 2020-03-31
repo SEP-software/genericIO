@@ -174,7 +174,7 @@ if __name__ == "__main__":
     
     hx=helix2cart(inFile.getHyper().getNs())
 
-    n123=inFile.getHyper().getn123()
+    n123=inFile.getHyper().getN123()
     if args.want=="all":
         print("rms = %f"%job._sqs/n123)
         print("mean = %f"%job._sm/n123)

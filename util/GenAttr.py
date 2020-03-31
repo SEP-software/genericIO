@@ -179,6 +179,7 @@ if __name__ == "__main__":
 
     n123=inFile.getHyper().getN123()
     if args.want=="all":
+        print(type(n123),type(job._sqs))
         print("rms = %f"%job._sqs/n123)
         print("mean = %f"%job._sm/n123)
         print("norm = %f"%job._sqs)

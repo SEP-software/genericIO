@@ -79,7 +79,7 @@ class attrJob(genJob.regSpace):
             mn,imin,mx,imax,sm,sqs,nzero=calcComplexStats(inN)
         else:
            mn,imin,mx,imax,sm,sqs,nzero= calcRealStats(inN)
-        print("AAA",mn,imin,mx,imax,sm,sqz,nzero)
+        print("AAA",mn,imin,mx,imax,sm,sqs,nzero)
         self._lock.acquire()
         if mn< self._mn:
             self._mn=mn

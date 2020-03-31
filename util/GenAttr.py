@@ -58,7 +58,7 @@ class attrJob(genJob.regSpace):
         """
         super().__init__(self.calcStats,0,0,inputType=inputType)
         self._thr=threading.Thread() 
-        self._lock=self._thr.Lock() 
+        self._lock=self._thr.lock() 
         self._mn=1e99
         self._max=-1e99
         self._imin=-1

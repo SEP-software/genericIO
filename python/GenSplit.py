@@ -22,10 +22,13 @@ class regSpace:
         self._nw=[]
         self._fw=[]
         self._jw=[]
-        self.makeParts()
         self._factor=1
         if bufferedIO:
             self._factor=2
+
+            
+        self.makeParts()
+
 
     
     def makeParts(self):

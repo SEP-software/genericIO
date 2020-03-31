@@ -172,7 +172,7 @@ if __name__ == "__main__":
     split=genSplit.serialRegSpace(job, args.memory)
     split.loop()
     
-    hx=helix2cart(inFile.getNs())
+    hx=helix2cart(inFile.getHyper().getNs())
 
     n123=inFile.getHyper().getn123()
     if args.want=="all":

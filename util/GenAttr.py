@@ -180,8 +180,8 @@ if __name__ == "__main__":
         print("rms = %f"%(job._sqs/n123))
         print("mean = %f"%(job._sm/n123))
         print("norm = %f"%job._sqs)
-        print("maximum value = %f at "%job._max,hx.toCart(job._imax))
-        print("minimum value = %d at "%job._min,hx.toCart(job._imin))
+        print("maximum value = %f at "%job._mx,hx.toCart(job._imax))
+        print("minimum value = %d at "%job._mn,hx.toCart(job._imin))
         print("number of nonzero sammples =",self._nzero)
         print("total number of samples =",n123)
     elif args.want=="min":

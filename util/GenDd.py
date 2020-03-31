@@ -138,8 +138,8 @@ if __name__ == "__main__":
                         help='Input file')
     parser.add_argument('output', metavar='Output', type=str,
                         help='Output file')                   
-    parser.add_argument("--ioIn", type=str,choices=["SEP","JSON"], help='IO type. Defaults to defaultIO')
-    parser.add_argument("--ioOut", type=str,choices=["SEP","JSON"], help='IO type. Defaults to defaultIO')
+    parser.add_argument("--ioIn", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
+    parser.add_argument("--ioOut", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
     parser.add_argument("--storage",type=str,choices=["dataByte","dataInt","dataFloat","dataComplex","dataShort",
     "dataComplexDouble","dataDouble"],default="dataFloat")
     parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=20)

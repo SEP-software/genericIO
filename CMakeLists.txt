@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 project(genericIO LANGUAGES CXX)
 
 
+set(GEN_IO_TYPES \"JSON\",\"FILE_BUFFERS\")
+
 
 if(POLICY CMP0028)
   cmake_policy(SET CMP0028 NEW)
@@ -64,11 +66,13 @@ set(USE_SEPVECTOR true)
 
 if(BUILD_GCP)
   set(USE_GCP ON)
+  set(GEN_IO_TYPES ${GEN_IO_TYPES} ",\"GCP_BUFFERS\"")
 else(BUILD_GCP)
 
 endif(BUILD_GCP)
 
 if(SEPLIB_BUILD)
+  set(GEN_IO_TYPES ${GEN_IO_TYPES} ",\"SEP\"")
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d
                       ${CMAKE_CURRENT_SOURCE_DIR}/../../sep
                       ${CMAKE_CURRENT_SOURCE_DIR}/../../include

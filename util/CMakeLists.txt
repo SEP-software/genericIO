@@ -52,7 +52,7 @@ set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../external/sepVector/exter
 set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../external/sepVector/external/python-solver/GenericSolver/python)
 
   if(BUILD_TEST)
-  set(TESTS  GenDd)
+  set(TESTS  GenDd )
 FOREACH(prg ${TESTS})
   add_test(NAME TEST_${prog}
   COMMAND ${CMAKE_COMMAND} -E env
@@ -64,12 +64,12 @@ WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 ENDFOREACH(prg)
 endif(BUILD_TEST)
 
-
-set(SCRIPTS  GenIn GenDd)
+set(SCRIPTS  GenIn GenDd GenAttr)
 FOREACH(prg ${SCRIPTS})
    configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/${prg}.py"
   "${CMAKE_CURRENT_BINARY_DIR}/${prg}"
+  @ONLY
   )
    install(PROGRAMS  ${CMAKE_CURRENT_BINARY_DIR}/${prg} DESTINATION bin)
 ENDFOREACH(prg)

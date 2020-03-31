@@ -120,12 +120,12 @@ def calcRealStats(inA):
     return mn,imin,mx,imax,sm,sqs,nzero
 
 @numba.jit(nopython=True,locals={'amp':numba.float64,'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
-def calcRealStats(inA):
+def calcComplexStats(inA):
     """
       Return min,max,sum,sumsq,nzeros
       """
     nzero=0
-    amplitude=numpy.absolute(inA[0])
+    amplitude=np.absolute(inA[0])
     sm=amplitude
     sqs=amplitude
     mn=amplitude

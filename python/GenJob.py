@@ -7,7 +7,7 @@ esizeFromType={"dataFloat":4,"dataDouble":8,"dataInt":4,"dataComplex":8,"dataSho
 
 class regSpace:
     """Base class for regular sampled datasets"""
-    def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat"):
+    def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat", hasInput=True, hasOutput=True):
         """Initialization of the regspace job
             mem - Memory in megabytes needed by the job
             minOutputDim - Minimum output dimensions
@@ -15,6 +15,8 @@ class regSpace:
             inputType - Input data type
             outputType - Output data Type
             process - Function to process data
+            inOnly - Only has input
+            outOnly - Only has output
 
         """
 
@@ -27,7 +29,11 @@ class regSpace:
         self._eout=esizeFromType[outputType]
         self._hyperOut=None
         self._hyperIn=None
+        self._hasInput=hasInput
+        self._hasOutput=hasOutput
         if inputJob:
+            if not self.hasInput:
+                raise Exception("Job specified as out only and inputJob passed in")
             if not isinstance(regSpace,inputJob):
                 raise Exception("Expecting genericJob.regSpace instance to be passed in")
         self._inputJob=inputJob
@@ -137,12 +143,12 @@ class regSpace:
 
     def checkLogic(self,first=True):
         if first:
-            if not self._outputFile:
+            if not self._outputFile and self._hasOutput:
                 raise Exception("Output file must exist at the end of the chain")
             if self._outputFile.getStorageType()!=self._outputType:
                 raise Exception("Output file type and and outputType set must match")
         if not self._inputJob:
-            if not self._inputFile:
+            if not self._inputFile and self._hasInput:
                 raise Exception("Input file must exist at the end of the chain")
             if self._inputFile.getStorageType()!=self._inputType:
                 raise Exception("Input file type and and outputType set must match") 
@@ -178,6 +184,13 @@ class regSpace:
             self._inputJob.setCompleteHyperOut(self._hyperIn)
         
 
+    def getHasInput(self):
+        """Return True if job does have input"""
+        return self._hasInput
+
+    def getHasOutput(self):
+        """Return True if job has an output"""
+        return self._hasOutput 
 
     def getCompleteHyperOut(self):
         """Return hypercube out"""

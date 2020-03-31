@@ -6,11 +6,12 @@ import threading
 
 class regSpace:
     """Split dataset into portions"""
-    def __init__(self,job,mem):
+    def __init__(self,job,mem,bufferedIO=True):
         """
         Keyword arguments:
             mem - Maximum memory per job (40 GB)
             job - Job to split up
+            bufferedIO - Whether or not to double IO because another thread is doing read/write 
         """
         self._mem=mem
         self._job=job
@@ -22,6 +23,9 @@ class regSpace:
         self._fw=[]
         self._jw=[]
         self.makeParts()
+        self._factor=1
+        if bufferedIO:
+            self._factor=2
 
     
     def makeParts(self):
@@ -39,7 +43,7 @@ class regSpace:
         for i in range(8-len(ns)):
             ns.append(1)
         ndimLoop=None
-        mem=mem*1000*1000*500 #Allow buffering
+        mem=mem*1000*1000*1000/self._factor #Allow buffering
         minDim=self._job.returnMinDim(0)
         
         nc=ns[0:minDim]
@@ -161,34 +165,47 @@ class serialRegSpace(regSpace):
         self._job.checkLogic()
         if printPct>0:
            printNext=printPct
+
+        hasInput=self._job.getHasInput()
+        hasOutput=self._job.getHasOutput()
+        inputVec=None
+        outputVec=None
+        inputBuf=None
+        outputBuf=None
+
         #GET INPUT BUFFER
+        if hasInput:
+            inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         
-        inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
-        #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
-        #readThread.start()
-        readFunc(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0])
+        if hasOutput:
+            outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
+        
+        if hasInput:
+            readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
+            readThread.start()
+        
 
         for i in range(len(self._nw)):
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
-            #readThread.join()
-            self._job.swapIObufferPtrsIn()
-            if i!= len(self._nw)-1:
+            if hasInput:
+                readThread.join()
+                self._job.swapIObufferPtrsIn()
+            if i!= len(self._nw)-1 and hasInput:
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),i+1)
-                #readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
-                #readThread.start()
-                readFunc(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1])
+                readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
+                readThread.start()
             self._job.processBuffer()
-            #if i!=0:
-            #    writeThread.join()
-            outputVec=self._job.swapIOBufferPtrsOut()
-            #writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
-            #writeThread.start()
-            writeFunc(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i])
+            if i!=0 and hasOutput:
+                writeThread.join()
+                outputVec=self._job.swapIOBufferPtrsOut()
+            if hasOutput:
+                writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+                writeThread.start()
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
                 printNext+=printPct
-        #writeThread.join()
+        if hasOutput:
+            writeThread.join()
         self._job.deallocateBuffers()
 

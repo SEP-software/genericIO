@@ -7,7 +7,15 @@ import numpy as np
 from numba import jit,prange
 
 class ddJob(genJob.regSpace):
+    def __init__(self,inputType,outputType,real):
+        """Intialize object
 
+            inputType - Input type
+            outputType - Output type
+            real - Convert real (rather than imaginary) of complex number to/from 
+        """
+        #super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
+        self._real=real
 
     
     def convertBuf(self,ina,outa):
@@ -47,15 +55,7 @@ class ddJob(genJob.regSpace):
                 real2Byte(inN,outN)
             else:
                 print("Unknown conversion %s to %s"%(self._inputType,self._outputType))
-    def __init__(self,inputType,outputType,real):
-        """Intialize object
 
-            inputType - Input type
-            outputType - Output type
-            real - Convert real (rather than imaginary) of complex number to/from 
-        """
-        super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
-        self._real=real
 @jit(nopython=True, parallel=True)
 def complex2Short(inA,outA,realFlag):
     if realFlag:

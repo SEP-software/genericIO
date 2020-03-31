@@ -56,7 +56,7 @@ class attrJob(genJob.regSpace):
 
             inputType - Input type
         """
-        super().__init__(self.convertBuf,0,0,inputType=inputType)
+        super().__init__(self.calcStats,0,0,inputType=inputType)
         self._thr=threading.thread() 
         self._lock=self._thr.Lock() 
         self._mn=1e99

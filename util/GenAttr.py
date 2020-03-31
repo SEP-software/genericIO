@@ -59,7 +59,7 @@ class attrJob(genJob.regSpace):
         super().__init__(self.calcStats,0,0,inputType=inputType,hasOutput=False)
         self._lock=threading.Lock() 
         self._mn=1e99
-        self._max=-1e99
+        self._mx=-1e99
         self._imin=-1
         self._imax=-1
         self._sm=0

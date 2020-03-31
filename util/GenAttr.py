@@ -79,6 +79,7 @@ class attrJob(genJob.regSpace):
             mn,imin,mx,imax,sm,sqs,nzero=calcComplexStats(inN)
         else:
            mn,imin,mx,imax,sm,sqs,nzero= calcRealStats(inN)
+        print("AAA",mn,imin,mx,imax,sm,sqz,nzero)
         self._lock.acquire()
         if mn< self._mn:
             self._mn=mn
@@ -146,6 +147,7 @@ def calcComplexStats(inA):
         sqs+=amplitude*amplitude
         if amplitude !=0:
             nzero+=1
+        
     return mn,imin,mx,imax,sm,sqs,nzero
         
 if __name__ == "__main__":

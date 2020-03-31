@@ -66,7 +66,7 @@ set(USE_SEPVECTOR true)
 
 if(BUILD_GCP)
   set(USE_GCP ON)
-  set(GEN_IO_TYPES ${GEN_IO_TYPES} ",\"GCP_BUFFERS\"")
+  set(GEN_IO_TYPES "${GEN_IO_TYPES} ,\"GCP_BUFFERS\"")
 else(BUILD_GCP)
 
 endif(BUILD_GCP)
@@ -74,7 +74,7 @@ endif(BUILD_GCP)
 if(SEPLIB_BUILD)
 message("CHECK TWO" ${GEN_IO_TYPES})
 
-  set(GEN_IO_TYPES ${GEN_IO_TYPES} ",\"SEP\"")
+  set(GEN_IO_TYPES "${GEN_IO_TYPES} ,\"SEP\"")
 message("CHECK THREE" ${GEN_IO_TYPES})
 
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d

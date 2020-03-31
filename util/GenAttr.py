@@ -100,7 +100,7 @@ def calcRealStats(inA):
     nzero=0
     sm=inA[0]
     sqs=inA[0]
-    mn=ina[0]
+    mn=inA[0]
     mx=inA[0]
     imin=0
     imax=0

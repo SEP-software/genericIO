@@ -90,6 +90,7 @@ class attrJob(genJob.regSpace):
         self._sm+=sm
         self._sqs+=sqs
         self._nzero+=nzero
+        print("BBB",self._nzero,self._sqs,self._sm,self._imax,self._imin,self._mx,self._mn)
         self._lock.release()
 
         

@@ -191,11 +191,11 @@ if __name__ == "__main__":
     elif args.want=="mean":
         print(job._sm/n123)
     elif args.want=="rms":
-        print(self._sqs/n123)
+        print(job._sqs/n123)
     elif args.want=="norm":
-        print(self._sqs)
+        print(job._sqs)
     else:
-        print(self._nzero/n123)
+        print(job._nzero/n123)
 
 
 

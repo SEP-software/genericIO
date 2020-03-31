@@ -65,10 +65,11 @@ class attrJob(genJob.regSpace):
         self._sm=0
         self._sqs=0
         self._nzero=0
-    def calcStats(self,ina):
+    def calcStats(self,ina,dummy):
         """Convert a buffer from one type to another
 
         ina - Input vector
+        dummy - Dummy argument
         """
 
         n123=ina.getHyper().getN123()

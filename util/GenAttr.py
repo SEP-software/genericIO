@@ -114,7 +114,7 @@ def calcRealStats(inA):
             mx=inA[i]
             imax=i
         sm+=inA[i]
-        sqs[i]+=inA[i]*inA[i]
+        sqs+=inA[i]*inA[i]
         if inA[i] !=0:
             nzero+=1
     return mn,imin,mx,imax,sm,sqs,nzero
@@ -143,7 +143,7 @@ def calcComplexStats(inA):
             mx=amplitude
             imax=i
         sm+=amplitude
-        sqs[i]+=amplitude*amplitude
+        sqs+=amplitude*amplitude
         if amplitude !=0:
             nzero+=1
     return mn,imin,mx,imax,sm,sqs,nzero

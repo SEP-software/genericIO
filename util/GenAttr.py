@@ -116,10 +116,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     ioIn=genericIO.defaultIO
-    ioOut=ioIn
 
-    if args.ioIn:
-        ioIn=genericIO.io(args.ioIn)
+    if args.io:
+        ioIn=genericIO.io(args.io)
 
 
 

@@ -106,7 +106,7 @@ def calcRealStats(inA):
     imax=0
     if inA[0]!=0: 
         nzero+=1
-    for i in range(1,outA.shape[0]):
+    for i in range(1,inA.shape[0]):
         if inA[i]  < mn:
             mn=inA[i]
             imin=i
@@ -134,7 +134,7 @@ def calcComplexStats(inA):
     imax=0
     if amplitude !=0: 
         nzero+=1
-    for i in range(1,outA.shape[0]):
+    for i in range(1,inA.shape[0]):
         amplitude=numpy.absolutde(inA[0])
         if amplitude  < mn:
             mn=amplitude

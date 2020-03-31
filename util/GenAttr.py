@@ -79,7 +79,6 @@ class attrJob(genJob.regSpace):
             mn,imin,mx,imax,sm,sqs,nzero=calcComplexStats(inN)
         else:
            mn,imin,mx,imax,sm,sqs,nzero= calcRealStats(inN)
-        print("AAA",mn,imin,mx,imax,sm,sqs,nzero)
         self._lock.acquire()
         if mn< self._mn:
             self._mn=mn
@@ -90,7 +89,6 @@ class attrJob(genJob.regSpace):
         self._sm+=sm
         self._sqs+=sqs
         self._nzero+=nzero
-        print("BBB",self._nzero,self._sqs,self._sm,self._imax,self._imin,self._mx,self._mn)
         self._lock.release()
 
         
@@ -179,9 +177,8 @@ if __name__ == "__main__":
 
     n123=inFile.getHyper().getN123()
     if args.want=="all":
-        print(type(n123),type(job._sqs))
-        print("rms = %f"%job._sqs/n123)
-        print("mean = %f"%job._sm/n123)
+        print("rms = %f"%(job._sqs/n123))
+        print("mean = %f"%(job._sm/n123))
         print("norm = %f"%job._sqs)
         print("maximum value = %f at "%job._max,hx.toCart(job._imax))
         print("minimum value = %d at "%job._min,hx.toCart(job._imin))

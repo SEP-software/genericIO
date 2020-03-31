@@ -143,15 +143,17 @@ class regSpace:
 
     def checkLogic(self,first=True):
         if first:
-            if not self._outputFile and self._hasOutput:
-                raise Exception("Output file must exist at the end of the chain")
-            if self._outputFile.getStorageType()!=self._outputType:
-                raise Exception("Output file type and and outputType set must match")
+            if self._hasOutput:
+                if not self._outputFile:
+                    raise Exception("Output file must exist at the end of the chain")
+                if self._outputFile.getStorageType()!=self._outputType:
+                    raise Exception("Output file type and and outputType set must match")
         if not self._inputJob:
-            if not self._inputFile and self._hasInput:
-                raise Exception("Input file must exist at the end of the chain")
-            if self._inputFile.getStorageType()!=self._inputType:
-                raise Exception("Input file type and and outputType set must match") 
+            if self._hasInput:
+                if not self._inputFile:
+                    raise Exception("Input file must exist at the end of the chain")
+                if self._inputFile.getStorageType()!=self._inputType:
+                    raise Exception("Input file type and and outputType set must match") 
         else:
             if self._inType != self._inputJob.outType:
                 raise Exception("Output/Input type mismatch in pipe")

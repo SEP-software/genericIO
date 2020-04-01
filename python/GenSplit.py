@@ -143,9 +143,11 @@ def readFunc(file,buffer,nw,fw,jw):
 
 
 def writeFunc(file,buffer,nw,fw,jw):
+    print("in write function")
     ndim=len(file.getHyper().axes)
+    print("got ndims")
     file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
-    
+    print("through write windows")
 class serialRegSpace(regSpace):
     """Class for serially going through a dataset"""
     def __init__(self,job,mem):
@@ -207,7 +209,9 @@ class serialRegSpace(regSpace):
                 outputVec=self._job.swapIOBufferPtrsOut()
             print("BEFORE INIT WERITE")
             if hasOutput:
+                print("before create thread")
                 writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+                print("before start")
                 writeThread.start()
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:

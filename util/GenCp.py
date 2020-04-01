@@ -9,15 +9,14 @@ from numba import jit,prange
 class cpJob(genJob.regSpace):
     def __init__(self,fileType):
         """Intialize object
-
+            fileType - Type of data
         
         """
         super().__init__(self.cpBuf,0,0,inputType=fileType,outputType=fileType)
  
     
     def cpBuf(self,ina,outa):
-        """Convert a buffer from one type to another
-
+        """Copy a vector 
         ina - Input vector
         outa - Output vector
         """

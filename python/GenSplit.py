@@ -91,7 +91,6 @@ class regSpace:
         nblock=[1]*8
         for i in range(len(nc)):
             nblock[i]=nc[i]
-        print("nblock ",nblock)
         while ndone[7]< ns[7]:
             f_w[7]=ndone[7]
             n_w[7]=min(ns[7]-f_w[7],nblock[7])
@@ -135,7 +134,6 @@ class regSpace:
                     ndone[5]+=n_w[5]
                 ndone[6]+=n_w[6]
             ndone[7]+=n_w[7]
-        print("Out LOOP",len(self._nw),self._nw)
 
 
 def readFunc(file,buffer,nw,fw,jw):

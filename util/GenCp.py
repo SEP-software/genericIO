@@ -32,7 +32,7 @@ if __name__ == "__main__":
                         help='Output file')                   
     parser.add_argument("--ioIn", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
     parser.add_argument("--ioOut", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
-    parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=20)
+    parser.add_argument("--memory",type=float,help="Memory in terms of GB",default=.5)
     args = parser.parse_args()
 
     ioIn=genericIO.defaultIO

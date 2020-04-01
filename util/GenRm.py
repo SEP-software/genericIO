@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
 for f in args.files:        
     inFile=io.getRegFile(f)
-    f.remove()
+    inFile.remove()
 
 
 

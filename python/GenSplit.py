@@ -208,7 +208,11 @@ class serialRegSpace(regSpace):
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
                 printNext+=printPct
+        print("BEFORE HAS OUTPUT")
         if hasOutput:
+            print("BEFORE JOIN")
             writeThread.join()
+            print("AFTER JOIN")
         self._job.deallocateBuffers()
+        print("AFTER DEALLOCATE")
 

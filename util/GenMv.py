@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     inFile=ioIn.getRegFile(args.input)
     outFile=genericIO.regFile(ioOut,args.output,storage=inFile.getStorageType(),fromHyper=inFile.getHyper())
-    job=cpJob(inFile.getStorageType(),outFile.getStorageType(),args.real)
+    job=cpJob(inFile.getStorageType(),outFile.getStorageType())
     job.setOutputFile(outFile)
     job.setCompleteHyperOut(outFile.getHyper())
     job.setInputFile(inFile)

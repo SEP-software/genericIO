@@ -143,11 +143,8 @@ def readFunc(file,buffer,nw,fw,jw):
 
 
 def writeFunc(file,buffer,nw,fw,jw):
-    print("in write function")
     ndim=len(file.getHyper().axes)
-    print("got ndims")
     file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
-    print("through write windows")
 class serialRegSpace(regSpace):
     """Class for serially going through a dataset"""
     def __init__(self,job,mem):
@@ -191,37 +188,26 @@ class serialRegSpace(regSpace):
         
 
         for i in range(len(self._nw)):
-            print("IN LOOP")
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             if hasInput:
                 readThread.join()
                 self._job.swapIObufferPtrsIn()
-            print("FIRST READ")
             if i!= len(self._nw)-1 and hasInput:
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),i+1)
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
                 readThread.start()
-            print("BEFORE PROCESS")
             self._job.processBuffer()
-            print("AFTER PROCESS")
             if i!=0 and hasOutput:
                 writeThread.join()
                 outputVec=self._job.swapIOBufferPtrsOut()
-            print("BEFORE INIT WERITE")
             if hasOutput:
-                print("before create thread")
                 writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
-                print("before start")
                 writeThread.start()
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
                 printNext+=printPct
-        print("BEFORE HAS OUTPUT")
         if hasOutput:
-            print("BEFORE JOIN")
             writeThread.join()
-            print("AFTER JOIN")
         self._job.deallocateBuffers()
-        print("AFTER DEALLOCATE")
 

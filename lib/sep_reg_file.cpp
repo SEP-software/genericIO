@@ -53,7 +53,7 @@ void sepRegFile::remove() {
     std::remove(segment.c_str());  // delete file
 
   strcpy(temp, _tag.c_str());
-  getch(_tag.c_str(), "s", temp;
+  getch(_tag.c_str(), "s", temp);
   segment = temp;
 
   std::remove(segment.c_str()); // delete file

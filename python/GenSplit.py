@@ -84,7 +84,7 @@ class regSpace:
         nc[idim]=min(nc[idim],ns[idim])
         #NC now should contain maximum chunk size
         #Construct outer and inner loops
-     
+        print("IN LOOP")
         j_w=[1]*8
         f_w=[0]*8
         n_w=[1]*8
@@ -135,6 +135,7 @@ class regSpace:
                     ndone[5]+=n_w[5]
                 ndone[6]+=n_w[6]
             ndone[7]+=n_w[7]
+        print("Out LOOP",len(self._nw))
 
 
 def readFunc(file,buffer,nw,fw,jw):

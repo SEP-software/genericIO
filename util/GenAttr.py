@@ -151,7 +151,7 @@ def calcComplexStats(inA):
     return mn,imin,mx,imax,sm,sqs,nzero
         
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Print info about files')
+    parser = argparse.ArgumentParser(description='Print data attributes')
     parser.add_argument('input', metavar='Input', type=str,
                         help='Input file')                 
     parser.add_argument("--io", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
@@ -192,9 +192,9 @@ if __name__ == "__main__":
     elif args.want=="mean":
         print(job._sm/n123)
     elif args.want=="rms":
-        print(job._sqs/n123)
+        print(math.sqrt(job._sqs/n123))
     elif args.want=="norm":
-        print(job._sqs)
+        print(math.sqrt(job._sqs)/n123)
     else:
         print(job._nzero/n123)
 

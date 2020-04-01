@@ -209,6 +209,11 @@ class regFile:
         x+="Binary=%s\n"%self.cppMode.getBinary()
         x+=str(self.getHyper())
         return x
+    def remove(self):
+        """Remove the given dataset"""
+        self.getCppMode.remove()
+        
+         
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

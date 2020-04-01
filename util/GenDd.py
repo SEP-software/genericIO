@@ -133,7 +133,7 @@ def real2Complex(inA,outA,realFlag):
 
         
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Print info about files')
+    parser = argparse.ArgumentParser(description='Convert file types')
     parser.add_argument('input', metavar='Input', type=str,
                         help='Input file')
     parser.add_argument('output', metavar='Output', type=str,

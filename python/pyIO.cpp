@@ -122,7 +122,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericRegFile::*)(const std::string &, const int) const) &
                genericRegFile::putInt,
            "Write an integer parameters")
-
+      .def("remove", (void (genericRegFile::*)()) & genericRegFile::remove,
+           "Remove  all data  associated with the file")
       .def("putFloat",
            (void (genericRegFile::*)(const std::string &, const float) const) &
                genericRegFile::putFloat,

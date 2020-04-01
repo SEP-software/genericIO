@@ -64,7 +64,7 @@ WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 ENDFOREACH(prg)
 endif(BUILD_TEST)
 
-set(SCRIPTS  GenIn GenDd GenAttr)
+set(SCRIPTS  GenIn GenDd GenAttr GenCp GenRm GenMv)
 FOREACH(prg ${SCRIPTS})
    configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/${prg}.py"

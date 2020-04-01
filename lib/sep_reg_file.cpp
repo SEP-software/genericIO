@@ -13,35 +13,33 @@ sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
   _tag = tag;
   _usage = usage;
   switch (usage) {
-  case usageIn:
+    case usageIn:
 
-    if (_tag != "in")
-      if (NULL == auxin(_tag.c_str()))
-        error(std::string("can not open file ") + tag);
+      if (_tag != "in")
+        if (NULL == auxin(_tag.c_str()))
+          error(std::string("can not open file ") + tag);
 
-    readDescription(ndim);
-    _binary = getString("in");
-
-    break;
-  case usageOut:
-    if (tag != "out")
-      if (0 == auxout(_tag.c_str()))
-        error(std::string("can not open file ") + tag);
-    break;
-  case usageInOut:
-    if (0 == auxinout(_tag.c_str()))
+      readDescription(ndim);
       _binary = getString("in");
 
-    error(std::string("can not open file ") + tag);
-    break;
-  case usageScr:
-    if (0 == auxscr(_tag.c_str()))
-      _binary = getString("in");
+      break;
+    case usageOut:
+      if (tag != "out")
+        if (0 == auxout(_tag.c_str()))
+          error(std::string("can not open file ") + tag);
+      break;
+    case usageInOut:
+      if (0 == auxinout(_tag.c_str())) _binary = getString("in");
 
-    error(std::string("can not open file ") + tag);
-    break;
-  default:
-    error("can't handle type");
+      error(std::string("can not open file ") + tag);
+      break;
+    case usageScr:
+      if (0 == auxscr(_tag.c_str())) _binary = getString("in");
+
+      error(std::string("can not open file ") + tag);
+      break;
+    default:
+      error("can't handle type");
   }
 }
 
@@ -52,10 +50,10 @@ void sepRegFile::remove() {
   std::string segment;
 
   while (std::getline(test, segment, ';'))
-    std::remove(segment.c_str()); // delete file
+    std::remove(segment.c_str());  // delete file
 
   strcpy(temp, _tag.c_str());
-  auxpar(_tag.c_str(), "s", temp, _tag.c_str());
+  getch(_tag.c_str(), "s", temp;
   segment = temp;
 
   std::remove(segment.c_str()); // delete file
@@ -122,8 +120,7 @@ std::vector<int> sepRegFile::getInts(const std::string &arg, int num) const {
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
   std::vector<int> x;
-  for (int i = 0; i < ierr; i++)
-    x.push_back(tmp[i]);
+  for (int i = 0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
 std::vector<int> sepRegFile::getInts(const std::string &arg,
@@ -138,11 +135,9 @@ std::vector<int> sepRegFile::getInts(const std::string &arg,
           std::string(" from parameters"));
   std::vector<int> x;
   if (ierr > 0) {
-    for (int i = 0; i < ierr; i++)
-      x.push_back(tmp[i]);
+    for (int i = 0; i < ierr; i++) x.push_back(tmp[i]);
   } else {
-    for (int i = 0; i < defs.size(); i++)
-      x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
   }
   return x;
 }
@@ -155,8 +150,7 @@ std::vector<float> sepRegFile::getFloats(const std::string &arg,
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
   std::vector<float> x;
-  for (int i = 0; i < ierr; i++)
-    x.push_back(tmp[i]);
+  for (int i = 0; i < ierr; i++) x.push_back(tmp[i]);
   return x;
 }
 std::vector<float> sepRegFile::getFloats(const std::string &arg,
@@ -171,11 +165,9 @@ std::vector<float> sepRegFile::getFloats(const std::string &arg,
           std::string(" from parameters"));
   std::vector<float> x;
   if (ierr > 0) {
-    for (int i = 0; i < ierr; i++)
-      x.push_back(tmp[i]);
+    for (int i = 0; i < ierr; i++) x.push_back(tmp[i]);
   } else {
-    for (int i = 0; i < defs.size(); i++)
-      x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
   }
   return x;
 }
@@ -202,22 +194,19 @@ void sepRegFile::putString(const std::string &par, const std::string &val) {
 
 void sepRegFile::putBool(const std::string &par, const bool val) {
   int x = 0;
-  if (val)
-    x = 1;
+  if (val) x = 1;
   auxputch(par.c_str(), "l", &x, _tag.c_str());
 }
 void sepRegFile::putInts(const std::string &par, const std::vector<int> &val) {
   int *tmp = new int[val.size()];
-  for (int i = 0; i < val.size(); i++)
-    tmp[i] = val[i];
+  for (int i = 0; i < val.size(); i++) tmp[i] = val[i];
   auxputch(par.c_str(), "d", tmp, _tag.c_str());
   delete[] tmp;
 }
 void sepRegFile::putFloats(const std::string &par,
                            const std::vector<float> &val) {
   float *tmp = new float[val.size()];
-  for (int i = 0; i < val.size(); i++)
-    tmp[i] = val[i];
+  for (int i = 0; i < val.size(); i++) tmp[i] = val[i];
   auxputch(par.c_str(), "f", tmp, _tag.c_str());
   delete[] tmp;
 }
@@ -315,8 +304,7 @@ void sepRegFile::readFloatWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -339,8 +327,7 @@ void sepRegFile::readDoubleWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -362,8 +349,7 @@ void sepRegFile::readIntWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -386,8 +372,7 @@ void sepRegFile::readComplexWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -410,8 +395,7 @@ void sepRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -449,15 +433,13 @@ void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
                                     const std::vector<int> &fw,
                                     const std::vector<int> &jw,
                                     const std::complex<float> *array) {
-
   setDataType(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
 
@@ -480,8 +462,7 @@ void sepRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -500,8 +481,7 @@ void sepRegFile::readByteWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -522,8 +502,7 @@ void sepRegFile::writeFloatWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -545,8 +524,7 @@ void sepRegFile::writeByteWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -570,8 +548,7 @@ void sepRegFile::writeDoubleWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -592,8 +569,7 @@ void sepRegFile::writeIntWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1)
-        error("number of dimension does not equal data size");
+      if (ng[i] > 1) error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -609,8 +585,7 @@ void sepRegFile::writeIntWindow(const std::vector<int> &nw,
 void sepRegFile::readDescription(const int ndimMax) {
   int ndim;
   sep_get_number_data_axes(_tag.c_str(), &ndim);
-  if (ndimMax != -1 && ndimMax > ndim)
-    ndim = ndimMax;
+  if (ndimMax != -1 && ndimMax > ndim) ndim = ndimMax;
   std::vector<axis> axes;
   for (int i = 1; i <= ndim; i++) {
     int n;
@@ -642,7 +617,7 @@ void sepRegFile::readDescription(const int ndimMax) {
       setDataType(DATA_COMPLEX);
     else if (format == std::string("nativie_double"))
       setDataType(DATA_DOUBLE);
-    else // For now default to complex
+    else  // For now default to complex
       setDataType(DATA_COMPLEX);
   } else if (esize == 16) {
     std::string format = std::string("nativie_double");
@@ -671,28 +646,28 @@ void sepRegFile::writeDescription() {
   int esize = 4;
 
   switch (getDataType()) {
-  case DATA_INT:
-    set_format(_tag.c_str(), "xdr_int");
-    break;
-  case DATA_DOUBLE:
-    set_format(_tag.c_str(), "native_float");
-    esize = 8;
-    break;
-  case DATA_COMPLEX:
-    set_format(_tag.c_str(), "xdr_int");
-    esize = 8;
-    break;
-  case DATA_COMPLEXDOUBLE:
-    set_format(_tag.c_str(), "native_double");
-    esize = 16;
-    break;
-  case DATA_BYTE:
-    set_format(_tag.c_str(), "xdr_byte");
-    esize = 1;
-    break;
-  default:
-    set_format(_tag.c_str(), "xdr_float");
-    break;
+    case DATA_INT:
+      set_format(_tag.c_str(), "xdr_int");
+      break;
+    case DATA_DOUBLE:
+      set_format(_tag.c_str(), "native_float");
+      esize = 8;
+      break;
+    case DATA_COMPLEX:
+      set_format(_tag.c_str(), "xdr_int");
+      esize = 8;
+      break;
+    case DATA_COMPLEXDOUBLE:
+      set_format(_tag.c_str(), "native_double");
+      esize = 16;
+      break;
+    case DATA_BYTE:
+      set_format(_tag.c_str(), "xdr_byte");
+      esize = 1;
+      break;
+    default:
+      set_format(_tag.c_str(), "xdr_float");
+      break;
   }
 
   auxputch("esize", "d", &esize, _tag.c_str());
@@ -725,7 +700,7 @@ void sepRegFile::putDescription(const std::string &title,
   std::stringstream stream;
   stream << desc;
   std::string tmp = std::string("FROM ") + title;
-  char delim = '\n'; // Ddefine the delimiter to split by
+  char delim = '\n';  // Ddefine the delimiter to split by
   auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
   while (std::getline(stream, tmp, delim)) {
     auxputhead(_tag.c_str(), "%s\n", tmp.c_str());

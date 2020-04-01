@@ -211,7 +211,7 @@ class regFile:
         return x
     def remove(self):
         """Remove the given dataset"""
-        self.getCppMode().remove()
+        self.cppMode.remove()
         
          
     def getEsize(self):

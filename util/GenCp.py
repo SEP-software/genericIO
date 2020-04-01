@@ -51,9 +51,7 @@ if __name__ == "__main__":
     job.setCompleteHyperOut(outFile.getHyper())
     job.setInputFile(inFile)
     split=genSplit.serialRegSpace(job, args.memory)
-    print("BEFORE SPLIT")
     split.loop()
-    print("THROUGH SPLiT")
 
 
 

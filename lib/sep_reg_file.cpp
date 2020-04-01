@@ -55,12 +55,9 @@ void sepRegFile::remove() {
     std::remove(segment.c_str()); // delete file
 
   strcpy(temp, _tag.c_str());
-  fprintf(stderr, "what the %s \n", temp);
   getch(_tag.c_str(), "s", temp);
-  fprintf(stderr, "what 2the %s \n", temp);
 
   segment = temp;
-  std::cerr << "segment " << segment << std::endl;
   std::remove(segment.c_str()); // delete file
 }
 int sepRegFile::getInt(const std::string &arg) const {

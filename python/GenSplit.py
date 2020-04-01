@@ -189,18 +189,23 @@ class serialRegSpace(regSpace):
         
 
         for i in range(len(self._nw)):
+            print("IN LOOP")
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             if hasInput:
                 readThread.join()
                 self._job.swapIObufferPtrsIn()
+            print("FIRST READ")
             if i!= len(self._nw)-1 and hasInput:
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),i+1)
                 readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
                 readThread.start()
+            print("BEFORE PROCESS")
             self._job.processBuffer()
+            print("AFTER PROCESS")
             if i!=0 and hasOutput:
                 writeThread.join()
                 outputVec=self._job.swapIOBufferPtrsOut()
+            print("BEFORE INIT WERITE")
             if hasOutput:
                 writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
                 writeThread.start()

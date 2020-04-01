@@ -265,7 +265,6 @@ void sepRegFile::writeFloatStream(const float *array, const long long npts) {
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
-  _binary = getString("in");
 }
 void sepRegFile::writeByteStream(const unsigned char *array,
                                  const long long npts) {
@@ -274,7 +273,6 @@ void sepRegFile::writeByteStream(const unsigned char *array,
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
-  _binary = getString("in");
 }
 void sepRegFile::writeIntStream(const int *array, const long long npts) {
   long long nptsT = npts * 4;
@@ -282,7 +280,6 @@ void sepRegFile::writeIntStream(const int *array, const long long npts) {
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
-  _binary = getString("in");
 }
 void sepRegFile::writeDoubleStream(const double *array, const long long npts) {
   long long nptsT = npts * 8;
@@ -291,7 +288,6 @@ void sepRegFile::writeDoubleStream(const double *array, const long long npts) {
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
-  _binary = getString("in");
 }
 
 void sepRegFile::readFloatWindow(const std::vector<int> &nw,
@@ -426,7 +422,6 @@ void sepRegFile::writeComplexDoubleStream(const std::complex<double> *array,
   if (ierr != nptsT)
     error(std::string("Trouble write from ") + _tag + std::string(" after ") +
           std::to_string(ierr) + std::string(" bytes"));
-  _binary = getString("in");
 }
 
 void sepRegFile::writeComplexWindow(const std::vector<int> &nw,
@@ -518,7 +513,6 @@ void sepRegFile::writeFloatWindow(const std::vector<int> &nw,
     error(std::string("trouble writing data to tag ") + _tag);
   std::cerr << "in 3write float window " << std::endl;
 
-  _binary = getString("in");
   std::cerr << "in 4write float window " << std::endl;
 }
 void sepRegFile::writeByteWindow(const std::vector<int> &nw,
@@ -541,7 +535,6 @@ void sepRegFile::writeByteWindow(const std::vector<int> &nw,
   if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
                         jw.data(), 1, array))
     error(std::string("trouble writing data to tag ") + _tag);
-  _binary = getString("in");
 }
 
 void sepRegFile::writeDoubleWindow(const std::vector<int> &nw,
@@ -565,7 +558,6 @@ void sepRegFile::writeDoubleWindow(const std::vector<int> &nw,
   if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
                         jw.data(), 8, array))
     error(std::string("trouble writing data to tag ") + _tag);
-  _binary = getString("in");
 }
 void sepRegFile::writeIntWindow(const std::vector<int> &nw,
                                 const std::vector<int> &fw,
@@ -586,7 +578,6 @@ void sepRegFile::writeIntWindow(const std::vector<int> &nw,
   if (0 != srite_window(_tag.c_str(), &ndim, ng.data(), nw.data(), fw.data(),
                         jw.data(), 4, array))
     error(std::string("trouble writing data to tag ") + _tag);
-  _binary = getString("in");
 }
 
 void sepRegFile::readDescription(const int ndimMax) {

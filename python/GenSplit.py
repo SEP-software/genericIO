@@ -112,7 +112,7 @@ class regSpace:
                             f_w[3]=ndone[3]
                             n_w[3]=min(ns[3]-f_w[3],nblock[3])
                             ndone[2]=0            
-                            while ndone[1]< ns[2]:
+                            while ndone[2]< ns[2]:
                                 f_w[2]=ndone[2]
                                 n_w[2]=min(ns[2]-f_w[2],nblock[2])
                                 ndone[1]=0        
@@ -129,7 +129,6 @@ class regSpace:
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
                                     ndone[1]+=n_w[1]
-                                print("LOOK LOOP",ndone[2],ns[2])
                                 ndone[2]+=n_w[2]
                             ndone[3]+=n_w[3]
                         ndone[4]+=n_w[4]

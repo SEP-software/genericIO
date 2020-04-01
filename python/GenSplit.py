@@ -129,6 +129,7 @@ class regSpace:
                                         self._job.calcInputWindow(n_w,f_w,j_w)
                                         ndone[0]+=n_w[0]
                                     ndone[1]+=n_w[1]
+                                print("LOOK LOOP",ndone[2],ns[2])
                                 ndone[2]+=n_w[2]
                             ndone[3]+=n_w[3]
                         ndone[4]+=n_w[4]

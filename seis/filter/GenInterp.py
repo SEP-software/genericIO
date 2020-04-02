@@ -6,39 +6,151 @@ import genSplit
 import Hypercube
 import math
 import numpy as np
-from numba import jit,prange
+from numba 
 
-class spikeJob(genJob.regSpace):
-    def __init__(self,outputType,events):
+class sincTable:
+    def __init__(self,ntab,nlen):
+        if nlen != int(nlen/2)*2:
+            raise Exception("nlen must be divisible by two")
+        self._dtab=1./float(ntab)
+        self._tab=np.zeros((ntab,nlen))
+        b=np.zeros((nlen,))
+        c=np.zeros((nlen,))
+        work=np.zeros((nlen,))
+        mkTable(self._tab,b,c,work)
+    
+    def getSinc(self,val):
+        """Return a numpy array that best represents val. val has to be between 0 and 1"""
+        if val <0. or val >=1.:
+            raise Exception("val must greater or equal to zero and less than one")
+        ival=int(round(val/self._dtab))
+        return self._tab[ival,:]
+
+@numba.jit(nopython=True,locals={"c": numba.float64, "e": numba.float64, "v": numba.float64, "w": numba.float64, "bot": numba.float64})
+def toep(r,f,g,a):
+    a[0]=1
+    v=r[0]
+    f[0]=g[0]/r[0]
+    for j in range(1,r.shape[0]):
+        e = 0
+        a[j] = 0
+        f[j] = 0.
+        for i in range(r.shape[0]):
+            e+=a[i]*r[j-i]
+        c= e/v
+        v-= e*c 
+        jh = int(j/2)
+        for i in range(jh):
+            bot= a[j-i] - c* a[i]
+            a[i] -= c*a[j-i]
+            a[j-i] =bot
+        w=0
+        for i in range(r.shape[0]):
+            w+= f[i] * r[j-i]
+        c= (g[j]-w)/v
+        for i in range(j+1):
+            f[i]+= c* a[j-i]
+    return f
+
+
+
+@jit(nopython=True,parallel=True)
+def mkTable(tab,b,c,work):
+    dtab=1./float(tab.shape[0])
+    pi = 3.141592654;
+    pi2 = pi*2;
+    snyq = 0.5;
+    snat = snyq*(0.066+0.265*math.log(double(tab.shape[1]))
+    s0 = 0.0;
+    ds = (snat-s0)/(tab.shape[1]*2-1);
+    for itab in numba.prange(tab.shape[0]):
+        d=itab*dtab
+        eta = tab.shape[1]/2-1.0+d;
+        for j in tab.shape[1]:
+            s=s0
+            b[j]=0.
+            c[j]=0.
+            while s < snat:
+                b[j]+=math.cos(pi2*s*j)
+                c[j]+=math.cos(pi2*s*(eta-j))
+                s+=ds
+        tab[itab,:]=toep(b,sinc,c,work)
+            
+
+class interpJob(genJob.regSpace):
+    def __init__(self,inFile,outFile,interpType=2,nsincLen=10):
         """Intialize object
-
-            outputType - Output type
-            events - List of events
+            inFile - Input file
+            outFile - Output file
+            interpType - 0 nearest neighbor, 1 linear, 2 sinc interpolation
+            nsincLen - Length of sinc. If sinc interpolation is used
+      
         """
-        super().__init__(self.spikeBuf,0,0,outputType=outputType,hasInput=False)
+        if interpType==2:
+            self._sincTable=sincTable(10000,10)
+        
+        if self._interpType=interpType
+
+        if inFile.storage != outFile.storage:
+            raise Exception("Storage of input and output not the same")
+        
+        super().__init__(self.interpOp,0,0,inputType=inFile.storage ,outputType=outFile.storage)
         self._events=events
     
-    def spikeBuf(self,ina,outa):
+    def interpOp(self,ina,outa):
         """Convert a buffer from one type to another
 
         ina - Input vector
         outa - Output vector
         """
-    
-        f=[0]*6
-        n=[1]*6
-
-        axesVec=outa.getHyper().axes
-        axesOut=self.getCompleteHyperOut().axes
+        nin=np.asarray([1]*6),dtype=np.int32)
+        nout=np.asarray([1]*6),dtype=np.int32)
+        ooin=np.asarray([0.]*6),dtype=np.float32)
+        oout=np.asarray([0.]*6),dtype=np.float32)
+        din=np.asarray([1.]*6),dtype=np.float32)
+        dout=np.asarray([1.]*6),dtype=np.float32)
+        axesIn=ina.getHyper().axes
+        axesOut=outa.getHyper().axes
+        for i in range(len(axesIn)):
+            nin[i]=axesIn[i].n 
+            oin[i]=axesIn[i].o
+            din[i]=axesIn[i].d
         for i in range(len(axesOut)):
-            f[i]=int(round((axesVec[i].o-axesOut[i].o)/axesOut[i].d))
-            n[i]=axesVec[i].n 
-        outa.scale(0.)
-        outN=np.reshape(outa.getNdArray(),(n[5],n[4],n[3],n[2],n[1],n[0]))
-        for ev in self._events:
-            fill(outN,ev._mag,f[0],f[1],f[2],f[3],f[4],f[5],ev._k1,ev._k2,ev._k3,ev._k4,ev._k5,ev._k6)
+            nout[i]=axesOut[i].n 
+            oout[i]=axesOut[i].o
+            dout[i]=axesOut[i].d
 
-@jit(nopython=True)
+        if self._interpType==0:
+            self.nearestInterp(ina,nin,oin,din,outa,nout,oout,dout)
+        elif self._interpType==1:
+            self.linearInterp(ina,nin,oin,din,outa,nout,oout,dout)
+        else:
+            self.sincInterp(ina,nin,oin,din,outa,nout,oout,dout)
+
+
+    def nearestInterp(ina,nin,oin,din,outa,nout,oout,dout):
+        """Do nearest neighbor interpolation"""
+        for i6 in range(nout[5])
+            out6=oout[5]+dout[5]*i6
+            j6=max(0,min(nin[5]-1,int(round((out6-oout[5])/dout[5]))))
+            for i5 in range(nout[4]):
+                out5=oout[4]+dout[4]*i5
+                j5=max(0,min(nin[4]-1,int(round(out5-oout[5]/dout[4]))))  
+                for i4 in range(nout[3])
+                    out4=oout[3]+dout[3]*i4
+                    j4=max(0,min(nin[3]-1,int(round((out4-oout[3])/dout[3]))))
+                    for i3 in range(nout[2]):
+                        out5=oout[2]+dout[2]*i3
+                        j3=max(0,min(nin[2]-1,int(round(out3-oout[2]/dout[2]))))            
+                        for i2 in range(nout[1])
+                            out2=oout[1]+dout[1]*i2
+                            j2=max(0,min(nin[1]-1,int(round((out2-oout[1])/dout[1]))))
+                            for i5 in range(nout[4]):
+                                out1=oout[0]+dout[0]*i1
+                                j1=max(0,min(nin[0]-1,int(round(out1-oout[0]/dout[0]))))
+                                outa[i6,i5,i4,i3,i2,i1]=ina[j6,j5,j4,j3,j2,j1] 
+                                
+                                 
 def fill(ar,mag,f1,f2,f3,f4,f5,f6,k1,k2,k3,k4,k5,k6):
     for i6 in k6:
         j6=i6-f6

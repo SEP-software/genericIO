@@ -139,6 +139,7 @@ endif(BUILD_EXAMPLES)
 if(BUILD_UTIL)
   add_subdirectory(util)
 endif(BUILD_UTIL)
+  add_subdirectory(seis)
 
 if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${PROJECT_BINARY_DIR}/ioConfig.h DESTINATION include)

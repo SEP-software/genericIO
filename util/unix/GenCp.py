@@ -32,6 +32,8 @@ if __name__ == "__main__":
     parser.add_argument("--ioIn", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
     parser.add_argument("--ioOut", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
     parser.add_argument("--memory",type=float,help="Memory in terms of GB",default=.5)
+    parser.add_argument("--print_pct",type=float,help="Print progress every X pct (above 100 means no printing)",default=101)
+
     args = parser.parse_args()
 
     ioIn=genericIO.defaultIO
@@ -50,7 +52,7 @@ if __name__ == "__main__":
     job.setCompleteHyperOut(outFile.getHyper())
     job.setInputFile(inFile)
     split=genSplit.serialRegSpace(job, args.memory)
-    split.loop()
+    split.loop(args.print_pct)
 
 
 

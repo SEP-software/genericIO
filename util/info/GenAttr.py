@@ -158,6 +158,7 @@ if __name__ == "__main__":
     parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=20)
     parser.add_argument("--want",type=str,choices=["all","min","max","mean","rms","norm","short"],
     default="all")
+    parser.add_argument("--print_pct",type=float,help="Print progress every X pct (above 100 means no printing)",default=101)
     args = parser.parse_args()
 
     ioIn=genericIO.defaultIO
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
     split=genSplit.serialRegSpace(job, args.memory)
-    split.loop()
+    split.loop(args.print_pct)
     
     hx=helix2cart(inFile.getHyper().getNs())
 

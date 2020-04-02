@@ -214,7 +214,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                       const std::vector<int> &, float *)) &
                genericRegFile::readFloatWindow,
            "Read a window of floats")
-
+      .def("readDoubleWindow",
+            (void (genericRegFile ::*)(const std::vector<int> &,
+                                       const std::vector<int> &,
+                                       const std::vector<int> &, double *)) &
+                genericRegFile::readDoubleWindow,
+            "Read a window of doubles")
       .def("writeFloatStream",
            (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
                genericRegFile::writeFloatStream,
@@ -263,6 +268,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &, std::shared_ptr<floatHyper>)) &
                genericRegFile::readFloatWindow,
            "Read  a window of floats  into a sepVector")
+      .def("readDoubleWindow",
+           (bool (genericRegFile ::*)(
+               const std::vector<int> &, const std::vector<int> &,
+               const std::vector<int> &, std::shared_ptr<doubleHyper>)) &
+               genericRegFile::readDoubleWindow,
+           "Read  a window of doubles  into a sepVector")
       .def("readByteWindow",
            (bool (genericRegFile ::*)(
                const std::vector<int> &, const std::vector<int> &,

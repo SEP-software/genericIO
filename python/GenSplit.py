@@ -16,7 +16,7 @@ class regSpace:
         self._mem=mem
         self._job=job
 
-        if not isinstance(self._job,genJob.regSpace):
+        if not isinstance(self._job,GenJob.regSpace):
             raise Exception("Expecting job to be dervied from GenJob.regSpace")
         
         self._nw=[]

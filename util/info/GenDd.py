@@ -6,7 +6,7 @@ import GenSplit
 import numpy as np
 from numba import jit,prange
 
-class ddJob(genJob.regSpace):
+class ddJob(GenJob.regSpace):
     def __init__(self,inputType,outputType,real):
         """Intialize object
 
@@ -163,7 +163,7 @@ if __name__ == "__main__":
     job.setOutputFile(outFile)
     job.setCompleteHyperOut(outFile.getHyper())
     job.setInputFile(inFile)
-    split=genSplit.serialRegSpace(job, args.memory)
+    split=GenSplit.serialRegSpace(job, args.memory)
     split.loop(args.print_pct)
 
 

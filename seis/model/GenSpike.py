@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 import argparse
 import genericIO
-import genJob
-import genSplit
+import GenJob
+import GenSplit
 import Hypercube
 import math
 import numpy as np
 from numba import jit,prange
 
-class spikeJob(genJob.regSpace):
+class spikeJob(GenJob.regSpace):
     def __init__(self,outputType,events):
         """Intialize object
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     job=spikeJob(outFile.getStorageType(),events)
     job.setOutputFile(outFile)
     job.setCompleteHyperOut(outFile.getHyper())
-    split=genSplit.serialRegSpace(job, args.memory)
+    split=GenSplit.serialRegSpace(job, args.memory)
     split.loop(args.print_pct)
 
 

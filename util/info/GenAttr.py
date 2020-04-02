@@ -51,7 +51,7 @@ class helix2cart:
             hlx+=cart[i]*self._b[i]
         return hlx
 
-class attrJob(genJob.regSpace):
+class attrJob(GenJob.regSpace):
     def __init__(self,inputType):
         """Intialize object
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     job=attrJob(inFile.getStorageType())
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
-    split=genSplit.serialRegSpace(job, args.memory)
+    split=GenSplit.serialRegSpace(job, args.memory)
     split.loop(args.print_pct)
     
     hx=helix2cart(inFile.getHyper().getNs())

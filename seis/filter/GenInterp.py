@@ -77,7 +77,7 @@ def mkTable(tab,b,c,work):
         tab[itab,:]=toep(b,sinc,c,work)
             
 
-class interpJob(genJob.regSpace):
+class interpJob(GenJob.regSpace):
     def __init__(self,inFile,outFile,interpType=2,nsincLen=10):
         """Intialize object
             inFile - Input file
@@ -339,7 +339,7 @@ if __name__ == "__main__":
     job=spikeJob(outFile.getStorageType(),events)
     job.setOutputFile(outFile)
     job.setCompleteHyperOut(outFile.getHyper())
-    split=genSplit.serialRegSpace(job, args.memory)
+    split=GenSplit.serialRegSpace(job, args.memory)
     split.loop(args.print_pct)
 
 

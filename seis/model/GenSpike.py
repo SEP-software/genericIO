@@ -37,7 +37,7 @@ class spikeJob(genJob.regSpace):
         outN=np.reshape(outa.getNdArray(),(n[5],n[4],n[3],n[2],n[1],n[0]))
         for ev in self._events:
             fill(outN,ev._mag,f[0],f[1],f[2],f[3],f[4],f[5],ev._k1,ev._k2,ev._k3,ev._k4,ev._k5,ev._k6)
-        
+        print(outN,"OUT")
 
 @jit()
 def fill(ar,mag,f1,f2,f3,f4,f5,f6,k1,k2,k3,k4,k5,k6):

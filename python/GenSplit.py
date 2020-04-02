@@ -142,7 +142,9 @@ def readFunc(file,buffer,nw,fw,jw):
 
 
 def writeFunc(file,buffer,nw,fw,jw):
+    print("in write function")
     ndim=len(file.getHyper().axes)
+    print(buffer.getNdArray())
     file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 class serialRegSpace(regSpace):
     """Class for serially going through a dataset"""

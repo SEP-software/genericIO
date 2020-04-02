@@ -631,12 +631,12 @@ void sepRegFile::readDescription(const int ndimMax) {
         getString(std::string("data_format"), std::string("xdr_float"));
     if (format == std::string("xdr_float") || format == "native_float")
       setDataType(DATA_COMPLEX);
-    else if (format == std::string("nativie_double"))
+    else if (format == std::string("native_double"))
       setDataType(DATA_DOUBLE);
     else // For now default to complex
       setDataType(DATA_COMPLEX);
   } else if (esize == 16) {
-    std::string format = std::string("nativie_double");
+    std::string format = std::string("native_double");
     setDataType(DATA_COMPLEXDOUBLE);
   } else
     error(std::string("Only know about esize=8, 4 or 1"));

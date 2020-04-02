@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import argparse
 import genericIO
-import genJob
-import genSplit
+import GenJob
+import GenSplit
 import numpy as np
 from numba import jit,prange
 

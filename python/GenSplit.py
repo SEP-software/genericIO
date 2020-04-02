@@ -1,7 +1,7 @@
 from numba import jit 
 import copy
 import  Hypercube
-import genJob
+import GenJob
 import threading
 
 class regSpace:

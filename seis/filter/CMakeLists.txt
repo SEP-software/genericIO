@@ -34,7 +34,7 @@ set(SCRIPTS  GenInterp)
 FOREACH(prg ${SCRIPTS})
    configure_file (
   "${CMAKE_CURRENT_SOURCE_DIR}/${prg}.py.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/${prg}.py"
+  "${CMAKE_CURRENT_BINARY_DIR}/${prg}
   @ONLY
   )
    install(PROGRAMS  ${CMAKE_CURRENT_BINARY_DIR}/${prg} DESTINATION bin)

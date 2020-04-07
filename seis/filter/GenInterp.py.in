@@ -1,0 +1,525 @@
+#!/usr/bin/env python3
+import argparse
+import genericIO
+import GenJob
+import GenSplit
+import Hypercube
+import math
+import numpy as np
+import numba 
+
+class sincTable:
+    def __init__(self,ntab,nlen):
+        if nlen != int(nlen/2)*2:
+            raise Exception("nlen must be divisible by two")
+        self._dtab=1./float(ntab)
+        self._tab=np.zeros((ntab,nlen))
+        b=np.zeros((nlen,))
+        c=np.zeros((nlen,))
+        work=np.zeros((nlen,))
+        mkTable(self._tab,b,c,work)
+    
+    def getSinc(self,val):
+        """Return a numpy array that best represents val. val has to be between 0 and 1"""
+        if val <0. or val >=1.:
+            raise Exception("val must greater or equal to zero and less than one")
+        ival=int(round(val/self._dtab))
+        return self._tab[ival,:]
+
+@numba.jit(nopython=True,locals={"c": numba.float64, "e": numba.float64, "v": numba.float64, "w": numba.float64, "bot": numba.float64})
+def toep(r,f,g,a):
+    a[0]=1.
+    v=r[0]
+    f[0]=g[0]/r[0]
+    for j in range(1,r.shape[0]):
+        e = 0
+        a[j] = 0
+        f[j] = 0.
+        for i in range(j):
+            e+=a[i]*r[j-i]
+        c= e/v
+        v-= e*c 
+        jh = int(j/2)
+        for i in range(jh+1):
+            bot= a[j-i] - c* a[i]
+            a[i] -= c*a[j-i]
+            a[j-i] =bot
+        w=0
+        for i in range(j):
+            w+= f[i] * r[j-i]
+        c= (g[j]-w)/v
+        for i in range(j+1):
+            f[i]+= c* a[j-i]
+    return f
+
+
+
+@numba.jit(nopython=True,parallel=True)
+def mkTable(tab,b,c,work):
+    dtab=1./float(tab.shape[0])
+    pi = 3.141592654;
+    pi2 = pi*2;
+    snyq = 0.5;
+    snat = snyq*(0.066+0.265*math.log(float(tab.shape[1])))
+    s0 = 0.0
+    ds = (snat-s0)/(tab.shape[1]*2-1);
+    for itab in range(tab.shape[0]):
+        d=itab*dtab
+        eta = tab.shape[1]/2-1.0+d;
+        for j in range(tab.shape[1]):
+            s=s0
+            b[j]=0.
+            c[j]=0.
+            while s <= snat+1e-9:
+                b[j]+=math.cos(pi2*s*j)
+                c[j]+=math.cos(pi2*s*(eta-j))
+                s+=ds
+        tab[itab,:]=toep(b,tab[itab,:],c,work)
+       
+
+class interpJob(GenJob.regSpace):
+    def __init__(self,inFile,outFile,interpType=2,nSincLen=10):
+        """Intialize object
+            inFile - Input file
+            outFile - Output file
+            interpType - 0 nearest neighbor, 1 linear, 2 sinc interpolation
+            nSincLen - Length of sinc. If sinc interpolation is used
+      
+        """
+        if interpType==2:
+            self._sincTable=sincTable(10000,nSincLen)
+            self._nSincLen=nSincLen
+        self._interpType=interpType
+
+        if inFile.storage != outFile.storage:
+            raise Exception("Storage of input and output not the same")
+        
+        aout=outFile.getHyper().axes
+        self._nExtend=[0]*6
+        for i in range(len(aout)):
+            if aout[i].n >1:
+                if self._interpType==1:
+                    self._nExtend[i]=1
+                elif self._interpType==2:
+                    self._nExtend[i]=self._nSincLen-1
+    
+        super().__init__(self.interpOp,0,0,inputType=inFile.storage ,outputType=outFile.storage)
+    
+    def interpOp(self,ina,outa):
+        """Convert a buffer from one type to another
+
+        ina - Input vector
+        outa - Output vector
+        """
+        nin=np.asarray([1]*6,dtype=np.int32)
+        nout=np.asarray([1]*6,dtype=np.int32)
+        oin=np.asarray([0.]*6,dtype=np.float32)
+        oout=np.asarray([0.]*6,dtype=np.float32)
+        din=np.asarray([1.]*6,dtype=np.float32)
+        dout=np.asarray([1.]*6,dtype=np.float32)
+        axesIn=ina.getHyper().axes
+        axesOut=outa.getHyper().axes
+        ndimUse=0
+        for i in range(len(axesIn)):
+            nin[i]=axesIn[i].n 
+            oin[i]=axesIn[i].o
+            din[i]=axesIn[i].d
+            ndimUse+=1
+        for i in range(len(axesOut)):
+            nout[i]=axesOut[i].n 
+            oout[i]=axesOut[i].o
+            dout[i]=axesOut[i].d
+        outAr=np.reshape(outa.getNdArray(),(nout[5],nout[4],nout[3],nout[2],nout[1],nout[0]))
+        inAr=np.reshape(ina.getNdArray(),(nin[5],nin[4],nin[3],nin[2],nin[1],nin[0]))
+
+        if self._interpType==0:
+            nearestInterp(inAr,nin,oin,din,outAr,nout,oout,dout)
+        elif self._interpType==1:
+            linearInterp(ndimUse,inAr,nin,oin,din,outAr,nout,oout,dout)
+        else:
+            sincInterp(ndimUse,self._nSincLen,inAr,nin,oin,din,outAr,nout,oout,dout,self._sincTable._tab,self._sincTable._dtab)
+    def calcInputWindow(self,nw,fw,jw):
+        """Calculate input window size from output window size
+
+           nw,fw,jw - Standard window parameters"""
+        
+        self._nw.append(copy.deepcopy(nw))
+        self._fw.append(copy.deepcopy(fw))
+        self._jw.append(copy.deepcopy(jw))
+        nshift=(self._nSincLen/2)-1
+        nend=self._sincLen/2+1
+        ao=self._hyperOut.axes
+        ain=self._hyperIn=axes
+        for i in range(len(fw)):
+            f=(ao[i].o-ain[i].o)/ain[i].d
+            if self._interpType==0:
+                ibeg=max(0,min(ain[i].n-1,int(round(f))))
+                iend=ibeg
+            elif self._interpType==1:
+                ibeg=max(0,min(ain[i].n-1,int(f)))
+                iend=max(0,min(ain[i].n-1,int(f)+1))
+            else:
+                ibeg=max(0,min(ain[i].n-1,int(f)-nshift))
+                iend=max(0,min(ain[i].n-1,int(f)+nend))
+            self._fw[i]=ibeg
+            self._jw[i]=1
+            self._nw[i]=(iend-ibeg)+1
+        if self._inputJob:
+            self._inputJob.calcInputWindow(self._nw,self._fw,self._jw)
+   
+    def returnSize(self,ns):
+        """Return the input dimension given output dimension.
+        
+            ns - Output size
+
+            Assumes same size
+
+            @return inDim, nbytes
+        """
+        nout=[1]*len(ns)
+        nbytes=self._eout
+        for i in range(len(ns)):
+            nout[i]=ns[i]+self._nExtend[i]
+            nbytes*=nout[i]
+
+        if self._inputJob:
+            nbytes+=self._inputJob.returnSize(nout)
+        else:
+            nb=self._ein
+            for n in nout:
+                nb=nb*n
+            nbytes+=nb
+        return nbytes
+
+
+def nearestInterp(ina,nin,oin,din,outa,nout,oout,dout):
+    """Do nearest neighbor interpolation"""
+    for i6 in range(nout[5]):
+        out6=oout[5]+dout[5]*i6
+        j6=max(0,min(nin[5]-1,int(round((out6-oin[5])/din[5]))))
+        for i5 in range(nout[4]):
+            out5=oout[4]+dout[4]*i5
+            j5=max(0,min(nin[4]-1,int(round(out5-oin[5]/din[4]))))  
+            for i4 in range(nout[3]):
+                out4=oout[3]+dout[3]*i4
+                j4=max(0,min(nin[3]-1,int(round((out4-oin[3])/din[3]))))
+                for i3 in range(nout[2]):
+                    out3=oout[2]+dout[2]*i3
+                    j3=max(0,min(nin[2]-1,int(round(out3-oin[2]/din[2]))))            
+                    for i2 in range(nout[1]):
+                        out2=oout[1]+dout[1]*i2
+                        j2=max(0,min(nin[1]-1,int(round((out2-oin[1])/din[1]))))
+                        for i1 in range(nout[0]):
+                            out1=oout[0]+dout[0]*i1
+                            j1=max(0,min(nin[0]-1,int(round(out1-oin[0]/din[0]))))
+                            outa[i6,i5,i4,i3,i2,i1]=ina[j6,j5,j4,j3,j2,j1] 
+                            
+
+def linearInterp(ndimUse,ina,nin,oin,din,outa,nout,oout,dout):
+    """Do nearest neighbor interpolation"""
+    icoord=np.zeros((6,2),dtype=np.int64)
+    fcoord=np.zeros((6,2),dtype=np.float32)
+    ne=np.zeros((6),dtype=np.int32)
+    for i in range(ndimUse):
+        ne[i]=2
+    for i in range(ndimUse,6):
+        ne[i]=1
+    for i6 in range(nout[5]):
+        out6=oout[5]+dout[5]*i6
+        f6=(out6-oin[5])/din[5]
+        if ne[5]==1:
+            icoord[5,0]=round(f6)
+            fcoord[5,0]=1.
+        else:
+            icoord[5,0]=max(0,min(nin[5]-1,int(f6)))
+            icoord[5,1]=min(j6+1,nin[5]-1)
+            fcoord[5,1]=f6-icoord[5,0]
+            fcoord[5,0]=1.-fcoord[5,1]
+        for i5 in range(nout[4]):
+            out5=oout[4]+dout[4]*i5
+            f5=(out5-oin[4])/din[4]
+            if ne[4]==1:
+                icoord[4,0]=round(f5)
+                fcoord[4,0]=1.
+            else:
+                icoord[4,0]=max(0,min(nin[4]-1,int(f5)))
+                icoord[4,1]=min(icoord[4,0]+1,nin[4]-1)
+                fcoord[4,1]=f5-icoord[4,0]
+                fcoord[4,0]=1.-fcoord[4,1]
+            for i4 in range(nout[3]):
+                out4=oout[3]+dout[3]*i4
+                f4=(out4-oin[3])/din[3]
+                if ne[3]==1:
+                    icoord[3,0]=round(f4)
+                    fcoord[3,0]=1.
+                else:
+                    icoord[3,0]=max(0,min(nin[3]-1,int(f4)))
+                    icoord[3,1]=min(icoord[3,0]+1,nin[3]-1)
+                    fcoord[3,1]=f4-icoord[3,0]
+                    fcoord[3,0]=1.-fcoord[3,1]
+                for i3 in range(nout[2]):
+                    out3=oout[2]+dout[2]*i3
+                    f3=(out3-oin[2])/din[2]
+                    if ne[2]==1:
+                        icoord[2,0]=round(f3)
+                        fcoord[2,0]=1.
+                    else:
+                        icoord[2,0]=max(0,min(nin[2]-1,int(f3)))
+                        icoord[2,1]=min(icoord[2,0]+1,nin[2]-1)
+                        fcoord[2,1]=f3-icoord[2,0]
+                        fcoord[2,0]=1.-fcoord[2,1]         
+                    for i2 in range(nout[1]):
+                        out2=oout[1]+dout[1]*i3
+                        f2=(out2-oin[1])/din[1]
+                        if ne[2]==1:
+                            icoord[1,0]=round(f2)
+                            fcoord[1,0]=1.
+                        else:
+                            icoord[1,0]=max(0,min(nin[1]-1,int(f2)))
+                            icoord[1,1]=min(icoord[1,0]+1,nin[1]-1)
+                            fcoord[1,1]=f2-icoord[1,0]
+                            fcoord[1,0]=1.-fcoord[1,1]    
+                        for i1 in range(nout[0]):
+                            out1=oout[0]+dout[0]*i1
+                            f1=(out1-oin[0])/din[0]
+                            if ne[0]==1:
+                                icoord[0,0]=round(f1)
+                                fcoord[0,0]=1.
+                            else:
+                                icoord[0,0]=max(0,min(nin[0]-1,int(f1)))
+                                icoord[0,1]=min(icoord[0,0]+1,nin[0]-1)
+                                fcoord[0,1]=f1-icoord[0,0]
+                                fcoord[0,0]=1.-fcoord[0,1] 
+                            outa[i6,i5,i4,i3,i2,i1]=0
+                            for ie6 in range(ne[5]):
+                                for ie5 in range(ne[4]):
+                                    for ie4 in range(ne[3]):
+                                        for ie3 in range(ne[2]):
+                                            for ie2 in range(ne[1]):
+                                                for ie1 in range(ne[0]):
+                                                    outa[i6,i5,i4,i3,i2,i1]+=\
+                                                    ina[icoord[5,ie6],icoord[4,ie5],icoord[3,ie4],icoord[2,ie3],icoord[1,ie2],icoord[0,ie1]]*\
+                                                    fcoord[5,ie6]*fcoord[4,ie5]*fcoord[3,ie4]*fcoord[2,ie3]*fcoord[1,ie2]*fcoord[0,ie1]
+
+
+def sincInterp(ndimUse,nSincLen, ina,nin,oin,din,outa,nout,oout,dout,tab,dtab):
+    """Do nearest neighbor interpolation"""
+    icoord=np.zeros((6,nSincLen),dtype=np.int64)
+    fcoord=np.zeros((6,nSincLen),dtype=np.float32)
+    ne=np.zeros((6),dtype=np.int32)
+    nshift=int(nSincLen/2)-1
+
+    for i in range(ndimUse):
+        ne[i]=nSincLen
+    for i in range(ndimUse,6):
+        ne[i]=1
+    for i6 in range(nout[5]):
+        out6=oout[5]+dout[5]*i6
+        f=(out6-oin[5])/din[5]
+        ff=f-int(f)
+        if ne[5] == 1:
+            fcoord[5,0]=1.
+            icoord[5,0]=round(f)
+        else:
+            iv=max(0,min(9999,int(round(ff*dtab))))
+            for i in range(nSincLen):
+                icoord[5,i]=max(0,min(nin[5]-1,int(f)-3+i))
+                fcoord[5,i]=self.tab[iv,i]
+        for i5 in range(nout[4]):
+            out5=oout[4]+dout[4]*i5
+            f=(out5-oin[4])/din[4]
+            ff=f-int(f)
+            if ne[4] == 1:
+                fcoord[4,0]=1.
+                icoord[4,0]=round(f)
+            else:
+                iv=max(0,min(9999,int(round(ff/dtab))))
+                for i in range(nSincLen):
+                    icoord[4,i]=max(0,min(nin[4]-1,int(f)-nshift+i))
+                    fcoord[4,i]=self.tab[iv,i]
+            for i4 in range(nout[3]):
+                out4=oout[3]+dout[3]*i4
+                f=(out4-oin[3])/din[3]
+                ff=f-int(f)
+                if ne[3] == 1:
+                    fcoord[3,0]=1.
+                    icoord[3,0]=round(f)
+                else:
+                    iv=max(0,min(9999,int(round(ff/dtab))))
+                    for i in range(nSincLen):
+                        icoord[3,i]=max(0,min(nin[3]-1,int(f)-nshift+i))
+                        fcoord[3,i]=tab[iv,i]
+                for i3 in range(nout[2]):
+                    out3=oout[2]+dout[2]*i3
+                    f=(out3-oin[2])/din[2]
+                    ff=f-int(f)
+                    if ne[2] == 1:
+                        fcoord[2,0]=1.
+                        icoord[2,0]=round(f)
+                    else:
+                        iv=max(0,min(9999,int(round(ff/dtab))))
+                        for i in range(nSincLen):
+                            icoord[2,i]=max(0,min(nin[2]-1,int(f)-nshift+i))
+                            fcoord[2,i]=tab[iv,i]        
+                    for i2 in range(nout[1]):
+                        out2=oout[1]+dout[1]*i3
+                        f=(out2-oin[1])/din[1]
+                        ff=f-int(f)
+                        if ne[3] == 1:
+                            fcoord[1,0]=1.
+                            icoord[1,0]=round(f)
+                        else:
+                            iv=max(0,min(9999,int(round(ff/dtab))))
+                            for i in range(nSincLen):
+                                icoord[1,i]=max(0,min(nin[1]-1,int(f)-nshift+i))
+                                fcoord[1,i]=tab[iv,i]
+                        for i1 in range(nout[0]):
+                            out1=oout[0]+dout[0]*i1
+                            f=(out1-oin[0])/din[0]
+                            ff=f-int(f)
+                            if ne[0] == 1:
+                                fcoord[0,0]=1.
+                                icoord[0,0]=round(f)
+                            else:
+                                iv=max(0,min(9999,int(round(ff/dtab))))
+                                for i in range(nSincLen):
+                                    icoord[0,i]=max(0,min(nin[0]-1,int(f)-nshift+i))
+                                    fcoord[0,i]=tab[iv,i]
+
+                            for ie6 in range(ne[5]):
+                                for ie5 in range(ne[4]):
+                                    for ie4 in range(ne[3]):
+                                        for ie3 in range(ne[2]):
+                                            for ie2 in range(ne[1]):
+                                                for ie1 in range(ne[0]):
+                                                    outa[i6,i5,i4,i3,i2,i1]+=\
+                                                    ina[icoord[5,ie6],icoord[4,ie5],icoord[3,ie4],icoord[2,ie3],icoord[1,ie2],icoord[0,ie1]]*\
+                                                    fcoord[5,ie6]*fcoord[4,ie5]*fcoord[3,ie4]*fcoord[2,ie3]*fcoord[1,ie2]*fcoord[0,ie1]
+
+             
+                                                           
+
+def setAxisDef(npar,opar,dpar,n,o,d,label):
+    if npar:
+        n=npar   
+    if opar:
+        o=opar
+    if dpar:
+        d=dpar
+    return Hypercube.axis(n=n,o=o,d=d,label=label)
+
+def setAxisNoDef(n,o,d,axs):
+    if not n or not o or not d:
+        raise Exception("Must set n,o,d for axis %d if any are set"%axs)
+    return Hypercube.axis(n=n,o=o,d=d)
+
+
+
+def hyperFromArgs(args,hyperOld):
+    """Create a hypercube from arguments"""
+    axs=[]
+    axsOld=hyerOld.axes
+    axs.push_back(setAxisDef(args.n1,args.o1,args.d1,axsOld[0].n,axsOld[0].o,axsOld[0].d,axsOld[0].label))
+    if len(axsOld>1):
+        axs.push_back(setAxisDef(args.n2,args.o2,args.d2,axsOld[1].n,axsOld[1].o,axsOld[1].d,axsOld[1].label))
+    elif args.n2 or args.o2 or args.d2:
+        axs.push_back(setAxisNoDef(args.n2,args.o2,args.d2,2))
+    else:
+        axs.push_back(Hypercube.axis(n=1))
+
+    if len(axsOld>2):
+        axs.push_back(setAxisDef(args.n3,args.o3,args.d3,axsOld[2].n,axsOld[2].o,axsOld[2].d,axsOld[2].label))
+    elif args.n3 or args.o3 or args.d3:
+        axs.push_back(setAxisNoDef(args.n3,args.o3,args.d3,3))   
+    else:
+        axs.push_back(Hypercube.axis(n=1))
+
+    if len(axsOld>3):
+        axs.push_back(setAxisDef(args.n4,args.o4,args.d4,axsOld[3].n,axsOld[3].o,axsOld[3].d,axsOld[3].label))
+    elif args.n4 or args.o4 or args.d4:
+        axs.push_back(setAxisNoDef(args.n4,args.o4,args.d4,4))          
+    else:
+        axs.push_back(Hypercube.axis(n=1))
+
+    if len(axsOld>4):
+        axs.push_back(setAxisDef(args.n5,args.o5,args.d5,axsOld[4].n,axsOld[4].o,axsOld[4].d,axsOld[4].label))
+    elif args.n5 or args.o5 or args.d5:
+        axs.push_back(setAxisNoDef(args.n5,args.o5,args.d5,5))       
+    else:
+        axs.push_back(Hypercube.axis(n=1))
+
+    if len(axsOld>5):
+        axs.push_back(setAxisDef(args.n6,args.o6,args.d6,axsOld[5].n,axsOld[5].o,axsOld[5].d,axsOld[5].label))
+    elif args.n6 or args.o6 or args.d6:
+        axs.push_back(setAxisNoDef(args.n6,args.o6,args.d6,6))  
+    else:
+        axs.push_back(Hypercube.axis(n=1))
+    
+    return Hypercube.hypercube(axes=axs)
+
+
+
+
+        
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Make delta functions and impulsive plane waves ')
+    parser.add_argument('input', metavar='Input', type=str,
+                        help='Input file') 
+    parser.add_argument('output', metavar='Output', type=str,
+                        help='Output file')                   
+    parser.add_argument("interp",type=int,choices=[0,1,2],default=2,help="Type of interpolation, 0-nearest neighbor, 1 - linear, 2 sinc")
+    parser.add_argument("lsinc",type=int,default=10,help="length of interpolation operator. Must be even, best if less than 20.")
+    parser.add_argument("--ioIn", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
+    parser.add_argument("--ioOut", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
+    parser.add_argument("--memory",type=float,help="Memory in terms of GB",default=.2)
+    parser.add_argument("--print_pct",type=float,help="Print progress every X pct (above 100 means no printing)",default=101)
+    parser.add_argument("--n1",type=int,help="Number of elements first axis")
+    parser.add_argument("--n2",type=int,help="Number of elements second axis")
+    parser.add_argument("--n3",type=int,help="Number of elements third axis")
+    parser.add_argument("--n4",type=int,help="Number of elements fourth axis")
+    parser.add_argument("--n5",type=int,help="Number of elements fifth axis")
+    parser.add_argument("--n6",type=int,help="Number of elements sixth axis")
+    parser.add_argument("--o1",type=float,help="First location first axis")
+    parser.add_argument("--o2",type=float,help="First location second axis")
+    parser.add_argument("--o3",type=float,help="First location third axis")
+    parser.add_argument("--o4",type=float,help="First location fourth axis")
+    parser.add_argument("--o5",type=float,help="First location fifth axis")
+    parser.add_argument("--o6",type=float,help="First location sixth axis")
+    parser.add_argument("--d1",type=float,help="Sampling first axis")
+    parser.add_argument("--d2",type=float,help="Sampling second axis")
+    parser.add_argument("--d3",type=float,help="Sampling third axis")
+    parser.add_argument("--d4",type=float,help="Sampling fourth axis")
+    parser.add_argument("--d5",type=float,help="Sampling fifth axis")
+    parser.add_argument("--d6",type=float,help="Sampling sixth axis")
+   
+
+    args = parser.parse_args()
+    ioOut=genericIO.defaultIO
+    ioIn=ioOut
+
+
+
+    if args.ioOut:
+        ioOut=genericIO.ioOut(args.ioOut)
+    if args.ioIn:
+        ioOut=genericIO.ioIn(args.ioIn)
+
+    inFile=ioIn.getRegFile("in")
+
+    hyper=hyperFromArgs(args,inFile.getHyper())
+  
+    outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
+    job=spikeJob(outFile.getStorageType(),events)
+    job.setOutputFile(outFile)
+    job.setCompleteHyperOut(outFile.getHyper())
+    split=GenSplit.serialRegSpace(job, args.memory)
+    split.loop(args.print_pct)
+
+
+
+
+
+
+
+
+

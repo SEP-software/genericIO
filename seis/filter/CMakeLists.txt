@@ -18,7 +18,7 @@ set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/../../external/sepVector/ex
 set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_SOURCE_DIR}/../../external/sepVector/external/python-solver/GenericSolver/python)
 
   if(BUILD_TEST)
-  set(TESTS   )
+  set(TESTS  GenInterp  )
 FOREACH(prg ${TESTS})
   add_test(NAME TEST_${prog}
   COMMAND ${CMAKE_COMMAND} -E env
@@ -33,8 +33,8 @@ endif(BUILD_TEST)
 set(SCRIPTS  GenInterp)
 FOREACH(prg ${SCRIPTS})
    configure_file (
-  "${CMAKE_CURRENT_SOURCE_DIR}/${prg}.py"
-  "${CMAKE_CURRENT_BINARY_DIR}/${prg}"
+  "${CMAKE_CURRENT_SOURCE_DIR}/${prg}.py.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/${prg}.py"
   @ONLY
   )
    install(PROGRAMS  ${CMAKE_CURRENT_BINARY_DIR}/${prg} DESTINATION bin)

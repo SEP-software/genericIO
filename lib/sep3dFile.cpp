@@ -348,6 +348,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     error(std::string("Only know about esize=8, 4 or 1"));
 
   // Read in the keys
+
   for (int ikey = 0; ikey < nkeys; ikey++) {
     int ii = ikey + 1;
     if (0 != sep_get_key_name(_tag.c_str(), &ii, temp_ch))
@@ -356,6 +357,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     if (strcmp(temp_ch, "data_record_number") == 0) {
       _drn = ikey;
     } else {
+      fprintf(stderr, "adding key %s %d\n", temp_ch, (int)_keys.size());
       _keys.push_back(temp_ch);
       if (0 != sep_get_key_type(_tag.c_str(), &ii, temp_ch))
         throw SEPException(std::string("trouble grabbing "

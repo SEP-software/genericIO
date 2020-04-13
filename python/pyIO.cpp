@@ -456,10 +456,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                        const int, const int) const) &
                genericIrregFile::insertValue,
            "Insert a key into a header chunk")
-      .def("getHeaderKeyType",
+      .def("getHeaderKeyTypes",
            (std::map<std::string, std::string>(genericIrregFile::*)(
                const std::vector<std::string>) const) &
-               genericIrregFile ::getHeaderKeyType,
+               genericIrregFile ::getHeaderKeyTypes,
            "Get the header key types ")
       .def("putHeaderKeyTypes",
            (std::map<std::string, std::string>(genericIrregFile::*)() const) &

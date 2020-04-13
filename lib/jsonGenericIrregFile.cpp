@@ -582,16 +582,6 @@ jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
   return std::make_pair(head_drn.first, data);
 }
 
-Json::Value jsonGenericIrregFile::getGridDescription() {
-  Json::Value x;
-  return x;
-}
-void jsonGenericIrregFile::putGridDescription(const Json::Value &desc) {
-  if (desc["a"].asInt() == 4)
-    ;
-  ;
-}
-
 Json::Value jsonGenericIrregFile::getDataDescription() {
   Json::Value x;
   return x;

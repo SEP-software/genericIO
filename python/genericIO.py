@@ -694,22 +694,22 @@ class irregFile:
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
         if self.storage == "dataFloat":
-            v,head=self.cppMode.readFloatTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataInt":
-            v,head=self.cppMode.readFloatTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataComplex":
-            v,head=self.cppMode.readComplexTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readComplexTraceWindow(nw,fw,jw)
             vec=SepVector.complexVector(fromCpp=v)
         elif self.storage == "dataComplexDouble":
-            v,head=self.cppMode.readComplexDoubleTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readComplexDoubleTraceWindow(nw,fw,jw)
             vec=SepVector.complexDoubleVector(fromCpp=v)
         elif self.storage == "dataByte":
-            v,head=self.cppMode.readByteTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readByteTraceWindow(nw,fw,jw)
             vec=SepVector.byteVector(fromCpp=v)
         elif self.storage == "dataDouble":
-            v,head=self.cppMode.readDoubleTraceWindow(nw,fw,jw)
+            head,v=self.cppMode.readDoubleTraceWindow(nw,fw,jw)
             vec=SepVector.doubleVector(fromCpp=v)
         else:
             print("Unknown or unhandled storage type "%self.storage)
@@ -793,7 +793,7 @@ class irregFile:
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
-        print("HEAD",head,headS)
+        print("HEAD",head,"SSSS",headS)
         header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
         if drn:
             header._drn=int1DVector(fromCpp==drn)

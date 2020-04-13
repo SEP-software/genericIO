@@ -590,12 +590,10 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   if (_drn > -1)
     nkeyIn += 1;
   std::shared_ptr<byte2DReg> headBuf(new byte2DReg(4 * nkeyIn, 100000));
-  std::cerr << "in read headers " << 4 * _keys.size()
-            << " n2=" << headerLocs.size() << std::endl;
+
   std::shared_ptr<byte2DReg> headers(
       new byte2DReg(4 * _keys.size(), headerLocs.size()));
   std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));
-  std::cerr << "in read header " << std::endl;
   int idone = 0;
   int imore = 0;
   while (idone + imore < headerLocs.size()) {
@@ -613,9 +611,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
         idone += imore;
       } else
         imore += 1;
-      std::cerr << "in inner loop " << idone << " imore " << imore << std::endl;
     }
-    std::cerr << "ifirst " << ifirst << " idone " << idone << std::endl;
   }
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
@@ -694,17 +690,14 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
   } else {
     std::vector<int> bs(1, 1);
     std::vector<int> ns = _hyperHeader->getNs();
-    std::cerr << "in the else " << ns.size() << std::endl;
     int n123 = 1;
     for (auto i = 1; i < ns.size(); i++) {
-      std::cerr << "what tou see " << i << "nwind " << nwind[i] << " nhyper "
-                << ns[i] << std::endl;
+
       bs.push_back(bs[i - 1] * ns[i]);
       n123 = ns[i] * n123;
     }
     if (ns.size() != 2)
       throw SEPException("Expecting 2-D headers for now");
-    std::cerr << "create array " << n123 << std::endl;
     std::vector<std::vector<int>> headPos(nwind[1], std::vector<int>(2));
 
     for (auto i = 0; i < nwind[1]; i++) {
@@ -723,8 +716,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
     bool found = false;
     iread = 1;
     while (!found && idone + iread < itrs.size()) {
-      std::cerr << " loop " << itrs[idone + iread][1]
-                << "=itr end=" << itrs[idone][1] + iread << std::endl;
+
       if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999) {
         found = true;
         if (iread * n1 != sreed(_tag.c_str(), temp, iread * n1))
@@ -737,11 +729,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
 
       } else
         iread += 1;
-      std::cerr << "in loop 1 " << iread << " =iread idone=" << idone
-                << std::endl;
     }
-    std::cerr << "in loop 2 " << iread << " =iread idone=" << idone
-              << std::endl;
   }
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)
@@ -757,35 +745,27 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                 const std::vector<int> &fwind,
                                 const std::vector<int> &jwind) {
 
-  std::cerr << "in read trace window" << std::endl;
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
   std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
       readHeaderWindow(nwind, fwind, jwind);
-  std::cerr << "through read header window" << std::endl;
   int ntr = head_drn.second->getHyper()->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  std::cerr << "before header pso " << std::endl;
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*head_drn.second->_mat)[i];
-    std::cerr << "echkec out drn " << i << " " << headPos[i][1] << std::endl;
   }
-  std::cerr << "before 2header pso " << std::endl;
 
   int n1 = _hyperData->getAxis(1).n;
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::cerr << "before 3eader pso " << std::endl;
 
   std::shared_ptr<float2DReg> temp(new float2DReg(n1, 10000));
-  std::cerr << "before 4header pso " << std::endl;
 
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
-  std::cerr << "before 5header pso " << std::endl;
 
   return std::make_pair(head_drn.first, data);
 }

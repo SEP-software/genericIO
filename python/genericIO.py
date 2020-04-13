@@ -686,8 +686,7 @@ class irregFile:
                   vec - sepIrregVector
                 Optional:
                   n,f,j - Standard windowing parameters"""
-        if not kw:
-            raise Exception("Must supply windowing parameters")
+     
 
         axes=self.getHyper()
         axes[0]=Hypercube.hypercube(self.cppMode.getDataHyper()).axes[0]
@@ -723,8 +722,7 @@ class irregFile:
                   vec - sepIrregVector
                 Optional:
                   n,f,j - Standard windowing parameters"""
-        if not kw:
-            raise Exception("Must supply windowing parameters")
+    
         axes=self.getHyper()
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)

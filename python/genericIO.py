@@ -774,7 +774,7 @@ class irregFile:
         typ=self.cppMode.getKeyType()
         klast=headS._keyList[len(head._keyList)-1]
         n1=off[klast]+off[klast]
-        head=byte2DVector(n1,headS._nh)
+        head=SepVector.byte2DVector(n1,headS._nh)
         for k,v in off.items():
             self.cppMode.insertValue(head.cppMode.getVals(),headS[k]._vals.cppMode,
             off[k],sz[k],n1,headS._nh)
@@ -792,25 +792,25 @@ class irregFile:
             drn - Data record int1DReg"""
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
-        headS=byte2DVector(fromCpp=head)
+        headS=SepVector.byte2DVector(fromCpp=head)
         header=SepIrregVector.header(nh=headS.getHyper().getAxis(2).n)
         if drn:
             header._drn=int1DVector(fromCpp==drn)
         for k,v in off.items():
             if typ[k]=="dataByte":
-                key=byte1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.byte1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataShort":
-                key=short1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.short1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataInt":
-                key=int1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.int1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataFloat":
-                key=float1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.float1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataComplex":
-                key=complex1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.complex1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataDouble":
-                key=double1DVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.double1DVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataComplexDouble":
-                key=complexDouble1DVector(fromCpp=self.cppMode.extractByte(head,v)) 
+                key=SepVector.complexDouble1DVector(fromCpp=self.cppMode.extractByte(head,v)) 
             headS.addKey(k,vals=key)
         return headS      
     def writeHeaderWindow(self, vec, **kw):

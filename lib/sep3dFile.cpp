@@ -730,14 +730,15 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
 
       } else
         iread += 1;
+      std::cerr << "inner loop " << iread << std::endl;
     }
   }
   sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
-  std::cerr << "see what is going on " << itrs[idone][1] << "=itr n1=" << n1
+  std::cerr << "se2e what is going on " << itrs[idone][1] << "=itr n1=" << n1
             << " iread=" << iread << std::endl;
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)
-    throw SEPException(std::string("trouble reading data requested=") +
+    throw SEPException(std::string("tr2ouble reading data requested=") +
                        std::to_string(iread * n1) + std::string(" read=") +
                        std::to_string(ierr));
   for (int i = 0; i < iread; i++) {

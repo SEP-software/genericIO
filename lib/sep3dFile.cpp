@@ -890,7 +890,7 @@ sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = drn > getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<complexDouble2DReg> data(
       new complexDouble2DReg(_hyperData->getAxis(1).n, ntr));
   int n1 = _hyperData->getAxis(1).n;

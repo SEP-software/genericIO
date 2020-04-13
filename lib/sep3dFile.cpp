@@ -307,7 +307,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     _hyper = _hyperHeader->clone();
     _haveGrid = false;
   }
-  std::cerr << "Hyper data ndims " << _hyper->getNdims() << std::endl;
+  std::cerr << "Hyper data ndims " << _hyper->getNdim() << std::endl;
 
   // Set the data type
   int esize = getInt("esize", 4);

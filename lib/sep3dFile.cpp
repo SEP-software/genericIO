@@ -750,7 +750,8 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
     memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1, n1);
   }
 }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                 const std::vector<int> &fwind,
                                 const std::vector<int> &jwind) {
@@ -777,10 +778,11 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
 
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readIntTraceWindow(const std::vector<int> &nwind,
                               const std::vector<int> &fwind,
                               const std::vector<int> &jwind) {
@@ -802,10 +804,11 @@ sep3dFile::readIntTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
                                  const std::vector<int> &fwind,
                                  const std::vector<int> &jwind) {
@@ -828,9 +831,10 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
                                const std::vector<int> &fwind,
                                const std::vector<int> &jwind) {
@@ -854,10 +858,11 @@ sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 1, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
                                   const std::vector<int> &fwind,
                                   const std::vector<int> &jwind) {
@@ -881,9 +886,10 @@ sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>,
+           std::shared_ptr<byte1DReg>>
 sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
                                         const std::vector<int> &fwind,
                                         const std::vector<int> &jwind) {
@@ -906,7 +912,7 @@ sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<complexDouble2DReg> temp(new complexDouble2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 16, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
 }
 void sep3dFile::addtDRN(std::shared_ptr<byte2DReg> inV, const int ifirst,
                         const int ntransfer, std::shared_ptr<int1DReg> drns,

@@ -324,7 +324,8 @@ Get a string from a file
     @return tuple<headers,drn,float data>
 
   */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readFloatTraceWindow(const std::vector<int> &nwind,
                        const std::vector<int> &fwind,
                        const std::vector<int> &jwind) = 0;
@@ -335,7 +336,8 @@ Get a string from a file
   nwind,fwind,jwind - Window parameters
 
 */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readIntTraceWindow(const std::vector<int> &nwind,
                      const std::vector<int> &fwind,
                      const std::vector<int> &jwind) = 0;
@@ -345,7 +347,8 @@ Get a string from a file
   nwind,fwind,jwind - Window parameters
 
 */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readDoubleTraceWindow(const std::vector<int> &nwind,
                         const std::vector<int> &fwind,
                         const std::vector<int> &jwind) = 0;
@@ -355,7 +358,8 @@ Read byte trace window
 nwind,fwind,jwind - Window parameters
 
 */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readByteTraceWindow(const std::vector<int> &nwind,
                       const std::vector<int> &fwind,
                       const std::vector<int> &jwind) = 0;
@@ -365,7 +369,8 @@ Read complex trace window
 nwind,fwind,jwind - Window parameters
 
 */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readComplexTraceWindow(const std::vector<int> &nwind,
                          const std::vector<int> &fwind,
                          const std::vector<int> &jwind) = 0;
@@ -375,8 +380,9 @@ Read complex double trace window
 nwind,fwind,jwind - Window parameters
 
 */
-  virtual std::pair<std::shared_ptr<byte2DReg>,
-                    std::shared_ptr<complexDouble2DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>,
+                     std::shared_ptr<complexDouble2DReg>,
+                     std::shared_ptr<byte1DReg>>
   readComplexDoubleTraceWindow(const std::vector<int> &nwind,
                                const std::vector<int> &fwind,
                                const std::vector<int> &jwind) = 0;

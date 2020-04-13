@@ -480,7 +480,8 @@ void jsonGenericIrregFile::readArrangeTraces(
   }
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                            const std::vector<int> &fwind,
                                            const std::vector<int> &jwind) {
@@ -503,10 +504,11 @@ jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<float2DReg> temp(new float2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
                                          const std::vector<int> &fwind,
                                          const std::vector<int> &jwind) {
@@ -528,10 +530,11 @@ jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
                                             const std::vector<int> &fwind,
                                             const std::vector<int> &jwind) {
@@ -554,9 +557,10 @@ jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
                                           const std::vector<int> &fwind,
                                           const std::vector<int> &jwind) {
@@ -580,7 +584,7 @@ jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 1, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
 
 Json::Value jsonGenericIrregFile::getDataDescription() {
@@ -593,7 +597,8 @@ void jsonGenericIrregFile::putDataDescription(const Json::Value &desc) {
   ;
 }
 void jsonGenericIrregFile::remove() { ; }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
                                              const std::vector<int> &fwind,
                                              const std::vector<int> &jwind) {
@@ -617,9 +622,10 @@ jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind) {
@@ -642,7 +648,7 @@ jsonGenericIrregFile::readComplexDoubleTraceWindow(
   std::shared_ptr<complexDouble2DReg> temp(new complexDouble2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 16, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(std::get<0>(head_drn), data);
+  return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
 void jsonGenericIrregFile::addtDRN(std::shared_ptr<byte2DReg> inV,
                                    const int ifirst, const int ntransfer,

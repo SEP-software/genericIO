@@ -586,51 +586,51 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            "Read a window of headers")
 
       .def("readByteTraceWindow",
-           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>(
-               genericIrregFile ::*)(const std::vector<int> &nwind,
-                                     const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind)) &
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
                genericIrregFile::readByteTraceWindow,
            "Read a byte of floats")
 
       .def("readFloatTraceWindow",
-           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>(
-               genericIrregFile ::*)(const std::vector<int> &nwind,
-                                     const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind)) &
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
                genericIrregFile::readFloatTraceWindow,
            "Read a window of floats")
       .def("readDoubleTraceWindow",
-           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>(
-               genericIrregFile ::*)(const std::vector<int> &nwind,
-                                     const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind)) &
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
                genericIrregFile::readDoubleTraceWindow,
            "Read a window of double")
 
       .def("readIntTraceWindow",
-           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>(
-               genericIrregFile ::*)(const std::vector<int> &nwind,
-                                     const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind)) &
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
                genericIrregFile::readIntTraceWindow,
            "Read a window of int")
       .def(
           "readComplexTraceWindow",
-          (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>(
-              genericIrregFile ::*)(const std::vector<int> &nwind,
-                                    const std::vector<int> &fwind,
-                                    const std::vector<int> &jwind)) &
-              genericIrregFile::readComplexTraceWindow,
-          "Read a window of complex")
-      .def(
-          "readComplexDoubleTraceWindow",
-          (std::pair<std::shared_ptr<byte2DReg>,
-                     std::shared_ptr<complexDouble2DReg>>(genericIrregFile ::*)(
+          (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>,
+                      std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
               const std::vector<int> &nwind, const std::vector<int> &fwind,
               const std::vector<int> &jwind)) &
-              genericIrregFile::readComplexDoubleTraceWindow,
-          "Read a window of int")
+              genericIrregFile::readComplexTraceWindow,
+          "Read a window of complex")
+      .def("readComplexDoubleTraceWindow",
+           (std::tuple<std::shared_ptr<byte2DReg>,
+                       std::shared_ptr<complexDouble2DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
+               genericIrregFile::readComplexDoubleTraceWindow,
+           "Read a window of int")
 
       .def("writeHeaderWindow",
            (void (genericIrregFile ::*)(const std::vector<int> &nwind,

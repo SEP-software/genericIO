@@ -656,7 +656,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   }
 }
 
-std::vector<std::vector<int>>
+std::tuple<std::vector<std::vector<int>>, std::shared_ptr<byte1DReg>>
 sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
                           const std::vector<int> &fwind,
                           const std::vector<int> &jwind) {

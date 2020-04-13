@@ -485,8 +485,7 @@ jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                            const std::vector<int> &jwind) {
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();
@@ -512,8 +511,7 @@ jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
                                          const std::vector<int> &jwind) {
   if (getDataType() != DATA_INT)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();
@@ -538,8 +536,7 @@ jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
                                             const std::vector<int> &jwind) {
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();
@@ -565,8 +562,7 @@ jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
 
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();
@@ -602,8 +598,7 @@ jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
                                              const std::vector<int> &jwind) {
   if (getDataType() != DATA_COMPLEX)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();
@@ -629,11 +624,10 @@ jsonGenericIrregFile::readComplexDoubleTraceWindow(
     const std::vector<int> &jwind) {
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = hdrn->getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<complexDouble2DReg> data(
       new complexDouble2DReg(_hyperData->getAxis(1).n, ntr));
   int n1 = _hyperData->getAxis(1).n;

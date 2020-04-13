@@ -277,7 +277,15 @@ Get a string from a file
 
     return _hyperData;
   }
+  /*!
+   Return hypercube describing dataset
+   */
+  std::shared_ptr<SEP::hypercube> getHyper() {
+    if (_hype == nullptr)
+      throw SEPException(std::string("hypercube not defined"));
 
+    return _hyper;
+  }
   /*!
     Delete irregularFile
     */

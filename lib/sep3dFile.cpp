@@ -686,10 +686,13 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
   } else {
     std::vector<int> bs(1, 1);
     std::vector<int> ns = _hyperHeader->getNs();
-    for (auto i = 1; i < ns.size(); i++)
+    int n123 = 1;
+    for (auto i = 1; i < ns.size(); i++) {
+      std::cerr << "what tou see " << i << ns[i] << std::endl;
       bs.push_back(bs[i - 1] * ns[i]);
-
-    std::vector<std::vector<int>> headPos(bs[ns.size()], std::vector<int>(2));
+      n123 = ns[i] * n123;
+    }
+    std::vector<std::vector<int>> headPos(n123, std::vector<int>(2));
 
     for (auto i = 0; i < headPos.size(); i++) {
       headPos[i][0] = i;

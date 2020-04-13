@@ -280,7 +280,6 @@ void sep3dFile::readDescription(const int ndimMax) {
     throw SEPException("Trouble getting number keys");
   std::vector<axis> axesH;
   axesH.push_back(axis(nkeys));
-  fprintf(stderr, "i saw %d key\n", nkeys);
 
   for (int i = 2; i <= ndim; i++) {
     int n;
@@ -358,8 +357,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     if (strcmp(temp_ch, "data_record_number") == 0) {
       _drn = ikey;
     } else {
-      fprintf(stderr, "adding %d key %s %d\n", ikey, temp_ch,
-              (int)_keys.size());
+
       _keys.push_back(temp_ch);
       if (0 != sep_get_key_type(_tag.c_str(), &ii, temp_ch))
         throw SEPException(std::string("trouble grabbing "
@@ -620,7 +618,6 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
     int imore = headerLocs.size() - idone;
-    fprintf(stderr, "reading from %d %d headers\n", ii, imore);
     if (0 != sep_get_val_headers(_tag.c_str(), &ii, &imore, headBuf->getVals()))
       throw SEPException(std::string("Trouble reading headers"));
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf,
@@ -635,8 +632,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
                            std::vector<std::vector<int>> &headerLocs) {
   int end = 0, beg = 4 * _keys.size();
   int n1out = beg, n1in = beg;
-  fprintf(stderr, "what is going on here keys=%d n1=%d \n", (int)_keys.size(),
-          n1in);
+
   if (_drn >= 0) {
     beg = 4 * _drn;
     end = 4 * (_keys.size() + 1 - _drn);
@@ -647,8 +643,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
   for (int i = 0; i < ntransfer; i++) {
-    fprintf(stderr, "shrinking heaer %d %d=n1in n1out=%d %d  %d ifirst=%d\n", i,
-            n1in, n1out, beg, end, ifirst);
+
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
     if (_drn >= 0)
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);
@@ -657,11 +652,6 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
     if (end > 0)
       memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);
   }
-  int *tin = (int *)in, *tout = (int *)out;
-
-  for (int i = 0; i < 1000; i++)
-    fprintf(stderr, "test %d in=%d out=%d \n", i, tin[i * 168 / 4],
-            tout[i * 42]);
 }
 
 std::vector<std::vector<int>>
@@ -726,7 +716,6 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
 
   int idone = 0;
   int iread = 0;
-  std::cerr << "loope 1" << std::endl;
   while (idone + iread < itrs.size()) {
     bool found = false;
     iread = 1;
@@ -747,8 +736,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
     }
   }
   sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
-  std::cerr << "se2e what is going on " << itrs[idone][1] << "=itr n1=" << n1
-            << " iread=" << iread << std::flush;
+
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)
     throw SEPException(std::string("tr2ouble reading data requested=") +

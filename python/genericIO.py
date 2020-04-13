@@ -605,7 +605,7 @@ class irregFile:
             x+="Data type=UKNOWN\n"
         x+=str("Data description\n%s\n"%(self.cppMode.getHyperData()))
         order=self.cppMode.getHeaderKeyList()
-        typ=self.cppMode.getHeaderKeyType()
+        typ=self.cppMode.getHeaderKeyTypes()
         for k in order:
             x+="%s %s"%(k,typ[k])
         x+=str("Hypercube for headers:\n%s"%self.getHyper())

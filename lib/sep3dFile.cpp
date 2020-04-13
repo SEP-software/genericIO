@@ -549,7 +549,7 @@ std::vector<std::string> sep3dFile::getHeaderKeyList() const {
   return lst;
 }
 
-std::map<std::string, std::string> sep3dFile::getHeaderKeyType() const {
+std::map<std::string, std::string> sep3dFile::getHeaderKeyTypes() const {
   std::map<std::string, std::string> lst;
   for (auto k = _keyType.begin(); k != _keyType.end(); k++) {
     lst[k->first] = k->second;

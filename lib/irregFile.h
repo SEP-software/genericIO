@@ -301,7 +301,7 @@ Get a string from a file
   /*!
     Return headerkey Type
     */
-  virtual std::map<std::string, std::string> getHeaderKeyType() const = 0;
+  virtual std::map<std::string, std::string> getHeaderKeyTypes() const = 0;
   /*!
     keyList List of keys in the order they should be written
     */

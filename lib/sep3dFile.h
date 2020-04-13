@@ -234,7 +234,7 @@ Write  the description of the file
   /*!
     Return headerkey Type
     */
-  virtual std::map<std::string, std::string> getHeaderKeyType() const override;
+  virtual std::map<std::string, std::string> getHeaderKeyTypes() const override;
   /*!
     keyList List of keys in the order they should be written
     */

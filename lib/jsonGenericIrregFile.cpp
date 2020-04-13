@@ -314,7 +314,7 @@ std::vector<std::string> jsonGenericIrregFile::getHeaderKeyList() const {
 }
 
 std::map<std::string, std::string>
-jsonGenericIrregFile::getHeaderKeyType() const {
+jsonGenericIrregFile::getHeaderKeyTypes() const {
   std::map<std::string, std::string> lst;
   for (auto k = _keyType.begin(); k != _keyType.end(); k++) {
     lst[k->first] = k->second;

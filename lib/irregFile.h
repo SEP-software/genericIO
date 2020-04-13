@@ -262,7 +262,7 @@ Get a string from a file
   virtual std::string getDescriptionString();
   virtual Json::Value getDescription() = 0;
   virtual void putDescriptionString(const std::string &title,
-                                    const std::string &desc) = 0;
+                                    const std::string &desc);
   /*!
    Return hypercube describing dataset
    */

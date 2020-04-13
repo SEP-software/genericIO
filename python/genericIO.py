@@ -1031,30 +1031,10 @@ class io:
         """Get vector from a file and read its contents
            Optional
              """
-        #NEED TO ADD STUFF HERE
-        #ADD ADDD AAAAAA
         file = self.getIrregFile(tag, **kw)
-        self._files[tag] = file
-        hyper = file.getHyper()
-        nw = file.getHyper().getNs()
-        fw = [0] * len(nw)
-        jw = [1] * len(nw)
-        vec = SepVector.getSepVector(hyper, storage=file.storage)
-        if file.storage == "dataFloat":
-    
-            file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())
-        elif file.storage == "dataComplex":
-            file.getCpp().readComplexWindow(nw, fw, jw, vec.getCpp())
-        elif file.storage == "dataComplexDouble":
-            file.getCpp().readComplexDoubleWindow(nw, fw, jw, vec.getCpp())
-        elif file.storage == "dataByte":
-            file.getCpp().readByteWindow(nw, fw, jw, vec.getCpp())
-        elif file.storage == "dataInt":
-            file.getCpp().readIntWindow(nw, fw, jw, vec.getCpp())
-        elif file.storage == "dataDouble":
-            file.getCpp().readDoubleWindow(nw, fw, jw, vec.getCpp())
-        file.close()
-        return vec
+        self._files[tag] =file
+        return file.readDataWindow()
+       
 
     def getVector(self, tag, **kw):
         """Get vector from a file and read its contents

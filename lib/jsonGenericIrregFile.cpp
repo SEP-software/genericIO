@@ -337,7 +337,8 @@ void jsonGenericIrregFile::putHeaderKeyTypes(
   }
 }
 
-std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
+           std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
                                        const std::vector<int> &fwind,
                                        const std::vector<int> &jwind) {
@@ -376,7 +377,7 @@ jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
     // headers"));
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf);
   }
-  return std::make_tuple(headers, drns);
+  return std::make_tuple(headers, drns, nullptr);
 }
 
 void jsonGenericIrregFile::extractDRN(std::shared_ptr<byte2DReg> outV,

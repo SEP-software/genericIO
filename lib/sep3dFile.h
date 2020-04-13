@@ -251,7 +251,8 @@ Write  the description of the file
 
     nwind,fwind,jwind - Window parameters
   */
-  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
+                     std::shared_ptr<byte1DReg>>
   readHeaderWindow(const std::vector<int> &nwind, const std::vector<int> &fwind,
                    const std::vector<int> &jwind) override;
   /*!
@@ -261,9 +262,9 @@ Write  the description of the file
       @2-D array ([iheader,ipos],nheaders)
 
   */
-  std::vector<std::vector<int>> readHeaderLocs(const std::vector<int> &nwind,
-                                               const std::vector<int> &fwind,
-                                               const std::vector<int> &jwind);
+  std::tuple<std::vector<std::vector<int>>, std::shared_ptr<byte1DReg>>
+  readHeaderLocs(const std::vector<int> &nwind, const std::vector<int> &fwind,
+                 const std::vector<int> &jwind);
 
   /*!
   Extract DRN from a header block

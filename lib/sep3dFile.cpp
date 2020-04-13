@@ -582,12 +582,14 @@ void sep3dFile::putHeaderKeyTypes(
   }
 }
 
-std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
-sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
-                            const std::vector<int> &fwind,
-                            const std::vector<int> &jwind) {
-  std::vector<std::vector<int>> headerLocs =
-      readHeaderLocs(nwind, fwind, jwind);
+std::tuple < std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
+    std::shared_ptr<byte1DReg>
+    sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
+                                const std::vector<int> &fwind,
+                                const std::vector<int> &jwind) {
+  auto both = readHeaderLocs(nwind, fwind, jwind);
+
+  std::vector<std::vector<int>> headerLocs = std::get<0>(both);
   int nkeyIn = _keys.size();
   if (_drn > -1)
     nkeyIn += 1;
@@ -623,7 +625,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf,
                headerLocs);
   }
-  return std::make_tuple(headers, drns);
+  return std::make_tuple(headers, drns, std::get<1>(both));
 }
 
 void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
@@ -675,7 +677,7 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     if (0 != sep_get_grid_window(_tag.c_str(), &ndim, &ng[1], &nw[1], &fw[1],
                                  &jw[1], &grid[0]))
       throw SEPException("Trouble reading grid");
-
+    std::shared_ptr<byte1DReg> gr(new byte1DReg(n123));
     int ireal = 0;
     for (auto i = 0; i < n123; i++)
       if (grid[i] >= 0)
@@ -687,10 +689,12 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
         headPos[ireal][0] = ireal;
         headPos[ireal][1] = grid[i] - 1;
         ireal++;
-      }
+        (*gr->_mat)[i] = 1;
+      } else
+        (*gr->_mat)[i] = 0;
     }
     std::sort(headPos.begin(), headPos.end(), sortFunc);
-    return headPos;
+    return std::make_tuple(headPos, gr);
   } else {
     std::vector<int> bs(1, 1);
     std::vector<int> ns = _hyperHeader->getNs();
@@ -708,7 +712,7 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
       headPos[i][0] = i;
       headPos[i][1] = fwind[1] + jwind[1] * i;
     }
-    return headPos;
+    return std::make_tuple(headPos, nullptr);
   }
 }
 void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,

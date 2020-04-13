@@ -575,11 +575,13 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (dataType(genericIrregFile::*)()) & genericIrregFile::getDataType)
       .def("setDataType", (void (genericIrregFile::*)(const dataType)) &
                               genericIrregFile::setDataType)
+      .def("setHaveGrid", (void (genericIrregFile::*)(const bool)) &
+                              genericIrregFile::setHaveGrid)
       .def("readHeaderWindow",
-           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>(
-               genericIrregFile ::*)(const std::vector<int> &nwind,
-                                     const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind)) &
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
+                       std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind)) &
                genericIrregFile::readHeaderWindow,
            "Read a window of headers")
 

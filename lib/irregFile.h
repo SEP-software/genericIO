@@ -533,6 +533,8 @@ grid -Grid
   void insertValue(void *outb, void *inb, const int off, const int sz,
                    const int n1, const int n2) const;
 
+  void setHaveGrid(const bool gr) { _haveGrid = gr; }
+
 protected:
   std::shared_ptr<SEP::hypercube> _hyper =
       nullptr; ///< Hypercube describing the controling structure
@@ -541,6 +543,7 @@ protected:
       _hyperHeader;                   ///< Hypercube for the headers
   dataType _type = SEP::DATA_UNKNOWN; ///< The dataype for for the RSF
   usage_code _usage;
+  bool _haveGrid = false;
 };
 
 } // namespace SEP

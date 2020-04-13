@@ -489,7 +489,6 @@ private:
   long long _writeLastH = 0, _writeLastG = -1;
   int _drn = -1;
   bool _inOrder = true;
-  bool _haveGrid = false;
   std::string _tag;
 };
 

@@ -457,20 +457,20 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_header_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
-
-  // We always write out the grid
-  axes = getHyper()->returnAxes(getHyper()->getNdim());
-  for (int i = 2; i <= axes.size(); i++) {
-    int n = axes[i - 1].n;
-    float o = axes[i - 1].o;
-    float d = axes[i - 1].d;
-    char label[1024];
-    std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
-    label[axes[i - 1].label.length()] = '\0';
-    sep_put_grid_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
+  if (_haveGrid) {
+    // We always write out the grid
+    axes = getHyper()->returnAxes(getHyper()->getNdim());
+    for (int i = 2; i <= axes.size(); i++) {
+      int n = axes[i - 1].n;
+      float o = axes[i - 1].o;
+      float d = axes[i - 1].d;
+      char label[1024];
+      std::copy(axes[i - 1].label.begin(), axes[i - 1].label.end(), label);
+      label[axes[i - 1].label.length()] = '\0';
+      sep_put_grid_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
+    }
   }
 }
-
 // Hopefully never called
 void sep3dFile::message(const std::string &arg) const {
   sepwarn(0, arg.c_str());
@@ -976,7 +976,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+  if (grid)
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   if (_inOrder) {

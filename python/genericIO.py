@@ -812,7 +812,7 @@ class irregFile:
                 key=SepVector.doubleVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataComplexDouble":
                 key=SepVector.complexDoubleVector(fromCpp=self.cppMode.extractByte(head,v)) 
-            headS.addKey(k,vals=key)
+            header.addKey(k,vals=key.getNdArray())
         return headS      
     def writeHeaderWindow(self, vec, **kw):
         """Write  a window of a file into the vector

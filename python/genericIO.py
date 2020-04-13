@@ -791,7 +791,7 @@ class irregFile:
             header  Byte2DArray
             drn - Data record int1DReg"""
         off,sz=self.cppMode.createOffsetMap()
-        typ=self.cppMode.getKeyType()
+        typ=self.cppMode.getKeyTypes()
         headS=byte2DVector(fromCpp=head)
         header=SepIrregVector.header(nh=headS.getHyper().getAxis(2).n)
         if drn:

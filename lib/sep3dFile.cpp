@@ -349,7 +349,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     error(std::string("Only know about esize=8, 4 or 1"));
 
   // Read in the keys
-
+  _keys.resize(0);
   for (int ikey = 0; ikey < nkeys; ikey++) {
     int ii = ikey + 1;
     if (0 != sep_get_key_name(_tag.c_str(), &ii, temp_ch))

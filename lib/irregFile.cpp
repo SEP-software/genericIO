@@ -221,13 +221,6 @@ void genericIrregFile::putDescriptionString(const std::string &title,
 
   putDescription(title, x);
 }
-void genericIrregFile::putGridDescriptionString(const std::string &descrp) {
-  Json::Value x;
-  Json::Reader reader;
-  if (!reader.parse(descrp.c_str(), x))
-    throw SEPException("trouble parsing string");
-  putGridDescription(x);
-}
 
 void genericIrregFile::putDataDescriptionString(const std::string &descrp) {
   Json::Value x;

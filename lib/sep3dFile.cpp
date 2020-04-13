@@ -597,11 +597,12 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));
   std::cerr << "in read header " << std::endl;
   int idone = 0;
+  int imore = 0;
   while (idone < headerLocs.size()) {
     int ifirst = headerLocs[idone][1];
     bool found = false;
-    int imore = 1;
-    while (!found && ifirst + imore < headerLocs.size()) {
+    imore = 1;
+    while (!found && idone + imore < headerLocs.size()) {
       if (headerLocs[idone][1] != idone + ifirst) {
         found = true;
         int ii = idone + 1;

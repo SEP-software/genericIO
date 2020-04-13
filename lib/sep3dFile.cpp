@@ -773,7 +773,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
 
-  return std::make_pair(std::get<0> head_drn, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
@@ -819,7 +819,7 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn > _mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
   std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));

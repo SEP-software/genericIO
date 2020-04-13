@@ -598,7 +598,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   std::cerr << "in read header " << std::endl;
   int idone = 0;
   int imore = 0;
-  while (idone < headerLocs.size()) {
+  while (idone + imore < headerLocs.size()) {
     int ifirst = headerLocs[idone][1];
     bool found = false;
     imore = 1;

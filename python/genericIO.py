@@ -562,7 +562,7 @@ class irregFile:
 
             self.cppMode.putHeaderKeyList(vec._header._keyOrder)
             self.cppMode.setHyperData(vec._traces.getHyper().cppMode)
-            hyp=Hypercube.hypercube(ns=[1000,vec._traces,_nh])
+            hyp=Hypercube.hypercube(ns=[1000,vec._header._nh])
             self.cppMode.setHyperHeader(hyp.cppMode)
 
             print("before set hyper")

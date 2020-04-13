@@ -609,7 +609,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
         if (0 !=
             sep_get_val_headers(_tag.c_str(), &ii, &imore, headBuf->getVals()))
           throw SEPException(std::string("Trouble reading headers"));
-        extractDRN(headers, idone, imore, drns, headBuf);
+        extractDRN(headers, idone, imore, drns, headBuf, headerLocs);
         idone += imore;
       } else
         imore += 1;
@@ -629,7 +629,8 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
 
 void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
                            const int ntransfer, std::shared_ptr<int1DReg> drns,
-                           std::shared_ptr<byte2DReg> &temp) {
+                           std::shared_ptr<byte2DReg> &temp,
+                           std::vector < std::vector<int> & headerLocs) {
   int end = 0, beg = 4 * _keys.size();
   int n1out = beg, n1in = beg;
   if (_drn >= 0) {
@@ -645,6 +646,8 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
     if (_drn >= 0)
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);
+    else
+      memcpy(rns + ifirst + i, &headerLocs[ifirst + i][1], 4);
     if (end > 0)
       memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);
   }

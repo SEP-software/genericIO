@@ -276,7 +276,8 @@ Write  the description of the file
   */
   void extractDRN(std::shared_ptr<byte2DReg> out, const int ifirst,
                   const int ntransfer, std::shared_ptr<int1DReg> drns,
-                  std::shared_ptr<byte2DReg> &temp);
+                  std::shared_ptr<byte2DReg> &temp,
+                  std::vector<std::vector<int>> headerLocs);
   /*!
    Take DRN out of a header block and implace into 2-D array
 

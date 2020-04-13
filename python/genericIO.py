@@ -797,19 +797,19 @@ class irregFile:
         if drn:
             header._drn=int1DVector(fromCpp==drn)
         for k,v in off.items():
-            if typ[k]=="DATABYTE":
+            if typ[k]=="dataByte":
                 key=byte1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATASHORT":
+            if typ[k]=="dataShort":
                 key=short1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATAINT":
+            if typ[k]=="dataInt":
                 key=int1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATAFLOAT":
+            if typ[k]=="dataFloat":
                 key=float1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATACOMPLEX":
+            if typ[k]=="dataComplex":
                 key=complex1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATADOUBLE":
+            if typ[k]=="dataDouble":
                 key=double1DVector(fromCpp=self.cppMode.extractByte(head,v))
-            if typ[k]=="DATACOMPLEDOUBLE":
+            if typ[k]=="dataComplexDouble":
                 key=complexDouble1DVector(fromCpp=self.cppMode.extractByte(head,v)) 
             headS.addKey(k,vals=key)
         return headS      

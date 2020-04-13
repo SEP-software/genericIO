@@ -603,7 +603,12 @@ class irregFile:
             x+="Data type=complexDouble\n"
         else:
             x+="Data type=UKNOWN\n"
-        x+=str(self.getHyper())
+        x+=str("Data description\n%s\n"%(self.cppMode.getHyperData()))
+        order=self.cppMode.getHeaderKeyList()
+        typ=self.cppMode.getHeaderKeyType()
+        for k in order:
+            x+="%s %s"%(k,typ[k])
+        x+=str("Hypercube for headers:\n%s"%self.getHyper())
         return x
     def remove(self):
         """Remove the given dataset"""

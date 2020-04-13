@@ -403,7 +403,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericIrregFile::*)(const std::vector<std::string>) const) &
                genericIrregFile ::putHeaderKeyList,
            "Put the list of of headers")
-      .def("gettHeaderKeyList",
+      .def("getHeaderKeyList",
            (std::vector<std::string>(genericIrregFile::*)() const) &
                genericIrregFile ::getHeaderKeyList,
            "Get the list of of headers")

@@ -143,6 +143,8 @@ genericIrregFile::extractInt(std::shared_ptr<byte2DReg> buf,
 
   for (int i = 0; i < n2; i++) {
     memcpy(outb + 4 * i, inb + n1 * i + off, 4);
+    int *t = inb;
+    fprintf(stderr, "copying int %d %d \n", i, t[n1 / 4 * i + off / 4]);
   }
   return out;
 }

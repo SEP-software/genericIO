@@ -582,7 +582,7 @@ void sep3dFile::putHeaderKeyTypes(
   }
 }
 
-std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
 sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
                             const std::vector<int> &fwind,
                             const std::vector<int> &jwind) {
@@ -623,7 +623,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf,
                headerLocs);
   }
-  return std::make_pair(headers, drns);
+  return std::make_tuple(headers, drns);
 }
 
 void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
@@ -753,16 +753,16 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
 
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   int ntr = head_drn.second->getHyper()->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
 
   int n1 = _hyperData->getAxis(1).n;
@@ -773,7 +773,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
 
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0> head_drn, data);
 }
 
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
@@ -782,23 +782,24 @@ sep3dFile::readIntTraceWindow(const std::vector<int> &nwind,
                               const std::vector<int> &jwind) {
   if (getDataType() != DATA_INT)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+  std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
       readHeaderWindow(nwind, fwind, jwind);
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<int2DReg> data(new int2DReg(_hyperData->getAxis(1).n, ntr));
   int n1 = _hyperData->getAxis(1).n;
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn > _mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
   std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>
@@ -807,10 +808,10 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
                                  const std::vector<int> &jwind) {
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<double2DReg> data(
       new double2DReg(_hyperData->getAxis(1).n, ntr));
   int n1 = _hyperData->getAxis(1).n;
@@ -824,7 +825,7 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>>
 sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
@@ -833,16 +834,16 @@ sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
 
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<byte2DReg> data(new byte2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
   int n1 = _hyperData->getAxis(1).n;
 
@@ -850,7 +851,7 @@ sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 1, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>
@@ -861,15 +862,16 @@ sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
     throw SEPException("Attempt to read int from a non-float file");
   std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
       readHeaderWindow(nwind, fwind, jwind);
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<complex2DReg> data(
       new complex2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
   int n1 = _hyperData->getAxis(1).n;
 
@@ -877,7 +879,7 @@ sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>>
 sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
@@ -885,10 +887,10 @@ sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
                                         const std::vector<int> &jwind) {
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
+  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn > getHyper()->getN123();
   std::shared_ptr<complexDouble2DReg> data(
       new complexDouble2DReg(_hyperData->getAxis(1).n, ntr));
   int n1 = _hyperData->getAxis(1).n;
@@ -896,13 +898,13 @@ sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*head_drn.second->_mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
   std::shared_ptr<complexDouble2DReg> temp(new complexDouble2DReg(n1, 10000));
   readArrangeTraces(headPos, n1 * 16, (void *)temp->getVals(),
                     (void *)data->getVals());
-  return std::make_pair(head_drn.first, data);
+  return std::make_pair(std::get<0>(head_drn), data);
 }
 void sep3dFile::addtDRN(std::shared_ptr<byte2DReg> inV, const int ifirst,
                         const int ntransfer, std::shared_ptr<int1DReg> drns,

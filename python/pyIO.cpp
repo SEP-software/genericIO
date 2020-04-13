@@ -576,7 +576,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("setDataType", (void (genericIrregFile::*)(const dataType)) &
                               genericIrregFile::setDataType)
       .def("readHeaderWindow",
-           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>(
+           (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>(
                genericIrregFile ::*)(const std::vector<int> &nwind,
                                      const std::vector<int> &fwind,
                                      const std::vector<int> &jwind)) &

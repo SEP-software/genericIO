@@ -312,7 +312,7 @@ Get a string from a file
 
     nwind,fwind,jwind - Window parameters
   */
-  virtual std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
+  virtual std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
   readHeaderWindow(const std::vector<int> &nwind, const std::vector<int> &fwind,
                    const std::vector<int> &jwind) = 0;
   /*!

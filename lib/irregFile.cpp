@@ -68,11 +68,6 @@ std::string genericIrregFile::getDescriptionString() {
   return fast.write(x);
 }
 
-std::string genericIrregFile::getGridDescriptionString() {
-  Json::Value x = getGridDescription();
-  Json::FastWriter fast;
-  return fast.write(x);
-}
 std::string genericIrregFile::getDataDescriptionString() {
   Json::Value x = getDataDescription();
   Json::FastWriter fast;

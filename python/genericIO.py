@@ -688,7 +688,7 @@ class irregFile:
                   n,f,j - Standard windowing parameters"""
 
 
-        axes=self.getHyper()
+        axes=self.getHyper().axes
         axes[0]=Hypercube.hypercube(self.cppMode.getDataHyper()).axes[0]
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if nw[0] != axes[0].n:

@@ -714,7 +714,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
                                   const int n1, void *temp, void *data) {
 
   int idone = 0;
-  while (idone < itrs.size()) {
+  while (idone + iread < itrs.size()) {
     bool found = false;
     int iread = 1;
     while (!found && idone + iread < itrs.size()) {
@@ -726,13 +726,17 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
           memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1,
                  n1);
         }
-        found = true;
         idone += iread;
-      }
+      } else
+        iread += 1;
     }
   }
+  if (iread * n1 != sreed(_tag.c_str(), temp, iread * n1))
+    throw SEPException("trouble reading data");
+  for (int i = 0; i < iread; i++) {
+    memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1, n1);
+  }
 }
-
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
 sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                 const std::vector<int> &fwind,

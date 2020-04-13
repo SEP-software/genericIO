@@ -582,11 +582,11 @@ void sep3dFile::putHeaderKeyTypes(
   }
 }
 
-std::tuple < std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
-    std::shared_ptr<byte1DReg>
-    sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
-                                const std::vector<int> &fwind,
-                                const std::vector<int> &jwind) {
+std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
+           std::shared_ptr<byte1DReg>>
+sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
+                            const std::vector<int> &fwind,
+                            const std::vector<int> &jwind) {
   auto both = readHeaderLocs(nwind, fwind, jwind);
 
   std::vector<std::vector<int>> headerLocs = std::get<0>(both);

@@ -412,6 +412,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericIrregFile ::*)() const) &
                genericIrregFile::createOffsetMap,
            "Create a map of key offsets and sizes")
+      .def("getHyperData",
+           (std::shared_ptr<hypercube>(genericIrregFile::*)()) &
+               genericIrregFile::getHyperData,
+           "Get the hypercube of the data")
       .def("extractByte",
            (std::shared_ptr<byte1DReg>(genericIrregFile::*)(
                std::shared_ptr<byte2DReg>, const int) const) &
@@ -560,6 +564,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("setHyper",
            (void (genericIrregFile::*)(std::shared_ptr<SEP::hypercube>)) &
                genericIrregFile::setHyper)
+
       .def("getHyper",
            (std::shared_ptr<hypercube>(genericIrregFile::*)()) &
                genericIrregFile::getHyper,

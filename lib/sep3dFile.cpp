@@ -700,7 +700,7 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     std::vector<std::vector<int>> headPos(n123, std::vector<int>(2));
     if (ns.size() != 2)
       throw SEPException("Expecting 2-D headers for now");
-    for (auto i = 0; i < nwind[1] < i++) {
+    for (auto i = 0; i < nwind[1]; i++) {
       headPos[i][0] = i;
       headPos[i][1] = fwind[1] + jwind[1] * i;
     }

@@ -755,12 +755,11 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
     throw SEPException("Attempt to read float from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   auto drn = std::get<1>(head_drn);
-  int ntr = head_drn.second->getHyper()->getN123();
+  int ntr = drn->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
@@ -794,7 +793,7 @@ sep3dFile::readIntTraceWindow(const std::vector<int> &nwind,
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*drn > _mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
   std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
@@ -820,7 +819,7 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
-    headPos[i][1] = (*drn > _mat)[i];
+    headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
   std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));

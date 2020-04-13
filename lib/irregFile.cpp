@@ -77,7 +77,7 @@ std::pair<std::map<std::string, int>, std::map<std::string, int>>
 genericIrregFile::createOffsetMap() const {
 
   std::vector<std::string> keyList = getHeaderKeyList();
-  std::map<std::string, std::string> keyType = getHeaderKeyType();
+  std::map<std::string, std::string> keyType = getHeaderKeyTypes();
   std::map<std::string, int> offset, sz;
   int last = 0;
   for (auto i = 0; i < keyList.size(); i++) {

@@ -259,7 +259,7 @@ void sep3dFile::readDescription(const int ndimMax) {
 
   // Red the data description
   sep_get_number_data_axes(_tag.c_str(), &ndim);
-  std::vector<axis> axes;
+  std::vector<axis> axes, axesT;
   for (int i = 1; i <= ndim; i++) {
     int n;
     float o, d;
@@ -267,6 +267,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
     axes.push_back(axis(n, o, d, std::string(label)));
   }
+  axesT[0] = axes[0];
   // Store the data hypercube
   _hyperData.reset(new hypercube(axes));
 
@@ -279,7 +280,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     throw SEPException("Trouble getting number keys");
   std::vector<axis> axesH;
   axesH.push_back(axis(nkeys));
-  for (int i = 1; i <= ndim; i++) {
+  for (int i = 2; i <= ndim; i++) {
     int n;
     float o, d;
     char label[1024];
@@ -300,14 +301,20 @@ void sep3dFile::readDescription(const int ndimMax) {
       sep_get_grid_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
       axesG.push_back(axis(n, o, d, std::string(label)));
     }
-    _hyper.reset(new hypercube(axesG));
+    axesG[0] = axesT[0];
+    for (i = 1; i < axesH.size(); i++)
+      axesT.push_back(axesH[i]);
+    _hyper.reset(new hypercube(axesT));
     _haveGrid = true;
   } else {
     // The grid doesn't exist use the header hypercube for the dataset
-    _hyper = _hyperHeader->clone();
+    for (i = 1; i < axesH.size(); i++)
+      axesT.push_back(axesH[i]);
+    _hyper.reset(new hypercube(axesT));
     _haveGrid = false;
   }
-  std::cerr << "Hyper data ndims " << _hyper->getNdim() << std::endl;
+  std::cerr << "Hyper total ndims " << _hyper->getNdim() << std::endl;
+  std::cerr << "Hyper data ndims " << _hyperData->getNdim() << std::endl;
 
   // Set the data type
   int esize = getInt("esize", 4);

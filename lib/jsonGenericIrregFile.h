@@ -502,6 +502,20 @@ grid -Grid
   }
 
   /*!
+      Get the description of the grid file
+
+    @return JSON file representations
+  */
+  virtual Json::Value getGridDescription() override;
+
+  /*!
+      Put the description of the grid file
+
+      desc - Desciprition
+  */
+  virtual void putGridDescription(const Json::Value &desc) override;
+
+  /*!
       Get the description of the data file
 
     @return JSON file representations

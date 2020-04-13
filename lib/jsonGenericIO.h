@@ -51,13 +51,15 @@ Initialize IO JSON parameters
   \param tag Tag used to access dataset
   \param name Name of dataset
   \param usage Usage for file (in,out,scratch)
+  \param ignoreGrid Whether or not ot ignore grid
   \param ndimMax Output file should have ndimMax axes
 
 */
 
   virtual std::shared_ptr<genericIrregFile>
   getIrregFileTag(const std::string &tag, const std::string &name,
-                  const usage_code usage, const int ndimMax = -1) override;
+                  const usage_code usage, const bool ignoreGrid = false,
+                  const int ndimMax = -1) override;
   /*!
     Close all files
 

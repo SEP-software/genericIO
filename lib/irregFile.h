@@ -252,22 +252,20 @@ Get a string from a file
   */
   usage_code getUsageCode() { return _usage; }
 
-  virtual Json::Value getDescription() = 0;
-  virtual Json::Value getDataDescription() = 0;
-
-  virtual std::string getDescriptionString();
-
-  virtual std::string getDataDescriptionString();
-
   virtual void putDescriptionString(const std::string &title,
                                     const std::string &descrp);
 
   virtual void putDataDescription(const Json::Value &descrp) = 0;
   virtual void putDataDescriptionString(const std::string &descrp);
+  virtual Json::Value getDataDescription() = 0;
+  virtual std::string getDataDescriptionString();
 
   virtual void putDescription(const std::string &title,
                               const Json::Value &desc) = 0;
-
+  virtual std::string getDescriptionString();
+  virtual Json::Value getDescription() = 0;
+  virtual void putDescriptionString(const std::string &title,
+                                    const std::string &desc) = 0;
   /*!
    Return hypercube describing dataset
    */
@@ -544,6 +542,7 @@ protected:
       _hyperData,                     ///< Hypercube for the data and headers
       _hyperHeader;                   ///< Hypercube for the headers
   dataType _type = SEP::DATA_UNKNOWN; ///< The dataype for for the RSF
+  bool _hasGrid = False;
   usage_code _usage;
 };
 

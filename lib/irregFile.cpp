@@ -68,6 +68,11 @@ std::string genericIrregFile::getDescriptionString() {
   return fast.write(x);
 }
 
+std::string genericIrregFile::getGridDescriptionString() {
+  Json::Value x = getGridDescription();
+  Json::FastWriter fast;
+  return fast.write(x);
+}
 std::string genericIrregFile::getDataDescriptionString() {
   Json::Value x = getDataDescription();
   Json::FastWriter fast;
@@ -220,6 +225,13 @@ void genericIrregFile::putDescriptionString(const std::string &title,
     throw SEPException("trouble parsing string");
 
   putDescription(title, x);
+}
+void genericIrregFile::putGridDescriptionString(const std::string &descrp) {
+  Json::Value x;
+  Json::Reader reader;
+  if (!reader.parse(descrp.c_str(), x))
+    throw SEPException("trouble parsing string");
+  putGridDescription(x);
 }
 
 void genericIrregFile::putDataDescriptionString(const std::string &descrp) {

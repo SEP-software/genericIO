@@ -14,7 +14,7 @@ class ddJob(GenJob.regSpace):
             outputType - Output type
             real - Convert real (rather than imaginary) of complex number to/from 
         """
-        #super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
+        super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
         self._real=real
 
     

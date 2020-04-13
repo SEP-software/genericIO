@@ -10,7 +10,7 @@ namespace SEP {
 */
 
 class sepIO : public genericIO {
- public:
+public:
   /*!
 Initialize IO with command line arguments
 
@@ -26,9 +26,9 @@ Initialize IO with command line arguments
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-  virtual std::shared_ptr<SEP::genericRegFile> getRegFileTag(
-      const std::string &tag, const std::string &name,
-      const SEP::usage_code usage, const int ndim = -1) override;
+  virtual std::shared_ptr<SEP::genericRegFile>
+  getRegFileTag(const std::string &tag, const std::string &name,
+                const SEP::usage_code usage, const int ndim = -1) override;
   /*!
  Return a genericIrregFile object
 
@@ -38,9 +38,9 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
-      const std::string &tag, const std::string &name,
-      const SEP::usage_code usage, const int ndimMax = -1) override;
+  virtual std::shared_ptr<SEP::genericIrregFile>
+  getIrregFileTag(const std::string &tag, const std::string &name,
+                  const SEP::usage_code usage, const int ndimMax = -1) override;
 };
-}  // namespace SEP
+} // namespace SEP
 #endif

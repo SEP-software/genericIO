@@ -734,10 +734,11 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
   }
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)
-    throw SEPException(std::string("trouble reading data requested="+std::to_string(iread*n1)+
-    std::string( " read=")+std::to_string(ierr));
+    throw SEPException(std::string("trouble reading data requested=") +
+                       std::to_string(iread * n1) + std::string(" read=") +
+                       std::to_string(ierr));
   for (int i = 0; i < iread; i++) {
-      memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1, n1);
+    memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1, n1);
   }
 }
 std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>

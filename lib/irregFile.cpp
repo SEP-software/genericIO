@@ -83,19 +83,19 @@ genericIrregFile::createOffsetMap() const {
   for (auto i = 0; i < keyList.size(); i++) {
     std::string key = keyList[i];
     offset[key] = last;
-    if (keyType[key] == std::string("DATA_BYTE"))
+    if (keyType[key] == std::string("dataByte"))
       sz[key] = 1;
-    else if (keyType[key] == std::string("DATA_SHORT"))
+    else if (keyType[key] == std::string("dataShort"))
       sz[key] = 2;
-    else if (keyType[key] == std::string("DATA_INT"))
+    else if (keyType[key] == std::string("dataInt"))
       sz[key] = 4;
-    else if (keyType[key] == std::string("DATA_FLOAT"))
+    else if (keyType[key] == std::string("dataFloat"))
       sz[key] = 4;
-    else if (keyType[key] == std::string("DATA_COMPLEX"))
+    else if (keyType[key] == std::string("dataComplex"))
       sz[key] = 8;
-    else if (keyType[key] == std::string("DATA_DOUBLE"))
+    else if (keyType[key] == std::string("dataDouble"))
       sz[key] = 8;
-    else if (keyType[key] == std::string("DATA_COMPLEXDOUBLE"))
+    else if (keyType[key] == std::string("dataComplexDouble"))
       sz[key] = 16;
     else
       throw SEPException(std::string("Unknown keytype:") + keyType[key]);

@@ -276,10 +276,13 @@ void sep3dFile::readDescription(const int ndimMax) {
     throw SEPException("Trying to read a regular file as irregular");
   int nkeys;
   char temp_ch[2048];
+  std::cerr << "what 1 " << std::endl;
   if (0 != sep_get_number_keys(_tag.c_str(), &nkeys))
     throw SEPException("Trouble getting number keys");
   std::vector<axis> axesH;
   axesH.push_back(axis(nkeys));
+  std::cerr << "wahat 1 " << std::endl;
+
   for (int i = 2; i <= ndim; i++) {
     int n;
     float o, d;
@@ -288,6 +291,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     axesH.push_back(axis(n, o, d, std::string(label)));
   }
   _hyperHeader.reset(new hypercube(axesH));
+  std::cerr << "whbat 1 " << std::endl;
 
   // Build a hypercube for the grid if it exists
   if (0 == sep_get_number_grid_axes(_tag.c_str(), &ndim)) {
@@ -306,7 +310,11 @@ void sep3dFile::readDescription(const int ndimMax) {
       axesT.push_back(axesH[i]);
     _hyper.reset(new hypercube(axesT));
     _haveGrid = true;
+    std::cerr << "whcat 1 " << std::endl;
+
   } else {
+    std::cerr << "whadt 1 " << std::endl;
+
     // The grid doesn't exist use the header hypercube for the dataset
     for (int i = 1; i < axesH.size(); i++)
       axesT.push_back(axesH[i]);

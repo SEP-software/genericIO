@@ -562,7 +562,7 @@ class irregFile:
 
             self.cppMode.putHeaderKeyList(vec._header._keyOrder)
             self.cppMode.setHyperData(vec._traces.getHyper().cppMode)
-            self.cppMode.setHyper(vec.getCpp().getHyper())
+            self.cppMode.setHyper(vec.cppMode.getHyper())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
         else:  # Assuming from file

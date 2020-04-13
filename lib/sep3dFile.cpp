@@ -631,9 +631,11 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
                            std::vector<std::vector<int>> &headerLocs) {
   int end = 0, beg = 4 * _keys.size();
   int n1out = beg, n1in = beg;
+  fprintf(stderr, "what is going on here keys=%d n1=%d \n", (int)_keys.size(),
+          n1in);
   if (_drn >= 0) {
     beg = 4 * _drn;
-    end = 4 * (_keys.size() - _drn);
+    end = 4 * (_keys.size() + 1 - _drn);
     n1in += 4;
   }
 
@@ -654,7 +656,8 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   int *tin = (int *)in, *tout = (int *)out;
 
   for (int i = 0; i < 1000; i++)
-    fprintf(stderr, "test in=%d out=%d \n", tin[i * 168 / 4], tout[i * 42]);
+    fprintf(stderr, "test %d in=%d out=%d \n", i, tin[i * 168 / 4],
+            tout[i * 42]);
 }
 
 std::vector<std::vector<int>>

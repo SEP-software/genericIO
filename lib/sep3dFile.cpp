@@ -716,9 +716,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
   while (idone + iread < itrs.size()) {
     bool found = false;
     iread = 1;
-    std::cerr << "loop 2" << std::endl;
     while (!found && idone + iread < itrs.size()) {
-      std::cerr << "loop 3" << std::endl;
       if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999) {
         found = true;
         sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
@@ -732,17 +730,16 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
 
       } else
         iread += 1;
-      std::cerr << "inner loop " << iread << std::endl;
     }
   }
   sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
   std::cerr << "se2e what is going on " << itrs[idone][1] << "=itr n1=" << n1
             << " iread=" << iread << std::flush;
-  // int ierr = sreed(_tag.c_str(), temp, iread * n1);
-  // if (ierr != iread * n1)
-  // throw SEPException(std::string("tr2ouble reading data requested=") +
-  //                  std::to_string(iread * n1) + std::string(" read=") +
-  //                std::to_string(ierr));
+  int ierr = sreed(_tag.c_str(), temp, iread * n1);
+  if (ierr != iread * n1)
+    throw SEPException(std::string("tr2ouble reading data requested=") +
+                       std::to_string(iread * n1) + std::string(" read=") +
+                       std::to_string(ierr));
   for (int i = 0; i < iread; i++) {
     memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1, n1);
   }

@@ -421,6 +421,7 @@ void sep3dFile::writeDescription() {
 
   // Get the hypercube for the headers
   axes = _hyperHeader->getAxes();
+  std::cerr << "write aaa4descriotion 1 " << std::endl;
 
   // Write the number of keys. One more if we have a DRN
   int nkeys = _keys.size();
@@ -432,11 +433,11 @@ void sep3dFile::writeDescription() {
   // Write the keys
   for (int i = 0; i < _keys.size(); i++) {
     int j = i + 1;
-    if (_keyType[_keys[i]] == "INT") {
+    if (_keyType[_keys[i]] == "dataInt") {
       if (0 != sep_put_key(_tag.c_str(), _keys[i].c_str(), "scalar_int",
                            "xdr_int", &j))
         throw SEPException("Trouble putting key");
-    } else if (_keyType[_keys[i]] == "FLOAT") {
+    } else if (_keyType[_keys[i]] == "dataFloat") {
       if (0 != sep_put_key(_tag.c_str(), _keys[i].c_str(), "scalar_float",
                            "xdr_float", &j))
         throw SEPException("Trouble putting key");

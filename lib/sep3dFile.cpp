@@ -591,6 +591,8 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   if (_drn > -1)
     nkeyIn += 1;
   std::shared_ptr<byte2DReg> headBuf(new byte2DReg(4 * nkeyIn, 100000));
+  std::cerr << "in read headers " << 4 * _keys.size()
+            << " n2=" << headerLocs.size() << std::endl;
   std::shared_ptr<byte2DReg> headers(
       new byte2DReg(4 * _keys.size(), headerLocs.size()));
   std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));

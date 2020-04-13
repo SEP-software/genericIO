@@ -793,7 +793,7 @@ class irregFile:
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
-        print("HEAD",head,"SSSS",headS)
+        print("HEAD",head,"SSSS",headS,headS.getHyper().getAxis(2).n)
         header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
         if drn:
             header._drn=int1DVector(fromCpp==drn)

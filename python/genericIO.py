@@ -686,7 +686,7 @@ class irregFile:
                   vec - sepIrregVector
                 Optional:
                   n,f,j - Standard windowing parameters"""
-     
+
 
         axes=self.getHyper()
         axes[0]=Hypercube.hypercube(self.cppMode.getDataHyper()).axes[0]

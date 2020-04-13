@@ -694,26 +694,26 @@ class irregFile:
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
         if self.storage == "dataFloat":
-            head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataInt":
-            head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataComplex":
-            head,v=self.cppMode.readComplexTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readComplexTraceWindow(nw,fw,jw)
             vec=SepVector.complexVector(fromCpp=v)
         elif self.storage == "dataComplexDouble":
-            head,v=self.cppMode.readComplexDoubleTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readComplexDoubleTraceWindow(nw,fw,jw)
             vec=SepVector.complexDoubleVector(fromCpp=v)
         elif self.storage == "dataByte":
-            head,v=self.cppMode.readByteTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readByteTraceWindow(nw,fw,jw)
             vec=SepVector.byteVector(fromCpp=v)
         elif self.storage == "dataDouble":
-            head,v=self.cppMode.readDoubleTraceWindow(nw,fw,jw)
+            head,v,grid=self.cppMode.readDoubleTraceWindow(nw,fw,jw)
             vec=SepVector.doubleVector(fromCpp=v)
         else:
             print("Unknown or unhandled storage type "%self.storage)
-        header=self.byte2DToHeader(head)
+        header=self.byte2DToHeader(head,grid=grid)
         return SepIrregVector.sepIrregVector(traces=vec,header=header)
 
     def readHeaderWindow(self, **kw):
@@ -726,8 +726,8 @@ class irregFile:
         axes=self.getHyper()
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
-        head,drh=self.cppMode.readHeaderWindow(nw,fw,jw)
-        header=byte2DToHead(head,drn)
+        head,drn,grid=self.cppMode.readHeaderWindow(nw,fw,jw)
+        header=byte2DToHead(head,drn,grid=grid)
         return header
         
     def writeDataWindow(self, vec, **kw):
@@ -783,17 +783,24 @@ class irregFile:
         else:
             return head,None,headS.getCreateGrid()
 
-    def byte2DToHeader(self,head,drn=None):
+    def byte2DToHeader(self,head,drn=None,grid=None):
         """Convert  a 2-D byte array into a header
 
            return  head - SepIrregVector.sepIrregVector
 
             head  Byte2DArray
-            drn - Data record int1DReg"""
+            drn - Data record int1DReg
+            grid - Grid for the data
+            
+            """
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
-        header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
+        if grid is not None:
+            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=grid,gridHyper=self.getHyper())
+        else:
+            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
+
         if drn:
             header._drn=int1DVector(fromCpp==drn)
         for k,v in off.items():

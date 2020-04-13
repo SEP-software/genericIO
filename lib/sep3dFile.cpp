@@ -732,8 +732,8 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
         iread += 1;
     }
   }
-  sseek(_tag.c_str(), itrs[idone][1], n1, 0);
-  std::cerr << "see what is going on " << itrs[idome] << "=itr n1=" << n1
+  sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
+  std::cerr << "see what is going on " << itrs[idone][1] << "=itr n1=" << n1
             << " iread=" << iread << std::endl;
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)

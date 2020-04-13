@@ -307,6 +307,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     _hyper = _hyperHeader->clone();
     _haveGrid = false;
   }
+  std::cerr << "Hyper data ndims " << _hyper->getNdims() << std::endl;
 
   // Set the data type
   int esize = getInt("esize", 4);
@@ -354,9 +355,9 @@ void sep3dFile::readDescription(const int ndimMax) {
                            std::to_string(ikey));
 
       if (0 == strcmp(temp_ch, "scalar_float"))
-        _keyType[_keys[_keys.size() - 1]] = "FLOAT";
+        _keyType[_keys[_keys.size() - 1]] = "dataFloat";
       else if (0 == strcmp(temp_ch, "scalar_int"))
-        _keyType[_keys[_keys.size() - 1]] = "INT";
+        _keyType[_keys[_keys.size() - 1]] = "dataInt";
       else
         throw SEPException(std::string("Can not handle data type ") +
                            std::string(temp_ch));

@@ -755,7 +755,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
     throw SEPException("Attempt to read float from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   auto drn = std::get<1>(head_drn);
-  int ntr = drn->getN123();
+  int ntr = drn->getHyper()->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 

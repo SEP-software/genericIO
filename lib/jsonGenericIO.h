@@ -58,8 +58,7 @@ Initialize IO JSON parameters
 
   virtual std::shared_ptr<genericIrregFile>
   getIrregFileTag(const std::string &tag, const std::string &name,
-                  const usage_code usage, const bool ignoreGrid = false,
-                  const int ndimMax = -1) override;
+                  const usage_code usage, const int ndimMax = -1) override;
   /*!
     Close all files
 

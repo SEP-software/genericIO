@@ -749,15 +749,24 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  std::cerr << "before header pso " << std::endl;
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*head_drn.second->_mat)[i];
   }
+  std::cerr << "before 2header pso " << std::endl;
+
   int n1 = _hyperData->getAxis(1).n;
   std::sort(headPos.begin(), headPos.end(), sortFunc);
+  std::cerr << "before 3eader pso " << std::endl;
+
   std::shared_ptr<float2DReg> temp(new float2DReg(n1, 10000));
+  std::cerr << "before 4header pso " << std::endl;
+
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
+  std::cerr << "before 5header pso " << std::endl;
+
   return std::make_pair(head_drn.first, data);
 }
 

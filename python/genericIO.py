@@ -799,10 +799,12 @@ class irregFile:
             header._drn=int1DVector(fromCpp==drn)
         for k,v in off.items():
             if typ[k]=="dataByte":
+                print("indata byer")
                 key=SepVector.byteVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataShort":
                 key=SepVector.shortVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataInt":
+                print("in data int")
                 key=SepVector.intVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataFloat":
                 key=SepVector.floatVector(fromCpp=self.cppMode.extractByte(head,v))

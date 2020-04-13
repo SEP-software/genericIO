@@ -728,9 +728,14 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
                  n1);
         }
         idone += iread;
+
       } else
         iread += 1;
+      std::cerr << "in loop 1 " << iread << " =iread idone=" << idone
+                << std::endl;
     }
+    std::cerr << "in loop 2 " << iread << " =iread idone=" << idone
+              << std::endl;
   }
   int ierr = sreed(_tag.c_str(), temp, iread * n1);
   if (ierr != iread * n1)

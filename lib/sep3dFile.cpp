@@ -712,11 +712,13 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
 
   int idone = 0;
   int iread;
+  std::cerr << "loope 1" << std::endl;
   while (idone + iread < itrs.size()) {
     bool found = false;
     iread = 1;
+    std::cerr << "loop 2" << std::endl;
     while (!found && idone + iread < itrs.size()) {
-
+      std::cerr << "loop 3" << std::endl;
       if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999) {
         found = true;
         sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);

@@ -630,7 +630,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
 void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
                            const int ntransfer, std::shared_ptr<int1DReg> drns,
                            std::shared_ptr<byte2DReg> &temp,
-                           std::vector < std::vector<int> & headerLocs) {
+                           std::vector<std::vector<int>> &headerLocs) {
   int end = 0, beg = 4 * _keys.size();
   int n1out = beg, n1in = beg;
   if (_drn >= 0) {

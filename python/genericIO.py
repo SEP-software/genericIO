@@ -714,7 +714,7 @@ class irregFile:
         else:
             print("Unknown or unhandled storage type "%self.storage)
         header=self.byte2DToHeader(head)
-        return SepIrregVector.irregVector(traces=vec,header=header)
+        return SepIrregVector.sepIrregVector(traces=vec,header=header)
 
     def readHeaderWindow(self, **kw):
         """Read a window of a file into the vector

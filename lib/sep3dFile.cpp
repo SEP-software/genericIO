@@ -692,11 +692,12 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     std::cerr << "in the else " << ns.size() << std::endl;
     int n123 = 1;
     for (auto i = 1; i < ns.size(); i++) {
-      std::cerr << "what tou see " << i << ns[i] << std::endl;
+      std::cerr << "what tou see " << i << "nwind " << nwind[i] << " nhyper "
+                << ns[i] << std::endl;
       bs.push_back(bs[i - 1] * ns[i]);
       n123 = ns[i] * n123;
     }
-
+    std::cerr << "create array " << n123 << std::endl;
     std::vector<std::vector<int>> headPos(n123, std::vector<int>(2));
     if (ns.size() != 2)
       throw SEPException("Expecting 2-D headers for now");

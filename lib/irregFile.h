@@ -252,9 +252,6 @@ Get a string from a file
   */
   usage_code getUsageCode() { return _usage; }
 
-  virtual void putDescriptionString(const std::string &title,
-                                    const std::string &descrp);
-
   virtual void putDataDescription(const Json::Value &descrp) = 0;
   virtual void putDataDescriptionString(const std::string &descrp);
   virtual Json::Value getDataDescription() = 0;
@@ -542,7 +539,6 @@ protected:
       _hyperData,                     ///< Hypercube for the data and headers
       _hyperHeader;                   ///< Hypercube for the headers
   dataType _type = SEP::DATA_UNKNOWN; ///< The dataype for for the RSF
-  bool _hasGrid = False;
   usage_code _usage;
 };
 

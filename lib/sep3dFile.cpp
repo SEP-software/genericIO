@@ -586,7 +586,6 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
                             const std::vector<int> &jwind) {
   std::vector<std::vector<int>> headerLocs =
       readHeaderLocs(nwind, fwind, jwind);
-  size_t idone = 0;
   int nkeyIn = _keys.size();
   if (_drn > -1)
     nkeyIn += 1;
@@ -596,6 +595,8 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> headers(
       new byte2DReg(4 * _keys.size(), headerLocs.size()));
   std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));
+  std::cerr << "in read header " << std::endl;
+  int idone = 0;
   while (idone < headerLocs.size()) {
     int ifirst = headerLocs[idone][1];
     bool found = false;
@@ -611,7 +612,9 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
         idone += imore;
       } else
         imore += 1;
+      std::cerr << "in inner loop " << idone << " imore " << imore << std::endl;
     }
+    std::cerr << "ifirst " << ifirst << " " << std::endl;
   }
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
@@ -695,11 +698,11 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     }
 
     std::vector<std::vector<int>> headPos(n123, std::vector<int>(2));
-
-    for (auto i = 0; i < headPos.size(); i++) {
+    if (ns.size() != 2)
+      throw SEPException("Expecting 2-D headers for now");
+    for (auto i = 0; < nw[1] < i++) {
       headPos[i][0] = i;
-      headPos[i][1] = i;
-      std::cerr << "filling in" << i << std::endl;
+      headPos[i][1] = fw[1] + jw[1] * i;
     }
     return headPos;
   }

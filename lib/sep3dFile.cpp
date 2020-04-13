@@ -280,6 +280,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     throw SEPException("Trouble getting number keys");
   std::vector<axis> axesH;
   axesH.push_back(axis(nkeys));
+  fprintf(stderr, "i saw %d key\n", nkeys);
 
   for (int i = 2; i <= ndim; i++) {
     int n;
@@ -357,7 +358,8 @@ void sep3dFile::readDescription(const int ndimMax) {
     if (strcmp(temp_ch, "data_record_number") == 0) {
       _drn = ikey;
     } else {
-      fprintf(stderr, "adding key %s %d\n", temp_ch, (int)_keys.size());
+      fprintf(stderr, "adding %d key %s %d\n", ikey, temp_ch,
+              (int)_keys.size());
       _keys.push_back(temp_ch);
       if (0 != sep_get_key_type(_tag.c_str(), &ii, temp_ch))
         throw SEPException(std::string("trouble grabbing "

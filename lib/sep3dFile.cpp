@@ -725,11 +725,13 @@ std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
 sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                 const std::vector<int> &fwind,
                                 const std::vector<int> &jwind) {
+
+  std::cerr << "in read trace window" << std::endl;
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
   std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
       readHeaderWindow(nwind, fwind, jwind);
-
+  std::cerr << "through read header window" << std::endl;
   int ntr = head_drn.second->getHyper()->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));

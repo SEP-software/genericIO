@@ -271,11 +271,11 @@ Get a string from a file
   /*!
    Return hypercube describing dataset
    */
-  const std::shared_ptr<SEP::hypercube> getHyper() {
-    if (_hyper == nullptr)
+  const std::shared_ptr<SEP::hypercube> getHyperData() {
+    if (_hyperData == nullptr)
       throw SEPException(std::string("hypercube not defined"));
 
-    return _hyper;
+    return _hyperData;
   }
 
   /*!

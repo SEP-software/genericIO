@@ -552,6 +552,8 @@ class irregFile:
             self.cppMode = ioM.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
+            if vec._gridHyper:
+                self.cppMode.setHaveGrid(True)
             self.cppMode.putHeaderKeyType(vec.header.getKeyTypes())
             self.cppMode.putHeaderKeyList(vec.header._keyOrder)
             self.cppMode.setHyperData(vec.traces.getHyper())

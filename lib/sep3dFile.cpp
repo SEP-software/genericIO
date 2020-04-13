@@ -302,13 +302,13 @@ void sep3dFile::readDescription(const int ndimMax) {
       axesG.push_back(axis(n, o, d, std::string(label)));
     }
     axesG[0] = axesT[0];
-    for (i = 1; i < axesH.size(); i++)
+    for (int i = 1; i < axesH.size(); i++)
       axesT.push_back(axesH[i]);
     _hyper.reset(new hypercube(axesT));
     _haveGrid = true;
   } else {
     // The grid doesn't exist use the header hypercube for the dataset
-    for (i = 1; i < axesH.size(); i++)
+    for (int i = 1; i < axesH.size(); i++)
       axesT.push_back(axesH[i]);
     _hyper.reset(new hypercube(axesT));
     _haveGrid = false;

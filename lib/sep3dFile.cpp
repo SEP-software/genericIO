@@ -616,7 +616,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
     int imore = headerLocs.size() - idone;
-    fprintf(stderr, "reading from %d % headers\n", ii, imore);
+    fprintf(stderr, "reading from %d %d headers\n", ii, imore);
     if (0 != sep_get_val_headers(_tag.c_str(), &ii, &imore, headBuf->getVals()))
       throw SEPException(std::string("Trouble reading headers"));
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf,
@@ -641,6 +641,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
   for (int i = 0; i < ntransfer; i++) {
+    fprintf(stderr, "shrinking heaer %d %d %d \n", i, beg, n1);
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
     if (_drn >= 0)
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);

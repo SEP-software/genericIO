@@ -797,15 +797,16 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
         if grid is not None:
+            print("NOT RIGHT")
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=grid,gridHyper=self.getHyper())
         else:
+            print("RIGHT")
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
 
         if drn:
             header._drn=int1DVector(fromCpp==drn)
         for k,v in off.items():
             if typ[k]=="dataByte":
-                print("indata byer")
                 key=SepVector.byteVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataShort":
                 key=SepVector.shortVector(fromCpp=self.cppMode.extractShort(head,v))

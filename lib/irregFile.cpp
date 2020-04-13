@@ -98,7 +98,7 @@ genericIrregFile::createOffsetMap() const {
     else if (keyType[key] == std::string("DATA_COMPLEXDOUBLE"))
       sz[key] = 16;
     else
-      throw SEPException("Unknown keytype");
+      throw SEPException(std::string("Unknown keytype:") + keyType[key]);
     last += sz[key];
   }
   return make_pair(offset, sz);

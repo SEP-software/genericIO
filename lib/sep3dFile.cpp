@@ -641,7 +641,8 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
   for (int i = 0; i < ntransfer; i++) {
-    fprintf(stderr, "shrinking heaer %d %d %d \n", i, beg, n1in);
+    fprintf(stderr, "shrinking heaer %d %d=n1in n1out=%d %d  %d ifirst=%d\n", i,
+            n1in, n1out, beg, end, ifirst);
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
     if (_drn >= 0)
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);

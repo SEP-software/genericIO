@@ -689,7 +689,7 @@ class irregFile:
 
 
         axes=self.getHyper().axes
-        axes[0]=Hypercube.hypercube(self.cppMode.getHyperData()).axes[0]
+        axes[0]=Hypercube.hypercube(hypercube=self.cppMode.getHyperData()).axes[0]
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
@@ -713,7 +713,7 @@ class irregFile:
             vec=SepVector.doubleVector(fromCpp=v)
         else:
             print("Unknown or unhandled storage type "%self.storage)
-        header=self.byte2DToHead(head)
+        header=self.byte2DToHeader(head)
         return SepIrregVector.irregVector(traces=vec,header=header)
 
     def readHeaderWindow(self, **kw):
@@ -745,7 +745,7 @@ class irregFile:
         
         if not isinstance(vec, SepIrregVector.irregVector):
             raise Exception("vec must be deriverd SepVector.irregVector")
-        head=header2Byte2D(vec._header)[0]
+        head=headerToByte2D(vec._header)[0]
         if self.storage == "dataFloat":
             self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
         elif self.storage == "dataInt":

@@ -654,7 +654,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   int *tin = (int *)in, *tout = (int *)out;
 
   for (int i = 0; i < 1000; i++)
-    fprintf(stderr, "test in=%d out=%d \n", tin[i * 168 / 4], tout[i * 44]);
+    fprintf(stderr, "test in=%d out=%d \n", tin[i * 168 / 4], tout[i * 42]);
 }
 
 std::vector<std::vector<int>>

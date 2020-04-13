@@ -614,7 +614,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
         imore += 1;
       std::cerr << "in inner loop " << idone << " imore " << imore << std::endl;
     }
-    std::cerr << "ifirst " << ifirst << " " << std::endl;
+    std::cerr << "ifirst " << ifirst << " idone " << idone << std::endl;
   }
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
@@ -697,10 +697,11 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
       bs.push_back(bs[i - 1] * ns[i]);
       n123 = ns[i] * n123;
     }
-    std::cerr << "create array " << n123 << std::endl;
-    std::vector<std::vector<int>> headPos(n123, std::vector<int>(2));
     if (ns.size() != 2)
       throw SEPException("Expecting 2-D headers for now");
+    std::cerr << "create array " << n123 << std::endl;
+    std::vector<std::vector<int>> headPos(nwind[1], std::vector<int>(2));
+
     for (auto i = 0; i < nwind[1]; i++) {
       headPos[i][0] = i;
       headPos[i][1] = fwind[1] + jwind[1] * i;

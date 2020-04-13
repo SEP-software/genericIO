@@ -691,9 +691,11 @@ class irregFile:
         axes=self.getHyper().axes
         axes[0]=Hypercube.hypercube(hypercube=self.cppMode.getHyperData()).axes[0]
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
+        print("I SEE THE AXES",len(axes))
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
         if self.storage == "dataFloat":
+            print("I SEE ",nw,fw,jw)
             head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataInt":
@@ -1032,6 +1034,7 @@ class io:
         jw = [1] * len(nw)
         vec = SepVector.getSepVector(hyper, storage=file.storage)
         if file.storage == "dataFloat":
+    
             file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())
         elif file.storage == "dataComplex":
             file.getCpp().readComplexWindow(nw, fw, jw, vec.getCpp())

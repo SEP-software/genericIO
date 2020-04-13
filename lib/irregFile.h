@@ -281,7 +281,7 @@ Get a string from a file
    Return hypercube describing dataset
    */
   std::shared_ptr<SEP::hypercube> getHyper() {
-    if (_hype == nullptr)
+    if (_hyper == nullptr)
       throw SEPException(std::string("hypercube not defined"));
 
     return _hyper;

@@ -691,11 +691,9 @@ class irregFile:
         axes=self.getHyper().axes
         axes[0]=Hypercube.hypercube(hypercube=self.cppMode.getHyperData()).axes[0]
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
-        print("I SEE THE AXES",len(axes))
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
         if self.storage == "dataFloat":
-            print("I SEE ",nw,fw,jw)
             head,v=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
         elif self.storage == "dataInt":
@@ -795,7 +793,6 @@ class irregFile:
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
-        print("HEAD",head,"SSSS",headS,headS.getHyper().getAxis(2).n)
         header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
         if drn:
             header._drn=int1DVector(fromCpp==drn)

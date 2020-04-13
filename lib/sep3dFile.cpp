@@ -616,6 +616,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   if (idone != headerLocs.size()) {
     int ii = idone + 1;
     int imore = headerLocs.size() - idone;
+    fprintf(stderr, "reading from %d % headers\n", ii, imore);
     if (0 != sep_get_val_headers(_tag.c_str(), &ii, &imore, headBuf->getVals()))
       throw SEPException(std::string("Trouble reading headers"));
     extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf,

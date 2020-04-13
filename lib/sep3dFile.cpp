@@ -711,7 +711,7 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
                                   const int n1, void *temp, void *data) {
 
   int idone = 0;
-  int iread;
+  int iread = 0;
   std::cerr << "loope 1" << std::endl;
   while (idone + iread < itrs.size()) {
     bool found = false;

@@ -267,7 +267,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     sep_get_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
     axes.push_back(axis(n, o, d, std::string(label)));
   }
-  axesT[0] = axes[0];
+  axesT[0].append(axes[0]);
   // Store the data hypercube
   _hyperData.reset(new hypercube(axes));
 

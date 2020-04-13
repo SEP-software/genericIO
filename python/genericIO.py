@@ -530,11 +530,11 @@ class irregFile:
                     self.usage], ndimMax)
             self.cppMode.putHeaderKeyType(header.getKeyTypes())
             self.cppMode.putHeaderKeyList(header._keyOrder)
-            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder],vec._headers._nh]))
+            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
             if header._gridHyper:
                 self.cppMode.setHyper(vec.getCpp().getHyper())
             else:
-                self.cppMode.setHyper(Hypercube.hypercube(ns=[len(vec._headers._keyOrder],vec._headers._nh]))
+                self.cppMode.setHyper(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 
@@ -555,7 +555,7 @@ class irregFile:
             self.cppMode.putHeaderKeyType(vec.header.getKeyTypes())
             self.cppMode.putHeaderKeyList(vec.header._keyOrder)
             self.cppMode.setHyperData(vec.traces.getHyper())
-            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder],vec._headers._nh]))
+            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
             self.cppMode.setHyper(vec.getCpp().getHyper())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
@@ -747,7 +747,7 @@ class irregFile:
             self.cppMode.writeComplexTraceWindow(nw, fw, jw, head.cppMode,vec.cppMode,grid.cppMode)
         elif self.storage == "dataDouble":
             self.cppMode.writeDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
-        elif self.storage == "datComplexDouble:
+        elif self.storage == "datComplexDouble":
             self.cppMode.writeComplexDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
     def headerToByte2D(self,head):
         """Convert headers into a 2-D byte array
@@ -759,18 +759,18 @@ class irregFile:
             drn - Data record int1DReg
             grid  - Grid 
             """
-            off,sz=self.cppMode.createOffsetMap()
-            typ=self.cppMode.getKeyType()
-            klast=headS._keyList[len(head._keyList)-1]
-            n1=off[klast]+off[klast]
-            head=byte2DVector(n1,headS._nh)
-            for k,v in off.items():
-               self.cppMode.insertValue(head.cppMode.getVals(),headS[k]._vals.cppMode,
-                off[k],sz[k],n1,headS._nh)
-            if headS._drn:
-                return head,drn,headS.getCreateGrid()
-            else:
-                return head,None,headS.getCreateGrid()
+        off,sz=self.cppMode.createOffsetMap()
+        typ=self.cppMode.getKeyType()
+        klast=headS._keyList[len(head._keyList)-1]
+        n1=off[klast]+off[klast]
+        head=byte2DVector(n1,headS._nh)
+        for k,v in off.items():
+            self.cppMode.insertValue(head.cppMode.getVals(),headS[k]._vals.cppMode,
+            off[k],sz[k],n1,headS._nh)
+        if headS._drn:
+            return head,drn,headS.getCreateGrid()
+        else:
+            return head,None,headS.getCreateGrid()
 
     def byte2DToHeader(self,buffer,drn=None):
         """Convert  a 2-D byte array into a header
@@ -779,29 +779,29 @@ class irregFile:
 
             header  Byte2DArray
             drn - Data record int1DReg"""
-            off,sz=self.cppMode.createOffsetMap()
-            typ=self.cppMode.getKeyType()
-            headS=byte2DVector(fromCpp=head)
-            header=SepIrregVector.header(nh=headS.getHyper().getAxis(2).n)
-            if drn:
-                header._drn=int1DVector(fromCpp==drn)
-            for k,v in off.items():
-                if typ[k]=="DATABYTE":
-                    key=byte1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATASHORT":
-                    key=short1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATAINT":
-                    key=int1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATAFLOAT":
-                    key=float1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATACOMPLEX":
-                    key=complex1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATADOUBLE":
-                    key=double1DVector(fromCpp=self.cppMode.extractByte(head,v))
-                if typ[k]=="DATACOMPLEDOUBLE":
-                    key=complexDouble1DVector(fromCpp=self.cppMode.extractByte(head,v)) 
-                headS.addKey(k,vals=key)
-            return headS      
+        off,sz=self.cppMode.createOffsetMap()
+        typ=self.cppMode.getKeyType()
+        headS=byte2DVector(fromCpp=head)
+        header=SepIrregVector.header(nh=headS.getHyper().getAxis(2).n)
+        if drn:
+            header._drn=int1DVector(fromCpp==drn)
+        for k,v in off.items():
+            if typ[k]=="DATABYTE":
+                key=byte1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATASHORT":
+                key=short1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATAINT":
+                key=int1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATAFLOAT":
+                key=float1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATACOMPLEX":
+                key=complex1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATADOUBLE":
+                key=double1DVector(fromCpp=self.cppMode.extractByte(head,v))
+            if typ[k]=="DATACOMPLEDOUBLE":
+                key=complexDouble1DVector(fromCpp=self.cppMode.extractByte(head,v)) 
+            headS.addKey(k,vals=key)
+        return headS      
     def writeHeaderWindow(self, vec, **kw):
         """Write  a window of a file into the vector
                 Required:

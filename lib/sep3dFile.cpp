@@ -768,6 +768,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*head_drn.second->_mat)[i];
+    std::cerr << "echkec out drn " << i << " " << headPos[i][1] << std::endl;
   }
   std::cerr << "before 2header pso " << std::endl;
 

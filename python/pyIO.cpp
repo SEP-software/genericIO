@@ -461,7 +461,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericIrregFile ::getHeaderKeyTypes,
            "Get the header key types ")
       .def("putHeaderKeyTypes",
-           (std::map<std::string, std::string>(genericIrregFile::*)() const) &
+           (void (genericIrregFile::*)(std::map<std::string, std::string>)
+                const) &
                genericIrregFile ::putHeaderKeyTypes,
            "Put the list of of headers")
       .def("putDataDescriptionString",

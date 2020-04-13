@@ -540,6 +540,7 @@ class irregFile:
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]
+            print(type(vec),"FROM VEC")
             if not isinstance(kw["fromVector"], SepIrregVector.sepIrregVector):
                 raise Exception(
                     "When creating a file from a vector must be inherited from SepIrregVector.sepIrregvector")
@@ -552,10 +553,14 @@ class irregFile:
             self.cppMode = ioM.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
-            if vec._gridHyper:
+            if vec._header._gridHyper:
                 self.cppMode.setHaveGrid(True)
-            self.cppMode.putHeaderKeyType(vec.header.getKeyTypes())
-            self.cppMode.putHeaderKeyList(vec.header._keyOrder)
+            mp2={}
+            for k,v in vec._header.getKeyTypes().items():
+                mp2[k]=str(v)
+            self.cppMode.putHeaderKeyTypes(mp2)
+
+            self.cppMode.putHeaderKeyList(vec._header._keyOrder)
             self.cppMode.setHyperData(vec.traces.getHyper())
             self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
             self.cppMode.setHyper(vec.getCpp().getHyper())
@@ -799,10 +804,8 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
         if grid is not None:
-            print("NOT RIGHT")
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=grid,gridHyper=self.getHyper())
         else:
-            print("RIGHT")
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
 
         if drn:
@@ -1031,10 +1034,30 @@ class io:
         """Get vector from a file and read its contents
            Optional
              """
+        #NEED TO ADD STUFF HERE
+        #ADD ADDD AAAAAA
         file = self.getIrregFile(tag, **kw)
-        self._files[tag] =file
-        return file.readDataWindow()
-       
+        self._files[tag] = file
+        hyper = file.getHyper()
+        nw = file.getHyper().getNs()
+        fw = [0] * len(nw)
+        jw = [1] * len(nw)
+        vec = SepVector.getSepVector(hyper, storage=file.storage)
+        if file.storage == "dataFloat":
+    
+            file.getCpp().readFloatWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataComplex":
+            file.getCpp().readComplexWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataComplexDouble":
+            file.getCpp().readComplexDoubleWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataByte":
+            file.getCpp().readByteWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataInt":
+            file.getCpp().readIntWindow(nw, fw, jw, vec.getCpp())
+        elif file.storage == "dataDouble":
+            file.getCpp().readDoubleWindow(nw, fw, jw, vec.getCpp())
+        file.close()
+        return vec
 
     def getVector(self, tag, **kw):
         """Get vector from a file and read its contents

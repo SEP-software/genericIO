@@ -603,11 +603,19 @@ class irregFile:
             x+="Data type=complexDouble\n"
         else:
             x+="Data type=UKNOWN\n"
-        x+=str("Data description\n%s\n"%(Hypercube.hypercube(self.cppMode.getHyperData())))
+        m=self.cppMode.getHyperData()
+        x+=str("Data description\n%s\n"%(Hypercube.hypercube(hypercube=m)))
         order=self.cppMode.getHeaderKeyList()
         typ=self.cppMode.getHeaderKeyTypes()
+        x+=str("Headers:\n")
         for k in order:
-            x+="%s %s\n"%(k,typ[k])
+            if len(k)<8:
+                x+="\t%s \t \t \t %s\n"%(k,typ[k])
+            elif len(k)<16:
+                x+="\t%s \t \t %s\n"%(k,typ[k])
+            else:
+                x+="\t%s \t  %s\n"%(k,typ[k])
+
         x+=str("Hypercube for headers:\n%s"%self.getHyper())
         return x
     def remove(self):

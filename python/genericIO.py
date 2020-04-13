@@ -783,12 +783,12 @@ class irregFile:
         else:
             return head,None,headS.getCreateGrid()
 
-    def byte2DToHeader(self,buffer,drn=None):
+    def byte2DToHeader(self,head,drn=None):
         """Convert  a 2-D byte array into a header
 
            return  head - SepIrregVector.sepIrregVector
 
-            header  Byte2DArray
+            head  Byte2DArray
             drn - Data record int1DReg"""
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()

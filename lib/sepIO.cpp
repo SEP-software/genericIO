@@ -20,7 +20,7 @@ sepIO::getRegFileTag(const std::string &tag, const std::string &name,
 std::shared_ptr<genericIrregFile>
 sepIO::getIrregFileTag(const std::string &tag, const std::string &name,
                        const SEP::usage_code usage, const int ndimMax) {
-  std::shared_ptr<sep3dFile> x(new sep3dFile(name, usage));
+  std::shared_ptr<sep3dFile> x(new sep3dFile(name, usage, ndimMax));
   addIrregFile(name, x);
   return x;
 }

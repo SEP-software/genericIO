@@ -340,14 +340,15 @@ void sep3dFile::readDescription(const int ndimMax) {
 
   // Read in the keys
   for (int ikey = 0; ikey < nkeys; ikey++) {
-    if (0 != sep_get_key_name(_tag.c_str(), &ikey, temp_ch))
+    int ii = ikey + 1;
+    if (0 != sep_get_key_name(_tag.c_str(), &ii, temp_ch))
       throw SEPException(std::string("trouble grabbing name for key ") +
                          std::to_string(ikey));
     if (strcmp(temp_ch, "data_record_number") == 0) {
       _drn = ikey;
     } else {
       _keys.push_back(temp_ch);
-      if (0 != sep_get_key_type(_tag.c_str(), &ikey, temp_ch))
+      if (0 != sep_get_key_type(_tag.c_str(), &ii, temp_ch))
         throw SEPException(std::string("trouble grabbing "
                                        "type for key ") +
                            std::to_string(ikey));

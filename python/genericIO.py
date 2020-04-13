@@ -802,18 +802,17 @@ class irregFile:
                 print("indata byer")
                 key=SepVector.byteVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataShort":
-                key=SepVector.shortVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.shortVector(fromCpp=self.cppMode.extractShort(head,v))
             if typ[k]=="dataInt":
-                print("in data int")
-                key=SepVector.intVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.intVector(fromCpp=self.cppMode.extractInt(head,v))
             if typ[k]=="dataFloat":
-                key=SepVector.floatVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.floatVector(fromCpp=self.cppMode.extractFloat(head,v))
             if typ[k]=="dataComplex":
-                key=SepVector.complexVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.complexVector(fromCpp=self.cppMode.extractComplex(head,v))
             if typ[k]=="dataDouble":
-                key=SepVector.doubleVector(fromCpp=self.cppMode.extractByte(head,v))
+                key=SepVector.doubleVector(fromCpp=self.cppMode.extractDouble(head,v))
             if typ[k]=="dataComplexDouble":
-                key=SepVector.complexDoubleVector(fromCpp=self.cppMode.extractByte(head,v)) 
+                key=SepVector.complexDoubleVector(fromCpp=self.cppMode.extractComplexDouble(head,v)) 
             header.addKey(k,vals=key.getNdArray())
         return header
     def writeHeaderWindow(self, vec, **kw):

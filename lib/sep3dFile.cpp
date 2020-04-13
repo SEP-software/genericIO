@@ -754,6 +754,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
+  auto drn = std::get<1>(head_drn);
   int ntr = head_drn.second->getHyper()->getN123();
   std::shared_ptr<float2DReg> data(
       new float2DReg(_hyperData->getAxis(1).n, ntr));
@@ -860,8 +861,7 @@ sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
                                   const std::vector<int> &jwind) {
   if (getDataType() != DATA_COMPLEX)
     throw SEPException("Attempt to read int from a non-float file");
-  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
-      readHeaderWindow(nwind, fwind, jwind);
+  auto head_drn = readHeaderWindow(nwind, fwind, jwind);
   std::shared_ptr<int1DReg> drn = std::get<1>(head_drn);
 
   int ntr = drn->getHyper()->getN123();

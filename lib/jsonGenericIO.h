@@ -1,9 +1,9 @@
 #ifndef JSON_IO_H
 #define JSON_IO_H 1
-#include <fstream>  // std::ifstream
 #include "genericIO.h"
 #include "jsonGenericIrregFile.h"
 #include "jsonGenericRegFile.h"
+#include <fstream> // std::ifstream
 
 #include "jsonParamObj.h"
 namespace SEP {
@@ -12,7 +12,7 @@ Class for handling IO for files written using JSON
 */
 
 class jsonGenericIO : public genericIO {
- public:
+public:
   /*!
  Default object, does nothing
 */
@@ -42,9 +42,9 @@ Initialize IO JSON parameters
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-  virtual std::shared_ptr<genericRegFile> getRegFileTag(
-      const std::string &tag, const std::string &name, const usage_code usage,
-      const int ndimMax = -1) override;
+  virtual std::shared_ptr<genericRegFile>
+  getRegFileTag(const std::string &tag, const std::string &name,
+                const usage_code usage, const int ndimMax = -1) override;
   /*!
    Return a genericIrregFile object
 
@@ -55,9 +55,9 @@ Initialize IO JSON parameters
 
 */
 
-  virtual std::shared_ptr<genericIrregFile> getIrregFileTag(
-      const std::string &tag, const std::string &name, const usage_code usage,
-      const int ndimMax = -1) override;
+  virtual std::shared_ptr<genericIrregFile>
+  getIrregFileTag(const std::string &tag, const std::string &name,
+                  const usage_code usage, const int ndimMax = -1) override;
   /*!
     Close all files
 
@@ -69,15 +69,15 @@ Initialize IO JSON parameters
 */
   virtual std::shared_ptr<paramObj> getParamObj() override;
 
- protected:
-  std::string _progName;  ///< Name of the program
-  Json::Value jsonArgs;   ///< JSON structure containing arguments
+protected:
+  std::string _progName; ///< Name of the program
+  Json::Value jsonArgs;  ///< JSON structure containing arguments
   bool _sentError =
-      false;  ///< Whether or not an error on initialization has been sent
+      false; ///< Whether or not an error on initialization has been sent
 
- private:
-  std::ifstream inps;  ///< Stream object for IO
-  bool _init;          ///< Whether or not IO has been initialized
+private:
+  std::ifstream inps; ///< Stream object for IO
+  bool _init;         ///< Whether or not IO has been initialized
 };
-}  // namespace SEP
+} // namespace SEP
 #endif

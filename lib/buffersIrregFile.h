@@ -1,18 +1,18 @@
 #ifndef buffers_irreg_file_h
 #define buffers_irreg_file_h 1
-#include <stdbool.h>
-#include <string>
 #include "basicIO.h"
 #include "buffers.h"
 #include "json.h"
 #include "jsonGenericIrregFile.h"
+#include <stdbool.h>
+#include <string>
 namespace SEP {
 
 /*!
   Object for handling irregular files broken into blocks
 */
 class buffersIrregFile : public jsonGenericIrregFile {
- public:
+public:
   /*!
      Initialize an irregular file
  */
@@ -20,13 +20,17 @@ class buffersIrregFile : public jsonGenericIrregFile {
   /*!
      Write the description for the file
  */
-  virtual void writeDescription();
+  virtual void writeDescription() {
+
+    throw SEPException("writeDecription not overriden yet");
+  }
   /*!
      Set how memory should be handled for buffer object
        \param mem Memory usage object
  */
   void setMemoryUsage(std::shared_ptr<SEP::IO::memoryUsage> mem) {
-    if (!_hyper) throw SEPException(std::string("Hypercube has not been set"));
+    if (!_hyper)
+      throw SEPException(std::string("Hypercube has not been set"));
     _mem = mem;
   }
   /*!
@@ -44,14 +48,13 @@ class buffersIrregFile : public jsonGenericIrregFile {
  */
   virtual void createBuffers() = 0;
 
- protected:
-  std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;  ///< Buffering scheme
-  std::shared_ptr<SEP::IO::memoryUsage> _mem =
-      nullptr;                                         ///< Memory usage scheme
-  std::shared_ptr<SEP::IO::compress> _comp = nullptr;  ///< Compression scheme
+protected:
+  std::shared_ptr<SEP::IO::buffers> _bufs = nullptr;    ///< Buffering scheme
+  std::shared_ptr<SEP::IO::memoryUsage> _mem = nullptr; ///< Memory usage scheme
+  std::shared_ptr<SEP::IO::compress> _comp = nullptr;   ///< Compression scheme
   std::shared_ptr<SEP::IO::blocking> _block = nullptr;
 
-};  // namespace SEP
+}; // namespace SEP
 
-}  // namespace SEP
+} // namespace SEP
 #endif

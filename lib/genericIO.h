@@ -1,15 +1,16 @@
 #ifndef GENERIC_IO_H
 #define GENERIC_IO_H 1
-#include <map>
-#include <memory>
 #include "genericFile.h"
+#include "irregFile.h"
 #include "json.h"
 #include "paramObj.h"
+#include <map>
+#include <memory>
 
 namespace SEP {
 /*! Abstract Class for different types IO*/
 class genericIO {
- public:
+public:
   /*!
  Default object, does nothing
 */
@@ -36,9 +37,9 @@ class genericIO {
     \param usage Usage for file (in,out,scratch)
     \param ndimMax Output file should have ndimMax axes
   */
-  std::shared_ptr<SEP::genericRegFile> getDocRegFile(
-      const std::string &name, const std::string &doc,
-      const SEP::usage_code usage, const int ndimMax = -1);
+  std::shared_ptr<SEP::genericRegFile>
+  getDocRegFile(const std::string &name, const std::string &doc,
+                const SEP::usage_code usage, const int ndimMax = -1);
 
   /*!
    Return a genericIrregFile object
@@ -49,9 +50,9 @@ class genericIO {
   \param ndimMax Output file should have ndimMax axes
 
 */
-  std::shared_ptr<SEP::genericIrregFile> getIrregFile(
-      const std::string &name, const SEP::usage_code usage,
-      const int ndimMax = -1);
+  std::shared_ptr<SEP::genericIrregFile>
+  getIrregFile(const std::string &name, const SEP::usage_code usage,
+               const int ndimMax = -1);
 
   /*!
      Return a genericRegFile object
@@ -61,9 +62,9 @@ class genericIO {
     \param usage Usage for file (in,out,scratch)
     \param ndimMax Output file should have ndimMax axes
   */
-  virtual std::shared_ptr<SEP::genericRegFile> getRegFileTag(
-      const std::string &tag, const std::string &name,
-      const SEP::usage_code usage, const int ndimMax = -1) = 0;
+  virtual std::shared_ptr<SEP::genericRegFile>
+  getRegFileTag(const std::string &tag, const std::string &name,
+                const SEP::usage_code usage, const int ndimMax = -1) = 0;
 
   /*!
      Return a genericRegFile object
@@ -73,9 +74,9 @@ class genericIO {
     \param usage Usage for file (in,out,scratch)
     \param ndimMax Output file should have ndimMax axes
   */
-  virtual std::shared_ptr<SEP::genericRegFile> getDocRegFile(
-      const std::string &name, const std::string &doc, const std::string usage,
-      const int ndimMax = -1);
+  virtual std::shared_ptr<SEP::genericRegFile>
+  getDocRegFile(const std::string &name, const std::string &doc,
+                const std::string usage, const int ndimMax = -1);
 
   /*!
      Return a genericRegFile object
@@ -84,9 +85,9 @@ class genericIO {
     \param usage Usage for file (in,out,scratch)
     \param ndimMax Output file should have ndimMax axes
   */
-  virtual std::shared_ptr<SEP::genericRegFile> getRegFile(
-      const std::string &name, const std::string usage,
-      const int ndimMax = -1) {
+  virtual std::shared_ptr<SEP::genericRegFile>
+  getRegFile(const std::string &name, const std::string usage,
+             const int ndimMax = -1) {
     SEP::usage_code code;
     if (usage == std::string("UsageIn")) {
       code = usageIn;
@@ -110,9 +111,9 @@ class genericIO {
   \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
-      const std::string &tag, const std::string &name,
-      const SEP::usage_code usage, const int ndimMax = -1) = 0;
+  virtual std::shared_ptr<SEP::genericIrregFile>
+  getIrregFileTag(const std::string &tag, const std::string &name,
+                  const SEP::usage_code usage, const int ndimMax = -1) = 0;
 
   /*!
     Return parameter object associated with this IO
@@ -159,7 +160,8 @@ class genericIO {
      \param name Name of the tag
   */
   bool regFileExists(const std::string name) {
-    if (_regFiles.count(name) == 0) return false;
+    if (_regFiles.count(name) == 0)
+      return false;
     return true;
   }
   /*!
@@ -168,7 +170,8 @@ class genericIO {
       \param name Name of the tag
    */
   bool irregFileExists(const std::string name) {
-    if (_irregFiles.count(name) == 0) return false;
+    if (_irregFiles.count(name) == 0)
+      return false;
     return true;
   }
   /*!
@@ -239,26 +242,25 @@ class genericIO {
 */
   ~genericIO() { close(); }
 
-  void setParamObj(std::shared_ptr<paramObj> par) { _param = par; }
   /*!
-  Close all files
-
-*/
+  Set what type of parameter object we are going to use
+  */
+  void setParamObj(std::shared_ptr<paramObj> par) { _param = par; }
 
   /*!
      @return ioType
    */
-  std::string getType() const { return _type;}
+  std::string getType() const { return _type; }
   virtual void filesClose();
-  std::string _type;  ///< IO type
+  std::string _type; ///< IO type
 
- protected:
-  std::map<std::string, std::shared_ptr<genericRegFile> >
-      _regFiles;  ///< All active tags for regular files
-  std::map<std::string, std::shared_ptr<genericIrregFile> >
-      _irregFiles;                   ///< All active tags for irregular files
-  std::shared_ptr<paramObj> _param;  ///< IO handler for this IO type
-  bool _valid;                       ///< Whether or not IO type is valid
-};                                   // namespace SEP
-}  // namespace SEP
+protected:
+  std::map<std::string, std::shared_ptr<genericRegFile>>
+      _regFiles; ///< All active tags for regular files
+  std::map<std::string, std::shared_ptr<genericIrregFile>>
+      _irregFiles;                  ///< All active tags for irregular files
+  std::shared_ptr<paramObj> _param; ///< IO handler for this IO type
+  bool _valid;                      ///< Whether or not IO type is valid
+};                                  // namespace SEP
+} // namespace SEP
 #endif

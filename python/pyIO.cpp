@@ -3,12 +3,12 @@
 #include "genericFile.h"
 #include "genericIO.h"
 #include "ioModes.h"
+#include "irregFile.h"
 #include <pybind11/chrono.h>
 #include <pybind11/complex.h>
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
-
 namespace py = pybind11;
 namespace SEP {
 
@@ -200,6 +200,15 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::writeDoubleStream,
            "Write a stream of floats")
 
+      .def("putDescriptionString",
+           (void (genericRegFile::*)(const std::string &)) &
+               genericRegFile::putDescriptionString,
+           "Put the  description into the file")
+      .def("getDescriptionString",
+           (std::string(genericRegFile::*)()) &
+               genericRegFile::getDescriptionString,
+           "Get the  description from the file")
+
       .def("close", (void (genericRegFile ::*)()) & genericRegFile::close,
            "Close file")
       .def("readByteWindow",
@@ -215,11 +224,11 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericRegFile::readFloatWindow,
            "Read a window of floats")
       .def("readDoubleWindow",
-            (void (genericRegFile ::*)(const std::vector<int> &,
-                                       const std::vector<int> &,
-                                       const std::vector<int> &, double *)) &
-                genericRegFile::readDoubleWindow,
-            "Read a window of doubles")
+           (void (genericRegFile ::*)(const std::vector<int> &,
+                                      const std::vector<int> &,
+                                      const std::vector<int> &, double *)) &
+               genericRegFile::readDoubleWindow,
+           "Read a window of doubles")
       .def("writeFloatStream",
            (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
                genericRegFile::writeFloatStream,
@@ -370,6 +379,321 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
       .def("setDataType", (void (genericRegFile::*)(const dataType)) &
                               genericRegFile::setDataType);
 
+  py::class_<genericIrregFile, std::shared_ptr<genericIrregFile>>(
+      clsGeneric, "genericIrregFile")
+      // .def(py::init<>(), "Initlialize a genericIrregFile (don't use this)")
+      .def("putInt",
+           (void (genericIrregFile::*)(const std::string &, const int) const) &
+               genericIrregFile::putInt,
+           "Write an integer parameters")
+      .def("remove", (void (genericIrregFile::*)()) & genericIrregFile::remove,
+           "Remove  all data associated with the file")
+      .def(
+          "putFloat",
+          (void (genericIrregFile::*)(const std::string &, const float) const) &
+              genericIrregFile::putFloat,
+          "Write a float parameters")
+
+      .def("putString",
+           (void (genericIrregFile::*)(const std::string &, const std::string)
+                const) &
+               genericIrregFile::putFloat,
+           "Write a string parameters")
+      .def("putHeaderKeyList",
+           (void (genericIrregFile::*)(const std::vector<std::string>) const) &
+               genericIrregFile ::putHeaderKeyList,
+           "Put the list of of headers")
+      .def("gettHeaderKeyList",
+           (std::vector<std::string>(genericIrregFile::*)() const) &
+               genericIrregFile ::getHeaderKeyList,
+           "Get the list of of headers")
+      .def("createOffsetMap",
+           (std::pair<std::map<std::string, int>, std::map<std::string, int>>(
+               genericIrregFile ::*)() const) &
+               genericIrregFile::createOffsetMap,
+           "Create a map of key offsets and sizes")
+      .def("extractByte",
+           (std::shared_ptr<byte1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractByte,
+           "Extract a byte key from a header chunk")
+      .def("extractShort",
+           (std::shared_ptr<short1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractShort,
+           "Extract a short key from a header chunk")
+      .def("extractInt",
+           (std::shared_ptr<int1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractInt,
+           "Extract a int key from a header chunk")
+      .def("extractFloat",
+           (std::shared_ptr<float1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractFloat,
+           "Extract a float key from a header chunk")
+      .def("extractDouble",
+           (std::shared_ptr<double1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractDouble,
+           "Extract a float key from a header chunk")
+      .def("extractComplex",
+           (std::shared_ptr<complex1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractComplex,
+           "Extract a float key from a header chunk")
+      .def("extractComplexDouble",
+           (std::shared_ptr<complexDouble1DReg>(genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, const int) const) &
+               genericIrregFile::extractComplexDouble,
+           "Extract a float key from a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(void *, void *, const int, const int,
+                                       const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("getHeaderKeyType",
+           (std::map<std::string, std::string>(genericIrregFile::*)(
+               const std::vector<std::string>) const) &
+               genericIrregFile ::getHeaderKeyType,
+           "Get the header key types ")
+      .def("putHeaderKeyTypes",
+           (std::map<std::string, std::string>(genericIrregFile::*)() const) &
+               genericIrregFile ::putHeaderKeyTypes,
+           "Put the list of of headers")
+      .def("putDataDescriptionString",
+           (void (genericIrregFile::*)(const std::string &)) &
+               genericIrregFile::putDataDescriptionString,
+           "Put the data description into the file")
+      .def("putDescriptionString",
+           (void (genericIrregFile::*)(const std::string &)) &
+               genericIrregFile::putDescriptionString,
+           "Put the  description into the file")
+      .def("getDescriptionString",
+           (std::string(genericIrregFile::*)()) &
+               genericIrregFile::getDescriptionString,
+           "Get the  description from the file")
+      .def("getDataDescriptionString",
+           (std::string(genericIrregFile::*)()) &
+               genericIrregFile::getDataDescriptionString,
+           "Get the data  description from the file")
+      .def("putBool",
+           (void (genericIrregFile::*)(const std::string &, const bool) const) &
+               genericIrregFile::putBool,
+           "Write a boolean parameters")
+
+      .def("putInts",
+           (void (genericIrregFile::*)(const std::string &,
+                                       const std::vector<int> &) const) &
+               genericIrregFile::putInts,
+           "Write  a vector or integer parameters")
+
+      .def("putFloats",
+           (void (genericIrregFile::*)(const std::string &,
+                                       const std::vector<float> &) const) &
+               genericIrregFile::putFloats,
+           "Write  a vector or float parameters")
+      .def("getInt",
+           (int (genericIrregFile::*)(const std::string &) const) &
+               genericIrregFile::getInt,
+           "Get a required integer parameters")
+      .def("getInt",
+           (int (genericIrregFile::*)(const std::string &, const int) const) &
+               genericIrregFile::getInt,
+           "Get an integer parameter, if not specified use the default")
+      .def("getFloat",
+           (float (genericIrregFile::*)(const std::string &) const) &
+               genericIrregFile::getFloat,
+           "Get a required float parameters")
+      .def("getFloat",
+           (float (genericIrregFile::*)(const std::string &, const float)
+                const) &
+               genericIrregFile::getFloat,
+           "Get a float parameter, if not specified use the default")
+      .def("getString",
+           (std::string(genericIrregFile::*)(const std::string &) const) &
+               genericIrregFile::getString,
+           "Get a required string parameters")
+      .def("getString",
+           (std::string(genericIrregFile::*)(const std::string &,
+                                             const std::string &) const) &
+               genericIrregFile::getString,
+           "Get a string parameter, if not specified use the default")
+      .def("getBool",
+           (bool (genericIrregFile::*)(const std::string &) const) &
+               genericIrregFile::getBool,
+           "Get a required bool parameter")
+      .def("getBool",
+           (bool (genericIrregFile::*)(const std::string &, const bool) const) &
+               genericIrregFile::getBool,
+           "Get a boolean parameter, if not specified use the default")
+      .def("getInts",
+           (std::vector<int>(genericIrregFile::*)(const std::string &,
+                                                  const int) const) &
+               genericIrregFile::getInts,
+           "Get a required  list of integeres parameter")
+      .def("getInts",
+           (std::vector<int>(genericIrregFile::*)(
+               const std::string &, const std::vector<int> &) const) &
+               genericIrregFile::getInts,
+           "Get a series of intergers, if not specified use the default")
+      .def("getFloats",
+           (std::vector<float>(genericIrregFile::*)(const std::string &,
+                                                    const int) const) &
+               genericIrregFile::getFloats,
+           "Get a required  list of floats parameter")
+
+      .def("getFloats",
+           (std::vector<float>(genericIrregFile::*)(
+               const std::string &, const std::vector<float> &) const) &
+               genericIrregFile::getFloats,
+           "Get a series of floats, if not specified use the default")
+
+      .def("close", (void (genericIrregFile ::*)()) & genericIrregFile::close,
+           "Close file")
+
+      .def("readDescription", (void (genericIrregFile::*)(const int)) &
+                                  genericIrregFile::readDescription)
+      .def("writeDescription",
+           (void (genericIrregFile::*)()) & genericIrregFile::writeDescription)
+
+      .def("setHyper",
+           (void (genericIrregFile::*)(std::shared_ptr<SEP::hypercube>)) &
+               genericIrregFile::setHyper)
+      .def("getHyper",
+           (std::shared_ptr<hypercube>(genericIrregFile::*)()) &
+               genericIrregFile::getHyper,
+           "Get the hypercube")
+      .def_property("_hyper", &genericIrregFile::getHyper,
+                    &genericIrregFile::setHyper,
+                    py::return_value_policy::reference)
+      .def("getDataType",
+           (dataType(genericIrregFile::*)()) & genericIrregFile::getDataType)
+      .def("setDataType", (void (genericIrregFile::*)(const dataType)) &
+                              genericIrregFile::setDataType)
+      .def("readHeaderWindow",
+           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>(
+               genericIrregFile ::*)(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind)) &
+               genericIrregFile::readHeaderWindow,
+           "Read a window of headers")
+
+      .def("readByteTraceWindow",
+           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>(
+               genericIrregFile ::*)(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind)) &
+               genericIrregFile::readByteTraceWindow,
+           "Read a byte of floats")
+
+      .def("readFloatTraceWindow",
+           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>(
+               genericIrregFile ::*)(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind)) &
+               genericIrregFile::readFloatTraceWindow,
+           "Read a window of floats")
+      .def("readDoubleTraceWindow",
+           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>(
+               genericIrregFile ::*)(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind)) &
+               genericIrregFile::readDoubleTraceWindow,
+           "Read a window of double")
+
+      .def("readIntTraceWindow",
+           (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>(
+               genericIrregFile ::*)(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind)) &
+               genericIrregFile::readIntTraceWindow,
+           "Read a window of int")
+      .def(
+          "readComplexTraceWindow",
+          (std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>(
+              genericIrregFile ::*)(const std::vector<int> &nwind,
+                                    const std::vector<int> &fwind,
+                                    const std::vector<int> &jwind)) &
+              genericIrregFile::readComplexTraceWindow,
+          "Read a window of complex")
+      .def(
+          "readComplexDoubleTraceWindow",
+          (std::pair<std::shared_ptr<byte2DReg>,
+                     std::shared_ptr<complexDouble2DReg>>(genericIrregFile ::*)(
+              const std::vector<int> &nwind, const std::vector<int> &fwind,
+              const std::vector<int> &jwind)) &
+              genericIrregFile::readComplexDoubleTraceWindow,
+          "Read a window of int")
+
+      .def("writeHeaderWindow",
+           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
+                                        const std::vector<int> &fwind,
+                                        const std::vector<int> &jwind,
+                                        const std::shared_ptr<int1DReg> &drn,
+                                        const std::shared_ptr<byte2DReg> &,
+                                        const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeHeaderWindow,
+           "Write a window of headers")
+
+      .def("writeComplexDoubleTraceWindow",
+           (void (genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind,
+               const std::shared_ptr<int1DReg> &drn,
+               const std::shared_ptr<complexDouble2DReg> &,
+               const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeComplexDoubleTraceWindow,
+           "Write a window of complex doubles")
+
+      .def("writeComplexTraceWindow",
+           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
+                                        const std::vector<int> &fwind,
+                                        const std::vector<int> &jwind,
+                                        const std::shared_ptr<complex2DReg> &,
+                                        const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeComplexTraceWindow,
+           "Write a window of complex floats")
+
+      .def("writeDoubleTraceWindow",
+           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
+                                        const std::vector<int> &fwind,
+                                        const std::vector<int> &jwind,
+                                        const std::shared_ptr<double2DReg> &,
+                                        const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeDoubleTraceWindow,
+           "Write a window of doubles")
+
+      .def("writeIntTraceWindow",
+           (void (genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind, const std::shared_ptr<int2DReg> &,
+               const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeIntTraceWindow,
+           "Write a window of ints")
+
+      .def("writeFloatTraceWindow",
+           (void (genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind,
+               const std::shared_ptr<int1DReg> &drn,
+               const std::shared_ptr<complexDouble2DReg> &,
+               const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeFloatTraceWindow,
+           "Write a window of floats")
+
+      .def("writeByteTraceWindow",
+           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
+                                        const std::vector<int> &fwind,
+                                        const std::vector<int> &jwind,
+                                        const std::shared_ptr<int1DReg> &drn,
+                                        const std::shared_ptr<byte2DReg> &,
+                                        const std::shared_ptr<byte1DReg> &)) &
+               genericIrregFile::writeByteTraceWindow,
+           "Write a window of bytes")
+
+      ;
+
   py::class_<genericIO, std::shared_ptr<genericIO>>(clsGeneric, "genericIO")
 
       .def("getRegFile",
@@ -380,6 +704,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
                const std::string &, const std::string, const int)) &
                genericIO::getRegFile)
+
+      .def("getIrregFile",
+           (std::shared_ptr<SEP::genericIrregFile>(genericIO::*)(
+               const std::string &, const SEP::usage_code, const int)) &
+               genericIO::getIrregFile)
+
       .def("fileDebug", (void (genericIO::*)(const std::string, const float *,
                                              const int, const int)) &
                             genericIO::fileDebug)

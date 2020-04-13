@@ -1,7 +1,7 @@
 #include "jsonGenericIO.h"
 #include <exception>
-#include <fstream>   // std::ifstream
-#include <iostream>  // std::cout
+#include <fstream>  // std::ifstream
+#include <iostream> // std::cout
 using namespace SEP;
 void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   setValid(false);
@@ -9,7 +9,7 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   std::string fileIn, fileOut;
   int i = 0;
   _progName = std::string(argv[0]);
-  _type="JSON";
+  _type = "JSON";
   /*Looking for jsonIn and jsonOut"*/
   while (i < argc && !foundIn) {
     std::string arg = std::string(argv[i]);
@@ -52,9 +52,9 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   _param = x;
   setValid(true);
 }
-std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage,
-    const int ndimMax) {
+std::shared_ptr<genericRegFile>
+jsonGenericIO::getRegFileTag(const std::string &tag, const std::string &name,
+                             const usage_code usage, const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
@@ -70,16 +70,16 @@ std::shared_ptr<genericRegFile> jsonGenericIO::getRegFileTag(
   return x;
 }
 
-std::shared_ptr<genericIrregFile> jsonGenericIO::getIrregFileTag(
-    const std::string &tag, const std::string &name, const usage_code usage,
-    const int ndimMax) {
+std::shared_ptr<genericIrregFile>
+jsonGenericIO::getIrregFileTag(const std::string &tag, const std::string &name,
+                               const usage_code usage, const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;
   }
 
   std::shared_ptr<jsonGenericIrregFile> x(new jsonGenericIrregFile(
       jsonArgs, usage, name, 0, 0, _progName, ndimMax));
-  addRegFile(tag, x);
+  addIrregFile(tag, x);
   return x;
 }
 

@@ -1,9 +1,11 @@
 #include "jsonGenericRegFile.h"
+#include "stdio.h"
+#include "string.h"
 #include <cstdlib>
 #include <exception>
-#include<set>
-#include <fstream>   // std::ifstream
-#include <iostream>  // std::cout
+#include <fstream>  // std::ifstream
+#include <iostream> // std::cout
+#include <set>
 using namespace SEP;
 jsonGenericRegFile::jsonGenericRegFile(const Json::Value &arg,
                                        const usage_code usage,
@@ -27,8 +29,7 @@ jsonGenericRegFile::jsonGenericRegFile(const Json::Value &arg,
     std::string datapath = std::string("./");
     if (const char *env_p = std::getenv("DATAPATH"))
       datapath = std::string(env_p);
-    _dataFile =
-        datapath  + getJSONFileBaseName() + std::string(".dat");
+    _dataFile = datapath + getJSONFileBaseName() + std::string(".dat");
     jsonArgs["filename"] = _dataFile;
   }
   jsonArgs["progName"] = progName;
@@ -73,18 +74,16 @@ void jsonGenericRegFile::setupJson(const Json::Value &arg,
 
 std::string jsonGenericRegFile::getJSONFileName() const { return _jsonFile; }
 
+std::string jsonGenericRegFile::getJSONFileBaseName() const {
 
-std::string jsonGenericRegFile::getJSONFileBaseName() const { 
-  
-  char seperator='/';
-   std::string filePath=getJSONFileName();
-	std::size_t sepPos = filePath.rfind(seperator);
-  
-	if(sepPos != std::string::npos)
-	{
-		return filePath.substr(sepPos + 1, filePath.size());
-	}
-	return filePath;
+  char seperator = '/';
+  std::string filePath = getJSONFileName();
+  std::size_t sepPos = filePath.rfind(seperator);
+
+  if (sepPos != std::string::npos) {
+    return filePath.substr(sepPos + 1, filePath.size());
+  }
+  return filePath;
 }
 std::string jsonGenericRegFile::getDataFileName() const { return _dataFile; }
 int jsonGenericRegFile::getInt(const std::string &arg) const {
@@ -141,17 +140,21 @@ std::vector<int> jsonGenericRegFile::getInts(const std::string &arg,
   const Json::Value vals = jsonArgs[arg];
 
   std::vector<int> x;
-  for (int i = 0; i < nvals; i++) x.push_back(vals[i].asInt());
+  for (int i = 0; i < nvals; i++)
+    x.push_back(vals[i].asInt());
   return x;
 }
-std::vector<int> jsonGenericRegFile::getInts(
-    const std::string &arg, const std::vector<int> &defs) const {
+std::vector<int>
+jsonGenericRegFile::getInts(const std::string &arg,
+                            const std::vector<int> &defs) const {
   std::vector<int> x;
   if (jsonArgs[arg].isNull()) {
-    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(defs[i]);
   } else {
     const Json::Value vals = jsonArgs[arg];
-    for (int i = 0; i < defs.size(); i++) x.push_back(vals[i].asInt());
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(vals[i].asInt());
   }
   return x;
 }
@@ -163,17 +166,21 @@ std::vector<float> jsonGenericRegFile::getFloats(const std::string &arg,
   const Json::Value vals = jsonArgs[arg];
 
   std::vector<float> x;
-  for (int i = 0; i < nvals; i++) x.push_back(vals[i].asFloat());
+  for (int i = 0; i < nvals; i++)
+    x.push_back(vals[i].asFloat());
   return x;
 }
-std::vector<float> jsonGenericRegFile::getFloats(
-    const std::string &arg, const std::vector<float> &defs) const {
+std::vector<float>
+jsonGenericRegFile::getFloats(const std::string &arg,
+                              const std::vector<float> &defs) const {
   std::vector<float> x;
   if (jsonArgs[arg].isNull()) {
-    for (int i = 0; i < defs.size(); i++) x.push_back(defs[i]);
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(defs[i]);
   } else {
     const Json::Value vals = jsonArgs[arg];
-    for (int i = 0; i < defs.size(); i++) x.push_back(vals[i].asFloat());
+    for (int i = 0; i < defs.size(); i++)
+      x.push_back(vals[i].asFloat());
   }
   return x;
 }
@@ -194,13 +201,15 @@ void jsonGenericRegFile::putBool(const std::string &par, const bool val) {
 void jsonGenericRegFile::putInts(const std::string &par,
                                  const std::vector<int> &val) {
   Json::Value vals;
-  for (int i = 0; i < val.size(); i++) vals.append(val[i]);
+  for (int i = 0; i < val.size(); i++)
+    vals.append(val[i]);
   jsonArgs[par] = vals;
 }
 void jsonGenericRegFile::putFloats(const std::string &par,
                                    const std::vector<float> &val) {
   Json::Value vals;
-  for (int i = 0; i < val.size(); i++) vals.append(val[i]);
+  for (int i = 0; i < val.size(); i++)
+    vals.append(val[i]);
   jsonArgs[par] = vals;
 }
 void jsonGenericRegFile::readDescription(const int ndimMax) {
@@ -217,7 +226,8 @@ void jsonGenericRegFile::readDescription(const int ndimMax) {
     else
       iax--;
   }
-  if (iax == 0) error("couldn't find any axes");
+  if (iax == 0)
+    error("couldn't find any axes");
   ndim = iax;
 
   std::vector<axis> axes;
@@ -237,7 +247,7 @@ void jsonGenericRegFile::readDescription(const int ndimMax) {
     setDataType(DATA_INT);
   else if (dtyp == std::string("DOUBLE"))
     setDataType(DATA_DOUBLE);
-      else if (dtyp == std::string("COMPLEXDOUBLE"))
+  else if (dtyp == std::string("COMPLEXDOUBLE"))
     setDataType(DATA_COMPLEXDOUBLE);
   else if (dtyp == std::string("BYTE"))
     setDataType(DATA_BYTE);
@@ -430,7 +440,8 @@ void jsonGenericRegFile::readFloatWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -453,7 +464,8 @@ void jsonGenericRegFile::readDoubleWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -475,7 +487,8 @@ void jsonGenericRegFile::readIntWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -506,7 +519,8 @@ void jsonGenericRegFile::readByteWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -525,15 +539,13 @@ void jsonGenericRegFile::writeFloatWindow(const std::vector<int> &nw,
                                           const float *array) {
   setDataType(DATA_FLOAT);
 
-
-
-
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
 
@@ -546,7 +558,7 @@ void jsonGenericRegFile::writeFloatWindow(const std::vector<int> &nw,
     std::shared_ptr<myFileIO> iox(
         new myFileIO(getDataFileName(), _usage, _reelH, _traceH, 4,
                      jsonArgs.get("swapData", false).asBool(), getHyper()));
-    
+
     myio = iox;
   }
 
@@ -563,7 +575,8 @@ void jsonGenericRegFile::writeByteWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -588,7 +601,8 @@ void jsonGenericRegFile::writeIntWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -613,7 +627,8 @@ void jsonGenericRegFile::writeDoubleWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -645,7 +660,7 @@ void jsonGenericRegFile::readComplexStream(std::complex<float> *array,
 }
 
 void jsonGenericRegFile::readComplexDoubleStream(std::complex<double> *array,
-                                           const long long npts) {
+                                                 const long long npts) {
   long long maxsize = 10000000;
   long long nread = 0;
   long long nptsT = npts * 4;
@@ -674,8 +689,8 @@ void jsonGenericRegFile::writeComplexStream(const std::complex<float> *array,
   }
   myio->writeTraceStream(npts, array);
 }
-void jsonGenericRegFile::writeComplexDoubleStream(const std::complex<double> *array,
-                                            const long long npts) {
+void jsonGenericRegFile::writeComplexDoubleStream(
+    const std::complex<double> *array, const long long npts) {
   long long maxsize = 10000000;
   long long nwrite = 0;
   long long nptsT = npts * 4;
@@ -700,7 +715,8 @@ void jsonGenericRegFile::readComplexWindow(const std::vector<int> &nw,
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -716,16 +732,17 @@ void jsonGenericRegFile::readComplexWindow(const std::vector<int> &nw,
 }
 
 void jsonGenericRegFile::readComplexDoubleWindow(const std::vector<int> &nw,
-                                           const std::vector<int> &fw,
-                                           const std::vector<int> &jw,
-                                           std::complex<double> *array) {
+                                                 const std::vector<int> &fw,
+                                                 const std::vector<int> &jw,
+                                                 std::complex<double> *array) {
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   setDataType(DATA_COMPLEXDOUBLE);
 
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -749,7 +766,8 @@ void jsonGenericRegFile::writeComplexWindow(const std::vector<int> &nw,
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {
@@ -763,17 +781,17 @@ void jsonGenericRegFile::writeComplexWindow(const std::vector<int> &nw,
   }
   myio->writeWindow(nw, fw, jw, array);
 }
-void jsonGenericRegFile::writeComplexDoubleWindow(const std::vector<int> &nw,
-                                            const std::vector<int> &fw,
-                                            const std::vector<int> &jw,
-                                            const std::complex<double> *array) {
+void jsonGenericRegFile::writeComplexDoubleWindow(
+    const std::vector<int> &nw, const std::vector<int> &fw,
+    const std::vector<int> &jw, const std::complex<double> *array) {
   setDataType(DATA_COMPLEX);
 
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<int> ng = hyper->getNs();
   if (ng.size() > nw.size()) {
     for (int i = nw.size(); i < ng.size(); i++) {
-      if (ng[i] > 1) error("number of dimension does not equal data size");
+      if (ng[i] > 1)
+        error("number of dimension does not equal data size");
     }
   }
   if (nw.size() < ng.size() || fw.size() < ng.size() || jw.size() < jw.size()) {

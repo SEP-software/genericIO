@@ -1,4 +1,6 @@
 #include "jsonGenericIrregFile.h"
+#include "stdio.h"
+#include "string.h"
 #include <cstdlib>
 #include <exception>
 #include <fstream>  // std::ifstream
@@ -29,10 +31,16 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
     _dataFile =
         datapath + std::string("/") + getJSONFileName() + std::string(".dat");
     jsonArgs["filename"] = _dataFile;
-    _binary = _dataFile;
+    // _binary = _dataFile;
   }
   jsonArgs["progName"] = progName;
 }
+
+// A Function to a vector of length [n][2] based on the second
+bool sortFuncJSON(std::vector<int> i, std::vector<int> j) {
+  return (i[1] < j[1]);
+}
+
 void jsonGenericIrregFile::setupJson(const Json::Value &arg,
                                      const std::string &tag,
                                      const std::string desFileDefault) {
@@ -68,7 +76,7 @@ void jsonGenericIrregFile::setupJson(const Json::Value &arg,
       throw std::exception();
     }
     _dataFile = jsonArgs[std::string("filename")].asString();
-    _binary = _dataFile;
+    //  _binary = _dataFile;
   }
 }
 std::string jsonGenericIrregFile::getJSONFileName() const { return _jsonFile; }
@@ -91,6 +99,7 @@ float jsonGenericIrregFile::getFloat(const std::string &arg,
   x = jsonArgs.get(arg, def).asFloat();
   return x;
 }
+
 float jsonGenericIrregFile::getFloat(const std::string &arg) const {
   float x;
   if (jsonArgs[arg].isNull())
@@ -295,4 +304,599 @@ void jsonGenericIrregFile::message(const std::string &errm) const {
 void jsonGenericIrregFile::error(const std::string &errm) const {
   std::cerr << errm << std::endl;
   throw std::exception();
+}
+std::vector<std::string> jsonGenericIrregFile::getHeaderKeyList() const {
+  std::vector<std::string> lst;
+  for (int i = 0; i < _keys.size(); i++) {
+    lst.push_back(_keys[i]);
+  }
+  return lst;
+}
+
+std::map<std::string, std::string>
+jsonGenericIrregFile::getHeaderKeyType() const {
+  std::map<std::string, std::string> lst;
+  for (auto k = _keyType.begin(); k != _keyType.end(); k++) {
+    lst[k->first] = k->second;
+  }
+  return lst;
+}
+
+void jsonGenericIrregFile::putHeaderKeyList(
+    const std::vector<std::string> &keylist) {
+  _keys.clear();
+  for (int i = 0; i < keylist.size(); i++) {
+    _keys.push_back(keylist[i]);
+  }
+}
+void jsonGenericIrregFile::putHeaderKeyTypes(
+    const std::map<std::string, std::string> &typs) {
+  _keyType.clear();
+  for (auto k = typs.begin(); k != typs.end(); k++) {
+    _keyType[k->first] = k->second;
+  }
+}
+
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>>
+jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
+                                       const std::vector<int> &fwind,
+                                       const std::vector<int> &jwind) {
+  std::vector<std::vector<int>> headerLocs =
+      readHeaderLocs(nwind, fwind, jwind);
+  size_t idone = 0;
+  int nkeyIn = _keys.size();
+  if (_drn > -1)
+    nkeyIn += 1;
+  std::shared_ptr<byte2DReg> headBuf(new byte2DReg(4 * nkeyIn, 100000));
+  std::shared_ptr<byte2DReg> headers(
+      new byte2DReg(4 * _keys.size(), headerLocs.size()));
+  std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));
+  while (idone < headerLocs.size()) {
+    int ifirst = headerLocs[idone][1];
+    bool found = false;
+    int imore = 1;
+    while (!found && ifirst + imore < headerLocs.size()) {
+      if (headerLocs[idone][1] != idone + ifirst) {
+        found = true;
+        int ii = idone + 1;
+        // if (0 !=
+        //   sep_get_val_headers(_tag.c_str(), &ii, &imore, headBuf->getVals()))
+        // throw SEPException(std::string("Trouble reading headers"));
+        extractDRN(headers, idone, imore, drns, headBuf);
+        idone += imore;
+      } else
+        imore += 1;
+    }
+  }
+  if (idone != headerLocs.size()) {
+    int ii = idone + 1;
+    int imore = headerLocs.size() - idone;
+    // if (0 != sep_get_val_headers(_tag.c_str(), &ii, &imore,
+    // headBuf->getVals())) throw SEPException(std::string("Trouble reading
+    // headers"));
+    extractDRN(headers, idone, headerLocs.size() - idone, drns, headBuf);
+  }
+  return std::make_pair(headers, drns);
+}
+
+void jsonGenericIrregFile::extractDRN(std::shared_ptr<byte2DReg> outV,
+                                      const int ifirst, const int ntransfer,
+                                      std::shared_ptr<int1DReg> drns,
+                                      std::shared_ptr<byte2DReg> &temp) {
+  int end = 0, beg = 4 * _keys.size();
+  int n1out = beg, n1in = beg;
+  if (_drn >= 0) {
+    beg = 4 * _drn;
+    end = 4 * (_keys.size() - _drn);
+    n1in += 4;
+  }
+
+  unsigned char *in = temp->getVals();
+  unsigned char *out = outV->getVals();
+  int *rns = drns->getVals();
+  for (int i = 0; i < ntransfer; i++) {
+    memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
+    if (_drn >= 0)
+      memcpy(rns + ifirst + i, in + n1in * i + beg, 4);
+    if (end > 0)
+      memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);
+  }
+}
+
+std::vector<std::vector<int>>
+jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind) {
+
+  if (_haveGrid) {
+    std::vector<int> ng, nw = nwind, fw = fwind, jw = jwind;
+
+    nw[0] = 1;
+    fw[0] = 0;
+    jw[0] = 1;
+    long long n123 = 1;
+    ng = getHyper()->getNs();
+    checkWindow(nw, fw, jw, _hyper);
+    for (int i = 0; i < nw.size(); i++)
+      n123 *= (long long)nw[i];
+    std::vector<int> grid(n123);
+    int ndim = ng.size();
+    //  if (0 != sep_get_grid_window(_tag.c_str(), &ndim, &ng[1], &nw[1],
+    //  &fw[1],
+    //                             &jw[1], &grid[0]))
+    //  throw SEPException("Trouble reading grid");
+
+    int ireal = 0;
+    for (auto i = 0; i < n123; i++)
+      if (grid[i] >= 0)
+        ireal++;
+    std::vector<std::vector<int>> headPos(ireal, std::vector<int>(2));
+    ireal = 0;
+    for (auto i = 0; i < n123; i++) {
+      if (grid[i] >= 0) {
+        headPos[ireal][0] = ireal;
+        headPos[ireal][1] = grid[i] - 1;
+        ireal++;
+      }
+    }
+    std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+    return headPos;
+  } else {
+    std::vector<int> bs(1, 1);
+    std::vector<int> ns = _hyperHeader->getNs();
+    for (auto i = 1; i < ns.size(); i++)
+      bs.push_back(bs[i - 1] * ns[i]);
+
+    std::vector<std::vector<int>> headPos(bs[ns.size()], std::vector<int>(2));
+
+    for (auto i = 0; i < headPos.size(); i++) {
+      headPos[i][0] = i;
+      headPos[i][1] = i;
+    }
+    return headPos;
+  }
+}
+void jsonGenericIrregFile::readArrangeTraces(
+    std::vector<std::vector<int>> &itrs, const int n1, void *temp, void *data) {
+
+  int idone = 0;
+  while (idone < itrs.size()) {
+    bool found = false;
+    int iread = 1;
+    while (!found && idone + iread < itrs.size()) {
+      if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999) {
+        found = true;
+        //   if (iread * n1 != sreed(_tag.c_str(), temp, iread * n1))
+        //    throw SEPException("trouble reading data");
+        for (int i = 0; i < iread; i++) {
+          memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1,
+                 n1);
+        }
+        found = true;
+        idone += iread;
+      }
+    }
+  }
+}
+
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>>
+jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
+                                           const std::vector<int> &fwind,
+                                           const std::vector<int> &jwind) {
+  if (getDataType() != DATA_FLOAT)
+    throw SEPException("Attempt to read float from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<float2DReg> data(
+      new float2DReg(_hyperData->getAxis(1).n, ntr));
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  int n1 = _hyperData->getAxis(1).n;
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<float2DReg> temp(new float2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>>
+jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
+                                         const std::vector<int> &fwind,
+                                         const std::vector<int> &jwind) {
+  if (getDataType() != DATA_INT)
+    throw SEPException("Attempt to read int from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<int2DReg> data(new int2DReg(_hyperData->getAxis(1).n, ntr));
+  int n1 = _hyperData->getAxis(1).n;
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>>
+jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
+                                            const std::vector<int> &fwind,
+                                            const std::vector<int> &jwind) {
+  if (getDataType() != DATA_DOUBLE)
+    throw SEPException("Attempt to read int from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<double2DReg> data(
+      new double2DReg(_hyperData->getAxis(1).n, ntr));
+  int n1 = _hyperData->getAxis(1).n;
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>>
+jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
+                                          const std::vector<int> &fwind,
+                                          const std::vector<int> &jwind) {
+
+  if (getDataType() != DATA_DOUBLE)
+    throw SEPException("Attempt to read int from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<byte2DReg> data(new byte2DReg(_hyperData->getAxis(1).n, ntr));
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  int n1 = _hyperData->getAxis(1).n;
+
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 1, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+Json::Value jsonGenericIrregFile::getDataDescription() {
+  Json::Value x;
+  return x;
+}
+void jsonGenericIrregFile::putDataDescription(const Json::Value &desc) {
+  if (desc["a"].asInt() == 4)
+    ;
+  ;
+}
+void jsonGenericIrregFile::remove() { ; }
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>>
+jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
+                                             const std::vector<int> &fwind,
+                                             const std::vector<int> &jwind) {
+  if (getDataType() != DATA_COMPLEX)
+    throw SEPException("Attempt to read int from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<complex2DReg> data(
+      new complex2DReg(_hyperData->getAxis(1).n, ntr));
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  int n1 = _hyperData->getAxis(1).n;
+
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>>
+jsonGenericIrregFile::readComplexDoubleTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind) {
+  if (getDataType() != DATA_COMPLEXDOUBLE)
+    throw SEPException("Attempt to read int from a non-float file");
+  std::pair<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>> head_drn =
+      readHeaderWindow(nwind, fwind, jwind);
+
+  int ntr = head_drn.second->getHyper()->getN123();
+  std::shared_ptr<complexDouble2DReg> data(
+      new complexDouble2DReg(_hyperData->getAxis(1).n, ntr));
+  int n1 = _hyperData->getAxis(1).n;
+
+  std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
+  for (int i = 0; i < ntr; i++) {
+    headPos[i][0] = i;
+    headPos[i][1] = (*head_drn.second->_mat)[i];
+  }
+  std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
+  std::shared_ptr<complexDouble2DReg> temp(new complexDouble2DReg(n1, 10000));
+  readArrangeTraces(headPos, n1 * 16, (void *)temp->getVals(),
+                    (void *)data->getVals());
+  return std::make_pair(head_drn.first, data);
+}
+void jsonGenericIrregFile::addtDRN(std::shared_ptr<byte2DReg> inV,
+                                   const int ifirst, const int ntransfer,
+                                   std::shared_ptr<int1DReg> drns,
+                                   std::shared_ptr<byte2DReg> &outV) {
+  int n1in = inV->getHyper()->getAxis(1).n * 4;
+  int n1out = outV->getHyper()->getAxis(1).n * 4;
+
+  unsigned char *in = inV->getVals();
+  unsigned char *out = outV->getVals();
+
+  int *rns = drns->getVals();
+  for (int i = 0; i < ntransfer; i++) {
+    memcpy(out + n1out * i, in + n1in * i, n1in);
+    memcpy(out + n1out * i + n1in, rns + i, 4);
+  }
+}
+void jsonGenericIrregFile::writeGrid(const std::vector<int> &nwind,
+                                     const std::vector<int> &fwind,
+                                     const std::vector<int> &jwind,
+                                     const std::shared_ptr<byte2DReg> &headers,
+                                     const std::shared_ptr<byte1DReg> &byte
+
+) {
+
+  long long first = 0, last = 0;
+  long long sz = 1;
+  checkWindow(nwind, fwind, jwind, _hyper);
+  if (!_haveGrid)
+    throw SEPException("Can not write dataset that doesn't have a grid");
+  std::vector<int> ns = _hyper->getNs();
+  for (auto i = 0; i < nwind.size(); i++) {
+    first += fwind[i] * sz;
+    last += (fwind[i] + jwind[i] * nwind[i]) * sz;
+    sz = sz * (long long)nwind[i];
+  }
+  if (_writeLastG + 1 != first)
+    throw SEPException("Non-consecutive read of grid");
+  int n2h = 0;
+  for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
+    if ((*byte->_mat)[i] > 0)
+      n2h += 1;
+  }
+  if (n2h != headers->getHyper()->getAxis(2).n)
+    throw SEPException(
+        "Number of headers does not match number of non-zero grid elements");
+  int ih = 0;
+  std::shared_ptr<int1DReg> grid(new int1DReg(byte->getHyper()->getN123()));
+  for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
+    if ((*byte->_mat)[i] != 0) {
+      ih++;
+      (*grid->_mat)[i] = _writeLastH + ih;
+    }
+  }
+  std::vector<int> ng = _hyper->getNs();
+  int ndim = ng.size();
+
+  // if (0 != sep_put_grid_window(_tag.c_str(), &ndim, &ng[1], &nwind[1],
+  //                           &fwind[1], &jwind[1], grid->getVals()))
+  // throw SEPException("Trouble writing grid");
+
+  _writeLastG = last;
+}
+void jsonGenericIrregFile::writeHeaderWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<int1DReg> &drn,
+    const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<byte1DReg> &grid) {
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  if (_inOrder) {
+    int ifirst = _writeLastH + 1;
+    int nblock = ns[1];
+
+    // if (0 !=
+    //   sep_put_val_headers(_tag.c_str(), &ifirst, &nblock,
+    //   headers->getVals()))
+    // throw SEPException("Trouble writing headers");
+  }
+
+  else {
+    std::shared_ptr<byte2DReg> temp(
+        new byte2DReg(ns[0] + 4, std::min(100000, ns[1])));
+    int idone = 0;
+    while (idone < ns[1]) {
+      int nblock = (ns[1] - idone, 100000);
+      int ifirst = _writeLastH + idone + 1;
+      // if (0 !=
+      //    sep_put_val_headers(_tag.c_str(), &ifirst, &nblock,
+      //    temp->getVals()))
+      // throw SEPException("Trouble writing "
+      //                   "headers");
+      idone += nblock;
+    }
+
+    _writeLastH += ns[1];
+  }
+}
+void jsonGenericIrregFile::writeComplexDoubleTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, std::shared_ptr<byte2DReg> &headers,
+    std::shared_ptr<complexDouble2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+
+  if (getDataType() != DATA_COMPLEXDOUBLE)
+    throw SEPException("Expecting datatype complex double");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+
+  // if (0 !=
+  //   sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+  //  throw SEPException("Trouble writing headers");
+  // if (16 * ns[1] * data->getHyper()->getAxis(1).n !=
+  //    srite(_tag.c_str(), data->getVals(),
+  //        16 * ns[1] * data->getHyper()->getAxis(1).n))
+  // throw SEPException("Trouble writing data");
+}
+
+void jsonGenericIrregFile::writeComplexTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<complex2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+  if (getDataType() != DATA_COMPLEXDOUBLE)
+    throw SEPException("Expecting datatype complex ");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+
+  // if (0 !=
+  //    sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+  //  throw SEPException("Trouble writing headers");
+  // if (8 * ns[1] * data->getHyper()->getAxis(1).n !=
+  //    srite(_tag.c_str(), data->getVals(),
+  //         8 * ns[1] * data->getHyper()->getAxis(1).n))
+  // throw SEPException("Trouble writing data");
+}
+void jsonGenericIrregFile::writeDoubleTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<double2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+  if (getDataType() != DATA_DOUBLE)
+    throw SEPException("Expecting datatype double");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+  /*
+    if (0 !=
+        sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+      throw SEPException("Trouble writing headers");
+    if (8 * ns[1] * data->getHyper()->getAxis(1).n !=
+        srite(_tag.c_str(), data->getVals(),
+              8 * ns[1] * data->getHyper()->getAxis(1).n))
+      throw SEPException("Trouble writing data");
+      */
+}
+void jsonGenericIrregFile::writeIntTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<int2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+  if (getDataType() != DATA_INT)
+    throw SEPException("Expecting datatype int");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+  /*
+    if (0 !=
+        sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+      throw SEPException("Trouble writing headers");
+    if (4 * ns[1] * data->getHyper()->getAxis(1).n !=
+        srite(_tag.c_str(), data->getVals(),
+              4 * ns[1] * data->getHyper()->getAxis(1).n))
+      throw SEPException("Trouble writing data");
+  */
+}
+void jsonGenericIrregFile::writeFloatTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<float2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+  if (getDataType() != DATA_FLOAT)
+    throw SEPException("Expecting datatype complex double");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+  /*
+    if (0 !=
+        sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+      throw SEPException("Trouble writing headers");
+    if (4 * ns[1] * data->getHyper()->getAxis(1).n !=
+        srite(_tag.c_str(), data->getVals(),
+              4 * ns[1] * data->getHyper()->getAxis(1).n))
+      throw SEPException("Trouble writing data");
+  */
+}
+
+void jsonGenericIrregFile::writeByteTraceWindow(
+    const std::vector<int> &nwind, const std::vector<int> &fwind,
+    const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
+    const std::shared_ptr<byte2DReg> &data,
+    const std::shared_ptr<byte1DReg> &grid) {
+  if (getDataType() != DATA_BYTE)
+    throw SEPException("Expecting datatype byte");
+
+  writeGrid(nwind, fwind, jwind, headers, grid);
+  std::vector<int> ns = headers->getHyper()->getNs();
+
+  int ifirst = _writeLastH + 1;
+  int nblock = ns[1];
+  /*
+    if (0 !=
+        sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
+      throw SEPException("Trouble writing headers");
+    if (1 * ns[1] * data->getHyper()->getAxis(1).n !=
+        srite(_tag.c_str(), data->getVals(),
+              1 * ns[1] * data->getHyper()->getAxis(1).n))
+      throw SEPException("Trouble writing data");
+  */
+}
+
+/*!
+
+Set that the data is out of order
+
+
+*/
+void jsonGenericIrregFile::setOutOfOrder() { _inOrder = false; }
+
+std::string jsonGenericIrregFile::getJSONFileBaseName() const {
+
+  char seperator = '/';
+  std::string filePath = getJSONFileName();
+  std::size_t sepPos = filePath.rfind(seperator);
+
+  if (sepPos != std::string::npos) {
+    return filePath.substr(sepPos + 1, filePath.size());
+  }
+  return filePath;
 }

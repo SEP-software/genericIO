@@ -9,7 +9,6 @@
 
 #include "doubleHyper.h"
 #include "floatHyper.h"
-#include "header.h"
 #include "hypercube.h"
 #include "intHyper.h"
 #include "ioConfig.h"
@@ -33,16 +32,19 @@ public:
    Default initialization
 */
   genericRegFile() { _type = DATA_UNKNOWN; }
-  /*!
-     Put integer to file
 
-     \param par Name of parameter
-     \param val Value to write to file description
-  */
   /*!
     Remove file from system
     */
   virtual void remove() { perror("must override remove"); }
+
+  /*!
+   Put integer to file
+
+   \param par Name of parameter
+   \param val Value to write to file description
+*/
+
   virtual void putInt(const std::string &par, const int val) = 0;
   /*!
    Put float to file description
@@ -677,13 +679,17 @@ Write  the description of the file
   /*!
    Return hypercube describing dataset
    */
+
   const std::shared_ptr<SEP::hypercube> getHyper() {
     if (_hyper == nullptr)
       throw SEPException(std::string("hypercube not defined"));
 
     return _hyper;
   }
+  virtual std::string getDescriptionString();
 
+  virtual void putDescriptionString(const std::string &title,
+                                    const std::string &descrp);
   virtual ~genericRegFile() { ; }
 
   /*!
@@ -703,62 +709,6 @@ protected:
   usage_code _usage;
 };
 
-class genericHeaderObj {
-public:
-  genericHeaderObj() { ; }
-
-  virtual void readFloatData(std::shared_ptr<SEP::floatHyper> buf) = 0;
-  virtual void readFloatData(std::shared_ptr<SEP::floatHyper> buf,
-                             const std::vector<bool> ind) = 0;
-  virtual void writeFloatData(const std::shared_ptr<SEP::floatHyper> buf) = 0;
-
-  virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf) = 0;
-
-  virtual void readByteData(std::shared_ptr<SEP::byteHyper> buf,
-                            const std::vector<bool> ind) = 0;
-  virtual void writeByteData(const std::shared_ptr<SEP::byteHyper> buf) = 0;
-
-  virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> buf) = 0;
-  virtual void readDoubleData(std::shared_ptr<SEP::doubleHyper> *buf,
-                              const std::vector<bool> ind) = 0;
-  virtual void writeDoubleData(const std::shared_ptr<SEP::doubleHyper> buf) = 0;
-
-  virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf) = 0;
-  virtual void readComplexData(std::shared_ptr<SEP::complexHyper> buf,
-                               const std::vector<bool> ind) = 0;
-  virtual void
-  writeComplexData(const std::shared_ptr<SEP::complexHyper> buf) = 0;
-  virtual void
-  readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf) = 0;
-  virtual void
-  readComplexDoubleData(std::shared_ptr<SEP::complexDoubleHyper> buf,
-                        const std::vector<bool> ind) = 0;
-  virtual void writeComplexDoubleData(
-      const std::shared_ptr<SEP::complexDoubleHyper> buf) = 0;
-  virtual void readIntData(std::shared_ptr<SEP::intHyper> buf) = 0;
-  virtual void readIntData(std::shared_ptr<SEP::intHyper> buf,
-                           const std::vector<bool> ind) = 0;
-  virtual void writeIntData(const std::shared_ptr<SEP::intHyper> buf) = 0;
-  std::shared_ptr<header> getHeader();
-  std::shared_ptr<header> cloneHeader() { return _header->clone(); }
-
-private:
-  std::shared_ptr<header> _header;
-};
-
-class genericIrregFile : public genericRegFile {
-public:
-  genericIrregFile() {}
-
-  virtual std::shared_ptr<genericHeaderObj>
-  readHeaderWindow(const std::vector<int> &nw, const std::vector<int> &fw,
-                   const std::vector<int> &jw) = 0;
-  virtual void writeHeaderWindow(const std::vector<int> &nw,
-                                 const std::vector<int> &fw,
-                                 const std::vector<int> &jw,
-                                 std::shared_ptr<genericHeaderObj> header,
-                                 std::vector<bool> &exists) = 0;
-};
 } // namespace SEP
 
 #endif

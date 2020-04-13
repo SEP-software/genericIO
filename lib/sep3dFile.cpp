@@ -540,7 +540,7 @@ void sep3dFile::putDescription(const std::string &title,
   }
 }
 
-std::vector<std::string> sep3dFile::getHeaderKeyList() {
+std::vector<std::string> sep3dFile::getHeaderKeyList() const {
   std::vector<std::string> lst;
   for (int i = 0; i < _keys.size(); i++) {
     lst.push_back(_keys[i]);
@@ -548,7 +548,7 @@ std::vector<std::string> sep3dFile::getHeaderKeyList() {
   return lst;
 }
 
-std::map<std::string, std::string> sep3dFile::getHeaderKeyType() {
+std::map<std::string, std::string> sep3dFile::getHeaderKeyType() const {
   std::map<std::string, std::string> lst;
   for (auto k = _keyType.begin(); k != _keyType.end(); k++) {
     lst[k->first] = k->second;

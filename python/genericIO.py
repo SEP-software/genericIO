@@ -746,9 +746,12 @@ class irregFile:
                 Optional:
                   n,f,j - Standard windowing parameters"""
         
-        axes=self.getHyper()
-        axes[0]=Hypercube.hypercube(hypercube=self.cppMode.getHyperData()).axes[0]
-        nw, fw, jw = self.getWindowParam(**kw)
+        ax=self.getHyper()
+        hyp=Hypercube.hypercube(hypercube=self.cppMode.getHyperData())
+        axes=[hyp.axes[0]]
+        for i in range(1,len(ax)):
+            axes.append(ax[i])
+        nw, fw, jw = self.getWindowParam(axes,**kw)
         if nw[0] != axes[0].n:
             raise Exception("Right now can not handle windowing the first axis")
         

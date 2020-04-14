@@ -751,7 +751,7 @@ class irregFile:
         axes=[hyp.axes[0]]
         for i in range(1,len(ax)):
             axes.append(ax[i])
-        nw, fw, jw = self.getWindowParam(axes,**kw)
+        nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if nw[0] != axes[0].n:
             raise Exception("Right now can not handle windowing the first axis")
         

@@ -984,7 +984,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
 
-  if (grid)
+  if (grid && _haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 

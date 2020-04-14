@@ -783,7 +783,7 @@ class irregFile:
             grid  - Grid 
             """
         off,sz=self.cppMode.createOffsetMap()
-        typ=self.cppMode.getKeyType()
+        typ=self.cppMode.getKeyTypes()
         klast=headS._keyList[len(head._keyList)-1]
         n1=off[klast]+off[klast]
         head=SepVector.byteVector(n1,headS._nh)

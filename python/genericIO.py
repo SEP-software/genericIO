@@ -772,7 +772,7 @@ class irregFile:
             self.cppMode.writeDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
         elif self.storage == "datComplexDouble":
             self.cppMode.writeComplexDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
-    def headerToByte2D(self,head):
+    def headerToByte2D(self,headS):
         """Convert headers into a 2-D byte array
 
             headS - SepIrregVector.sepIrregVector
@@ -783,8 +783,8 @@ class irregFile:
             grid  - Grid 
             """
         off,sz=self.cppMode.createOffsetMap()
-        typ=self.cppMode.getKeyTypes()
-        klast=headS._keyList[len(head._keyList)-1]
+        typ=self.cppMode.getHeaderKeyTypes()
+        klast=headS._keyOrder[len(headS._keyOrder)-1]
         n1=off[klast]+off[klast]
         head=SepVector.byteVector(n1,headS._nh)
         for k,v in off.items():

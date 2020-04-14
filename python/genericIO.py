@@ -755,7 +755,7 @@ class irregFile:
         if nw[0] != axes[0].n:
             raise Exception("Right now can not handle windowing the first axis")
         
-        if not isinstance(vec, SepIrregVector.irregVector):
+        if not isinstance(vec, SepIrregVector.sepIrregVector):
             raise Exception("vec must be deriverd SepVector.irregVector")
         head=headerToByte2D(vec._header)[0]
         if self.storage == "dataFloat":

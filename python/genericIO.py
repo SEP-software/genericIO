@@ -565,11 +565,8 @@ class irregFile:
             hyp=Hypercube.hypercube(ns=[1000,vec._header._nh])
             self.cppMode.setHyperHeader(hyp.cppMode)
 
-            print("before set hyper")
             self.cppMode.setHyper(vec.getHyper().cppMode)
-            print("feseffe")
             self.cppMode.setDataType(storageConvert[self.storage])
-            print("fejsefjife3")
             self.cppMode.writeDescription()
         else:  # Assuming from file
             if not self.usage:

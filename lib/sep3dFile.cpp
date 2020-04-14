@@ -376,7 +376,6 @@ void sep3dFile::readDescription(const int ndimMax) {
 }
 void sep3dFile::writeDescription() {
 
-  std::cerr << "write 2descriotion 1 " << std::endl;
   // Write the hypedcube associated with the data
   std::vector<axis> axes = _hyperData->getAxes();
   for (int i = 1; i <= axes.size(); i++) {
@@ -388,7 +387,6 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
-  std::cerr << "write 3descriotion 1 " << std::endl;
 
   // Set the data type
   int esize = 4;
@@ -417,18 +415,15 @@ void sep3dFile::writeDescription() {
     break;
   }
   auxputch("esize", "d", &esize, _tag.c_str());
-  std::cerr << "write 4descriotion 1 " << std::endl;
 
   // Get the hypercube for the headers
   axes = _hyperHeader->getAxes();
-  std::cerr << "write aaa4descriotion 1 " << std::endl;
 
   // Write the number of keys. One more if we have a DRN
   int nkeys = _keys.size();
   if (!_inOrder)
     nkeys += 1;
   sep_put_number_keys(_tag.c_str(), &nkeys);
-  std::cerr << "write 5descriotion 1 " << std::endl;
 
   // Write the keys
   for (int i = 0; i < _keys.size(); i++) {
@@ -446,14 +441,12 @@ void sep3dFile::writeDescription() {
                          _keyType[_keys[i]]);
     }
   }
-  std::cerr << "write 6descriotion 1 " << std::endl;
 
   // Put DRN key
   if (!_inOrder)
     if (0 != sep_put_key(_tag.c_str(), "data_recrd_number", "scalar_int",
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");
-  std::cerr << "write 7descriotion 1 " << std::endl;
 
   // Put header format file axes
   for (int i = 2; i <= axes.size(); i++) {
@@ -465,7 +458,6 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_header_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
-  std::cerr << "write 8descriotion 1 " << std::endl;
 
   if (_haveGrid) {
     // We always write out the grid
@@ -480,7 +472,6 @@ void sep3dFile::writeDescription() {
       sep_put_grid_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
     }
   }
-  std::cerr << "write 9descriotion 1 " << std::endl;
 }
 // Hopefully never called
 void sep3dFile::message(const std::string &arg) const {

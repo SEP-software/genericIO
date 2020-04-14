@@ -746,7 +746,7 @@ class irregFile:
                 Optional:
                   n,f,j - Standard windowing parameters"""
         
-        ax=self.getHyper()
+        ax=self.getHyper().axes
         hyp=Hypercube.hypercube(hypercube=self.cppMode.getHyperData())
         axes=[hyp.axes[0]]
         for i in range(1,len(ax)):

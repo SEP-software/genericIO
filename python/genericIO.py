@@ -757,7 +757,7 @@ class irregFile:
         
         if not isinstance(vec, SepIrregVector.sepIrregVector):
             raise Exception("vec must be deriverd SepVector.irregVector")
-        head=headerToByte2D(vec._header)[0]
+        head=self.headerToByte2D(vec._header)[0]
         if self.storage == "dataFloat":
             self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
         elif self.storage == "dataInt":

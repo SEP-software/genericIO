@@ -212,9 +212,9 @@ std::vector<float> sep3dFile::getFloats(const std::string &arg,
 void sep3dFile::close() {
   // Close the tag
   if (_tag == std::string("in")) {
-    hclose();
+    sep_3d_close();
   } else
-    auxclose(_tag.c_str());
+    sep3dClose(_tag.c_str());
 }
 // Hopefully never called instead SEPException
 void sep3dFile::error(const std::string &err) const { seperr(err.c_str()); }

@@ -27,12 +27,12 @@ class TestIrreg(unittest.TestCase):
         dat=makeDataset()
         try:
             fle=io.getIrregFile("/tmp/junk.H",fromVector=dat)
-            fle.writeFloatTraces()
+            fle.writeDataWindow(dat)
             fle.close()
         except:
             self.assertTrue((1==2))
-        fle2=getIrregFile("/tmp/junk.H")
-        dat2=fle2.readFloatTraces()
+        fle2=io.getIrregFile("/tmp/junk.H")
+        dat2=fle2.readDataWindow()
         d1=data.getNdArray()
         d2=dat2.getNdArray()
         for i2 in range(10):

@@ -13,33 +13,33 @@ def makeDataset():
         for i1 in range(10):
             tr[i2,i1]=10*i2+i1
     sx=np.zeros((10,),dtype=np.float32)
-    sx=np.zeros((10,),dtype=np.float32)
+    sy=np.zeros((10,),dtype=np.float32)
     for i in range(sx.shape[0]):
         sx[i]=i
         sy[i]=10 
     headers.addKey("s_x",vals=sx)
     headers.addKey("s_y",vals=sy)
-    return SepIrregVector.sepIrregVector(traces,headers)
+    return SepIrregVector.vector(traces=traces,header=headers)
 
 class TestIrreg(unittest.TestCase):
     def testSimpleIrregTraces(self):
         io=genericIO.io("SEP")
         dat=makeDataset()
         try:
-            fle.getIrregFile("/tmp/junk.H",dat)
+            fle=io.getIrregFile("/tmp/junk.H",fromVector=dat)
             fle.writeFloatTraces()
             fle.close()
         except:
-            self.asert(1==2)
+            self.assertTrue((1==2))
         fle2=getIrregFile("/tmp/junk.H")
         dat2=fle2.readFloatTraces()
         d1=data.getNdArray()
         d2=dat2.getNdArray()
         for i2 in range(10):
             for i1 in range(10):
-                if self.assertEqual(d2[i2,i1],d1[i2,i1])
-            if self.asertEqual(dat._header.s_x[i],dat2_header.s_x[i])
-            if self.asertEqual(dat._header.s_y[i],dat2_header.s_y[i])
+                self.assertEqual(d2[i2,i1],d1[i2,i1])
+            self.assertEqual(dat._header.s_x[i],dat2_header.s_x[i])
+            self.assertEqual(dat._header.s_y[i],dat2_header.s_y[i])
 
 
 

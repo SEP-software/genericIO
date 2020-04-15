@@ -786,9 +786,11 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         klast=headS._keyOrder[len(headS._keyOrder)-1]
         n1=off[klast]+off[klast]
-        head=SepVector.byteVector(n1,headS._nh)
+        head=SepVector.getSepVector(storage="dataByte",ns=[n1])
         for k,v in off.items():
-            self.cppMode.insertValue(head.cppMode.getVals(),headS[k]._vals.cppMode,
+            x=SepVector.getSepVector(headS._keys[k]._vals)
+            self.cppMode.insertValue(head.cppMode.getVals(),
+             x.cppMode.getVals(),
             off[k],sz[k],n1,headS._nh)
         if headS._drn:
             return head,drn,headS.getCreateGrid()

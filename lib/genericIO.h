@@ -240,7 +240,7 @@ public:
  Delete IO type (close files)
 
 */
-  ~genericIO() { close(); }
+virtual  ~genericIO() { close(); }
 
   /*!
   Set what type of parameter object we are going to use

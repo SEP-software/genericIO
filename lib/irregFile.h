@@ -538,6 +538,41 @@ grid -Grid
   extractComplexDouble(std::shared_ptr<byte2DReg> buf, const int off) const;
   void insertValue(void *outb, void *inb, const int off, const int sz,
                    const int n1, const int n2) const;
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<byte1DReg> inb, const int off, const int sz,
+                   const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<short1DReg> inb, const int off, const int sz,
+                   const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<int1DReg> inb, const int off, const int sz,
+                   const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<float1DReg> inb, const int off, const int sz,
+                   const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<double1DReg> inb, const int off,
+                   const int sz, const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<complex1DReg> inb, const int off,
+                   const int sz, const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
+  void insertValue(std::shared_ptr<byte2DReg> outb,
+                   std::shared_ptr<complexDouble1DReg> inb, const int off,
+                   const int sz, const int n1, const int n2) const {
+    insertValue(outb->getVals(), inb->getVals(), off, sz, n1, n2);
+  }
 
   void setHaveGrid(const bool gr) { _haveGrid = gr; }
 

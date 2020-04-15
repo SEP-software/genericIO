@@ -460,8 +460,46 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                genericIrregFile::extractComplexDouble,
            "Extract a float key from a header chunk")
       .def("insertValue",
-           (void (genericIrregFile::*)(void *, void *, const int, const int,
-                                       const int, const int) const) &
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<byte1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+
+      .def("insertValue",
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<short1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<float1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<int1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<double1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(std::shared_ptr<byte2DReg>,
+                                       std::shared_ptr<complex1DReg>, const int,
+                                       const int, const int, const int) const) &
+               genericIrregFile::insertValue,
+           "Insert a key into a header chunk")
+      .def("insertValue",
+           (void (genericIrregFile::*)(
+               std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble1DReg>,
+               const int, const int, const int, const int) const) &
                genericIrregFile::insertValue,
            "Insert a key into a header chunk")
       .def("getHeaderKeyTypes",

@@ -557,6 +557,7 @@ class irregFile:
             if vec._header._gridHyper:
                 self.cppMode.setHaveGrid(True)
             else:
+                print("Should be setting to no Grid")
                 self.cppMode.setHaveGrid(False)
             mp2={}
             for k,v in vec._header.getKeyTypes().items():

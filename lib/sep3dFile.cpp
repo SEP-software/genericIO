@@ -460,6 +460,7 @@ void sep3dFile::writeDescription() {
   }
 
   if (_haveGrid) {
+    fprintf(stderr, "I see have grid = true");
     // We always write out the grid
     axes = getHyper()->returnAxes(getHyper()->getNdim());
     for (int i = 2; i <= axes.size(); i++) {

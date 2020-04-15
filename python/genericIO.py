@@ -786,7 +786,7 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         klast=headS._keyOrder[len(headS._keyOrder)-1]
         n1=off[klast]+off[klast]
-        head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._header._nh])
+        head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():
             x=SepVector.getSepVector(headS._keys[k]._vals)
             self.cppMode.insertValue(head.cppMode,

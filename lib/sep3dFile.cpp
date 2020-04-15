@@ -983,7 +983,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<int1DReg> &drn,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
-
   if (grid && _haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
@@ -1022,8 +1021,9 @@ void sep3dFile::writeComplexDoubleTraceWindow(
 
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Expecting datatype complex double");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;
@@ -1045,8 +1045,9 @@ void sep3dFile::writeComplexTraceWindow(
     const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Expecting datatype complex ");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;
@@ -1067,8 +1068,9 @@ void sep3dFile::writeDoubleTraceWindow(
     const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Expecting datatype double");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;
@@ -1090,8 +1092,9 @@ void sep3dFile::writeIntTraceWindow(const std::vector<int> &nwind,
                                     const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_INT)
     throw SEPException("Expecting datatype int");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;
@@ -1113,8 +1116,9 @@ void sep3dFile::writeFloatTraceWindow(const std::vector<int> &nwind,
                                       const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Expecting datatype complex double");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;
@@ -1137,8 +1141,9 @@ void sep3dFile::writeByteTraceWindow(const std::vector<int> &nwind,
                                      const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_BYTE)
     throw SEPException("Expecting datatype byte");
+  if (grid && _haveGrid)
 
-  writeGrid(nwind, fwind, jwind, headers, grid);
+    writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;

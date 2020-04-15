@@ -535,6 +535,7 @@ class irregFile:
                 self.cppMode.setHyper(vec.getCpp().getHyper())
             else:
                 self.cppMode.setHyper(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
+                self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 
@@ -555,6 +556,8 @@ class irregFile:
                     self.usage], ndimMax)
             if vec._header._gridHyper:
                 self.cppMode.setHaveGrid(True)
+            else:
+                self.cppMode.setHaveGrid(False)
             mp2={}
             for k,v in vec._header.getKeyTypes().items():
                 mp2[k]=str(v)

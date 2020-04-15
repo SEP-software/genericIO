@@ -75,7 +75,7 @@ void sep3dFile::remove() {
 
   char *tag_grid[1];
   // Get the grid format file
-  if(0==sep_get_grid_format_tag(_tag.c_str(), tag_grid){
+  if (0 == sep_get_grid_format_tag(_tag.c_str(), tag_grid)) {
     std::string gff = tag_grid[0];
     auxpar("in", "s", temp, gff.c_str());
 
@@ -1094,7 +1094,7 @@ void sep3dFile::writeIntTraceWindow(const std::vector<int> &nwind,
                                     const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_INT)
     throw SEPException("Expecting datatype int");
-  if _haveGrid)
+  if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 

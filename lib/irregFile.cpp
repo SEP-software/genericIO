@@ -234,7 +234,7 @@ void genericIrregFile::checkWindow(const std::vector<int> &nwind,
                                    const std::vector<int> &jwind,
                                    std::shared_ptr<SEP::hypercube> hyper) {
   std::vector<int> ns = hyper->getNs();
-  for (int i = 0; i < ns.size(); i++) {
+  for (int i = 1; i < ns.size(); i++) {
     if (fwind[i] < 0)
       throw SEPException("Illegal fwind < 0");
     if (jwind[i] < 1)

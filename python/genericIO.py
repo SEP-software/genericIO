@@ -789,8 +789,8 @@ class irregFile:
         head=SepVector.getSepVector(storage="dataByte",ns=[n1])
         for k,v in off.items():
             x=SepVector.getSepVector(headS._keys[k]._vals)
-            self.cppMode.insertValue(head.cppMode.getVals(),
-             x.cppMode.getVals(),
+            self.cppMode.insertValue(head.cppMode,
+             x.cppMode,
             off[k],sz[k],n1,headS._nh)
         if headS._drn:
             return head,drn,headS.getCreateGrid()

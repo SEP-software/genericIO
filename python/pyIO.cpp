@@ -684,54 +684,55 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                         const std::vector<int> &fwind,
                                         const std::vector<int> &jwind,
                                         const std::shared_ptr<int1DReg> &drn,
-                                        const std::shared_ptr<byte2DReg> &,
-                                        const std::shared_ptr<byte1DReg> &)) &
+                                        const std::shared_ptr<byte2DReg> &)) &
                genericIrregFile::writeHeaderWindow,
            "Write a window of headers")
 
-      .def("writeComplexDoubleTraceWindow",
-           (void (genericIrregFile ::*)(
-               const std::vector<int> &nwind, const std::vector<int> &fwind,
-               const std::vector<int> &jwind,
-               const std::shared_ptr<int1DReg> &drn,
-               const std::shared_ptr<complexDouble2DReg> &,
-               const std::shared_ptr<byte1DReg> &)) &
-               genericIrregFile::writeComplexDoubleTraceWindow,
-           "Write a window of complex doubles")
+      .def(
+          "writeComplexDoubleTraceWindow",
+          (void (genericIrregFile ::*)(
+              const std::vector<int> &nwind, const std::vector<int> &fwind,
+              const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &,
+              const std::shared_ptr<complexDouble2DReg> &,
+              const std::shared_ptr<int1DReg> &)) &
+              genericIrregFile::writeComplexDoubleTraceWindow,
+          "Write a window of complex doubles")
 
       .def("writeComplexTraceWindow",
            (void (genericIrregFile ::*)(const std::vector<int> &nwind,
                                         const std::vector<int> &fwind,
                                         const std::vector<int> &jwind,
-                                        const std::shared_ptr<complex2DReg> &,
-                                        const std::shared_ptr<byte1DReg> &)) &
+                                        const std::shared_ptr<byte2DReg> &const
+                                            std::shared_ptr<complex2DReg> &,
+                                        const std::shared_ptr<int1DReg> &)) &
                genericIrregFile::writeComplexTraceWindow,
            "Write a window of complex floats")
 
       .def("writeDoubleTraceWindow",
-           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
-                                        const std::vector<int> &fwind,
-                                        const std::vector<int> &jwind,
-                                        const std::shared_ptr<double2DReg> &,
-                                        const std::shared_ptr<byte1DReg> &)) &
+           (void (genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind, const std::shared_ptr<byte2DReg>,
+               const std::shared_ptr<double2DReg> &,
+               const std::shared_ptr<int1DReg> &)) &
                genericIrregFile::writeDoubleTraceWindow,
            "Write a window of doubles")
 
       .def("writeIntTraceWindow",
            (void (genericIrregFile ::*)(
                const std::vector<int> &nwind, const std::vector<int> &fwind,
-               const std::vector<int> &jwind, const std::shared_ptr<int2DReg> &,
-               const std::shared_ptr<byte1DReg> &)) &
+               const std::vector<int> &jwind, const std::shared_ptr<byte2DReg>,
+               const std::shared_ptr<int2DReg> &, ,
+               const std::shared_ptr<int1DReg>)) &
                genericIrregFile::writeIntTraceWindow,
            "Write a window of ints")
 
       .def("writeFloatTraceWindow",
-           (void (genericIrregFile ::*)(
-               const std::vector<int> &nwind, const std::vector<int> &fwind,
-               const std::vector<int> &jwind,
-               const std::shared_ptr<int1DReg> &drn,
-               const std::shared_ptr<complexDouble2DReg> &,
-               const std::shared_ptr<byte1DReg> &)) &
+           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
+                                        const std::vector<int> &fwind,
+                                        const std::vector<int> &jwind,
+                                        const std::shared_ptr<byte2DReg> &head,
+                                        const std::shared_ptr<float2DReg> &,
+                                        const std::shared_ptr<int1DReg>)) &
                genericIrregFile::writeFloatTraceWindow,
            "Write a window of floats")
 
@@ -739,9 +740,9 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericIrregFile ::*)(const std::vector<int> &nwind,
                                         const std::vector<int> &fwind,
                                         const std::vector<int> &jwind,
-                                        const std::shared_ptr<int1DReg> &drn,
                                         const std::shared_ptr<byte2DReg> &,
-                                        const std::shared_ptr<byte1DReg> &)) &
+                                        const std::shared_ptr<byte2DReg> &,
+                                        const std::shared_ptr<int1DReg>)) &
                genericIrregFile::writeByteTraceWindow,
            "Write a window of bytes")
 

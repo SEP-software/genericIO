@@ -239,7 +239,7 @@ void genericIrregFile::checkWindow(const std::vector<int> &nwind,
       throw SEPException("Illegal fwind < 0");
     if (jwind[i] < 1)
       throw SEPException("Illegal jwind <1");
-    if (fwind[i] + jwind[i] * (nwind[i] - 1) + 1 >= ns[i])
+    if (fwind[i] + jwind[i] * (nwind[i] - 1) + 1 > ns[i])
       throw SEPException(std::string("Illegal window parameter axis ") +
                          std::to_string(i + 1) + std::string(" nw=") +
                          std::to_string(nwind[i]) + std::string(" fw=") +

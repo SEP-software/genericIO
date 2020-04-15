@@ -692,7 +692,7 @@ class irregFile:
     def readDataWindow(self, **kw):
         """Read a window of a file into the vector
                 @returns:
-                  vec - sepIrregVector
+                  vec - sepIrregVector.vector
                 Optional:
                   n,f,j - Standard windowing parameters"""
 
@@ -723,12 +723,12 @@ class irregFile:
         else:
             print("Unknown or unhandled storage type "%self.storage)
         header=self.byte2DToHeader(head,grid=grid)
-        return SepIrregVector.sepIrregVector(traces=vec,header=header)
+        return SepIrregVector.vector(traces=vec,header=header)
 
     def readHeaderWindow(self, **kw):
         """Read a window of a file into the vector
                 @returns:
-                  vec - sepIrregVector
+                  vec - sepIrregVector.vector
                 Optional:
                   n,f,j - Standard windowing parameters"""
     
@@ -755,7 +755,7 @@ class irregFile:
         if nw[0] != axes[0].n:
             raise Exception("Right now can not handle windowing the first axis")
         
-        if not isinstance(vec, SepIrregVector.sepIrregVector):
+        if not isinstance(vec, SepIrregVector.vector):
             raise Exception("vec must be deriverd SepVector.irregVector")
         head,drn,grid=self.headerToByte2D(vec._header)
         if grid is None:
@@ -777,7 +777,7 @@ class irregFile:
     def headerToByte2D(self,headS):
         """Convert headers into a 2-D byte array
 
-            headS - SepIrregVector.sepIrregVector
+            headS - SepIrregVector.vector
 
             @returns
             header  Byte2DArray
@@ -802,7 +802,7 @@ class irregFile:
     def byte2DToHeader(self,head,drn=None,grid=None):
         """Convert  a 2-D byte array into a header
 
-           return  head - SepIrregVector.sepIrregVector
+           return  head - SepIrregVector.vector
 
             head  Byte2DArray
             drn - Data record int1DReg

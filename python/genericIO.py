@@ -759,19 +759,19 @@ class irregFile:
             raise Exception("vec must be deriverd SepVector.irregVector")
         head=self.headerToByte2D(vec._header)[0]
         if self.storage == "dataFloat":
-            self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
+            self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataInt":
-            self.cppMode.writeIntTraceWindow(nw, fw, jw, head.cppMode,vec.cppMode,grid.cppMode)
+            self.cppMode.writeIntTraceWindow(nw, fw, jw, head.cppMode,vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataByte":
-            self.cppMode.writeByteTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
+            self.cppMode.writeByteTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataShort":
-            self.cppMode.writeShortTraceWindow(nw, fw, jw, head.cppMode,vec.cppMode,grid.cppMode)
+            self.cppMode.writeShortTraceWindow(nw, fw, jw, head.cppMode,vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataComplex":
-            self.cppMode.writeComplexTraceWindow(nw, fw, jw, head.cppMode,vec.cppMode,grid.cppMode)
+            self.cppMode.writeComplexTraceWindow(nw, fw, jw, head.cppMode,vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataDouble":
-            self.cppMode.writeDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
+            self.cppMode.writeDoubleTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "datComplexDouble":
-            self.cppMode.writeComplexDoubleTraceWindow(nw, fw, jw,head.cppMode, vec.cppMode,grid.cppMode)
+            self.cppMode.writeComplexDoubleTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
     def headerToByte2D(self,headS):
         """Convert headers into a 2-D byte array
 

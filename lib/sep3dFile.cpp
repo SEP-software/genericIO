@@ -24,6 +24,7 @@ sep3dFile::sep3dFile(const std::string &tag, const usage_code usage,
 
     break;
   case usageOut:
+    fprintf(stderr, "see usage out \n");
     if (tag != "out")
       if (0 == auxout(_tag.c_str()))
         error(std::string("can not open file ") + tag);

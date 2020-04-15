@@ -30,7 +30,7 @@ class TestIrreg(unittest.TestCase):
             fle.writeFloatTraces()
             fle.close()
         except:
-            self.assert(1==2)
+            self.asert(1==2)
         fle2=getIrregFile("/tmp/junk.H")
         dat2=fle2.readFloatTraces()
         d1=data.getNdArray()
@@ -38,8 +38,8 @@ class TestIrreg(unittest.TestCase):
         for i2 in range(10):
             for i1 in range(10):
                 if self.assertEqual(d2[i2,i1],d1[i2,i1])
-            if self.assertEqual(dat._header.s_x[i],dat2_header.s_x[i])
-            if self.assertEqual(dat._header.s_y[i],dat2_header.s_y[i])
+            if self.asertEqual(dat._header.s_x[i],dat2_header.s_x[i])
+            if self.asertEqual(dat._header.s_y[i],dat2_header.s_y[i])
 
 
 

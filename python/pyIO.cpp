@@ -694,7 +694,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
               const std::vector<int> &nwind, const std::vector<int> &fwind,
               const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &,
               const std::shared_ptr<complexDouble2DReg> &,
-              const std::shared_ptr<int1DReg> &)) &
+              const std::shared_ptr<byte1DReg> &)) &
               genericIrregFile::writeComplexDoubleTraceWindow,
           "Write a window of complex doubles")
 
@@ -704,7 +704,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                         const std::vector<int> &jwind,
                                         const std::shared_ptr<byte2DReg> &,
                                         const std::shared_ptr<complex2DReg> &,
-                                        const std::shared_ptr<int1DReg> &)) &
+                                        const std::shared_ptr<byte1DReg> &)) &
                genericIrregFile::writeComplexTraceWindow,
            "Write a window of complex floats")
 
@@ -713,7 +713,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &nwind, const std::vector<int> &fwind,
                const std::vector<int> &jwind, const std::shared_ptr<byte2DReg>,
                const std::shared_ptr<double2DReg> &,
-               const std::shared_ptr<int1DReg> &)) &
+               const std::shared_ptr<byte1DReg> &)) &
                genericIrregFile::writeDoubleTraceWindow,
            "Write a window of doubles")
 
@@ -722,7 +722,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                const std::vector<int> &nwind, const std::vector<int> &fwind,
                const std::vector<int> &jwind, const std::shared_ptr<byte2DReg>,
                const std::shared_ptr<int2DReg> &,
-               const std::shared_ptr<int1DReg> &)) &
+               const std::shared_ptr<byte1DReg> &)) &
                genericIrregFile::writeIntTraceWindow,
            "Write a window of ints")
 
@@ -732,7 +732,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                         const std::vector<int> &jwind,
                                         const std::shared_ptr<byte2DReg> &head,
                                         const std::shared_ptr<float2DReg> &,
-                                        const std::shared_ptr<int1DReg>)) &
+                                        const std::shared_ptr<byte1DReg>)) &
                genericIrregFile::writeFloatTraceWindow,
            "Write a window of floats")
 
@@ -742,7 +742,7 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                                         const std::vector<int> &jwind,
                                         const std::shared_ptr<byte2DReg> &,
                                         const std::shared_ptr<byte2DReg> &,
-                                        const std::shared_ptr<int1DReg>)) &
+                                        const std::shared_ptr<byte1DReg>)) &
                genericIrregFile::writeByteTraceWindow,
            "Write a window of bytes")
 

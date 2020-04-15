@@ -721,8 +721,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericIrregFile ::*)(
                const std::vector<int> &nwind, const std::vector<int> &fwind,
                const std::vector<int> &jwind, const std::shared_ptr<byte2DReg>,
-               const std::shared_ptr<int2DReg> &, ,
-               const std::shared_ptr<int1DReg>)) &
+               const std::shared_ptr<int2DReg> &,
+               const std::shared_ptr<int1DReg> &)) &
                genericIrregFile::writeIntTraceWindow,
            "Write a window of ints")
 

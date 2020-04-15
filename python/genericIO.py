@@ -554,7 +554,6 @@ class irregFile:
             self.cppMode = ioM.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
-            return;
             if vec._header._gridHyper:
                 self.cppMode.setHaveGrid(True)
             else:

@@ -9,7 +9,6 @@ using namespace SEP;
 
 sep3dFile::sep3dFile(const std::string &tag, const usage_code usage,
                      const int ndim) {
-  return;
   _tag = tag;
   _usage = usage;
   _inOrder = true;

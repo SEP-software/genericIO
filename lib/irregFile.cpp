@@ -248,3 +248,12 @@ void genericIrregFile::checkWindow(const std::vector<int> &nwind,
                          std::to_string(ns[i]));
   }
 }
+
+void genericIrregFile::setHaveGrid(const bool gr) {
+  if (_writeLastH != 0) {
+    if (_haveGrid != gr)
+      throw SEPException(
+          "Can not change wheter or not you have a grid after first write");
+  }
+  _haveGrid = gr;
+}

@@ -1117,8 +1117,10 @@ void sep3dFile::writeFloatTraceWindow(const std::vector<int> &nwind,
                                       const std::shared_ptr<byte1DReg> &grid) {
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Expecting datatype complex double");
-  if (_haveGrid)
+  if (_haveGrid) {
+    fprintf(stderr, "have grid true \n");
     writeGrid(nwind, fwind, jwind, headers, grid);
+  }
   std::vector<int> ns = headers->getHyper()->getNs();
 
   int ifirst = _writeLastH + 1;

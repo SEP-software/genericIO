@@ -537,7 +537,7 @@ class irregFile:
                 self.cppMode.setHyper(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
                 self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
-            self.cppMode.writeDescription()
+           # self.cppMode.writeDescription()
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]

@@ -1016,7 +1016,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     int *inb = (int *)headers->getVals();
     int *drnb = (int *)drn->getVals();
     int n1In = headers->getHyper()->getAxis(1).n;
-    int n1Out = n1In + 1;
+    int n1Out = n1In + 4;
     int idone = 0;
     std::cerr << "before write 6head er " << std::endl;
 

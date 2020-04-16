@@ -852,7 +852,7 @@ class irregFile:
         print("YO HYPER",self.getHyper())
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
-        if not isinstance(vec, SepIrregVector.header):
+        if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
         head,drn,grid=header2Byte2D(vec)
         self.cppMode.writeFloatHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    

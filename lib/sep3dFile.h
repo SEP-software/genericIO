@@ -493,7 +493,6 @@ private:
   std::map<std::string, std::string> _keyType;
   std::vector<long long> _drns;
   int _drn = -1;
-  bool _inOrder = true;
   std::string _tag;
   int _ntrBuffer = 100000;
 };

@@ -624,6 +624,8 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                               genericIrregFile::setDataType)
       .def("setHaveGrid", (void (genericIrregFile::*)(const bool)) &
                               genericIrregFile::setHaveGrid)
+      .def("setInOrder, (void (genericIrregFile::*)(const bool)) &
+           genericIrregFile::setInOrder)
       .def("readHeaderWindow",
            (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
                        std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(

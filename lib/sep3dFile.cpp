@@ -994,8 +994,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
-  if (drn == nullptr)
-    _inOrder = true;
   if (_inOrder) {
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];

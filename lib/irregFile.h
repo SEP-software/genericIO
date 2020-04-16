@@ -575,6 +575,7 @@ grid -Grid
   }
 
   void setHaveGrid(const bool gr);
+  void setInOrder(const bool ord) { _inOrder = ord; }
 
 protected:
   std::shared_ptr<SEP::hypercube> _hyper =
@@ -586,6 +587,7 @@ protected:
   usage_code _usage;
   long long _writeLastH = 0, _writeLastG = -1;
   bool _haveGrid = false;
+  bool _inOrder = true;
 };
 
 } // namespace SEP

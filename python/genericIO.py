@@ -528,7 +528,7 @@ class irregFile:
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.copyDataDescription(kw["dataIn"])
-            self.cppMode.putHeaderKeyType(header.getKeyTypes())
+            self.cppMode.putHeaderKeyTypes(header.getKeyTypes())
             self.cppMode.putHeaderKeyList(header._keyOrder)
             self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
             if header._gridHyper:

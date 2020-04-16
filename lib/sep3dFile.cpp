@@ -1027,6 +1027,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
       int ifirst = _writeLastH + idone + 1;
       for (int i2 = 0; i2 < nblock; i2++) {
         //  memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
+        fprintf(stderr, "from %d %f to %d  \n", n1Out * i2 + n1In, i2,
+                n1In * i2);
         // memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
       }
       std::cerr << "before write hea7d er " << std::endl;

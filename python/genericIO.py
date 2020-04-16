@@ -535,7 +535,8 @@ class irregFile:
             if header._gridHyper:
                 self.cppMode.setHyper(vec.getCpp().getHyper())
             else:
-                self.cppMode.setHyper(Hypercube.hypercube(ns=[len(header._keyOrder),header._nh]).cppMode)
+                hyp=Hypercube.hypercube(ns=[len(header._keyOrder),header._nh])
+                self.cppMode.setHyper(hyp.cppMode)
                 self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()

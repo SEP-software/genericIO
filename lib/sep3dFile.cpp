@@ -536,6 +536,7 @@ Json::Value sep3dFile::getDataDescription() {
 void sep3dFile::putDataDescription(const Json::Value &desc) {
 
   std::vector<axis> axes;
+  std::cerr << desc << std::endl;
   for (int i = 0; i < desc["ndim"].asInt(); i++) {
     int n = desc[std::string("n") + std::to_string(i + 1)].asInt();
     axes.push_back(
@@ -997,12 +998,16 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<int1DReg> &drn,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
+  std::cerr << "before 2write head er " << std::endl;
   if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
   if (_inOrder) {
+    std::cerr << "before 3write head er " << std::endl;
+
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
+    std::cerr << "before4 write head er " << std::endl;
 
     if (0 !=
         sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
@@ -1010,6 +1015,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   }
 
   else {
+    std::cerr << "before 5write head er " << std::endl;
+
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
     int *outb = (int *)temp->getVals();
@@ -1018,6 +1025,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 1;
     int idone = 0;
+    std::cerr << "before write 6head er " << std::endl;
+
     while (idone < ns[1]) {
       int nblock = (ns[1] - idone, _ntrBuffer);
       int ifirst = _writeLastH + idone + 1;
@@ -1025,10 +1034,14 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
         memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
         memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
       }
+      std::cerr << "before write hea7d er " << std::endl;
+
       if (0 !=
           sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, temp->getVals()))
         throw SEPException("Trouble writing "
                            "headers");
+      std::cerr << "befo8re write head er " << std::endl;
+
       idone += nblock;
     }
 

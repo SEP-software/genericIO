@@ -12,6 +12,11 @@ sep3dFile::sep3dFile(const std::string &tag, const usage_code usage,
   _tag = tag;
   _usage = usage;
   _inOrder = true;
+
+  char *val = getenv("ntrBuffer");
+  if (val != NULL)
+    _ntrBuffer = atoi(val);
+
   switch (usage) {
   case usageIn:
     /*By default data is in order*/

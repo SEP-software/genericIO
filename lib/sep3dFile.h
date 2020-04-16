@@ -492,10 +492,10 @@ private:
   std::vector<std::string> _keys;
   std::map<std::string, std::string> _keyType;
   std::vector<long long> _drns;
-  long long _writeLastH = 0, _writeLastG = -1;
   int _drn = -1;
   bool _inOrder = true;
   std::string _tag;
+  int _ntrBuffer = 100000;
 };
 
 } // namespace SEP

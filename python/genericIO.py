@@ -849,15 +849,16 @@ class irregFile:
                   n,f,j - Standard windowing parameters"""
         
         axes=self.getHyper().axes
-        print("YO HYPER",self.getHyper())
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
         head,drn,grid=self.headerToByte2D(vec)
-        print(type(head),type(grid),type(drn),"head grid drn")
-        self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
-        
+        if drn:
+            self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
+        else:
+            self.cppMode.writeHeaderWindow(nw, fw,jw, None,head.cppMode,grid.cppMode)    
+
     def close(self):
         """Close file"""
         self.cppMode.close()

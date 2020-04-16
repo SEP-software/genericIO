@@ -803,10 +803,11 @@ class irregFile:
             self.cppMode.insertValue(head.cppMode,
              x.cppMode,
             off[k],sz[k],n1,headS._nh)
+        drn=headS._drn
         if headS._drn:
-            return head,drn,headS.getCreateGrid()
-        else:
-            return head,None,headS.getCreateGrid()
+            drn=SepVector.getSepVector(storage="dataInt",ns=[1])
+        return head,drn,headS.getCreateGrid()
+   
 
     def byte2DToHeader(self,head,drn=None,grid=None):
         """Convert  a 2-D byte array into a header

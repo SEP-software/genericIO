@@ -1007,7 +1007,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
-    std::cerr << "before4 write head er " << std::endl;
+    std::cerr << "before4 write head er " << ns[0] << " 0  1 " << ns[1]
+              << std::endl;
 
     if (0 !=
         sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))

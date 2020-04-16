@@ -855,7 +855,7 @@ class irregFile:
         if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
         head,drn,grid=self.headerToByte2D(vec)
-        self.cppMode.writeFloatHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
+        self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
         
 
     def close(self):

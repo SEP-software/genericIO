@@ -594,8 +594,8 @@ class irregFile:
 
     def copyDataDescription(self,frm):
         """Copy the data description from frm to this file representation"""
-        if not isinsance(frm,irregFile):
-            raise Exception("Expecting frm to be an irregFile")
+        if not isinstance(frm,irregFile):
+            raise Exception("Expecting from to be an irregFile got ",type(frm))
         self.putDataDescription(frm.getDataDescription())
 
     def __repr__(self):

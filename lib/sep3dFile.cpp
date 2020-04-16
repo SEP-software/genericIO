@@ -428,8 +428,12 @@ void sep3dFile::writeDescription() {
 
   // Write the number of keys. One more if we have a DRN
   int nkeys = _keys.size();
-  if (!_inOrder)
+  if (!_inOrder) {
+    fprintf(stderr, "see in order false \n");
     nkeys += 1;
+  } else {
+    fprintf(stderr, "see in order true\n");
+  }
   sep_put_number_keys(_tag.c_str(), &nkeys);
 
   // Write the keys
@@ -450,11 +454,12 @@ void sep3dFile::writeDescription() {
   }
 
   // Put DRN key
-  if (!_inOrder)
+  if (!_inOrder) {
+    fprintf(stderr, "before put key \n");
     if (0 != sep_put_key(_tag.c_str(), "data_recrd_number", "scalar_int",
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");
-
+  }
   // Put header format file axes
   for (int i = 2; i <= axes.size(); i++) {
     int n = axes[i - 1].n;

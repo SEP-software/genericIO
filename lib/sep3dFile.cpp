@@ -1000,8 +1000,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
-    std::cerr << "before4 write head er " << ns[0] << " 0  1 " << ns[1]
-              << std::endl;
 
     if (0 !=
         sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
@@ -1018,35 +1016,25 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
     int idone = 0;
-    std::cerr << "before write 6head er " << std::endl;
 
     while (idone < ns[1]) {
       int nblock = std::min(ns[1] - idone, _ntrBuffer);
-      std::cerr << "you sock " << nblock << " " << idone << " " << _ntrBuffer
-                << std::endl;
+
       int ifirst = _writeLastH + idone + 1;
       for (int i2 = 0; i2 < nblock; i2++) {
         memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
-        fprintf(stderr, "from %d %d to %d  \n", n1Out * i2 + n1In, i2,
-                n1In * i2);
+
         memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
       }
-      std::cerr << "before write hea7d er " << std::endl;
-      fprintf(stderr, "what first=%d n=%d nkeys=%d\n", ifirst, nblock, n1In);
+
       if (0 !=
           sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, temp->getVals()))
         throw SEPException("Trouble writing "
                            "headers");
-      std::cerr << "befo8re write head er " << std::endl;
-
       idone += nblock;
-      std::cerr << "fdjfdsklfsdlkj " << idone << " " << ns[1] << std::endl;
     }
-    std::cerr << "thtrogh another " << std::endl;
     _writeLastH += ns[1];
-    std::cerr << "kdsajdfsjkdkfsjldsfjkl " << std::endl;
   }
-  std::cerr << "Wjsaksjfkdlkjdjlkdsf" << std::endl;
 }
 void sep3dFile::writeComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,

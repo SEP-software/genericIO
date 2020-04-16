@@ -540,10 +540,10 @@ class irregFile:
                 self.cppMode.setHaveGrid(False)
             if header._drn is None:
                 print("see drn")
-                self.cppMode.setInOrder(True)
+                self.cppMode.setInOrder(False)
             else:
                 print('no drn')
-                self.cppMode.setInOrder(False)
+                self.cppMode.setInOrder(True)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 

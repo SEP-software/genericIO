@@ -514,10 +514,10 @@ Json::Value sep3dFile::getDataDescription() {
   x["ndim"] = _hyperData->getNdim();
   for (int idim = 0; idim < _hyperData->getNdim(); idim++) {
     SEP::axis a = _hyperData->getAxis(idim + 1);
-    x[std::string("n%d") + std::to_string(idim + 1)] = a.n;
-    x[std::string("o%d") + std::to_string(idim + 1)] = a.n;
-    x[std::string("d%d") + std::to_string(idim + 1)] = a.d;
-    x[std::string("label%d") + std::to_string(idim + 1)] = a.label;
+    x[std::string("n") + std::to_string(idim + 1)] = a.n;
+    x[std::string("o") + std::to_string(idim + 1)] = a.n;
+    x[std::string("d") + std::to_string(idim + 1)] = a.d;
+    x[std::string("label") + std::to_string(idim + 1)] = a.label;
   }
   char temp_ch[20400];
   if (1 != auxpar("in", "s", temp_ch, _tag.c_str()))
@@ -1035,7 +1035,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
         memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
       }
       std::cerr << "before write hea7d er " << std::endl;
-
+      fprintf(stderr, "what first=%d n=%d nkeys=%d\n", ifirst, nblock, n1In);
       if (0 !=
           sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, temp->getVals()))
         throw SEPException("Trouble writing "

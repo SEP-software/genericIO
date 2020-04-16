@@ -1012,9 +1012,9 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
-    int *outb = (int *)temp->getVals();
-    int *inb = (int *)headers->getVals();
-    int *drnb = (int *)drn->getVals();
+    char *outb = (char *)temp->getVals();
+    char *inb = (char *)headers->getVals();
+    char *drnb = (char *)drn->getVals();
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
     int idone = 0;

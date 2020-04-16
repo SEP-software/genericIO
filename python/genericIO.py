@@ -851,7 +851,7 @@ class irregFile:
         axes=self.getHyper().axes
         print("YO HYPER",self.getHyper())
         axes[0]=Hypercube.axis(n=10000)
-        nw, fw, jw = self.getWindowParam(**kw)
+        nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if not isinstance(vec, SepIrregVector.header):
             raise Exception("vec must be deriverd SepVector.header")
         head,drn,grid=header2Byte2D(vec)

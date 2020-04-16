@@ -29,7 +29,6 @@ sep3dFile::sep3dFile(const std::string &tag, const usage_code usage,
 
     break;
   case usageOut:
-    fprintf(stderr, "see usage out \n");
     if (tag != "out")
       if (0 == auxout(_tag.c_str()))
         error(std::string("can not open file ") + tag);
@@ -468,7 +467,6 @@ void sep3dFile::writeDescription() {
   }
 
   if (_haveGrid) {
-    fprintf(stderr, "I see have grid = true");
     // We always write out the grid
     axes = getHyper()->returnAxes(getHyper()->getNdim());
     for (int i = 2; i <= axes.size(); i++) {
@@ -1124,7 +1122,6 @@ void sep3dFile::writeFloatTraceWindow(const std::vector<int> &nwind,
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Expecting datatype complex double");
   if (_haveGrid) {
-    fprintf(stderr, "have grid true \n");
     writeGrid(nwind, fwind, jwind, headers, grid);
   }
   std::vector<int> ns = headers->getHyper()->getNs();

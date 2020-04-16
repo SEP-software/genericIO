@@ -533,7 +533,7 @@ class irregFile:
             hyp=Hypercube.hypercube(ns=[1000,header._nh])
             self.cppMode.setHyperHeader(hyp.cppMode)
             if header._gridHyper:
-                self.cppMode.setHyper(vec.getCpp().getHyper())
+                self.cppMode.setHyper(vec.getCpps().getHyper())
             else:
                 hyp=Hypercube.hypercube(ns=[len(header._keyOrder),header._nh])
                 self.cppMode.setHyper(hyp.cppMode)
@@ -737,7 +737,7 @@ class irregFile:
                 Optional:
                   n,f,j - Standard windowing parameters"""
     
-        axes=self.getHyper()
+        axes=self.getHyper().axes
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         head,drn,grid=self.cppMode.readHeaderWindow(nw,fw,jw)

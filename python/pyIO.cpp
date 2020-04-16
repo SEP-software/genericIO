@@ -688,11 +688,13 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            "Read a window of int")
 
       .def("writeHeaderWindow",
-           (void (genericIrregFile ::*)(const std::vector<int> &nwind,
-                                        const std::vector<int> &fwind,
-                                        const std::vector<int> &jwind,
-                                        const std::shared_ptr<int1DReg> &drn,
-                                        const std::shared_ptr<byte2DReg> &)) &
+           (void (genericIrregFile ::*)(
+               const std::vector<int> &nwind, const std::vector<int> &fwind,
+               const std::vector<int> &jwind, const std::shared_ptr<int1DReg> &,
+               const std::shared_ptr<byte2DReg> &,
+               const std::shared_ptr<byte1DReg> &
+
+               )) &
                genericIrregFile::writeHeaderWindow,
            "Write a window of headers")
 

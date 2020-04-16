@@ -1029,7 +1029,9 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     std::cerr << "before write 6head er " << std::endl;
 
     while (idone < ns[1]) {
-      int nblock = (ns[1] - idone, _ntrBuffer);
+      int nblock = std::min(ns[1] - idone, _ntrBuffer);
+      std::cerr << "you sock " << nblock << " " << idone << " " << _ntrBuffer
+                << std::endl;
       int ifirst = _writeLastH + idone + 1;
       for (int i2 = 0; i2 < nblock; i2++) {
         memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);

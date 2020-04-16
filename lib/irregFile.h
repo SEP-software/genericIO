@@ -575,7 +575,10 @@ grid -Grid
   }
 
   void setHaveGrid(const bool gr);
-  void setInOrder(const bool ord) { _inOrder = ord; }
+  void setInOrder(const bool ord) {
+    _inOrder = ord;
+    std::cerr << "set in order to " << ord << std::endl;
+  }
 
 protected:
   std::shared_ptr<SEP::hypercube> _hyper =

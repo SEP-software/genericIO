@@ -429,10 +429,7 @@ void sep3dFile::writeDescription() {
   // Write the number of keys. One more if we have a DRN
   int nkeys = _keys.size();
   if (!_inOrder) {
-    fprintf(stderr, "see in order false \n");
     nkeys += 1;
-  } else {
-    fprintf(stderr, "see in order true\n");
   }
   sep_put_number_keys(_tag.c_str(), &nkeys);
 
@@ -455,7 +452,6 @@ void sep3dFile::writeDescription() {
 
   // Put DRN key
   if (!_inOrder) {
-    fprintf(stderr, "before put key \n");
     if (0 != sep_put_key(_tag.c_str(), "data_recrd_number", "scalar_int",
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");
@@ -997,12 +993,10 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<int1DReg> &drn,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
-  std::cerr << "before 2write head er " << std::endl;
   if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
   if (_inOrder) {
-    std::cerr << "before 3write head er " << std::endl;
 
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
@@ -1015,7 +1009,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   }
 
   else {
-    std::cerr << "before 5write head er " << std::endl;
 
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
@@ -1045,6 +1038,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
       std::cerr << "befo8re write head er " << std::endl;
 
       idone += nblock;
+      std::cerr << "fdjfdsklfsdlkj " << idone << " " << ns[1] << std::endl;
     }
 
     _writeLastH += ns[1];

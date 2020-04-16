@@ -93,6 +93,7 @@ class TestIrregSimple(unittest.TestCase):
         d1=dat.getNdArray()
         d2=dat5.getNdArray()
         for i2 in range(10):
+            print("CHECK ",i2)
             self.assertEqual(dat._header.s_x[i2],dat5._header.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],dat5._header.s_y[i2]) 
             for i1 in range(10):

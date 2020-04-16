@@ -602,7 +602,7 @@ sep3dFile::readHeaderWindow(const std::vector<int> &nwind,
   int nkeyIn = _keys.size();
   if (_drn > -1)
     nkeyIn += 1;
-  std::shared_ptr<byte2DReg> headBuf(new byte2DReg(4 * nkeyIn, 100000));
+  std::shared_ptr<byte2DReg> headBuf(new byte2DReg(4 * nkeyIn, _ntrBuffer));
 
   std::shared_ptr<byte2DReg> headers(
       new byte2DReg(4 * _keys.size(), headerLocs.size()));
@@ -782,7 +782,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   int n1 = _hyperData->getAxis(1).n;
   std::sort(headPos.begin(), headPos.end(), sortFunc);
 
-  std::shared_ptr<float2DReg> temp(new float2DReg(n1, 10000));
+  std::shared_ptr<float2DReg> temp(new float2DReg(n1, _ntrBuffer));
 
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
@@ -810,7 +810,7 @@ sep3dFile::readIntTraceWindow(const std::vector<int> &nwind,
     headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::shared_ptr<int2DReg> temp(new int2DReg(n1, 10000));
+  std::shared_ptr<int2DReg> temp(new int2DReg(n1, _ntrBuffer));
   readArrangeTraces(headPos, n1 * 4, (void *)temp->getVals(),
                     (void *)data->getVals());
   return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
@@ -837,7 +837,7 @@ sep3dFile::readDoubleTraceWindow(const std::vector<int> &nwind,
     headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::shared_ptr<double2DReg> temp(new double2DReg(n1, 10000));
+  std::shared_ptr<double2DReg> temp(new double2DReg(n1, _ntrBuffer));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
   return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
@@ -864,7 +864,7 @@ sep3dFile::readByteTraceWindow(const std::vector<int> &nwind,
   int n1 = _hyperData->getAxis(1).n;
 
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, 10000));
+  std::shared_ptr<byte2DReg> temp(new byte2DReg(n1, _ntrBuffer));
   readArrangeTraces(headPos, n1 * 1, (void *)temp->getVals(),
                     (void *)data->getVals());
   return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
@@ -892,7 +892,7 @@ sep3dFile::readComplexTraceWindow(const std::vector<int> &nwind,
   int n1 = _hyperData->getAxis(1).n;
 
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, 10000));
+  std::shared_ptr<complex2DReg> temp(new complex2DReg(n1, _ntrBuffer));
   readArrangeTraces(headPos, n1 * 8, (void *)temp->getVals(),
                     (void *)data->getVals());
   return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
@@ -918,7 +918,8 @@ sep3dFile::readComplexDoubleTraceWindow(const std::vector<int> &nwind,
     headPos[i][1] = (*drn->_mat)[i];
   }
   std::sort(headPos.begin(), headPos.end(), sortFunc);
-  std::shared_ptr<complexDouble2DReg> temp(new complexDouble2DReg(n1, 10000));
+  std::shared_ptr<complexDouble2DReg> temp(
+      new complexDouble2DReg(n1, _ntrBuffer));
   readArrangeTraces(headPos, n1 * 16, (void *)temp->getVals(),
                     (void *)data->getVals());
   return std::make_tuple(std::get<0>(head_drn), data, std::get<2>(head_drn));
@@ -993,7 +994,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
-
+  if (drn == nullptr)
+    _inOrder = true;
   if (_inOrder) {
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
@@ -1005,11 +1007,20 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
   else {
     std::shared_ptr<byte2DReg> temp(
-        new byte2DReg(ns[0] + 4, std::min(100000, ns[1])));
+        new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
+    int *outb = (int *)temp->getVals();
+    int *inb = (int *)headers->getVals();
+    int *drnb = (int *)drn->getVals();
+    int n1In = headers->getHyper()->getAxis(1).n;
+    int n1Out = n1In + 1;
     int idone = 0;
     while (idone < ns[1]) {
-      int nblock = (ns[1] - idone, 100000);
+      int nblock = (ns[1] - idone, _ntrBuffer);
       int ifirst = _writeLastH + idone + 1;
+      for (int i2 = 0; i2 < nblock; i2++) {
+        memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
+        memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
+      }
       if (0 !=
           sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, temp->getVals()))
         throw SEPException("Trouble writing "

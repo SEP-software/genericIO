@@ -620,12 +620,18 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
                     py::return_value_policy::reference)
       .def("getDataType",
            (dataType(genericIrregFile::*)()) & genericIrregFile::getDataType)
-      .def("setDataType", (void (genericIrregFile::*)(const dataType)) &
-                              genericIrregFile::setDataType)
-      .def("setHaveGrid", (void (genericIrregFile::*)(const bool)) &
-                              genericIrregFile::setHaveGrid)
-      .def("setInOrder, (void (genericIrregFile::*)(const bool)) &
-           genericIrregFile::setInOrder)
+      .def("setDataType",
+           (void (genericIrregFile::*)(const dataType)) &
+               genericIrregFile::setDataType,
+           "Set data type for traces")
+      .def("setHaveGrid",
+           (void (genericIrregFile::*)(const bool)) &
+               genericIrregFile::setHaveGrid,
+           "Set whether the dataset has a grid")
+      .def("setInOrder",
+           (void (genericIrregFile::*)(const bool)) &
+               genericIrregFile::setInOrder,
+           "Set whether the data and header order match")
       .def("readHeaderWindow",
            (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
                        std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(

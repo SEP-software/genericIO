@@ -49,7 +49,7 @@ class TestIrregSimple(unittest.TestCase):
             self.assertEqual(dat._header.s_x[i2],head2.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],head2.s_y[i2])    
         fle3.remove()
-        fle2.remove()   
+        fle.remove()   
 
     def testOutOfOrderTraces(self):
         io=genericIO.io("SEP")
@@ -81,11 +81,8 @@ class TestIrregSimple(unittest.TestCase):
             self.assertEqual(dat._header.s_x[i2],dat2._header.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],dat2._header.s_y[i2])
 
-        print("before writing just headers")        
         fle3=io.getIrregFile("/tmp/junk4.H",fromHeader=datM._header,dataIn=fle2)
-        print("after writing description")
         fle3.writeHeaderWindow(dat2._header)
-        print("after write headerWindow")
         fle3.close()
 
         fle4=io.getIrregFile("/tmp/junk4.H")
@@ -93,14 +90,33 @@ class TestIrregSimple(unittest.TestCase):
         d1=dat.getNdArray()
         d2=dat5.getNdArray()
         for i2 in range(10):
-            print("CHECK ",i2)
             self.assertEqual(dat._header.s_x[i2],dat5._header.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],dat5._header.s_y[i2]) 
             for i1 in range(10):
                 self.assertEqual(d2[i2,i1],d1[i2,i1])  
-       # fle3.remove()
-        #fle2.remove()   
+        fle3.remove()
+        fle.remove()  
+    def testGrid(self):
+        io=genericIO.io("SEP")
+        dat=makeDataset()
+        ax=[]
+        ax.append(Hypercube.axis(n=10,o=1,d=1,label="s_y"))
+        ax.append(Hypercube.axis(n=10,o=1,d=1,label="s_x"))
+        dat2=dat.clone()
+        dat2.gridData(ax)
+        fle=io.getIrregFile("/tmp/junk5.H",fromVector=dat2)
+        fle.writeDataWindow(dat)
+        fle.close()
+        fle2=io.getIrregFile("/tmp/junk5.H")
+        dat2=fle2.readDataWindow()
+        d1=dat.getNdArray()
+        d2=dat2.getNdArray()
+        for i2 in range(10):
+            for i1 in range(10):
+                self.assertEqual(d2[i2,i1],d1[i2,i1])
+            self.assertEqual(dat._header.s_x[i2],dat2._header.s_x[i2])
+            self.assertEqual(dat._header.s_y[i2],dat2._header.s_y[i2])
 
-
+        fle.remove() 
 if __name__ == '__main__':
     unittest.main()

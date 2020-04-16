@@ -101,7 +101,7 @@ class TestIrregSimple(unittest.TestCase):
         dat=makeDataset()
         ax=[]
         ax.append(Hypercube.axis(n=10,o=1,d=1,label="s_y"))
-        ax.append(Hypercube.axis(n=10,o=1,d=1,label="s_x"))
+        ax.append(Hypercube.axis(n=10,o=0,d=1,label="s_x"))
         dat2=dat.clone()
         dat2.gridData(ax)
         fle=io.getIrregFile("/tmp/junk5.H",fromVector=dat2)

@@ -1040,8 +1040,9 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
       idone += nblock;
       std::cerr << "fdjfdsklfsdlkj " << idone << " " << ns[1] << std::endl;
     }
-
+    std::cerr << "thtrogh another " > << std::endl;
     _writeLastH += ns[1];
+    std::cerr << "kdsajdfsjkdkfsjldsfjkl " << std::endl;
   }
   std::cerr << "Wjsaksjfkdlkjdjlkdsf" << std::endl;
 }

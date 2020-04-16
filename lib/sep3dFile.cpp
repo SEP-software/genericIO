@@ -536,7 +536,6 @@ Json::Value sep3dFile::getDataDescription() {
 void sep3dFile::putDataDescription(const Json::Value &desc) {
 
   std::vector<axis> axes;
-  std::cerr << desc << std::endl;
   for (int i = 0; i < desc["ndim"].asInt(); i++) {
     int n = desc[std::string("n") + std::to_string(i + 1)].asInt();
     axes.push_back(
@@ -1050,6 +1049,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
     _writeLastH += ns[1];
   }
+  std::cerr << "Wjsaksjfkdlkjdjlkdsf" << std::endl;
 }
 void sep3dFile::writeComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,

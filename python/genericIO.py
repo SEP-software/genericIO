@@ -541,7 +541,6 @@ class irregFile:
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]
-            print(type(vec),"FROM VEC")
             if not isinstance(kw["fromVector"], SepIrregVector.vector):
                 raise Exception(
                     "When creating a file from a vector must be inherited from SepIrregVector.vector")
@@ -571,7 +570,7 @@ class irregFile:
 
             self.cppMode.setHyper(vec.getHyper().cppMode)
             self.cppMode.setDataType(storageConvert[self.storage])
-           # self.cppMode.writeDescription()
+            self.cppMode.writeDescription()
         else:  # Assuming from file
             if not self.usage:
                 self.usage = "usageIn"

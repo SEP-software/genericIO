@@ -656,9 +656,10 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   for (int i = 0; i < ntransfer; i++) {
 
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
-    if (_drn >= 0)
+    if (_drn >= 0) {
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);
-    else
+      rns[ifirst + i] -= 1;
+    } else
       memcpy(rns + ifirst + i, &headerLocs[ifirst + i][1], 4);
     if (end > 0)
       memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);

@@ -539,8 +539,10 @@ class irregFile:
                 self.cppMode.setHyper(hyp.cppMode)
                 self.cppMode.setHaveGrid(False)
             if header._drn is None:
+                print("see drn")
                 self.cppMode.setInOrder(True)
             else:
+                print('no drn')
                 self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
@@ -857,7 +859,9 @@ class irregFile:
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
+        print("before headetTypeByte")
         head,drn,grid=self.headerToByte2D(vec)
+        print("after headertoByte")
         self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
          
 

@@ -596,7 +596,7 @@ class irregFile:
         """Copy the data description from frm to this file representation"""
         if not isinstance(frm,irregFile):
             raise Exception("Expecting from to be an irregFile got ",type(frm))
-        self.cppMode.putDataDescriptionString(frm.getDataDescriptionString())
+        self.cppMode.putDataDescriptionString(frm.cppMode.getDataDescriptionString())
 
     def __repr__(self):
         """Print information about file"""

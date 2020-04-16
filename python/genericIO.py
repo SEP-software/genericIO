@@ -530,14 +530,14 @@ class irregFile:
             self.copyDataDescription(kw["dataIn"])
             self.cppMode.putHeaderKeyTypes(header.getKeyTypes())
             self.cppMode.putHeaderKeyList(header._keyOrder)
-            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
+            self.cppMode.setHyperHeader(Hypercube.hypercube(ns=[len(header._keyOrder),header._nh]))
             if header._gridHyper:
                 self.cppMode.setHyper(vec.getCpp().getHyper())
             else:
-                self.cppMode.setHyper(Hypercube.hypercube(ns=[len(vec._headers._keyOrder),vec._headers._nh]))
+                self.cppMode.setHyper(Hypercube.hypercube(ns=[len(header._keyOrder),header._nh]))
                 self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
-           # self.cppMode.writeDescription()
+            self.cppMode.writeDescription()
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]

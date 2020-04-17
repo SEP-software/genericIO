@@ -563,9 +563,9 @@ class irregFile:
                 self.cppMode.setInOrder(kw["inOrder"])
             self.storage=fle.storage
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
-            self.cppMode.setHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
-            self.cppMode.setHeaderKeyList(fle.cppMode.getHeaderKeyList())
-            self.cppMode.putDataType(storageConvert[self.storage])
+            self.cppMode.putHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
+            self.cppMode.putHeaderKeyList(fle.cppMode.getHeaderKeyList())
+            self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.setHyperData(fle.cppMode.getHyperData())
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
             self.cppMode.setHyper(fle.cppMode.getHyper())

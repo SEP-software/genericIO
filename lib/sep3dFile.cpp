@@ -1009,7 +1009,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     fprintf(stderr, "see write grid\n");
     writeGrid(nwind, fwind, jwind, headers, grid);
   }
-
+  fprintf(stderr, "finished write grid \n");
   std::vector<int> ns = headers->getHyper()->getNs();
   if (_inOrder) {
     fprintf(stderr, "set in order \n");
@@ -1054,6 +1054,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     }
     _writeLastH += ns[1];
   }
+  fprintf(stderr, "exiting writie headers \n");
 }
 void sep3dFile::writeComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,

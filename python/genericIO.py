@@ -569,7 +569,7 @@ class irregFile:
             self.cppMode.setHyperData(fle.cppMode.getHyperData())
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
             self.cppMode.setHyper(fle.cppMode.getHyper())
-            self.cppMode.setHyperHeader(self.cppMode.getHyperHeader())
+            self.cppMode.setHyperHeader(fle.cppMode.getHyperHeader())
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]

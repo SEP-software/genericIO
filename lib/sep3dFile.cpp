@@ -981,7 +981,7 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
     if ((*byte->_mat)[i] != 0) {
       ih++;
       (*grid->_mat)[i] = _writeLastH + ih + 1;
-      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih + 1)
+      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih + 1);
     } else
       (*grid->_mat)[i] = -1;
   }
@@ -1003,7 +1003,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
 
   fprintf(stderr, "in write header window \n");
   if (_haveGrid) {
-    fprintf(srderr, "see write grid\n");
+    fprintf(stderr, "see write grid\n");
     writeGrid(nwind, fwind, jwind, headers, grid);
   }
 

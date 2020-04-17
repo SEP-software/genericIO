@@ -822,7 +822,8 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         headS=SepVector.byteVector(fromCpp=head)
         if grid is not None:
-            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=grid,gridHyper=self.getHyper())
+            gridS=SepVector.byteVector(fromCpp=grid)
+            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=gridS,gridHyper=self.getHyper())
         else:
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
 

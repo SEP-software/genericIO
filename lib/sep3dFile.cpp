@@ -311,7 +311,7 @@ void sep3dFile::readDescription(const int ndimMax) {
     }
     axesG[0] = axesT[0];
     for (int i = 1; i < axesH.size(); i++)
-      axesT.push_back(axesH[i]);
+      axesT.push_back(axesG[i]);
     _hyper.reset(new hypercube(axesT));
     _haveGrid = true;
 

@@ -991,10 +991,12 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
   std::vector<int> ng = _hyper->getNs();
   int ndim = ng.size();
 
+  fprintf(stderr, "before put window \n");
   if (0 != sep_put_grid_window(_tag.c_str(), &ndim, &ng[1], &nwind[1],
-                               &fwind[1], &jwind[1], grid->getVals()))
+                               &fwind[1], &jwind[1], grid->getVals())) {
+    fprintf(stderr, "throwing an exception\n");
     throw SEPException("Trouble writing grid");
-
+  }
   _writeLastG = last;
 }
 void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,

@@ -538,10 +538,6 @@ class irregFile:
                 hyp=Hypercube.hypercube(ns=[len(header._keyOrder),header._nh])
                 self.cppMode.setHyper(hyp.cppMode)
                 self.cppMode.setHaveGrid(False)
-            if header._drn is None:
-                self.cppMode.setInOrder(False)
-            else:
-                self.cppMode.setInOrder(True)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 
@@ -805,9 +801,11 @@ class irregFile:
             off[k],sz[k],n1,headS._nh)
         drn=headS._drn
         if headS._drn is None:
+            print("in set 1")
             self.cppMode.setInOrder(False)
             drn=SepVector.getSepVector(storage="dataInt",ns=[1])
         else:
+            print("in set 2")
             self.cppMode.setInOrder(True)
         return head,drn,headS.getCreateGrid()
    

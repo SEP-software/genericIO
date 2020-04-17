@@ -416,6 +416,10 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (std::shared_ptr<hypercube>(genericIrregFile::*)()) &
                genericIrregFile::getHyperData,
            "Get the hypercube of the data")
+      .def("getHyperHeader",
+           (std::shared_ptr<hypercube>(genericIrregFile::*)()) &
+               genericIrregFile::getHyperHeader,
+           "Get the hypercube of the header")
       .def("setHyperHeader",
            (void (genericIrregFile::*)(std::shared_ptr<hypercube>)) &
                genericIrregFile::setHyperHeader,

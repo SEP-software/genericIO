@@ -272,6 +272,16 @@ Get a string from a file
 
     return _hyperData;
   }
+
+  /*!
+ Return hypercube describing headers
+ */
+  std::shared_ptr<SEP::hypercube> getHyperHeader() {
+    if (_hyperHeader == nullptr)
+      throw SEPException(std::string("hypercube not defined"));
+
+    return _hyperHeader;
+  }
   /*!
    Return hypercube describing dataset
    */

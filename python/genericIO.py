@@ -805,7 +805,10 @@ class irregFile:
             off[k],sz[k],n1,headS._nh)
         drn=headS._drn
         if headS._drn is None:
+            self.cppMode.setInOrder(True)
             drn=SepVector.getSepVector(storage="dataInt",ns=[1])
+        else:
+            self.cppMode.setInOrder(False)
         return head,drn,headS.getCreateGrid()
    
 

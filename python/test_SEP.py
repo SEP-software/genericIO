@@ -60,7 +60,7 @@ class TestIrregSimple(unittest.TestCase):
         fle.close()
         #Make another dataset where we've switched two headers
         datM=dat.clone()
-        datM._header._drn=SepVector.getSepVector(ns=[10])
+        datM._header._drn=SepVector.getSepVector(ns=[10],storage="dataInt")
         drn=datM._header._drn.getNdArray()
         for i in range(10):
             drn[i]=i        

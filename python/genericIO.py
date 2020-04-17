@@ -540,7 +540,7 @@ class irregFile:
                 self.cppMode.setHaveGrid(False)
             if header._drn is None:
                 self.cppMode.setInOrder(False)
-                print("IN order false")
+                print("IN order false",type(header._drn))
             else:
                 print("in order true")
                 self.cppMode.setInOrder(True)

@@ -83,8 +83,8 @@ class TestIrregSimple(unittest.TestCase):
                 self.assertEqual(d2[i2,i1],d1[i2,i1])
             self.assertEqual(dat._header.s_x[i2],dat3._header.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],dat3._header.s_y[i2])
-     #   fle2.remove()
-     #   fle.remove()  
+        fle2.remove()
+        fle.remove()  
 
 
     def testGrid(self):
@@ -99,6 +99,7 @@ class TestIrregSimple(unittest.TestCase):
         fle.writeDataWindow(dat3)
         fle.close()
         fle2=io.getIrregFile("/tmp/junk5.H")
+        fleX=io.getIrregFile("/tmp/junk6.H",fromFile=fle2)
         dat2=fle2.readDataWindow()
         d1=dat.getNdArray()
         d2=dat2.getNdArray()

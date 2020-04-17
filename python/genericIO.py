@@ -547,6 +547,9 @@ class irregFile:
             self.cppMode.writeDescription()
         elif "fromFile" in kw:
             fle=kw["fromFile"]
+            self.cppMode = ioM.getIrregFile(
+                self.tag, usageConvert[
+                    self.usage], ndimMax)
             if not isinstance(fle,irregFile):
                 raise Exception("fromFile must be of type  irregFile")
             if not "inOrder" in kw:
@@ -554,9 +557,6 @@ class irregFile:
             else:
                 self.cppMode.setInOrder(kw["inOrder"])
             self.storage=fle.storage
-            self.cppMode = ioM.getIrregFile(
-                self.tag, usageConvert[
-                    self.usage], ndimMax)
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
             self.cppMode.setHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
             self.cppMode.setHeaderKeyList(fle.cppMode.getHeaderKeyList())

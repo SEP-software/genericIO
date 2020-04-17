@@ -807,12 +807,11 @@ class irregFile:
             off[k],sz[k],n1,headS._nh)
         drn=headS._drn
         if headS._drn is None:
-            print("in set 1")
-            self.cppMode.setInOrder(False)
+            self.cppMode.setInOrder(True)
             drn=SepVector.getSepVector(storage="dataInt",ns=[1])
         else:
             print("in set 2")
-            self.cppMode.setInOrder(True)
+            self.cppMode.setInOrder(False)
         return head,drn,headS.getCreateGrid()
    
 

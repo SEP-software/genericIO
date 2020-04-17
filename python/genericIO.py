@@ -539,11 +539,11 @@ class irregFile:
                 self.cppMode.setHyper(hyp.cppMode)
                 self.cppMode.setHaveGrid(False)
             if header._drn is None:
-                self.cppMode.setInOrder(False)
+                self.cppMode.setInOrder(True)
                 print("IN order true")
             else:
                 print("in order false",type(header._drn))
-                self.cppMode.setInOrder(True)
+                self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 

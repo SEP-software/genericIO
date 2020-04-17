@@ -40,12 +40,18 @@ class TestIrregSimple(unittest.TestCase):
                 self.assertEqual(d2[i2,i1],d1[i2,i1])
             self.assertEqual(dat._header.s_x[i2],dat2._header.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],dat2._header.s_y[i2])
+        print("ABOUT TO WRITE")
         fle3=io.getIrregFile("/tmp/junk2.H",fromHeader=dat._header,dataIn=fle2)
+        print("DONE WITH DESCRIPTION")
         fle3.writeHeaderWindow(dat2._header)
         fle3.close()
         fle4=io.getIrregFile("/tmp/junk2.H")
         head2=fle4.readHeaderWindow()
+        print(dat._header.s_x._vals,dat._header.s_y._vals)
+        print(head2.s_x._vals,head2.s_y._vals)
+
         for i2 in range(10):
+            print(i2)
             self.assertEqual(dat._header.s_x[i2],head2.s_x[i2])
             self.assertEqual(dat._header.s_y[i2],head2.s_y[i2])    
         fle3.remove()

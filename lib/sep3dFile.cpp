@@ -452,6 +452,7 @@ void sep3dFile::writeDescription() {
 
   // Put DRN key
   if (!_inOrder) {
+    std::cerr << "see stuff no tin order" << std::endl;
     if (0 != sep_put_key(_tag.c_str(), "data_recrd_number", "scalar_int",
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");

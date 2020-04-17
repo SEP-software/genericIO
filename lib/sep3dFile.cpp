@@ -654,6 +654,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   unsigned char *in = temp->getVals();
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
+  fprintf(stderr, "in extract drn \n");
   for (int i = 0; i < ntransfer; i++) {
 
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
@@ -662,6 +663,7 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
       rns[ifirst + i] -= 1;
     } else
       memcpy(rns + ifirst + i, &headerLocs[ifirst + i][1], 4);
+    fprintf(stderr, "extracted drn %d %d \n", i, rns[ifirst + i]);
     if (end > 0)
       memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);
   }
@@ -779,6 +781,9 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
+    fprintf(stderr, "reading header possion %d %d \n", headPos[i][0],
+            headPos[i][1]);
+    (*drn->_mat)[i] -= 1;
   }
 
   int n1 = _hyperData->getAxis(1).n;
@@ -975,7 +980,7 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
   for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
     if ((*byte->_mat)[i] != 0) {
       ih++;
-      (*grid->_mat)[i] = _writeLastH + ih;
+      (*grid->_mat)[i] = _writeLastH + ih + 1;
     }
   }
   std::vector<int> ng = _hyper->getNs();
@@ -1007,12 +1012,14 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   }
 
   else {
-
+    fprintf(stderr, "in the correct else for write \n");
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
     char *outb = (char *)temp->getVals();
     char *inb = (char *)headers->getVals();
-    char *drnb = (char *)drn->getVals();
+    std::vector<int> drnV(ns[1]);
+    for (auto i = 0; i < ns[1]; i++)
+      drnV[i] = (*drn->_mat)[i] + 1;
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
     int idone = 0;
@@ -1024,7 +1031,7 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
       for (int i2 = 0; i2 < nblock; i2++) {
         memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
 
-        memcpy(outb + n1Out * i2 + n1In, drnb + i2, 4);
+        memcpy(outb + n1Out * i2 + n1In, &drnV[i2], 4);
       }
 
       if (0 !=

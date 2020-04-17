@@ -691,6 +691,7 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
                                  &jw[1], &grid[0]))
       throw SEPException("Trouble reading grid");
     std::shared_ptr<byte1DReg> gr(new byte1DReg(n123));
+    fprintf(stderr, "allocated grid size %d\n", n123);
     int ireal = 0;
     for (auto i = 0; i < n123; i++)
       if (grid[i] >= 0)

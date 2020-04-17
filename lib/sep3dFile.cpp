@@ -1032,30 +1032,32 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     char *inb = (char *)headers->getVals();
     std::vector<int> drnV(ns[1]);
     if (ns[1] != drn->getHyper()->getN123())
-      throw SEPException(std::string("Number of drns does not match number of headers tag="+_tag);
+      throw SEPException(
+          std::string("Number of drns does not match number of headers tag=") +
+          _tag);
     for (auto i = 0; i < ns[1]; i++) {
-        drnV[i] = (*drn->_mat)[i] + 1;
-        fprintf(stderr, "setting drn %d %d \n", i, drnV[i]);
+      drnV[i] = (*drn->_mat)[i] + 1;
+      fprintf(stderr, "setting drn %d %d \n", i, drnV[i]);
     }
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
     int idone = 0;
 
     while (idone < ns[1]) {
-        int nblock = std::min(ns[1] - idone, _ntrBuffer);
+      int nblock = std::min(ns[1] - idone, _ntrBuffer);
 
-        int ifirst = _writeLastH + idone + 1;
-        for (int i2 = 0; i2 < nblock; i2++) {
-          memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
+      int ifirst = _writeLastH + idone + 1;
+      for (int i2 = 0; i2 < nblock; i2++) {
+        memcpy(outb + n1Out * i2, inb + n1In * i2, n1In);
 
-          memcpy(outb + n1Out * i2 + n1In, &drnV[i2], 4);
-        }
+        memcpy(outb + n1Out * i2 + n1In, &drnV[i2], 4);
+      }
 
-        if (0 != sep_put_val_headers(_tag.c_str(), &ifirst, &nblock,
-                                     temp->getVals()))
-          throw SEPException("Trouble writing "
-                             "headers");
-        idone += nblock;
+      if (0 !=
+          sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, temp->getVals()))
+        throw SEPException("Trouble writing "
+                           "headers");
+      idone += nblock;
     }
     _writeLastH += ns[1];
   }

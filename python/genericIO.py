@@ -542,7 +542,7 @@ class irregFile:
                 self.cppMode.setInOrder(True)
                 print("IN order false")
             else:
-                print("in order true")
+                print("in order true",type(header._drn))
                 self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()

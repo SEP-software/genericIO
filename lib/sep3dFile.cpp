@@ -997,6 +997,7 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
     fprintf(stderr, "throwing an exception\n");
     throw SEPException("Trouble writing grid");
   }
+  fprintf(stderr, "through put window \n");
   _writeLastG = last;
 }
 void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,

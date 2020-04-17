@@ -107,7 +107,7 @@ class TestIrregSimple(unittest.TestCase):
         dat3=dat2.gridData(ax)
         print("WHAT 2")
         fle=io.getIrregFile("/tmp/junk5.H",fromVector=dat3)
-        print("WHAT 3")
+        print("WHAT 3",dat3._traces,dat3._header)
         fle.writeDataWindow(dat3)
         print("what 4")
         fle.close()

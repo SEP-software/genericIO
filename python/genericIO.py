@@ -344,7 +344,6 @@ class regFile:
         elif self.storage == "dataComplexDouble":
             if not isinstance(vec, SepVector.complexDoubleVector):
                 raise Exception("File type is complexDouble vector type is not")
-            print("Write complex double window")
             self.cppMode.writeComplexDoubleWindow(nw, fw, jw, vec.cppMode)        
         elif self.storage == "dataByte":
             if not isinstance(vec, SepVector.byteVector):
@@ -540,9 +539,7 @@ class irregFile:
                 self.cppMode.setHaveGrid(False)
             if header._drn is None:
                 self.cppMode.setInOrder(True)
-                print("IN order true")
             else:
-                print("in order false",type(header._drn))
                 self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
@@ -710,7 +707,6 @@ class irregFile:
         axes=self.getHyper().axes
         axes[0]=Hypercube.hypercube(hypercube=self.cppMode.getHyperData()).axes[0]
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
-        print("wow what happened here",self.getHyper(),nw,fw,jw)
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
         if self.storage == "dataFloat":
@@ -810,7 +806,6 @@ class irregFile:
             self.cppMode.setInOrder(True)
             drn=SepVector.getSepVector(storage="dataInt",ns=[1])
         else:
-            print("in set 2")
             self.cppMode.setInOrder(False)
         return head,drn,headS.getCreateGrid()
    
@@ -866,7 +861,6 @@ class irregFile:
         if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
         head,drn,grid=self.headerToByte2D(vec)
-        print("what drn",drn.getNdArray())
         self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
          
 

@@ -452,7 +452,6 @@ void sep3dFile::writeDescription() {
 
   // Put DRN key
   if (!_inOrder) {
-    std::cerr << "see stuff no tin order" << std::endl;
     if (0 != sep_put_key(_tag.c_str(), "data_recrd_number", "scalar_int",
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");
@@ -655,7 +654,6 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
   unsigned char *in = temp->getVals();
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
-  fprintf(stderr, "in extract drn \n");
   for (int i = 0; i < ntransfer; i++) {
 
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
@@ -664,7 +662,6 @@ void sep3dFile::extractDRN(std::shared_ptr<byte2DReg> outV, const int ifirst,
       rns[ifirst + i] -= 1;
     } else
       memcpy(rns + ifirst + i, &headerLocs[ifirst + i][1], 4);
-    fprintf(stderr, "extracted drn %d %d \n", i, rns[ifirst + i]);
     if (end > 0)
       memcpy(out + n1out * (ifirst + i) + beg, in + n1in * i + beg + 4, end);
   }
@@ -685,7 +682,6 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     ng = getHyper()->getNs();
     checkWindow(nw, fw, jw, _hyper);
     for (int i = 0; i < nw.size(); i++) {
-      fprintf(stderr, "check window %d %d \n", nw[i], n123);
       n123 *= (long long)nw[i];
     }
     std::vector<int> grid(n123);
@@ -694,7 +690,6 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
                                  &jw[1], &grid[0]))
       throw SEPException("Trouble reading grid");
     std::shared_ptr<byte1DReg> gr(new byte1DReg(n123));
-    fprintf(stderr, "allocated grid size %d\n", n123);
     int ireal = 0;
     for (auto i = 0; i < n123; i++)
       if (grid[i] >= 0)
@@ -785,8 +780,7 @@ sep3dFile::readFloatTraceWindow(const std::vector<int> &nwind,
   for (int i = 0; i < ntr; i++) {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
-    fprintf(stderr, "reading header possion %d %d \n", headPos[i][0],
-            headPos[i][1]);
+
     (*drn->_mat)[i] -= 1;
   }
 
@@ -957,7 +951,6 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
                           const std::shared_ptr<byte1DReg> &byte
 
 ) {
-  fprintf(stderr, "in write grid \n");
   long long first = 0, last = 0;
   long long sz = 1;
   checkWindow(nwind, fwind, jwind, _hyper);
@@ -985,20 +978,16 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
     if ((*byte->_mat)[i] != 0) {
       ih++;
       (*grid->_mat)[i] = _writeLastH + ih;
-      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih);
     } else
       (*grid->_mat)[i] = -1;
   }
   std::vector<int> ng = _hyper->getNs();
   int ndim = ng.size();
 
-  fprintf(stderr, "before put window \n");
   if (0 != sep_put_grid_window(_tag.c_str(), &ndim, &ng[1], &nwind[1],
                                &fwind[1], &jwind[1], grid->getVals())) {
-    fprintf(stderr, "throwing an exception\n");
     throw SEPException("Trouble writing grid");
   }
-  fprintf(stderr, "through put window \n");
   _writeLastG = last;
 }
 void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
@@ -1008,15 +997,11 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
 
-  fprintf(stderr, "in write header window \n");
   if (_haveGrid) {
-    fprintf(stderr, "see write grid\n");
     writeGrid(nwind, fwind, jwind, headers, grid);
   }
-  fprintf(stderr, "finished write grid \n");
   std::vector<int> ns = headers->getHyper()->getNs();
   if (_inOrder) {
-    fprintf(stderr, "set in order \n");
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
 
@@ -1026,7 +1011,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
   }
 
   else {
-    fprintf(stderr, "in the correct else for write \n");
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(_ntrBuffer, ns[1])));
     char *outb = (char *)temp->getVals();
@@ -1038,7 +1022,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
           _tag);
     for (auto i = 0; i < ns[1]; i++) {
       drnV[i] = (*drn->_mat)[i] + 1;
-      fprintf(stderr, "setting drn %d %d \n", i, drnV[i]);
     }
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
@@ -1062,7 +1045,6 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     }
     _writeLastH += ns[1];
   }
-  fprintf(stderr, "exiting writie headers \n");
 }
 void sep3dFile::writeComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,

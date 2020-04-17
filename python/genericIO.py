@@ -538,12 +538,12 @@ class irregFile:
                 hyp=Hypercube.hypercube(ns=[len(header._keyOrder),header._nh])
                 self.cppMode.setHyper(hyp.cppMode)
                 self.cppMode.setHaveGrid(False)
-            if isinstance(header._drn,None):
-                self.cppMode.setInOrder(False)
-                print("IN order false",type(header._drn))
+            if header._drn is None:
+                self.cppMode.setInOrder(True)
+                print("IN order false")
             else:
                 print("in order true")
-                self.cppMode.setInOrder(True)
+                self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
 

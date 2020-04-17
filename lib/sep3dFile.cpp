@@ -1031,6 +1031,8 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     char *outb = (char *)temp->getVals();
     char *inb = (char *)headers->getVals();
     std::vector<int> drnV(ns[1]);
+    if (ns[1] != drn->getN123())
+      throw SEPException("Number of drns does not match number of headers");
     for (auto i = 0; i < ns[1]; i++) {
       drnV[i] = (*drn->_mat)[i] + 1;
       fprintf(stderr, "setting drn %d %d \n", i, drnV[i]);

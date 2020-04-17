@@ -683,8 +683,10 @@ sep3dFile::readHeaderLocs(const std::vector<int> &nwind,
     long long n123 = 1;
     ng = getHyper()->getNs();
     checkWindow(nw, fw, jw, _hyper);
-    for (int i = 0; i < nw.size(); i++)
+    for (int i = 0; i < nw.size(); i++) {
+      fprintf(stderr, "check window %d %d \n", nw[i], n123);
       n123 *= (long long)nw[i];
+    }
     std::vector<int> grid(n123);
     int ndim = ng.size();
     if (0 != sep_get_grid_window(_tag.c_str(), &ndim, &ng[1], &nw[1], &fw[1],
@@ -981,8 +983,8 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
   for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
     if ((*byte->_mat)[i] != 0) {
       ih++;
-      (*grid->_mat)[i] = _writeLastH + ih + 1;
-      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih + 1);
+      (*grid->_mat)[i] = _writeLastH + ih;
+      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih);
     } else
       (*grid->_mat)[i] = -1;
   }

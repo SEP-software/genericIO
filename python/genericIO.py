@@ -547,6 +547,11 @@ class irregFile:
             self.cppMode.writeDescription()
         elif "fromFile" in kw:
             fle=kw["fromFile"]
+            if not self.usage:
+                self.usage = "usageOut"
+            elif self.usage == "usageIn":
+                raise Exception(
+                    "Can not have usageIn when creating from a header")    
             self.cppMode = ioM.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)

@@ -310,7 +310,7 @@ void sep3dFile::readDescription(const int ndimMax) {
       axesG.push_back(axis(n, o, d, std::string(label)));
     }
     axesG[0] = axesT[0];
-    for (int i = 1; i < axesH.size(); i++)
+    for (int i = 1; i < axesG.size(); i++)
       axesT.push_back(axesG[i]);
     _hyper.reset(new hypercube(axesT));
     _haveGrid = true;

@@ -448,10 +448,12 @@ class irregFile:
                         tag  - Tag for file
                 Optional:
                         fromHeader - Just headers
+                        fromFile -  From another irregFile description
                         storage  - float,complex,byte,double, or int (defaults to float)
                         fromVector - Irregular vector
                         usage - Defaults to IN for from file OUT for everything else
                         dataIn - When creating just a headers dataset must specify irregFile to get data description from
+                        inOrder - When creating from a file, whether or not the traces and headers will be in order
         """
         self.tag = tag
         self.usage = None
@@ -543,6 +545,26 @@ class irregFile:
                 self.cppMode.setInOrder(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
+        elif "fromFile" in kw:
+            fle=kw["fromFile"]
+            if not isinstance(fle,irregFile):
+                raise Exception("fromFile must be of type  irregFile")
+            if not "inOrder" in kw:
+                self.cppMode.setInOrder(fle.cppMode.getInOrder())
+            else:
+                self.cppMode.setInOrder(kw["inOrder"])
+            self.storage=fle.storage
+            self.cppMode = ioM.getIrregFile(
+                self.tag, usageConvert[
+                    self.usage], ndimMax)
+            self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
+            self.cppMode.setHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
+            self.cppMode.setHeaderKeyList(fle.cppMode.getHeaderKeyList())
+            self.cppMode.setDataType(storageConvert[self.storage])
+            self.cppMode.setHyperData(fle.cppMode.getHyperData())
+            self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
+            self.cppMode.setHyper(fle.cppMode.getHyper())
+            self.cppMode.setHyperHeader(self.cppMode.getHyperHeader())
 
         elif "fromVector" in kw:
             vec=kw["fromVector"]

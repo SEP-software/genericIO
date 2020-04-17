@@ -632,6 +632,12 @@ PYBIND11_MODULE(pyGenericIO, clsGeneric) {
            (void (genericIrregFile::*)(const bool)) &
                genericIrregFile::setInOrder,
            "Set whether the data and header order match")
+      .def("getInOrder",
+           (bool (genericIrregFile::*)(l)) & genericIrregFile::getInOrder,
+           "Get whether or traces are in order with headers ")
+      .def("getHaveGrid",
+           (bool (genericIrregFile::*)(l)) & genericIrregFile::gethaveGrid,
+           "Get whether or not we have a grid ")
       .def("readHeaderWindow",
            (std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
                        std::shared_ptr<byte1DReg>>(genericIrregFile ::*)(

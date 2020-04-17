@@ -953,7 +953,7 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
                           const std::shared_ptr<byte1DReg> &byte
 
 ) {
-
+  fprintf(stderr, "in write grid \n");
   long long first = 0, last = 0;
   long long sz = 1;
   checkWindow(nwind, fwind, jwind, _hyper);
@@ -981,7 +981,9 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
     if ((*byte->_mat)[i] != 0) {
       ih++;
       (*grid->_mat)[i] = _writeLastH + ih + 1;
-    }
+      fprintf(stderr, "in setting grid %d %d\n", i, _writeLastH + ih + 1)
+    } else
+      (*grid->_mat)[i] = -1;
   }
   std::vector<int> ng = _hyper->getNs();
   int ndim = ng.size();
@@ -998,11 +1000,16 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
                                   const std::shared_ptr<int1DReg> &drn,
                                   const std::shared_ptr<byte2DReg> &headers,
                                   const std::shared_ptr<byte1DReg> &grid) {
-  if (_haveGrid)
+
+  fprintf(stderr, "in write header window \n");
+  if (_haveGrid) {
+    fprintf(srderr, "see write grid\n");
     writeGrid(nwind, fwind, jwind, headers, grid);
+  }
+
   std::vector<int> ns = headers->getHyper()->getNs();
   if (_inOrder) {
-
+    fprintf(stderr, "set in order \n");
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
 

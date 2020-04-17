@@ -1028,8 +1028,10 @@ void sep3dFile::writeHeaderWindow(const std::vector<int> &nwind,
     char *outb = (char *)temp->getVals();
     char *inb = (char *)headers->getVals();
     std::vector<int> drnV(ns[1]);
-    for (auto i = 0; i < ns[1]; i++)
+    for (auto i = 0; i < ns[1]; i++) {
       drnV[i] = (*drn->_mat)[i] + 1;
+      fprintf(stderr, "setting drn %d %d \n", i, drnV[i]);
+    }
     int n1In = headers->getHyper()->getAxis(1).n;
     int n1Out = n1In + 4;
     int idone = 0;

@@ -1,6 +1,6 @@
 project(Generic-IO)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
-
+set(PYTHON_DIR "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
 #find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
@@ -17,8 +17,8 @@ include_directories(${Boost_INCLUDE_DIR})
            $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}../src>)
 
   target_link_libraries(pyGenericIO PRIVATE genericCpp)
-  install(TARGETS pyGenericIO DESTINATION lib/python EXPORT genericIOTargets)
-  install(FILES GenJob.py GenSplit.py genericIO.py DESTINATION lib/python)
+  install(TARGETS pyGenericIO DESTINATION ${PYTHON_DIR} EXPORT genericIOTargets)
+  install(FILES GenJob.py GenSplit.py genericIO.py DESTINATION ${PYTHON_DIR})
 
 set(PYSEARCH ${CMAKE_CURRENT_BINARY_DIR}/../lib)
 set(PYSEARCH ${PYSEARCH}:${CMAKE_CURRENT_BINARY_DIR}/)

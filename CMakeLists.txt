@@ -129,6 +129,8 @@ else()
 endif(BUILD_TEST)
 
 add_subdirectory(lib)
+set(PYTHON_INSTALL_LAYOUT /opt/segy/python)
+add_subdirectory(external/segyio)
 
 add_subdirectory(python)
 if(BUILD_EXAMPLES)

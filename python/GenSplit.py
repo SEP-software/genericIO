@@ -3,16 +3,17 @@ import copy
 import  Hypercube
 import GenJob
 import threading
+from multiprocessing.pool import ThreadPool
 
-class regSpace:
-    """Split dataset into portions"""
-    def __init__(self,job,mem,bufferedIO=True):
-        """
+class space: 
+    def __init__(self,job,mem):
+    """
         Keyword arguments:
             mem - Maximum memory per job (40 GB)
             job - Job to split up
             bufferedIO - Whether or not to double IO because another thread is doing read/write 
         """
+        super().__init__
         self._mem=mem
         self._job=job
 
@@ -136,14 +137,21 @@ class regSpace:
             ndone[7]+=n_w[7]
 
 
-def readFunc(file,buffer,nw,fw,jw):
-    ndim=len(file.getHyper().axes)
-    file.readWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
+class regSpace(space):
+    """Split dataset into portions"""
+    def __init__(self,job,mem,bufferedIO=True):
+        """
+        Keyword arguments:
+            mem - Maximum memory per job (40 GB)
+            job - Job to split up
+            bufferedIO - Whether or not to double IO because another thread is doing read/write 
+        """
+        super().__init__(job,mem,bufferedIO)
+        if not isinstance(self._job,GenJob.regSpace):
+            raise Exception("Expecting job to be dervied from GenJob.regSpace")
+    
 
-def writeFunc(file,buffer,nw,fw,jw):
-    ndim=len(file.getHyper().axes)
-    file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 class serialRegSpace(regSpace):
     """Class for serially going through a dataset"""
     def __init__(self,job,mem):
@@ -182,7 +190,7 @@ class serialRegSpace(regSpace):
             outputVec,outputFile=self._job.allocateIOBufferOut(self._hyperOut.subCube(self._nw[0],self._fw[0],self._jw[0]),0)
         
         if hasInput:
-            readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
+            readThread=threading.Thread(target=readRegFunc, args=(inputFile,inputVec,self._nw[0],self._fw[0],self._jw[0]))
             readThread.start()
         
 
@@ -193,7 +201,7 @@ class serialRegSpace(regSpace):
                 self._job.swapIObufferPtrsIn()
             if i!= len(self._nw)-1 and hasInput:
                 inputVec,inputFile,nw,fw,jw=self._job.allocateIOBufferIn(self._hyperOut.subCube(self._nw[i+1],self._fw[i+1],self._jw[i+1]),i+1)
-                readThread=threading.Thread(target=readFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
+                readThread=threading.Thread(target=readRegFunc, args=(inputFile,inputVec,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
                 readThread.start()
             self._job.processBuffer()
             if i!=0 and hasOutput:
@@ -210,3 +218,123 @@ class serialRegSpace(regSpace):
             writeThread.join()
         self._job.deallocateBuffers()
 
+
+
+class serialIrregSpace(regSpace):
+    """Class for serially going through a dataset"""
+    def __init__(self,job,mem):
+        """
+        Initialize looping through dataset serially
+
+        job - Job 
+        mem - Memory
+        """
+
+        super().__init__(job,mem)
+
+    
+    def loop(self,readFunc,writeFunc,printPct=101):
+        """Loop through dataset applying chain
+        
+        readFunc - Function that does the reading
+        writeFunc - Function that does the writing
+        printPct - Print status approximately every printPct 
+        """
+
+        self._job.checkLogic()
+        if printPct>0:
+           printNext=printPct
+
+        hasInput=self._job.getHasInput()
+        hasOutput=self._job.getHasOutput()
+        pool=ThreadPool(processes=3)
+        if hasInput:
+            readThread = pool.apply_async(readFunc, (inputFile,self._nw[0],self._fw[0],self._jw[0]))
+    
+
+        for i in range(len(self._nw)):
+            if hasInput:
+                vec=readThread.get()
+            if i!= len(self._nw)-1 and hasInput:
+                readThread=pool.apply_async(readFunc, (inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
+            self._job.processBuffer()
+            if i!=0 and hasOutput:
+                writeThread.get()
+            if hasOutput:
+                writeThread=pool.apply_async(writeFunc,(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+            pct=int(i*10000/len(self._nw))/100.
+            if pct>printNext:
+                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
+                printNext+=printPct
+        if hasOutput:
+            writeThread.get()
+class serialIrregDataSpace(serialIrregSpace):
+    """Class for serially going through a dataset"""
+    def __init__(self,job,mem):
+        """
+        Initialize looping through dataset serially
+
+        job - Job 
+        mem - Memory
+        """
+
+        super().__init__(job,mem)
+
+    
+    def loop(self,readFunc,writeFunc,printPct=101):
+        """Loop through dataset applying chain
+        
+        readFunc - Function that does the reading
+        writeFunc - Function that does the writing
+        printPct - Print status approximately every printPct 
+        """
+        super().loop(readIrregTraceFunc,writeIrregTraceFunc,printPct)
+
+class serialIrregHeaderSpace(serialIrregSpace):
+    """Class for serially going through a dataset"""
+    def __init__(self,job,mem):
+        """
+        Initialize looping through dataset serially
+
+        job - Job 
+        mem - Memory
+        """
+
+        super().__init__(job,mem)
+
+    
+    def loop(self,readFunc,writeFunc,printPct=101):
+        """Loop through dataset applying chain
+        
+        readFunc - Function that does the reading
+        writeFunc - Function that does the writing
+        printPct - Print status approximately every printPct 
+        """
+        super().loop(readIrregHeaderFunc,writeIrregHeaderFunc,printPct)
+
+def readRegFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    file.readWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
+
+
+def writeRegFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
+
+
+def readIrregTraceFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    return file.readDataWindow(n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
+
+def writeIrregTraceFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    file.writeDataWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
+
+def readIrregHeaderFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    return file.readHeaderWindow(n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
+
+
+def writeIrregHeaderFunc(file,buffer,nw,fw,jw):
+    ndim=len(file.getHyper().axes)
+    file.writeHeaderWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])

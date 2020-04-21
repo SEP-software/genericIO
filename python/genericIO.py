@@ -454,6 +454,10 @@ class irregFile:
                         usage - Defaults to IN for from file OUT for everything else
                         dataIn - When creating just a headers dataset must specify irregFile to get data description from
                         inOrder - When creating from a file, whether or not the traces and headers will be in order
+                        fromDataHeader - Create from data header also need (keys,headerHyper, and possibly gridHyper)
+                        headerHyper - Hypercube for the headers
+                        keys - Dictionary of keys and types
+                        gridHyper - Hypercube for the grid
         """
         self.tag = tag
         self.usage = None
@@ -492,13 +496,11 @@ class irregFile:
                 raise Exception(
                     "Only understand dataFloat,dataInt,dataDouble,dataByte, dataComplexDouble,and dataComplex for storage not=%s"%storage)
 
-        if "fromHyper" in kw:
-            raise Exception("Can't handle fromHyper for now")
-            if not isinstance(kw["fromHyper"], Hypercube.hypercube):
-                axes=kw["fromHyper"].getHyper().axes
+        if "fromDataHeader" in kw:
+            if not isinstance(kw["fromDataHeader"], Hypercube.hypercube):
+                axes=kw["fromDataHeader"].getHyper().axes
                 if len(axes) !=2:
                     raise SEPException("Expecting 2-D hypercube")
-                
             if not self.usage:
                 self.usage = "usageOut"
             elif self.usage == "usageIn":
@@ -511,8 +513,27 @@ class irregFile:
             else:
                 self.cppMode = ioM.getIrregFile(
                     self.tag, usageConvert[
-                        self.usage], ndimMax)
-            self.cppMode.setHyper(kw["fromHyper"].getCpp())
+                        self.usage], ndimMax)                
+            if "headerHyper" not in kw:
+                raise Exception("Must provide hypercube for the headers (headerHyper) when fromDataHyper")
+            if not isinstance(kw["headerHyper"],Hypercube.hypercube):
+                raise Exception("headerHyper must be a Hypercube")
+            if keys not in kw:
+                raise Exception("Must provide keys when providing fromDataHyper ")
+            if not ininstance(kw["keys"],dict):
+                raise Exception("keys must be a dictionary")
+            self.cppMode.putHeaderKeyTypes(kw["keys"])
+            self.cppMode.putHeaderKeyList(list(kw["keys"])
+            self.cppMode.setHyperHeader(kw["hyperHeader"].cppMode)
+            self.cppMode.setHyperData(kw["hyperData"].cppMode)
+            if "gridHyper" in kw:
+                if not isinstance(kw["gridHyper"],Hypercube.hypercube()):
+                    raise Exception("gridHyper must be a Hypercube")
+                self.cppMode.setHyper(kw["gridHyper"])
+                self.cppMode.setHaveGrid(True)
+            else:
+                self.cppMode.setHyper(kw["headerHyper"])
+                self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
         elif "fromHeader" in kw:

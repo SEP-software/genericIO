@@ -1,9 +1,10 @@
 project(Generic-IO)
-set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 set(PYTHON_DIR "lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
 #find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
-
+set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # This is a CMake example for Python
 
 

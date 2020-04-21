@@ -7,11 +7,11 @@ from multiprocessing.pool import ThreadPool
 
 class space: 
     def __init__(self,job,mem):
-    """
-        Keyword arguments:
-            mem - Maximum memory per job (40 GB)
-            job - Job to split up
-            bufferedIO - Whether or not to double IO because another thread is doing read/write 
+        """
+            Keyword arguments:
+                mem - Maximum memory per job (40 GB)
+                job - Job to split up
+                bufferedIO - Whether or not to double IO because another thread is doing read/write 
         """
         super().__init__
         self._mem=mem

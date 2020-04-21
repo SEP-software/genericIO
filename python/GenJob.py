@@ -6,7 +6,7 @@ esizeFromType={"dataFloat":4,"dataDouble":8,"dataInt":4,"dataComplex":8,"dataSho
 
 
 
-classs space:
+class space:
     """Base class for data described by hypercube@"""
 
     def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat", hasInput=True, hasOutput=True):
@@ -20,7 +20,7 @@ classs space:
             inOnly - Only has input
             outOnly - Only has output
 
-        """)
+        """
 
         self.process=process
         self._mem=mem
@@ -169,7 +169,7 @@ classs space:
         return nbytes
 
 
-class regSpace(space))
+class regSpace(space):
     """Base class for regular sampled datasets"""
     def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat", hasInput=True, hasOutput=True):
         """Initialization of the regspace job

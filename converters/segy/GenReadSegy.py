@@ -55,7 +55,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Make delta functions and impulsive plane waves ')
     parser.add_argument('input', metavar='input', type=str,
                         help="SEG-Y file to read")   
-    parser.add_argument('output', metavar='Output', type=str, optional=True,
+    parser.add_argument('output', metavar='Output', type=str,
                         help='Output file')                   
     parser.add_argument("--io", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
     parser.add_argument("--memory",type=float,help="Memory in terms of GB",default=.2)
@@ -64,7 +64,9 @@ if __name__ == "__main__":
     parser.add_argument("--endian",type=str,default="big", choices=["big","little"],help="File endianness, big/msb (default) or little/lsb")
     parser.add_argument("--additional",type=str,default=None,help="Additional keys in the form of a dictionary with value as a tuple ({s_x:('int',200)})")
     parser.add_argument("--keepKeys",type=str,help="List of keys to save 'SourceX,CDP_TRACE")
-
+    parser.add_argument("--writeBinaryHeader",type=str,help="File to write binary to")
+    parser.add_argument("--writeTextHeader", type=str,help="File to write text header to")
+    )
     args = parser.parse_args()
     ioOut=genericIO.defaultIO
 #    if args.additional:
@@ -80,6 +82,20 @@ if __name__ == "__main__":
         headerKeep[k]=False
     with segyio.open(args.input, ignore_geometry=True) as segyfile:
         ntraces=len(segyfile.trace)
+        if args.writeTextHeader:
+            try:
+                f=open(args.writeTextHeader,"w+")
+                f.write(segyfile.text)
+                f.close()
+            except:
+                raise Exception("Trouble writing text header to %s"%args.writeTextHeader)
+        if args.writeBinaryHeader:
+            try:
+                f=open(args.writeBinaryHeader,"w+")
+                f.write(segyfile.bin)
+                f.close()
+            except:
+                raise Exception("Trouble writing binary header to %s"%args.writeBinaryHeader)
         if args.keepKeys:
             lst=args.keepKeys.split(",")
             for k in lst:
@@ -94,6 +110,8 @@ if __name__ == "__main__":
                     x=segyfile.header[0].get(segyio.tracefield.keys[j])
                     if x !=0 and not x is  None:
                         headerKeep[j]=True
+        outFile=genericIO.irregFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
+
         print(segyfile.text)
         print(segyfile.header[0].get(237),segyfile.header[0].get(197),"SDSDSA")
 

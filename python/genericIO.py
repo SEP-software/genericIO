@@ -524,6 +524,8 @@ class irregFile:
                 raise Exception("keys must be a dictionary")
             self.cppMode.putHeaderKeyTypes(kw["keys"])
             self.cppMode.putHeaderKeyList(list(kw["keys"]))
+
+            print("what 1")
             self.cppMode.setHyperHeader(kw["hyperHeader"].cppMode)
             self.cppMode.setHyperData(kw["hyperData"].cppMode)
             if "gridHyper" in kw:

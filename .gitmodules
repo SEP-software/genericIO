@@ -9,3 +9,4 @@
 [submodule "external/segyio"]
 	path = external/segyio
 	url = https://github.com/equinor/segyio.git
+        ignore = dirty

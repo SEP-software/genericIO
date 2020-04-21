@@ -66,9 +66,8 @@ if __name__ == "__main__":
     parser.add_argument("--keepKeys",type=str,help="List of keys to save 'SourceX,CDP_TRACE")
     parser.add_argument("--writeBinaryHeader",type=str,help="File to write binary to")
     parser.add_argument("--writeTextHeader", type=str,help="File to write text header to")
-    )
-    args = parser.parse_args()
-    ioOut=genericIO.defaultIO
+   # args = parser.parse_args()
+   # ioOut=genericIO.defaultIO
 #    if args.additional:
 #        keyList=keyMapping(segyio.tracefield.keys,ast.literal_eval(args.additional))
 #    else:
@@ -113,7 +112,7 @@ if __name__ == "__main__":
         outFile=genericIO.irregFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
 
         print(segyfile.text)
-        print(segyfile.header[0].get(237),segyfile.header[0].get(197),"SDSDSA")
+        print(segyfile.header[0].get(237),seg-yfile.header[0].get(197),"SDSDSA")
 
 
 if 1==3:

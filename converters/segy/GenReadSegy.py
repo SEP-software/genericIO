@@ -21,7 +21,6 @@ class fromSEGY(GenJob.regSpace):
             events - List of events
         """
         super().__init__(self.convertBuf,0,0,outputType=outputType,hasInput=False)
-        self._events=events
         self._keys=keys
         self._segyfile=segyfile
 

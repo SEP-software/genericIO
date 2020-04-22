@@ -110,13 +110,20 @@ if __name__ == "__main__":
                     if x !=0 and not x is  None:
                         headerKeep[j]=True
         x=segyfile.trace[0]
-        print(type(x),"SDSADS")#        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
-        # fromDataHyper=hyper)
+        print(type(x),"SDSADS") 
+        axis aT=Hypercube.axis(n=x["TRACE_SAMPLE_COUNT"],d=x["RACE_SAMPLE_INTERVAL"])
+        axis aN=Hypercube.axis(n=[ntraces])
+        hyper=Hypercube.hypercube(axes=[aT,aN])
+        headerKeep["TRACE_SAMPLE_COUNT"]=False
+        headerKeep["TRACE_SAMPLE_INTERVAL"]=False
+
+        key={}
         for k,v in headerKeep.items():
             if v:
-                print("KEY",k)
-
-
+                keys[k]="dataInt"
+        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
+         fromDataHyper=hyper,headerHyper=hyper,keys=keys)
+  
 if 1==3:
     outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
     job=spikeJob(outFile.getStorageType(),events)

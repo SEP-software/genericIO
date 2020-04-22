@@ -4,7 +4,6 @@ import  Hypercube
 import GenJob
 import threading
 from multiprocessing.pool import ThreadPool
-
 class space: 
     def __init__(self,job,mem):
         """

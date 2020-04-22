@@ -130,11 +130,13 @@ if __name__ == "__main__":
         headerKeep["TRACE_SAMPLE_INTERVAL"]=False
 
         keys={}
+        keysT={}
         for k,v in headerKeep.items():
             if v:
                 keys[k]=segyio.tracefield.keys[k]
+                keysT[k]="dataInt"
         outFile=ioOut.getIrregFile(args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
-         fromDataHyper=hyper,headerHyper=hyper,keys=keys)
+         fromDataHyper=hyper,headerHyper=hyper,keys=keysT)
         job=fromSEGY(outFile.getStorageType(),keys,segyfile)
         job.setOutputFile(outFile)
         job.setCompleteHyperOut(outFile.getHyper())

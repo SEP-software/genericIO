@@ -263,7 +263,7 @@ class serialIrregSpace(space):
             if i!=0 and hasOutput:
                 writeThread.get()
             if hasOutput:
-                vecOut=outputVec.clone()
+                outputVec=vecOut.clone()
                 writeThread=pool.apply_async(writeFunc,(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:

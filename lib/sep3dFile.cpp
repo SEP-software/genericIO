@@ -384,7 +384,7 @@ void sep3dFile::readDescription(const int ndimMax) {
 void sep3dFile::writeDescription() {
 
   // Write the hypedcube associated with the data
-  std::cerr << "what 1 " << std::endl;
+  std::cerr << "what aaaa1 " << std::endl;
   std::vector<axis> axes = _hyperData->getAxes();
   for (int i = 1; i <= axes.size(); i++) {
     int n = axes[i - 1].n;
@@ -395,7 +395,7 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
-  std::cerr << "what 1 " << std::endl;
+  std::cerr << "what bbbb1 " << std::endl;
 
   // Set the data type
   int esize = 4;

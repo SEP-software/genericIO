@@ -532,7 +532,7 @@ class irregFile:
                 self.cppMode.setHyper(kw["gridHyper"])
                 self.cppMode.setHaveGrid(True)
             else:
-                self.cppMode.setHyper(kw["headerHyper"])
+                self.cppMode.setHyper(kw["headerHyper"].cppMode)
                 self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()

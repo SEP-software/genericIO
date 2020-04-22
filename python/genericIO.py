@@ -454,7 +454,7 @@ class irregFile:
                         usage - Defaults to IN for from file OUT for everything else
                         dataIn - When creating just a headers dataset must specify irregFile to get data description from
                         inOrder - When creating from a file, whether or not the traces and headers will be in order
-                        fromDataHeader - Create from data header also need (keys,headerHyper, and possibly gridHyper)
+                        fromDataHyper - Create from data header also need (keys,headerHyper, and possibly gridHyper)
                         headerHyper - Hypercube for the headers
                         keys - Dictionary of keys and types
                         gridHyper - Hypercube for the grid
@@ -496,9 +496,9 @@ class irregFile:
                 raise Exception(
                     "Only understand dataFloat,dataInt,dataDouble,dataByte, dataComplexDouble,and dataComplex for storage not=%s"%storage)
 
-        if "fromDataHeader" in kw:
-            if not isinstance(kw["fromDataHeader"], Hypercube.hypercube):
-                axes=kw["fromDataHeader"].getHyper().axes
+        if "fromDataHyper" in kw:
+            if not isinstance(kw["fromDataHyper"], Hypercube.hypercube):
+                axes=kw["fromDataHyper"].getHyper().axes
                 if len(axes) !=2:
                     raise SEPException("Expecting 2-D hypercube")
             if not self.usage:
@@ -524,10 +524,8 @@ class irregFile:
                 raise Exception("keys must be a dictionary")
             self.cppMode.putHeaderKeyTypes(kw["keys"])
             self.cppMode.putHeaderKeyList(list(kw["keys"]))
-
-            print("what 1")
             self.cppMode.setHyperHeader(kw["hyperHeader"].cppMode)
-            self.cppMode.setHyperData(kw["hyperData"].cppMode)
+            self.cppMode.setHyperData(kw["fromDataHyper"].cppMode)
             if "gridHyper" in kw:
                 if not isinstance(kw["gridHyper"],Hypercube.hypercube()):
                     raise Exception("gridHyper must be a Hypercube")
@@ -1085,7 +1083,7 @@ class io:
                 Requiered:
                         tag  - Tag for file
                 Optional:
-                        fromData - Hypercube describing file (also must specify storage)
+                        fromDataHyper - Hypercube describing file (also must specify storage)
                         storage  - float,complex,byte,double, or int (defaults to float)
                         fromVector -Irregular vector
                         fromHeader - Header 

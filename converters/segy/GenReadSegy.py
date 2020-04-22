@@ -117,7 +117,7 @@ if __name__ == "__main__":
         headerKeep["TRACE_SAMPLE_COUNT"]=False
         headerKeep["TRACE_SAMPLE_INTERVAL"]=False
 
-        key={}
+        keys={}
         for k,v in headerKeep.items():
             if v:
                 keys[k]="dataInt"

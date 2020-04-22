@@ -39,18 +39,20 @@ class fromSEGY(GenJob.irregSpace):
         outa - Output vector
         """
         ax=outa.getHyper().getAxis(2)
-        bufs={}
+        bufsS={}
+        bufsN={}
         for k in self._keys.keys():
-            bufs[k]=np.ndarray((ax.n,),dtype=np.int32)
+            bufsS[k]=SepVector.getSepVector(ns=[ax.n],typ="dataInt")
+            bufsN[k]=bufsS[k].getNdArray()
         outN=outa._traces.getNdArray()
         for i2 in range(ax.n):
             for k,v in self._keys.items():
                 i=i2+self._fw[self._iwind][1]
                 print(i,v,"SDDS",k)
-                bufs[k][i2]=self._segyfile.header[i].get(v)
+                bufN[k][i2]=self._segyfile.header[i].get(v)
             outN[i2,:]=self._segyfile.trace[i2]
         for k in self._keys.keys():
-            outa._header.setKey(k,bufs[k])
+            outa._header.setKey(k,bufsS[k])
         return outa
 
 

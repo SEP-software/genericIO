@@ -323,6 +323,8 @@ class irregSpace(space):
             inBuf=self.processBuffer(None,hyp,iwind)
         elif self._hasInput:
             inBuf=bufIn
+        else:
+            inBuf=None
         outBuf=self.makeOutputBuffer(inBuf,hyperOut)
         self.process(inBuf,outBuf)
         return outBuf

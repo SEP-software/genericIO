@@ -112,7 +112,7 @@ if __name__ == "__main__":
         x=segyfile.trace[0]
         aT=Hypercube.axis(n=segyfile.header[0].get(segyio.tracefield.keys["TRACE_SAMPLE_COUNT"]),
          d=float(segyfile.header[0].get(float(segyio.tracefield.keys["TRACE_SAMPLE_INTERVAL"]))/1000000.))
-        aN=Hypercube.axis(n=[ntraces])
+        aN=Hypercube.axis(n=ntraces)
         hyper=Hypercube.hypercube(axes=[aT,aN])
         headerKeep["TRACE_SAMPLE_COUNT"]=False
         headerKeep["TRACE_SAMPLE_INTERVAL"]=False

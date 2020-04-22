@@ -66,12 +66,12 @@ if __name__ == "__main__":
     parser.add_argument("--keepKeys",type=str,help="List of keys to save 'SourceX,CDP_TRACE")
     parser.add_argument("--writeBinaryHeader",type=str,help="File to write binary to")
     parser.add_argument("--writeTextHeader", type=str,help="File to write text header to")
-   # args = parser.parse_args()
-   # ioOut=genericIO.defaultIO
-#    if args.additional:
-#        keyList=keyMapping(segyio.tracefield.keys,ast.literal_eval(args.additional))
-#    else:
-#        keyList=segyio.tracefield.keys
+    args = parser.parse_args()
+    ioOut=genericIO.defaultIO
+    if args.additional:
+        keyList=keyMapping(segyio.tracefield.keys,ast.literal_eval(args.additional))
+    else:
+        keyList=segyio.tracefield.keys
 
     if args.io:
         ioOut=genericIO.io(args.io)
@@ -109,7 +109,9 @@ if __name__ == "__main__":
                     x=segyfile.header[0].get(segyio.tracefield.keys[j])
                     if x !=0 and not x is  None:
                         headerKeep[j]=True
-        outFile=genericIO.irregFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
+        x=segyfile.trace[0]
+        print(type(x),"SDSADS")#        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
+         fromDataHyper=hyper)
 
         print(segyfile.text)
         print(segyfile.header[0].get(237),seg-yfile.header[0].get(197),"SDSDSA")

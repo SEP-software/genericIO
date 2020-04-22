@@ -47,9 +47,10 @@ class fromSEGY(GenJob.irregSpace):
                 i=i2+self._fw[self._iwind][1]
                 print(i,v,"SDDS",k)
                 bufs[k][i2]=self._segyfile.header[i].get(v)
-            self._traces[i2,:]=self._segyfile.trace[i2]
+            outa._traces[i2,:]=self._segyfile.trace[i2]
         for k in self._keys.keys():
-            self._header.setKey(k,bufs[k])
+            outa._header.setKey(k,bufs[k])
+        return outa
 
 
 

@@ -540,7 +540,7 @@ class irregFile:
                 self.cppMode.setHaveGrid(False)
                 print("what 5")
             self.cppMode.setDataType(storageConvert[self.storage])
-            print("what 6")
+            print("what 6",self._tag)
             self.cppMode.writeDescription()
             print("what 7")
         elif "fromHeader" in kw:
@@ -571,6 +571,7 @@ class irregFile:
                 self.cppMode.setInOrder(True)
             else:
                 self.cppMode.setInOrder(False)
+            
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.writeDescription()
         elif "fromFile" in kw:

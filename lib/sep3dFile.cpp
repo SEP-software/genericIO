@@ -384,6 +384,7 @@ void sep3dFile::readDescription(const int ndimMax) {
 void sep3dFile::writeDescription() {
 
   // Write the hypedcube associated with the data
+  std::cerr << "what 1 " << std::endl;
   std::vector<axis> axes = _hyperData->getAxes();
   for (int i = 1; i <= axes.size(); i++) {
     int n = axes[i - 1].n;
@@ -394,6 +395,7 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_data_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
+  std::cerr << "what 1 " << std::endl;
 
   // Set the data type
   int esize = 4;
@@ -422,6 +424,7 @@ void sep3dFile::writeDescription() {
     break;
   }
   auxputch("esize", "d", &esize, _tag.c_str());
+  std::cerr << "what 1 " << std::endl;
 
   // Get the hypercube for the headers
   axes = _hyperHeader->getAxes();
@@ -449,6 +452,7 @@ void sep3dFile::writeDescription() {
                          _keyType[_keys[i]]);
     }
   }
+  std::cerr << "what 12 " << std::endl;
 
   // Put DRN key
   if (!_inOrder) {
@@ -456,6 +460,8 @@ void sep3dFile::writeDescription() {
                          "xdr_int", &nkeys))
       throw SEPException("Trouble putting key");
   }
+  std::cerr << "what 13 " << std::endl;
+
   // Put header format file axes
   for (int i = 2; i <= axes.size(); i++) {
     int n = axes[i - 1].n;
@@ -466,8 +472,11 @@ void sep3dFile::writeDescription() {
     label[axes[i - 1].label.length()] = '\0';
     sep_put_header_axis_par(_tag.c_str(), &i, &n, &o, &d, label);
   }
+  std::cerr << "what 14 " << std::endl;
 
   if (_haveGrid) {
+    std::cerr << "what 15 " << std::endl;
+
     // We always write out the grid
     axes = getHyper()->returnAxes(getHyper()->getNdim());
     for (int i = 2; i <= axes.size(); i++) {

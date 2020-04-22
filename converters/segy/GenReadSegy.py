@@ -113,7 +113,7 @@ if __name__ == "__main__":
         print(type(x),"SDSADS")#        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
         # fromDataHyper=hyper)
         for k,v in headerKeep.items():
-            if b:
+            if v:
                 print("KEY",k)
 
 

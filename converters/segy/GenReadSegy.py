@@ -42,12 +42,13 @@ class fromSEGY(GenJob.irregSpace):
         bufs={}
         for k in self._keys.keys():
             bufs[k]=np.ndarray((ax.n,),dtype=np.int32)
+        outN=outa._traces.getNdArray()
         for i2 in range(ax.n):
             for k,v in self._keys.items():
                 i=i2+self._fw[self._iwind][1]
                 print(i,v,"SDDS",k)
                 bufs[k][i2]=self._segyfile.header[i].get(v)
-            outa._traces[i2,:]=self._segyfile.trace[i2]
+            outN[i2,:]=self._segyfile.trace[i2]
         for k in self._keys.keys():
             outa._header.setKey(k,bufs[k])
         return outa

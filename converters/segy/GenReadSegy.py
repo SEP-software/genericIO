@@ -122,7 +122,7 @@ if __name__ == "__main__":
         for k,v in headerKeep.items():
             if v:
                 keys[k]="dataInt"
-        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
+        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
          fromDataHyper=hyper,headerHyper=hyper,keys=keys)
   
 if 1==3:

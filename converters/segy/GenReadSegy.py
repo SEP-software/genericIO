@@ -111,7 +111,7 @@ if __name__ == "__main__":
                         headerKeep[j]=True
         x=segyfile.trace[0]
         print(type(x),"SDSADS") 
-        aT=Hypercube.axis(n=x["TRACE_SAMPLE_COUNT"],d=x["RACE_SAMPLE_INTERVAL"])
+        aT=Hypercube.axis(n=segyfile.header[0]["TRACE_SAMPLE_COUNT"],d=segyfile.header[0]["TRACE_SAMPLE_INTERVAL"])
         aN=Hypercube.axis(n=[ntraces])
         hyper=Hypercube.hypercube(axes=[aT,aN])
         headerKeep["TRACE_SAMPLE_COUNT"]=False

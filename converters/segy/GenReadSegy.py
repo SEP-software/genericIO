@@ -111,7 +111,7 @@ if __name__ == "__main__":
                         headerKeep[j]=True
         x=segyfile.trace[0]
         print(type(x),"SDSADS")#        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
-         fromDataHyper=hyper)
+        # fromDataHyper=hyper)
 
         print(segyfile.text)
         print(segyfile.header[0].get(237),seg-yfile.header[0].get(197),"SDSDSA")

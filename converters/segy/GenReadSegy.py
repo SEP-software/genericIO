@@ -110,7 +110,7 @@ if __name__ == "__main__":
                     if x !=0 and not x is  None:
                         headerKeep[j]=True
         x=segyfile.trace[0]
-        print(type(x),"SDSADS",segyfile.header[0]["TRACE_SAMPLE_COUNT"],float(segyfile.header[0]["TRACE_SAMPLE_INTERVAL"]) 
+        print(type(x),"SDSADS",segyfile.header[0]["TRACE_SAMPLE_COUNT"],float(segyfile.header[0]["TRACE_SAMPLE_INTERVAL"]))
         aT=Hypercube.axis(n=segyfile.header[0]["TRACE_SAMPLE_COUNT"],d=float(segyfile.header[0]["TRACE_SAMPLE_INTERVAL"]/1000000.))
         aN=Hypercube.axis(n=[ntraces])
         hyper=Hypercube.hypercube(axes=[aT,aN])

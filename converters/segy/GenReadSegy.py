@@ -3,6 +3,7 @@ import argparse
 import genericIO
 import GenJob
 import GenSplit
+import SepVector
 import Hypercube
 import segyio
 import segyio.tracefield

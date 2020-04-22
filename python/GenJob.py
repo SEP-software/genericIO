@@ -318,11 +318,11 @@ class irregSpace(space):
         
             returns processed buffer
         """
-            if self._inputJob not None
-                hyp=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
-                inBuf=self.processBuffer(None,hyp,iwind)
-            elif self._hasInput:
-                inBuf=bufIn
-            outBuf=self.makeOutputBuffer(inBuf,hyperOut)
-            self.process(inBuf,outBuf)
+        if self._inputJob not None
+            hyp=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
+            inBuf=self.processBuffer(None,hyp,iwind)
+        elif self._hasInput:
+            inBuf=bufIn
+        outBuf=self.makeOutputBuffer(inBuf,hyperOut)
+        self.process(inBuf,outBuf)
         return outBuf

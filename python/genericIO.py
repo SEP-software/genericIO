@@ -1085,9 +1085,10 @@ class io:
                 Requiered:
                         tag  - Tag for file
                 Optional:
-                        fromHyper - Hypercube describing file (also must specify storage)
+                        fromData - Hypercube describing file (also must specify storage)
                         storage  - float,complex,byte,double, or int (defaults to float)
                         fromVector -Irregular vector
+                        fromHeader - Header 
         """
         x = irregFile(self.cppMode, tag, **kw)
         self._files[tag] = x

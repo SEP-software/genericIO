@@ -282,11 +282,9 @@ class serialIrregDataSpace(serialIrregSpace):
         super().__init__(job,mem)
 
     
-    def loop(self,readFunc,writeFunc,printPct=101):
+    def loop(self,printPct=101):
         """Loop through dataset applying chain
-        
-        readFunc - Function that does the reading
-        writeFunc - Function that does the writing
+
         printPct - Print status approximately every printPct 
         """
         super().loop(readIrregTraceFunc,writeIrregTraceFunc,printPct)
@@ -304,11 +302,10 @@ class serialIrregHeaderSpace(serialIrregSpace):
         super().__init__(job,mem)
 
     
-    def loop(self,readFunc,writeFunc,printPct=101):
+    def loop(self,printPct=101):
         """Loop through dataset applying chain
         
-        readFunc - Function that does the reading
-        writeFunc - Function that does the writing
+
         printPct - Print status approximately every printPct 
         """
         super().loop(readIrregHeaderFunc,writeIrregHeaderFunc,printPct)

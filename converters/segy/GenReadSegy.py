@@ -122,9 +122,9 @@ if __name__ == "__main__":
         for k,v in headerKeep.items():
             if v:
                 keys[k]="dataInt"
-        #outFile=ioOut.getIrregFile(args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
-         #fromDataHyper=hyper,headerHyper=hyper,keys=keys)
-        print("out of this")
+        outFile=ioOut.getIrregFile(args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
+         fromDataHyper=hyper,headerHyper=hyper,keys=keys)
+        print("out of this",args.output)
 if 1==3:
     outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=hyper)
     job=spikeJob(outFile.getStorageType(),events)

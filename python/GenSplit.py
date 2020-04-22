@@ -220,7 +220,7 @@ class serialRegSpace(regSpace):
 
 
 
-class serialIrregSpace(regSpace):
+class serialIrregSpace(space):
     """Class for serially going through a dataset"""
     def __init__(self,job,mem):
         """
@@ -258,7 +258,7 @@ class serialIrregSpace(regSpace):
                 vecIn=readThread.get()
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
-            self._job.processBuffer(vecIn,)
+            self._job.processBuffer(vecIn,AAAAAA ,i)
             if i!=0 and hasOutput:
                 writeThread.get()
             if hasOutput:

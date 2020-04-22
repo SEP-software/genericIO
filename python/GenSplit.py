@@ -194,6 +194,7 @@ class serialRegSpace(regSpace):
         
 
         for i in range(len(self._nw)):
+            self._job.setIwind(i)
             self._job.allocateBuffer(self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             if hasInput:
                 readThread.join()
@@ -250,13 +251,14 @@ class serialIrregSpace(regSpace):
         if hasInput:
             readThread = pool.apply_async(readFunc, (inputFile,self._nw[0],self._fw[0],self._jw[0]))
     
-
+        vecIn=None
         for i in range(len(self._nw)):
+            self._job.setIwind(i)
             if hasInput:
-                vec=readThread.get()
+                vecIn=readThread.get()
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
-            self._job.processBuffer()
+            self._job.processBuffer(vecIn,)
             if i!=0 and hasOutput:
                 writeThread.get()
             if hasOutput:

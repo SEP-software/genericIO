@@ -7,40 +7,50 @@ import SepVector
 import Hypercube
 import segyio
 import segyio.tracefield
+import SepIrreg
 import math
 import numpy as np
 from numba import jit,prange
 import ast
 
-class spikeJob(GenJob.regSpace):
-    def __init__(self,outputType,events):
+class fromSEGY(GenJob.regSpace):
+    def __init__(self,outputType,keys,segyfile):
         """Intialize object
 
             outputType - Output type
             events - List of events
         """
-        super().__init__(self.spikeBuf,0,0,outputType=outputType,hasInput=False)
+        super().__init__(self.convertBuf,0,0,outputType=outputType,hasInput=False)
         self._events=events
+        self._keys=keys
+        self._segyfile=segyfile
+
     
-    def spikeBuf(self,ina,outa):
+    def makeOutputBuffer(self,inbuf,hyperOut):
+        """Make the output buffer given the output hypercube"""
+        buf=SepIrregVector.vector(hyper=hyperOut,self._outputType0
+        for k in self._keys.keys():
+            buf._header.addKey(k,"dataInt")
+        return buf
+
+    def convertBuf(self,ina,outa):
         """Convert a buffer from one type to another
 
         ina - Input vector
         outa - Output vector
         """
-    
-        f=[0]*6
-        n=[1]*6
+        ax=outa.getHyper().getAxis(2)
+        bufs={}
+        for k in self._keys.keys():
+            bufs[k]=np.ndarray((ax.n,),dtype=np.int32)
+        for i2 in range(ax.n):
+            for k,v in self._keys.items():
+                bufs[k][i2]=self._segyfile.header[i2+self._fw[self._iwind][1]].get(self._keys[j])
+            self._traces[i2,:]=self._segyfile.trace[i2]
+        for k in self._keys.keys():
+            self._header.setKey(k,bufs[k])
 
-        axesVec=outa.getHyper().axes
-        axesOut=self.getCompleteHyperOut().axes
-        for i in range(len(axesOut)):
-            f[i]=int(round((axesVec[i].o-axesOut[i].o)/axesOut[i].d))
-            n[i]=axesVec[i].n 
-        outa.scale(0.)
-        outN=np.reshape(outa.getNdArray(),(n[5],n[4],n[3],n[2],n[1],n[0]))
-        for ev in self._events:
-            fill(outN,ev._mag,f[0],f[1],f[2],f[3],f[4],f[5],ev._k1,ev._k2,ev._k3,ev._k4,ev._k5,ev._k6)
+
 
 def keyMapping(defs,additonal):
     """Keymapping for read"""
@@ -107,7 +117,7 @@ if __name__ == "__main__":
             head=segyfile.header[0:nbuf]
             for i in range(nbuf):
                 for j in headerKeep.keys():
-                    x=segyfile.header[0].get(segyio.tracefield.keys[j])
+                    x=segyfile.header[i].get(segyio.tracefield.keys[j])
                     if x !=0 and not x is  None:
                         headerKeep[j]=True
         x=segyfile.trace[0]

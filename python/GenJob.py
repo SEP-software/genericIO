@@ -31,6 +31,7 @@ class space:
         self._eout=esizeFromType[outputType]
         self._hyperOut=None
         self._hyperIn=None
+        self._iwind=-1
         self._hasInput=hasInput
         self._hasOutput=hasOutput
         if inputJob:
@@ -48,10 +49,13 @@ class space:
         self._outputBuffer=None
         self._ioBufferIn=None
         self._ioBufferOut=None
-    def processBuffer(self ):
-        """Function that actuall does the work"""
-        self.process(self._inputBuffer,self._outputBuffer)
 
+
+    def setIwind(self,iwind):
+        """Set what window we are on"""
+        self._iwind=iwind
+        if self._inputJob not None:
+            self._inputJob.setIwind(iwind)
 
     def setOutputFile(self,outputFile):
         """Set the output file"""
@@ -200,6 +204,18 @@ class regSpace(space):
         else:
             self._inputJob.allocateBuffer(hyperIn,iwind)
     
+    def processBuffer(self ):
+        """Function that actuall does the work
+            returns processed buffer
+        
+        """
+        if self._inputJob:
+            inBuf=self.processBuffer()
+        else:
+            inBuf=self._inputBuffer
+        self.process(inBuf,self._outputBuffer)
+        return self._outputBuffer
+    
     def allocateIOBufferOut(self,hyperOut,iwind):
         """Allocate buffer needed for this window
             hyperOut - Output hypercube
@@ -281,8 +297,32 @@ class irregSpace(space):
         """
         super().__init__(self.process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)
 
-    
 
 
+    def makeOutputBuffer(self,inbuf,hyperOut):
+        """Make the output buffer given the input
+           often should be overwritten. Only works by
+           default if inbuf exists and has the hypercube as hyperOut"""
+        if inbuf is None:
+            raise SEPException("Must override makeOutputBuffer when not specifying input vector")
+        if not inbuf.getHyper().checkSame(hyperOut):
+            raise SEPException("Must override if output buffer hypercube is not the same is input")
+        #Should be doing more checks like grid and headers are the same
+        return inbuf.clone()
 
-    
+    def processBuffer(self,bufIn,hyperOut,iwind):
+        """Process buffer (perform the work)
+            bufIn - Input buffer (if first in change otherwise null)
+            hyperOut - Output description
+            iwind - Window number we are working on 
+        
+            returns processed buffer
+        """
+            if self._inputJob not None
+                hyp=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
+                inBuf=self.processBuffer(None,hyp,iwind)
+            elif self._hasInput:
+                inBuf=bufIn
+            outBuf=self.makeOutputBuffer(inBuf,hyperOut)
+            self.process(inBuf,outBuf)
+        return outBuf

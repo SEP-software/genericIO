@@ -28,7 +28,7 @@ class fromSEGY(GenJob.regSpace):
     
     def makeOutputBuffer(self,inbuf,hyperOut):
         """Make the output buffer given the output hypercube"""
-        buf=SepIrregVector.vector(hyper=hyperOut,self._outputType)
+        buf=SepIrregVector.vector(hyper=hyperOut,dataType=self._outputType)
         for k in self._keys.keys():
             buf._header.addKey(k,"dataInt")
         return buf

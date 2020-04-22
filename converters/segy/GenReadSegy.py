@@ -94,7 +94,7 @@ if __name__ == "__main__":
     headerKeep={}
     for k in segyio.tracefield.keys.keys():
         headerKeep[k]=False
-    with segyio.open(args.input, ignore_geometry=True) as segyfile:
+    with segyio.open(args.input, ignore_geometry=True,endian=args.endian) as segyfile:
         ntraces=len(segyfile.trace)
         if args.writeTextHeader:
             try:

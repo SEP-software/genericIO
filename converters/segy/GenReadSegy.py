@@ -7,7 +7,7 @@ import SepVector
 import Hypercube
 import segyio
 import segyio.tracefield
-import SepIrreg
+import SepIrregVector
 import math
 import numpy as np
 from numba import jit,prange

@@ -518,7 +518,7 @@ class irregFile:
                 raise Exception("Must provide hypercube for the headers (headerHyper) when fromDataHyper")
             if not isinstance(kw["headerHyper"],Hypercube.hypercube):
                 raise Exception("headerHyper must be a Hypercube")
-            if keys not in kw:
+            if not keys  in kw:
                 raise Exception("Must provide keys when providing fromDataHyper ")
             if not ininstance(kw["keys"],dict):
                 raise Exception("keys must be a dictionary")

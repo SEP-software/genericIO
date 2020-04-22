@@ -13,7 +13,7 @@ import numpy as np
 from numba import jit,prange
 import ast
 
-class fromSEGY(GenJob.regSpace):
+class fromSEGY(GenJob.serialIrregDataSpace):
     def __init__(self,outputType,keys,segyfile):
         """Intialize object
 

@@ -113,10 +113,8 @@ if __name__ == "__main__":
         print(type(x),"SDSADS")#        outFile=genericIO.irregFile(ioOut,args.output,storage=SepVector.dtypeToSepVecType[str(d.type)],
         # fromDataHyper=hyper)
         for k,v in headerKeep.items():
-            if headerKeep[k]:
-                print("KEY",v)
-        print(segyfile.text)
-        print(segyfile.header[0].get(237),seg-yfile.header[0].get(197),"SDSDSA")
+            if b:
+                print("KEY",k)
 
 
 if 1==3:

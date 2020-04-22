@@ -54,7 +54,7 @@ class space:
     def setIwind(self,iwind):
         """Set what window we are on"""
         self._iwind=iwind
-        if self._inputJob not None:
+        if not self._inputJob is None:
             self._inputJob.setIwind(iwind)
 
     def setOutputFile(self,outputFile):

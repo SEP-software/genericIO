@@ -187,7 +187,7 @@ class regSpace(space):
             outOnly - Only has output
 
         """
-        super().__init__(self.process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)
+        super().__init__(process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)
 
     
     def allocateBuffer(self,hyperOut,iwind):
@@ -295,7 +295,7 @@ class irregSpace(space):
             outOnly - Only has output
 
         """
-        super().__init__(self.process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)
+        super().__init__(process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)
 
 
 

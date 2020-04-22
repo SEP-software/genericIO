@@ -258,7 +258,6 @@ class serialIrregSpace(space):
                 vecIn=readThread.get()
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (self._job._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
-            print(type(self._job))
             vecOut=self._job.processBuffer(vecIn, self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             if i!=0 and hasOutput:
                 writeThread.get()

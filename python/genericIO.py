@@ -636,7 +636,6 @@ class irregFile:
             self.cppMode.readDescription(ndimMax)
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
-        print("FDFSD")
     def getDataDescription(self):
         """Get the data description"""
         self._dataDes=self.cppMode.getDataDescription()

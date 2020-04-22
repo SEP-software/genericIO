@@ -249,7 +249,7 @@ class serialIrregSpace(space):
         hasOutput=self._job.getHasOutput()
         pool=ThreadPool(processes=3)
         if hasInput:
-            readThread = pool.apply_async(readFunc, (self._inputFile,self._nw[0],self._fw[0],self._jw[0]))
+            readThread = pool.apply_async(readFunc, (self._job._inputFile,self._nw[0],self._fw[0],self._jw[0]))
     
         vecIn=None
         for i in range(len(self._nw)):
@@ -257,14 +257,14 @@ class serialIrregSpace(space):
             if hasInput:
                 vecIn=readThread.get()
             if i!= len(self._nw)-1 and hasInput:
-                readThread=pool.apply_async(readFunc, (self._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
+                readThread=pool.apply_async(readFunc, (self._job._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
             print(type(self._job))
             vecOut=self._job.processBuffer(vecIn, self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
             if i!=0 and hasOutput:
                 writeThread.get()
             if hasOutput:
                 outputVec=vecOut.clone()
-                writeThread=pool.apply_async(writeFunc,(self._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+                writeThread=pool.apply_async(writeFunc,(self._job._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))

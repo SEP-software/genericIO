@@ -520,7 +520,7 @@ class irregFile:
                 raise Exception("headerHyper must be a Hypercube")
             if not "keys"  in kw:
                 raise Exception("Must provide keys when providing fromDataHyper ")
-            if not ininstance(kw["keys"],dict):
+            if not isinstance(kw["keys"],dict):
                 raise Exception("keys must be a dictionary")
             self.cppMode.putHeaderKeyTypes(kw["keys"])
             self.cppMode.putHeaderKeyList(list(kw["keys"]))

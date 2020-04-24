@@ -186,6 +186,7 @@ void sepRegFile::close() {
     auxclose(_tag.c_str());
 }
 void sepRegFile::error(const std::string &err) const { 
+std::cerr<<"why exited "<<std::endl;
 throw SEPExcecption(err);
 }
 

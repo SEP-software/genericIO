@@ -4,7 +4,7 @@ extern "C" {
 #include "seplib.h"
 }
 #include <string.h>
-sepParam::sepParam(const int argc,const char **argv) { initpar(argc, argv); }
+sepParam::sepParam(const int argc, char **argv) { initpar(argc, argv); }
 
 int sepParam::getInt(const std::string &arg) const {
   int x;

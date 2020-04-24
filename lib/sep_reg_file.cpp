@@ -7,6 +7,7 @@ extern "C" {
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "SEPException.h"
 using namespace SEP;
 sepRegFile::sepRegFile(const std::string &tag, const usage_code usage,
                        const int ndim) {

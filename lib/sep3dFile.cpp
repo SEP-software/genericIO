@@ -6,6 +6,7 @@ extern "C" {
 }
 using namespace SEP;
 #include <algorithm>
+#include "SEPException.h"
 
 sep3dFile::sep3dFile(const std::string &tag, const usage_code usage,
                      const int ndim) {

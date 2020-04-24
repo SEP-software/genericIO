@@ -17,7 +17,7 @@ Initialize IO with command line arguments
 \param argc C number of command line arguments
 \param argv List of command line arguments
 */
-  sepIO(int argc, char **argv);
+  sepIO(const int argc,const  char **argv);
   /*!
    Return a genericRegFile object
 

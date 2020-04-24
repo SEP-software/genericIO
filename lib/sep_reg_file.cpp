@@ -185,7 +185,9 @@ void sepRegFile::close() {
   } else
     auxclose(_tag.c_str());
 }
-void sepRegFile::error(const std::string &err) const { seperr(err.c_str()); }
+void sepRegFile::error(const std::string &err) const { 
+throw SEPExcecption(err);
+}
 
 void sepRegFile::putInt(const std::string &par, const int val) {
   auxputch(par.c_str(), "d", &val, _tag.c_str());

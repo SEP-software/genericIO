@@ -154,5 +154,5 @@ std::vector<float> sepParam::getFloats(const std::string &arg,
 
 void sepParam::error(const std::string &errm) const {
   ;
-  seperr(errm.c_str());
+  throw SEPException(errm);
 }

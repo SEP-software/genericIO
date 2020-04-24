@@ -224,7 +224,9 @@ void sep3dFile::close() {
     sep3dClose(_tag.c_str());
 }
 // Hopefully never called instead SEPException
-void sep3dFile::error(const std::string &err) const { seperr(err.c_str()); }
+void sep3dFile::error(const std::string &err) const { 
+throw SEPExcecption(err);
+}
 
 void sep3dFile::putInt(const std::string &par, const int val) {
   auxputch(par.c_str(), "d", &val, _tag.c_str());

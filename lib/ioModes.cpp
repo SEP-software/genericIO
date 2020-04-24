@@ -16,7 +16,7 @@
 #include "gcpBuffersIO.h"
 #endif
 using namespace SEP;
-void ioModes::setup(const int argc, char **argv) {
+void ioModes::setup(const int argc,  char **argv) {
   std::shared_ptr<jsonGenericIO> a(new jsonGenericIO(argc, argv));
 
   _ios["JSON"] = a;

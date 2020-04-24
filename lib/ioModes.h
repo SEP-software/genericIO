@@ -48,11 +48,11 @@ class ioModes {
      \param argc Number of arguments
      \param argv List of arguments
      */
-  ioModes(const int argc, char **argv) { setup(argc, argv); }
+  ioModes(const int argc,  char **argv) { setup(argc, argv); }
   /*!
      Setup IO modes arguments
      */
-  void setup(const int argc, char **argv);
+  void setup(const int argc,  char **argv);
   /*!
     Get the default IO type
   */
@@ -139,7 +139,7 @@ class ioModesFortran {
   std::shared_ptr<ioModes> _io;
 
  public:
-  void setup(const int argc, char **argv);
+  void setup(const int argc,  char **argv);
   ~ioModesFortran() { ; }
   std::shared_ptr<ioModes> getIOModes() { return _io; }
 

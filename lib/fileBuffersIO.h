@@ -18,7 +18,7 @@ Initialize IO with command line arguments
 \param argc C number of command line arguments
 \param argv List of command line arguments
 */
-  fileBuffersIO(const int argc, char **argv) { initJsonPars(argc, argv); }
+  fileBuffersIO(const int argc,  char **argv) { initJsonPars(argc, argv); }
   /*!
      Return a genericRegFile object
 

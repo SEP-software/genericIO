@@ -226,7 +226,7 @@ void sep3dFile::close() {
 }
 // Hopefully never called instead SEPException
 void sep3dFile::error(const std::string &err) const { 
-throw SEPExcecption(err);
+throw SEPException(err);
 }
 
 void sep3dFile::putInt(const std::string &par, const int val) {

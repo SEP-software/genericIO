@@ -188,7 +188,7 @@ void sepRegFile::close() {
 }
 void sepRegFile::error(const std::string &err) const { 
 std::cerr<<"why exited "<<std::endl;
-throw SEPExcecption(err);
+throw SEPException(err);
 }
 
 void sepRegFile::putInt(const std::string &par, const int val) {

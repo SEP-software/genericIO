@@ -15,7 +15,7 @@ class sepParam : public SEP::paramObj {
      \param argv Command line arguments
 
      */
-  sepParam(const int argc, char **argv);
+  sepParam(const int argc, const char **argv);
   /*!
 Get an integer from a file
 

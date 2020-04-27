@@ -64,7 +64,6 @@ std::string dictParams::getString(const std::string &arg,
 
 bool dictParams::getBool(const std::string &arg, bool def) const {
   if (_pars.count(arg) == 1) {
-    std::cerr << "in here " << _pars.at(arg) << std::endl;
     if (_pars.at(arg).at(0) == 'y' || _pars.at(arg).at(0) == 'Y' ||
         _pars.at(arg).at(0) == '1' || _pars.at(arg).at(0) == 'T' ||
         _pars.at(arg).at(0) == 't')

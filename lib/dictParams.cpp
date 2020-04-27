@@ -16,22 +16,26 @@ void dictParams::addParams(const std::map<std::string, std::string> pars) {
 }
 
 int dictParams::getInt(const std::string &arg) const {
-  if (_pars.count(arg) == 1) return std::stoi(_pars.at(arg));
+  if (_pars.count(arg) == 1)
+    return std::stoi(_pars.at(arg));
   error(std::string("trouble grabbing parameter ") + arg +
         std::string(" from parameters"));
   return 0;
 }
 int dictParams::getInt(const std::string &arg, const int def) const {
-  if (_pars.count(arg) == 1) return std::stoi(_pars.at(arg));
+  if (_pars.count(arg) == 1)
+    return std::stoi(_pars.at(arg));
   return def;
 }
 
 float dictParams::getFloat(const std::string &arg, const float def) const {
-  if (_pars.count(arg) == 1) return std::stof(_pars.at(arg));
+  if (_pars.count(arg) == 1)
+    return std::stof(_pars.at(arg));
   return def;
 }
 float dictParams::getFloat(const std::string &arg) const {
-  if (_pars.count(arg) == 1) return std::stof(_pars.at(arg));
+  if (_pars.count(arg) == 1)
+    return std::stof(_pars.at(arg));
 
   error(std::string("trofuble grabbing parameter ") + arg +
         std::string(" from parameters"));
@@ -42,7 +46,8 @@ void dictParams::message(const std::string &arg) const {
 }
 
 std::string dictParams::getString(const std::string &arg) const {
-  if (_pars.count(arg) == 1) return _pars.at(arg);
+  if (_pars.count(arg) == 1)
+    return _pars.at(arg);
 
   error(std::string("trouhble grabbing parameter ") + arg +
         std::string(" from parameters"));
@@ -50,15 +55,19 @@ std::string dictParams::getString(const std::string &arg) const {
 }
 std::string dictParams::getString(const std::string &arg,
                                   const std::string &def) const {
-  if (_pars.count(arg) == 1) return _pars.at(arg);
-  if (_pars.count(arg) == 1) return _pars.at(arg);
+  if (_pars.count(arg) == 1)
+    return _pars.at(arg);
+  if (_pars.count(arg) == 1)
+    return _pars.at(arg);
   return def;
 }
 
 bool dictParams::getBool(const std::string &arg, bool def) const {
   if (_pars.count(arg) == 1) {
+    std::cerr << "in here " << _pars[arg] << std::endl;
     if (_pars.at(arg).at(0) == 'y' || _pars.at(arg).at(0) == 'Y' ||
-        _pars.at(arg).at(0) == '1' || _pars.at(arg).at(0)=='T'  || _pars.at(arg).at(0)=='t')
+        _pars.at(arg).at(0) == '1' || _pars.at(arg).at(0) == 'T' ||
+        _pars.at(arg).at(0) == 't')
       return true;
     return false;
   }
@@ -81,9 +90,11 @@ std::vector<std::string> dictParams::splitString(const std::string &str) const {
   size_t prev = 0, pos = 0;
   do {
     pos = str.find(delim, prev);
-    if (pos == std::string::npos) pos = str.length();
+    if (pos == std::string::npos)
+      pos = str.length();
     std::string token = str.substr(prev, pos - prev);
-    if (!token.empty()) tokens.push_back(token);
+    if (!token.empty())
+      tokens.push_back(token);
     prev = pos + delim.length();
   } while (pos < str.length() && prev < str.length());
   return tokens;

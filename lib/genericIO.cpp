@@ -1,15 +1,12 @@
 #include "genericIO.h"
 using namespace SEP;
 void genericIO::filesClose() {
-  std::cerr << "in close" << std::endl;
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i) {
-    std::cerr << "closing " << i->first << std::endl;
     i->second->close();
   }
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i) {
     i->second->close();
   }
-  std::cerr << "outof close" << std::endl;
 }
 std::shared_ptr<SEP::genericRegFile>
 genericIO::getRegFile(const std::string &name, const SEP::usage_code usage,

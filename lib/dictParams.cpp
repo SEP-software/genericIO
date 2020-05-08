@@ -64,11 +64,15 @@ std::string dictParams::getString(const std::string &arg,
 
 bool dictParams::getBool(const std::string &arg, bool def) const {
   if (_pars.count(arg) == 1) {
-    if (_pars.at(arg).at(0) == 'y' || _pars.at(arg).at(0) == 'Y' ||
-        _pars.at(arg).at(0) == '1' || _pars.at(arg).at(0) == 'T' ||
-        _pars.at(arg).at(0) == 't')
+    std::string x=_pars.at(arg);
+    if(x.length()>0){
+    std::string x2=x.substr(0,1);
+    if (x2 == 'y' ||x2   == 'Y' ||
+        x2 == '1' || x2 == 'T' ||
+        x2 == 't')
       return true;
     return false;
+}
   }
   return def;
 }

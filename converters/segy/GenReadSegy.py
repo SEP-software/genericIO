@@ -45,11 +45,12 @@ class fromSEGY(GenJob.irregSpace):
             bufsS[k]=SepVector.getSepVector(ns=[ax.n],typ="dataInt")
             bufsN[k]=bufsS[k].getNdArray()
         outN=outa._traces.getNdArray()
+        print("WHAT ",self._iwind,self._fwin[self._iwind][1])
         for i2 in range(ax.n):
             for k,v in self._keys.items():
                 i=i2+self._fw[self._iwind][1]
                 bufsN[k][i2]=self._segyfile.header[i].get(v)
-            outN[i2,:]=self._segyfile.trace[i2]
+            outN[i2,:]=self._segyfile.trace[i]
         for k in self._keys.keys():
             outa._header.setKey(k,bufsS[k].getNdArray())
         return outa

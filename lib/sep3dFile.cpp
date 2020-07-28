@@ -1081,9 +1081,11 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
   long long first = 0, last = 0;
   long long sz = 1;
   checkWindow(nwind, fwind, jwind, _hyper);
-  std::cerr << "in write grid" << std::endl;
+  std::cerr << "in write grid " << _haveGrid << std::endl;
+
+  asset(1 == 2);
   if (!_haveGrid)
-    throw SEPException("Can not write dataset that doesn't have a grid");
+    throw SEPException("2Can not write dataset that doesn't have a grid");
   std::vector<int> ns = _hyper->getNs();
   for (auto i = 0; i < nwind.size(); i++)
   {
@@ -1293,7 +1295,7 @@ void sep3dFile::writeFloatTraceWindow(const std::vector<int> &nwind,
 {
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Expecting datatype complex double");
-  std::cerr << "in write grid" << std::endl;
+  std::cerr << "in write grid " << _haveGrid << std::endl;
 
   if (_haveGrid)
   {

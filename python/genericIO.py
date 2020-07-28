@@ -817,6 +817,7 @@ class irregFile:
         print(grid,"GRID")
         if grid is None:
             self.cppMode.setHaveGrid(False)
+        print("XXXX")
         if self.storage == "dataFloat":
             self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataInt":

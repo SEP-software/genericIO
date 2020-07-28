@@ -1083,7 +1083,6 @@ void sep3dFile::writeGrid(const std::vector<int> &nwind,
   checkWindow(nwind, fwind, jwind, _hyper);
   std::cerr << "in write grid " << _haveGrid << std::endl;
 
-  asset(1 == 2);
   if (!_haveGrid)
     throw SEPException("2Can not write dataset that doesn't have a grid");
   std::vector<int> ns = _hyper->getNs();

@@ -38,6 +38,7 @@ class fromSEGY(GenJob.irregSpace):
         ina - Input vector
         outa - Output vector
         """
+        print("before ")
         ax=outa.getHyper().getAxis(2)
         bufsS={}
         bufsN={}
@@ -52,7 +53,7 @@ class fromSEGY(GenJob.irregSpace):
             outN[i2,:]=self._segyfile.trace[i]
         for k in self._keys.keys():
             outa._header.setKey(k,bufsS[k].getNdArray())
-            print(k,bufsS[k].getNdArray()[0])
+        print("after")
         return outa
 
 

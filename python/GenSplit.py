@@ -212,7 +212,7 @@ class serialRegSpace(regSpace):
                 writeThread.start()
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
-                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
+                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
                 printNext+=printPct
         if hasOutput:
             writeThread.join()
@@ -266,7 +266,7 @@ class serialIrregSpace(space):
                 writeThread=pool.apply_async(writeFunc,(self._job._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:
-                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw[i])))
+                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
                 printNext+=printPct
         if hasOutput:
             writeThread.get()

@@ -42,7 +42,7 @@ class fromSEGY(GenJob.irregSpace):
         bufsS={}
         bufsN={}
         for k in self._keys.keys():
-            bufsS[k]=SepVector.getSepVector(ns=[ax.n],typ="dataInt")
+            bufsS[k]=SepVector.getSepVector(ns=[ax.n],storage="dataInt")
             bufsN[k]=bufsS[k].getNdArray()
         outN=outa._traces.getNdArray()
         for i2 in range(ax.n):

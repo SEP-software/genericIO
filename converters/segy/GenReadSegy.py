@@ -51,6 +51,7 @@ class fromSEGY(GenJob.irregSpace):
                 bufsN[k][i2]=self._segyfile.header[i].get(v)
             outN[i2,:]=self._segyfile.trace[i]
         for k in self._keys.keys():
+            print("TYP",type(bufsS[k]),type(bufsS[k].getNdArray()))
             outa._header.setKey(k,bufsS[k].getNdArray())
         #raise Exception("eror")
         return outa

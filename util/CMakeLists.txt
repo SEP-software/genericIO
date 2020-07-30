@@ -45,4 +45,4 @@ install(PROGRAMS ${progs} DESTINATION bin)
 
 add_subdirectory(unix)
 add_subdirectory(info)
-add_subdirectory(headers)
+add_subdirectory(header)

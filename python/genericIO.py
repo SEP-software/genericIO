@@ -793,7 +793,8 @@ class irregFile:
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         head,drn,grid=self.cppMode.readHeaderWindow(nw,fw,jw)
         header=self.byte2DToHeader(head,grid=grid)
-        return header
+        hyper=Hypercube.hypercube(ns=[1000,header._nh])
+        return SepIrregVector.vector(header=header,hyper=hyper)
         
     def writeDataWindow(self, vec, **kw):
         """Write  a window of a file into the vector

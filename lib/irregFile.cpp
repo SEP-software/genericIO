@@ -231,8 +231,13 @@ void genericIrregFile::insertValue(void *outv, void *inv, const int off,
 {
   char *outb = (char *)outv;
   char *inb = (char *)inv;
+  int *x = (int *)inv;
+  for (int i = 0; i < 50; i++)
+    fprintf(stderr, "what is going on %d %d \n", i, x[i]);
+  fprintf(stderr, "in inser value off=%d sz=%d n1=%d \n", off, sz, n1);
   for (int i = 0; i < n2; i++)
   {
+    // fprintf(stderr, "seeing %d %d\n", i, x[i]);
     memcpy(outb + n1 * i + off, inb + i * sz, sz);
   }
 }

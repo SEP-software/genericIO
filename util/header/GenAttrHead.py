@@ -58,7 +58,9 @@ class attrJob(GenJob.irregSpace):
                 mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)._vals)
             else:
                 raise Exception("key=%s type=%s"%(k,typ))
+            print(k,"before update")
             self._stats[k].update(mn,mx,sm,nzero)
+            print("after update")
        # self._lock.release()
 
         

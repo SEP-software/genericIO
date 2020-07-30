@@ -49,7 +49,7 @@ class attrJob(GenJob.irregSpace):
             self._types=ina._header.getKeyTypes()
             self._first=False
             for k in ina._header._keys.keys():
-                self._stats[k]=headerStats(typ)
+                self._stats[k]=headerStats(self._types[k])
         
         for k,typ in self._types.items():
             if typ == "dataInt":

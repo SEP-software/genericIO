@@ -151,9 +151,9 @@ if __name__ == "__main__":
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)
         if k in keys:
-            mn=str(v._min)
+            mn=str(v._mn)
             mnS=" "*(10-len(mn))
-            mx=str(v._max)
+            mx=str(v._mx)
             mxS=" "*(10-len(mx))
             nz=str(v._nzero)
             print("%s %s %s %s %s %s %s"%(k,sp,mn,mnS,mx,mxS,nz))

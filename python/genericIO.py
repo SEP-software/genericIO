@@ -846,14 +846,11 @@ class irregFile:
         klast=headS._keyOrder[len(headS._keyOrder)-1]
         n1=off[klast]+off[klast]
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
-        for k,v in off.items():
-            if k=="CDP":
-                x=SepVector.getSepVector(headS._keys[k]._vals)
-                print("XX",x.getNdArray()[0:50])
-                self.cppMode.insertValue(head.cppMode,
-                x.cppMode,
-                off[k],sz[k],n1,headS._nh)
-                raise Exception("SS")
+        for k,v in off.items():     
+            x=SepVector.getSepVector(headS._keys[k]._vals)
+            self.cppMode.insertValue(head.cppMode,
+            x.cppMode,
+            off[k],sz[k],n1,headS._nh)
         drn=headS._drn
         if headS._drn is None:
             self.cppMode.setInOrder(True)

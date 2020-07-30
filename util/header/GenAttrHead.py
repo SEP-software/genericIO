@@ -53,9 +53,9 @@ class attrJob(GenJob.irregSpace):
         
         for k,typ in self._types.items():
             if typ == "dataInt":
-                mn,mx,sm,nzero=calcIntStats(ina.getKey(k))
+                mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k))
             elif typ == "dataFloat":
-                 mn,mx,sm,nzero=calcRealStats(ina.getKey(k))
+                 mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k))
             else:
                 raise Exception("key=%s type=%s"%(k,typ))
             self._stats[k].update(mn,mx,sm,nzero)

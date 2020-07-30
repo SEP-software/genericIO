@@ -849,9 +849,11 @@ class irregFile:
         for k,v in off.items():
             if k=="CDP":
                 x=SepVector.getSepVector(headS._keys[k]._vals)
+                print("XX",x.getNdArray()[0:50])
                 self.cppMode.insertValue(head.cppMode,
                 x.cppMode,
                 off[k],sz[k],n1,headS._nh)
+                raise Exception("SS")
         drn=headS._drn
         if headS._drn is None:
             self.cppMode.setInOrder(True)

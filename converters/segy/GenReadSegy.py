@@ -52,7 +52,6 @@ class fromSEGY(GenJob.irregSpace):
             outN[i2,:]=self._segyfile.trace[i]
         for k in self._keys.keys():
             outa._header.setKey(k,bufsS[k].getNdArray())
-        print(outa._header.getKey("CDP")[0:50])
         #raise Exception("eror")
         return outa
 

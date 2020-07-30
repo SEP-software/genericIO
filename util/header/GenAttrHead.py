@@ -51,7 +51,7 @@ class attrJob(GenJob.irregSpace):
             for k in ina._header._keys.keys():
                 self._stats[k]=headerStats(typ)
         
-        for k,typ im self._types.items():
+        for k,typ in self._types.items():
             if typ == "dataInt":
                 mn,mx,sm,nzero=calcIntStats(inA.getKey(k))
             elif typ == "dataFloat":

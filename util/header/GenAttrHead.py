@@ -59,10 +59,10 @@ class attrJob(GenJob.irregSpace):
             else:
                 raise Exception("key=%s type=%s"%(k,typ))
             self._stats[k].update(mn,mx,sm,nzero)
-        self._lock.release()
+       # self._lock.release()
 
         
-@numba.jit(nopython=True, parallel=True,locals={'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
+@numba.jit(nopython=True, locals={'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
 def calcRealStats(inA):
     """
       Return min,max,sum,sumsq,nzeros
@@ -86,7 +86,7 @@ def calcRealStats(inA):
             nzero+=1
     return mn,mx,sm,nzero
 
-@numba.jit(nopython=True, parallel=True,locals={'sm': numba.int64,"sqs":numba.int64,"nzero":numba.int64})
+@numba.jit(nopython=True, locals={'sm': numba.int64,"sqs":numba.int64,"nzero":numba.int64})
 def calcIntStats(inA):
     """
       Return min,max,sum,sumsq,nzeros

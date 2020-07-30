@@ -791,7 +791,6 @@ class irregFile:
         axes=self.getHyper().axes
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
-        print("IN READ HEADER WINDOW")
         head,drn,grid=self.cppMode.readHeaderWindow(nw,fw,jw)
         header=self.byte2DToHeader(head,grid=grid)
         return header

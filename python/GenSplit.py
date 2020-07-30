@@ -321,7 +321,7 @@ def writeRegFunc(file,buffer,nw,fw,jw):
     file.writeWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
 
-def readIrregTraceFunc(file,buffer,nw,fw,jw):
+def readIrregTraceFunc(file,nw,fw,jw):
     ndim=len(file.getHyper().axes)
     return file.readDataWindow(n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
@@ -329,9 +329,8 @@ def writeIrregTraceFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
     file.writeDataWindow(buffer,n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
-def readIrregHeaderFunc(file,buffer,nw,fw,jw):
+def readIrregHeaderFunc(file,nw,fw,jw):
     ndim=len(file.getHyper().axes)
-    print("IN read irreg")
     return file.readHeaderWindow(n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
 

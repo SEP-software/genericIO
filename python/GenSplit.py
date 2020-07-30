@@ -331,6 +331,7 @@ def writeIrregTraceFunc(file,buffer,nw,fw,jw):
 
 def readIrregHeaderFunc(file,buffer,nw,fw,jw):
     ndim=len(file.getHyper().axes)
+    print("IN read irreg")
     return file.readHeaderWindow(n=nw[:ndim],f=fw[:ndim],j=jw[:ndim])
 
 

@@ -283,7 +283,7 @@ class regSpace(space):
 
 class irregSpace(space):
     """Base class for regular sampled datasets"""
-    def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat", hasInput=True, hasOutput=True):
+    def __init__(self,process,mem,minOutputDim,inputJob=None,inputType="dataFloat",outputType="dataFloat", hasInput=True, hasOutput=True,onlyHeaders=True):
         """Initialization of the regspace job
             mem - Memory in megabytes needed by the job
             minOutputDim - Minimum output dimensions
@@ -293,6 +293,7 @@ class irregSpace(space):
             process - Function to process data
             inOnly - Only has input
             outOnly - Only has output
+            onlyHeaders - Only work on headers
 
         """
         super().__init__(process,mem,minOutputDim,inputJob,inputType,outputType, hasInput, hasOutput)

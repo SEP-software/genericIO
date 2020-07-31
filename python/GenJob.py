@@ -321,6 +321,7 @@ class irregSpace(space):
         """
 
         if not self._inputJob is None:
+            print("WHAT THE",self._nw[iwind],self._fw[iwind],self._jw[iwind])
             hyp=self._hyperIn.subCube(self._nw[iwind],self._fw[iwind],self._jw[iwind])
             inBuf=self.processBuffer(None,hyp,iwind)
         elif self._hasInput:

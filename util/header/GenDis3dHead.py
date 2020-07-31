@@ -96,7 +96,7 @@ if __name__ == "__main__":
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
     print("SASS")
-    split=GenSplit.serialIrregDataSpace(job, args.memory)
+    split=GenSplit.serialIrregHeaderSpace(job, args.memory)
     print("BBB")
     split.loop(args.print_pct)
     print("CCC")

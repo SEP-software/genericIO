@@ -93,7 +93,8 @@ if __name__ == "__main__":
         keys=fileKeys
 
     job=disJob(inFile.getStorageType(),first,last,keys)
-
+    job.setCompleteHyperOut(inFile.getHyper())
+    job.setInputFile(inFile)
     split=GenSplit.serialIrregDataSpace(job, args.memory)
     split.loop(args.print_pct)
 

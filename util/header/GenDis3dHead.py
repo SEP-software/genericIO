@@ -33,6 +33,7 @@ class disJob(GenJob.irregSpace):
         ina - Input vector
         dummy - Dummy argument
         """
+        print("CHECK THIS",self._hyperIn)
         f2=int(self._hyperIn.axes[1].o)
         print(f2,self._first,self._last,"RANGE")
         for i in range(ina._header._nh):

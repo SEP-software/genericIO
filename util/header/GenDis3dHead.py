@@ -95,8 +95,11 @@ if __name__ == "__main__":
     job=disJob(inFile.getStorageType(),first,last,keys)
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
+    print("SASS")
     split=GenSplit.serialIrregDataSpace(job, args.memory)
+    print("BBB")
     split.loop(args.print_pct)
+    print("CCC")
 
 
 

@@ -26,7 +26,7 @@ class disJob(GenJob.irregSpace):
         self._lock=threading.Lock() 
         self._first=first
         self._last=last
-        self._keys=copy.deep(keys)
+        self._keys=copy.deepcopy(keys)
     def printInfo(self,ina,dummy):
         """Convert a buffer from one type to another
 

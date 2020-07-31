@@ -44,7 +44,7 @@ class disJob(GenJob.irregSpace):
                 for k in self._keys:
                     x=str(ina._header.getKey(k)[i])
                     line+=x+" "*(11-len(x))
-            print(line)
+            #print(line)
                     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print header attributes')

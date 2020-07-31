@@ -94,8 +94,8 @@ if __name__ == "__main__":
 
     job=disJob(inFile.getStorageType(),first,last,keys)
 
-
-
+    split=GenSplit.serialIrregDataSpace(job, args.memory)
+    split.loop(args.print_pct)
 
 
 

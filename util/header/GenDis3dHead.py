@@ -34,6 +34,7 @@ class disJob(GenJob.irregSpace):
         dummy - Dummy argument
         """
         f2=int(ina.getHyper().axes[1].o)
+        print(f2,self._first,self._last,"RANGE")
         for i in range(ina._header._nh):
             if f2 +i >= self._first and f2+i < self._last:
                 line=str(f2+i)

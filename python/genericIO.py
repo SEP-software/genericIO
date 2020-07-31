@@ -640,6 +640,14 @@ class irregFile:
         """Get the data description"""
         self._dataDes=self.cppMode.getDataDescription()
 
+    def getHyperHeader(self):
+        """Get the hypercube describing the headers"""
+        return Hypercube.hypercube(hyper=self.cppMode.getHyperHeader())
+
+    def getHeaderKeys(self):
+        """Return header keys associated with file"""
+        return list(self.cppMode.getHeaderKeyTypes().keys())
+        
     def putDataDescription(self,des):
         """Put a description of the data"""
         self.cppMode.putDataDescrption(des)

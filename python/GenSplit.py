@@ -257,8 +257,8 @@ class serialIrregSpace(space):
             self._job.setIwind(i)
             print("IN LOOP")
             if hasInput:
-                vecIn=readThread.get()
-                print("FINISHED READ")
+                #vecIn=readThread.get()
+                print("FINISHED READ",type(readThread.get()))
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (self._job._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
             print("STARTEF NEXT READ")

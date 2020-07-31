@@ -27,12 +27,14 @@ class disJob(GenJob.irregSpace):
         self._first=first
         self._last=last
         self._keys=copy.deepcopy(keys)
+        print("XXXX")
     def printInfo(self,ina,dummy):
         """Convert a buffer from one type to another
 
         ina - Input vector
         dummy - Dummy argument
         """
+        print("YY")
         f2=int(ina.getHyper().axes[1].o)
         print(f2,self._first,self._last,"RANGE")
         for i in range(ina._header._nh):

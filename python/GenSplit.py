@@ -249,8 +249,9 @@ class serialIrregSpace(space):
         hasOutput=self._job.getHasOutput()
         pool=ThreadPool(processes=3)
         if hasInput:
+            print("BEFORE READ")
             readThread = pool.apply_async(readFunc, (self._job._inputFile,self._nw[0],self._fw[0],self._jw[0]))
-    
+            print("AFTER READ")
         vecIn=None
         for i in range(len(self._nw)):
             self._job.setIwind(i)

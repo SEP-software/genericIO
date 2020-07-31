@@ -642,12 +642,13 @@ class irregFile:
 
     def getHyperHeader(self):
         """Get the hypercube describing the headers"""
+        print("TYPE",type(self.cppMode.getHyperHeader()))
         return Hypercube.hypercube(hyper=self.cppMode.getHyperHeader())
 
     def getHeaderKeys(self):
         """Return header keys associated with file"""
         return list(self.cppMode.getHeaderKeyTypes().keys())
-        
+
     def putDataDescription(self,des):
         """Put a description of the data"""
         self.cppMode.putDataDescrption(des)

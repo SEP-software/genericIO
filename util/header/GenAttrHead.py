@@ -52,17 +52,14 @@ class attrJob(GenJob.irregSpace):
                 self._stats[k]=headerStats(self._types[k])
         
         for k,typ in self._types.items():  
-            if k == "CDP":
-                print(ina._header.getKey(k)._vals[1:50],"SSS")  
-                if typ == "dataInt":
-                    mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)._vals)
-                elif typ == "dataFloat":
-                    mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)._vals)
-                else:
-                    raise Exception("key=%s type=%s"%(k,typ))
-                print(k,"before update")
-                self._stats[k].update(mn,mx,sm,nzero)
-                print("after update")
+          
+            if typ == "dataInt":
+                mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)._vals)
+            elif typ == "dataFloat":
+                mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)._vals)
+            else:
+                raise Exception("key=%s type=%s"%(k,typ))
+            self._stats[k].update(mn,mx,sm,nzero)
        # self._lock.release()
 
         

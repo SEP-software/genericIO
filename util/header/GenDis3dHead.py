@@ -37,15 +37,15 @@ class disJob(GenJob.irregSpace):
         f2=self._done
 
         for i in range(ina._header._nh):
-            if i%20==0:
-                line="Number       "
-                for k in self._keys:
-                        x=str(k)
-                        if len(x)>10:
-                            x=x[1:10]+" "
-                        line+=x+" "*(11-len(x))
-                print(line)
             if f2 +i >= self._first and f2+i < self._last:
+                if i%20==0:
+                    line="Number       "
+                    for k in self._keys:
+                            x=str(k)
+                            if len(x)>10:
+                                x=x[0:10]+" "
+                            line+=x+" "*(11-len(x))
+                    print(line)
                 line=str(f2+i)
                 line+=" "*(13-len(line))   
                 for k in self._keys:

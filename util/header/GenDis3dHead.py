@@ -34,6 +34,7 @@ class disJob(GenJob.irregSpace):
         ina - Input vector
         dummy - Dummy argument
         """
+        print("IN PRINT INFO")
         f2=self._done
         for i in range(ina._header._nh):
             if f2 +i >= self._first and f2+i < self._last:

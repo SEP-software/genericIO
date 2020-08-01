@@ -253,21 +253,32 @@ class serialIrregSpace(space):
     
         vecIn=None
         for i in range(len(self._nw)):
+            print("IN LOOP 1")
             self._job.setIwind(i)
             if hasInput:
                 vecIn=readThread.get()
+            print("IN LOOP 2")
+
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (self._job._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
             vecOut=self._job.processBuffer(vecIn, self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
+            print("IN LOOP 3")
+
             if i!=0 and hasOutput:
                 writeThread.get()
+            print("IN LOOP 4")
+
             if hasOutput:
                 outputVec=vecOut.clone()
                 writeThread=pool.apply_async(writeFunc,(self._job._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int(i*10000/len(self._nw))/100.
+            print("IN LOOP 5")
+
             if pct>printNext:
                 print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
                 printNext+=printPct
+            print("IN LOOP 1")
+
         if hasOutput:
             writeThread.get()
 class serialIrregDataSpace(serialIrregSpace):

@@ -40,7 +40,7 @@ class disJob(GenJob.irregSpace):
             if f2 +i >= self._first and f2+i < self._last:
                 line=str(f2+i)
                 line+=" "*(13-len(line))   
-                print(f2+i,"SDDS"," "*(13-len(line))                 
+                print(f2+i,"SDDS"," "*(13-len(line)))                 
                 for k in self._keys:
                     x=str(ina._header.getKey(k)[i])
                     line+=x+" "*(11-len(x))

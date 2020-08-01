@@ -148,17 +148,17 @@ if __name__ == "__main__":
 
 
     nmax=0
-    keys=[]
     if not args.keyList==None:
         keys=args.keyList.split(":")
+        keyTypes={}
         for k in keys:
             if not k in fileTypes:
                 raise Exception("Key %s does not exist "%k)
-        kk=1
+            keyTypes[k]=fileTypes[k]
     else:
-        kk=None
+        keyTypes=fileTypes
 
-    job=attrJob(inFile.getStorageType(),first,last,fileTypes)
+    job=attrJob(inFile.getStorageType(),first,last,keyTypes)
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
     split=GenSplit.serialIrregHeaderSpace(job, args.memory)

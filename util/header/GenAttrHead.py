@@ -55,14 +55,16 @@ class attrJob(GenJob.irregSpace):
         e=min(self._last-self._f2,ina._header._nh)
 
         print(b,"=b e=",e,self._first,self._last)
-        for k,typ in self._types.items():  
-            if typ == "dataInt":
-                mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)[b:e])
-            elif typ == "dataFloat":
-                mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)[b:e])
-            else:
-                raise Exception("key=%s type=%s"%(k,typ))
-            self._stats[k].update(mn,mx,sm,nzero)
+        if b>=0 and e <= ina._header._nh:
+            for k,typ in self._types.items():  
+                if typ == "dataInt":
+                    mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)[b:e])
+                    print("stats out ",mn,mx,sm)
+                elif typ == "dataFloat":
+                    mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)[b:e])
+                else:
+                    raise Exception("key=%s type=%s"%(k,typ))
+                self._stats[k].update(mn,mx,sm,nzero)
         self._f2==ina._header._nh
        # self._lock.release()
 

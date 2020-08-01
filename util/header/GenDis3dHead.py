@@ -44,6 +44,7 @@ class disJob(GenJob.irregSpace):
                         if len(x)>10:
                             x=x[1:10]+" "
                         line+=x+" "*(11-len(x))
+                print(line)
             if f2 +i >= self._first and f2+i < self._last:
                 line=str(f2+i)
                 line+=" "*(13-len(line))   

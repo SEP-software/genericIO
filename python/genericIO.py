@@ -860,6 +860,7 @@ class irregFile:
             n1-=2
         else:
             n1-=3
+        print("CHECK",klast,off[klast])
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)

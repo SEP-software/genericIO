@@ -20,8 +20,8 @@ class headerStats:
         self._nzero=0
         self._typ=typ
     def update(self,mn,mx,sm,nzero):
-        self._min=min(self._mn,mn)
-        self._max=max(self._mx,mx)
+        self._mn=min(self._mn,mn)
+        self._mx=max(self._mx,mx)
         self._sm+=sm
         self._nzero+=nzero
         print("AAA",self._mn,self._mx,self._sm,self._nzero)
@@ -139,7 +139,8 @@ if __name__ == "__main__":
 
     inFile=ioIn.getIrregFile(args.input)
 
-    last=inFile.getHyperHeader().axes[1].n
+    nh=inFile.getHyperHeader().axes[1].n
+    last=nh
     first=0
     if args.first != None:
         first=args.first
@@ -171,7 +172,7 @@ if __name__ == "__main__":
     for k in job._stats.keys():
         nmax=max(len(k),nmax)  
  
-
+    ln="Key"+" "*(nmax-2)+"Minimum    Maximum   PctZero   Average"
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)
         if k in keys:
@@ -179,8 +180,10 @@ if __name__ == "__main__":
             mnS=" "*(10-len(mn))
             mx=str(v._mx)
             mxS=" "*(10-len(mx))
-            nz=str(v._nzero)
-            print("%s %s %s %s %s %s %s"%(k,sp,mn,mnS,mx,mxS,nz))
+            pct=int(v._nzero/nh*10000)/100
+            avg=v._sm/nh
+            pN=" "*(10-len(pct))
+            print("%s %s %s %s %s %s %s %s %s"%(k,sp,mn,mnS,mx,mxS,pct,pN,avg))
 
 
 

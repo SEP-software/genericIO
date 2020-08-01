@@ -856,7 +856,7 @@ class irregFile:
             n1+=4
         elif typ[klast]=="dataShort":
             n1-=2
-        else:
+        elif typ[klast]=="dataByte":
             n1-=3
         print("CHECK",n1,klast,off[klast])
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])

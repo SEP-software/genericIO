@@ -27,15 +27,14 @@ class disJob(GenJob.irregSpace):
         self._first=first
         self._last=last
         self._keys=copy.deepcopy(keys)
+        self._done=0
     def printInfo(self,ina,dummy):
         """Convert a buffer from one type to another
 
         ina - Input vector
         dummy - Dummy argument
         """
-        print("CHECK THIS",self._hyperOut)
-        f2=int(self._hyperOut.axes[1].o)
-        print(f2,self._first,self._last,"RANGE")
+        f2=self._done
         for i in range(ina._header._nh):
             if f2 +i >= self._first and f2+i < self._last:
                 line=str(f2+i)
@@ -44,6 +43,7 @@ class disJob(GenJob.irregSpace):
                     x=str(ina._header.getKey(k)[i])
                     line+=x+" "*(11-len(x))
                 print(line)
+        self._done+=ina._header._nh
                     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print header attributes')

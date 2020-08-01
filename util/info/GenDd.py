@@ -49,7 +49,6 @@ class ddJob(GenJob.regSpace):
                 real2Int(inN,outN)
             elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
                 real2Real(inN,outN)
-                print(inN[:10],outN[:20],"DDD")
             elif self._outputType=="dataComplex" or self._dataType=="dataComplexDouble":
                 real2Complex(inN,outN,self_real)
             elif self._outputType=="dataByte":

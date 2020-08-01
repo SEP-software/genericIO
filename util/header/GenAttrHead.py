@@ -14,8 +14,8 @@ import copy
 
 class headerStats:
     def __init__(self,typ):
-        self._mn=1e99
-        self._mx=-1e99
+        self._mn=math.pow(10,80)
+        self._mx=-math.pow(10,80)
         self._sm=0
         self._nzero=0
         self._typ=typ
@@ -52,6 +52,7 @@ class attrJob(GenJob.irregSpace):
         ina - Input vector
         dummy - Dummy argument
         """
+        print("SDDSAS")
         b=max(0,self._first-self._f2)
         e=min(self._last-self._f2,ina._header._nh)
 

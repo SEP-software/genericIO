@@ -795,14 +795,12 @@ class irregFile:
                   vec - sepIrregVector.vector
                 Optional:
                   n,f,j - Standard windowing parameters"""
-        print("1ASSA")
         axes=self.getHyper().axes
         axes[0]=Hypercube.axis(n=10000)
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         head,drn,grid=self.cppMode.readHeaderWindow(nw,fw,jw)
         header=self.byte2DToHeader(head,grid=grid)
         hyper=Hypercube.hypercube(ns=[1000,header._nh])
-        print("2BBB")
         return SepIrregVector.vector(header=header,hyper=hyper)
         
     def writeDataWindow(self, vec, **kw):
@@ -854,13 +852,12 @@ class irregFile:
         typ=self.cppMode.getHeaderKeyTypes()
         klast=headS._keyOrder[len(headS._keyOrder)-1]
         n1=off[klast]+4
-        if typ[klast]=="dataInt":
+        if typ[klast]=="dataDouble":
             n1+=4
         elif typ[klast]=="dataShort":
             n1-=2
         else:
             n1-=3
-        print("CHECK",klast,off[klast])
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)
@@ -926,7 +923,6 @@ class irregFile:
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if not isinstance(vec, SepIrregVector.headerBlock):
             raise Exception("vec must be deriverd SepVector.header")
-        print("SDDOJASJDASI")
         head,drn,grid=self.headerToByte2D(vec)
         self.cppMode.writeHeaderWindow(nw, fw,jw, drn.cppMode,head.cppMode,grid.cppMode)    
          

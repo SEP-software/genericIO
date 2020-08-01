@@ -63,7 +63,7 @@ class attrJob(GenJob.irregSpace):
                 else:
                     raise Exception("key=%s type=%s"%(k,typ))
                 self._stats[k].update(mn,mx,sm,nzero)
-        self._f2==ina._header._nh
+        self._f2+=ina._header._nh
        # self._lock.release()
 
         

@@ -24,6 +24,7 @@ class headerStats:
         self._max=max(self._mx,mx)
         self._sm+=sm
         self._nzero+=nzero
+        print("AAA",self._mn,self._mx,self._sm,self._nzero)
 
 
 

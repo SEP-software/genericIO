@@ -649,7 +649,7 @@ class irregFile:
         return list(self.cppMode.getHeaderKeyTypes().keys())
     def getHeaderKeyTypes(self):
         """Return header key types in a dictionary"""
-        return list(self.cppMode.getHeaderKeyTypes())
+        return self.cppMode.getHeaderKeyTypes()
 
     def putDataDescription(self,des):
         """Put a description of the data"""

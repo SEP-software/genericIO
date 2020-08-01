@@ -168,7 +168,7 @@ if __name__ == "__main__":
     for k in job._stats.keys():
         nmax=max(len(k),nmax)  
  
-    ln="Key"+" "*(nmax-2)+"Minimum    Maximum   PctZero   Average"
+    print("Key"+" "*(nmax-2)+" Minimum     Maximum    PctZero    Average")
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)
         if k in keys:

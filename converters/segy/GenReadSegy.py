@@ -42,13 +42,13 @@ class fromSEGY(GenJob.irregSpace):
         bufsS={}
         bufsN={}
         for k in self._keys.keys():
-            bufsS[k]=SepVector.getSepVector(ns=[ax.n],storage="dataFloat")
+            bufsS[k]=SepVector.getSepVector(ns=[ax.n],storage="dataInt")
             bufsN[k]=bufsS[k].getNdArray()
         outN=outa._traces.getNdArray()
         for i2 in range(ax.n):
             for k,v in self._keys.items():
                 i=i2+self._fw[self._iwind][1]
-                bufsN[k][i2]=float(self._segyfile.header[i].get(v)) 
+                bufsN[k][i2]=self._segyfile.header[i].get(v)
             outN[i2,:]=self._segyfile.trace[i]
         for k in self._keys.keys():
             outa._header.setKey(k,bufsS[k].getNdArray())
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         for k,v in headerKeep.items():
             if v:
                 keys[k]=segyio.tracefield.keys[k]
-                keysT[k]="dataFloat"
+                keysT[k]="dataInt"
         outFile=ioOut.getIrregFile(args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
          fromDataHyper=hyper,headerHyper=hyper,keys=keysT)
         job=fromSEGY(outFile.getStorageType(),keys,segyfile)

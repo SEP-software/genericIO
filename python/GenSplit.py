@@ -253,10 +253,14 @@ class serialIrregSpace(space):
     
         vecIn=None
         for i in range(len(self._nw)):
-            print("IN LOOP 1")
+            print("IN LOOP 1a")
             self._job.setIwind(i)
+            print("IN LOOP 1a")
+
             if hasInput:
+                print("IN if")
                 vecIn=readThread.get()
+                print("AFTER get")
             print("IN LOOP 2")
 
             if i!= len(self._nw)-1 and hasInput:

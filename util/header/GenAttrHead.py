@@ -170,6 +170,7 @@ if __name__ == "__main__":
  
     print("Key"+" "*(nmax-2)+"  Minimum     Maximum     PctZero     Average")
     nh=last-first
+    print(nh,"NH")
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)
         if k in keys:

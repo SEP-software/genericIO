@@ -53,7 +53,7 @@ class attrJob(GenJob.irregSpace):
         """
         b=max(0,self._first-self._f2)
         e=min(self._last-self._f2,ina._header._nh)
-
+        print("WDFE ",b,e)
         if b>=0 and e <= ina._header._nh:
             for k,typ in self._types.items():  
                 if typ == "dataInt":

@@ -29,7 +29,7 @@ class fromSEGY(GenJob.irregSpace):
         """Make the output buffer given the output hypercube"""
         buf=SepIrregVector.vector(hyper=hyperOut,dataType=self._outputType)
         for k in self._keys.keys():
-            buf._header.addKey(k,typ="dataInt")
+            buf._header.addKey(k,typ="dataFloat")
         return buf
 
     def convertBuf(self,ina,outa):
@@ -42,7 +42,7 @@ class fromSEGY(GenJob.irregSpace):
         bufsS={}
         bufsN={}
         for k in self._keys.keys():
-            bufsS[k]=SepVector.getSepVector(ns=[ax.n],storage="dataInt")
+            bufsS[k]=SepVector.getSepVector(ns=[ax.n],storage="dataFloat")
             bufsN[k]=bufsS[k].getNdArray()
         outN=outa._traces.getNdArray()
         for i2 in range(ax.n):

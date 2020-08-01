@@ -134,7 +134,9 @@ if __name__ == "__main__":
 
     if args.io:
         ioIn=genericIO.io(args.io)
-    
+
+    inFile=ioIn.getIrregFile(args.input)
+
     last=inFile.getHyperHeader().axes[1].n
     first=0
     if args.first != None:
@@ -145,7 +147,6 @@ if __name__ == "__main__":
 
 
 
-    inFile=ioIn.getIrregFile(args.input)
 
 
     nmax=0

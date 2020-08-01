@@ -144,9 +144,7 @@ if __name__ == "__main__":
     if args.last !=None:
         last=args.last
 
-
-
-
+    fileTypes=inFile.getHeaderKeyTypes()
 
 
     nmax=0
@@ -154,18 +152,17 @@ if __name__ == "__main__":
     if not args.keyList==None:
         keys=args.keyList.split(":")
         for k in keys:
-            if not k in fileKeys:
+            if not k in fileTypes:
                 raise Exception("Key %s does not exist "%k)
         kk=1
     else:
         kk=None
 
-    job=attrJob(inFile.getStorageType(),first,last,keyTypes)
+    job=attrJob(inFile.getStorageType(),first,last,fileTypes)
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
     split=GenSplit.serialIrregHeaderSpace(job, args.memory)
     split.loop(args.print_pct)
-    fileTypes=inFile.getHeaderKeyTypes()
 
 
 

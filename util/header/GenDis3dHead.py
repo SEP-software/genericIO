@@ -40,7 +40,6 @@ class disJob(GenJob.irregSpace):
             if f2 +i >= self._first and f2+i < self._last:
                 line=str(f2+i)
                 line+=" "*(13-len(line))   
-                print(f2+i,"SDDS"," "*(13-len(line)))                 
                 for k in self._keys:
                     x=str(ina._header.getKey(k)[i])
                     line+=x+" "*(11-len(x))
@@ -95,11 +94,8 @@ if __name__ == "__main__":
     job=disJob(inFile.getStorageType(),first,last,keys)
     job.setCompleteHyperOut(inFile.getHyper())
     job.setInputFile(inFile)
-    print("SASS")
     split=GenSplit.serialIrregHeaderSpace(job, args.memory)
-    print("BBB")
     split.loop(args.print_pct)
-    print("CCC")
 
 
 

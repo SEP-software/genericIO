@@ -137,7 +137,7 @@ if __name__ == "__main__":
         for k,v in headerKeep.items():
             if v:
                 keys[k]=segyio.tracefield.keys[k]
-                keysT[k]="dataInt"
+                keysT[k]="dataFloat"
         outFile=ioOut.getIrregFile(args.output,storage=SepVector.dtypeToSepVecType[str(x.dtype)],
          fromDataHyper=hyper,headerHyper=hyper,keys=keysT)
         job=fromSEGY(outFile.getStorageType(),keys,segyfile)

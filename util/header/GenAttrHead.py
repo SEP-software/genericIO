@@ -168,8 +168,7 @@ if __name__ == "__main__":
 
     for k in job._stats.keys():
         nmax=max(len(k),nmax)  
-        if not kk:
-            keys.append(k)
+ 
 
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)

@@ -155,6 +155,7 @@ if __name__ == "__main__":
             keyTypes[k]=fileTypes[k]
     else:
         keyTypes=fileTypes
+        
 
     job=attrJob(inFile.getStorageType(),first,last,keyTypes)
     job.setCompleteHyperOut(inFile.getHyper())
@@ -172,7 +173,7 @@ if __name__ == "__main__":
     print(nh,"NH")
     for k,v in job._stats.items():
         sp=" "*(nmax-len(k)+1)
-        if k in keys:
+        if k in keyTypes:
             mn=str(v._mn)
             mnS=" "*(10-len(mn))
             mx=str(v._mx)

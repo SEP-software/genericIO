@@ -28,38 +28,44 @@ class headerStats:
 
 
 class attrJob(GenJob.irregSpace):
-    def __init__(self,inputType):
+    def __init__(self,inputType,first,last,keyT):
         """Intialize object
 
             inputType - Input type
+            first - First header to gather statistics on
+            last - Last header to gather statistics on
+            keyT - Key type dictionary
         """
         super().__init__(self.calcStats,0,0,inputType=inputType,hasOutput=False)
         self._lock=threading.Lock() 
-        self._first=True
+        self._first=first
+        self._last=last
+        self._types=keyT
+        self._first=False
+        for k in self._types.keys():
+            self._stats[k]=headerStats(self._types[k])
         self._stats={}
         self._types={}
+        self._f2=0
     def calcStats(self,ina,dummy):
         """Convert a buffer from one type to another
 
         ina - Input vector
         dummy - Dummy argument
         """
+        b=max(0,self._first-f2)
+        e=min(self._last-f2,ina._header._nh)
 
-        if self._first:
-            self._types=ina._header.getKeyTypes()
-            self._first=False
-            for k in ina._header._keys.keys():
-                self._stats[k]=headerStats(self._types[k])
         
         for k,typ in self._types.items():  
-          
             if typ == "dataInt":
-                mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)._vals)
+                mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)[b:e])
             elif typ == "dataFloat":
-                mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)._vals)
+                mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)[b:e])
             else:
                 raise Exception("key=%s type=%s"%(k,typ))
             self._stats[k].update(mn,mx,sm,nzero)
+        self._f2==ina._header._nh
        # self._lock.release()
 
         
@@ -119,6 +125,8 @@ if __name__ == "__main__":
     parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=2)
     parser.add_argument("--print_pct",type=float,help="Print progress every X pct (above 100 means no printing)",default=101)
     parser.add_argument("--keyList",type=str,help="List of keys separated by :, defaults to all keys",default=None)
+    parser.add_argument("--first",type=int,help="First key to print",default=None)
+    parser.add_argument("--last",type=int,help="Last key to print",default=None)
 
     args = parser.parse_args()
 
@@ -127,21 +135,38 @@ if __name__ == "__main__":
     if args.io:
         ioIn=genericIO.io(args.io)
     
+    last=inFile.getHyperHeader().axes[1].n
+    first=0
+    if args.first != None:
+        first=args.first
+    if args.last !=None:
+        last=args.last
+
+
+
 
     inFile=ioIn.getIrregFile(args.input)
-    job=attrJob(inFile.getStorageType())
-    job.setCompleteHyperOut(inFile.getHyper())
-    job.setInputFile(inFile)
-    split=GenSplit.serialIrregHeaderSpace(job, args.memory)
-    split.loop(args.print_pct)
+
 
     nmax=0
     keys=[]
     if not args.keyList==None:
         keys=args.keyList.split(":")
+        for k in keys:
+            if not k in fileKeys:
+                raise Exception("Key %s does not exist "%k)
         kk=1
     else:
         kk=None
+
+    job=attrJob(inFile.getStorageType(),first,last,keyTypes)
+    job.setCompleteHyperOut(inFile.getHyper())
+    job.setInputFile(inFile)
+    split=GenSplit.serialIrregHeaderSpace(job, args.memory)
+    split.loop(args.print_pct)
+    fileTypes=inFile.getHeaderKeyTypes()
+
+
 
     for k in job._stats.keys():
         nmax=max(len(k),nmax)  

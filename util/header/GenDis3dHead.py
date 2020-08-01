@@ -25,6 +25,7 @@ class disJob(GenJob.irregSpace):
         super().__init__(self.printInfo,0,0,inputType=inputType,hasOutput=False)
         self._lock=threading.Lock() 
         self._first=first
+        self._print=True
         self._last=last
         self._keys=copy.deepcopy(keys)
         self._done=0
@@ -38,7 +39,8 @@ class disJob(GenJob.irregSpace):
 
         for i in range(ina._header._nh):
             if f2 +i >= self._first and f2+i < self._last:
-                if i%20==0:
+                if i%20==0 of self._print:
+                    self._print=False
                     line="Number       "
                     for k in self._keys:
                             x=str(k)
@@ -84,11 +86,6 @@ if __name__ == "__main__":
         last=args.last
 
 
-    first=0
-    if args.first != None:
-        first=args.first
-    if args.last !=None:
-        last=args.last
 
     fileKeys=inFile.getHeaderKeys()
     keys=[]

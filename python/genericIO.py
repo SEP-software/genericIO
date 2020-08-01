@@ -853,7 +853,13 @@ class irregFile:
         off,sz=self.cppMode.createOffsetMap()
         typ=self.cppMode.getHeaderKeyTypes()
         klast=headS._keyOrder[len(headS._keyOrder)-1]
-        n1=off[klast]+off[klast]
+        n1=off[klast]+4
+        if typ[klast]=="dataInt":
+            n1+=4
+        elif typ[klast]=="dataShort":
+            n1-=2
+        else:
+            n1-=3
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)

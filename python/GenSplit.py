@@ -210,9 +210,9 @@ class serialRegSpace(regSpace):
             if hasOutput:
                 writeThread=threading.Thread(target=writeRegFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
                 writeThread.start()
-            pct=int(i*10000/len(self._nw))/100.
+            pct=int((i+1)*10000/len(self._nw))/100.
             if pct>printNext:
-                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
+                print("Finished %f pct  %d of %d"%(pct,i+1,len(self._nw)))
                 printNext+=printPct
         if hasOutput:
             writeThread.join()
@@ -275,13 +275,13 @@ class serialIrregSpace(space):
             if hasOutput:
                 outputVec=vecOut.clone()
                 writeThread=pool.apply_async(writeFunc,(self._job._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
-            pct=int(i*10000/len(self._nw))/100.
+            pct=int((i+1)*10000/len(self._nw))/100.
             print("IN LOOP 5")
 
             if pct>printNext:
-                print("Finished %f pct  %d of %d"%(pct,i,len(self._nw)))
+                print("Finished %f pct  %d of %d"%(pct,i+1,len(self._nw)))
                 printNext+=printPct
-            print("IN LOOP 1")
+            print("IN LOOP 6")
 
         if hasOutput:
             writeThread.get()

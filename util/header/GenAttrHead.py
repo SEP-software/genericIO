@@ -41,11 +41,9 @@ class attrJob(GenJob.irregSpace):
         self._first=first
         self._last=last
         self._types=keyT
-        self._first=False
+        self._stats={}
         for k in self._types.keys():
             self._stats[k]=headerStats(self._types[k])
-        self._stats={}
-        self._types={}
         self._f2=0
     def calcStats(self,ina,dummy):
         """Convert a buffer from one type to another

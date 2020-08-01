@@ -33,8 +33,8 @@ class disJob(GenJob.irregSpace):
         ina - Input vector
         dummy - Dummy argument
         """
-        print("CHECK THIS",self._hyperIn)
-        f2=int(self._hyperIn.axes[1].o)
+        print("CHECK THIS",self._hyperOut)
+        f2=int(self._hyperOut.axes[1].o)
         print(f2,self._first,self._last,"RANGE")
         for i in range(ina._header._nh):
             if f2 +i >= self._first and f2+i < self._last:
@@ -43,7 +43,7 @@ class disJob(GenJob.irregSpace):
                 for k in self._keys:
                     x=str(ina._header.getKey(k)[i])
                     line+=x+" "*(11-len(x))
-            #print(line)
+            print(line)
                     
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Print header attributes')

@@ -24,7 +24,6 @@ class headerStats:
         self._mx=max(self._mx,mx)
         self._sm+=sm
         self._nzero+=nzero
-        print("AAA",self._mn,self._mx,self._sm,self._nzero)
 
 
 
@@ -52,16 +51,13 @@ class attrJob(GenJob.irregSpace):
         ina - Input vector
         dummy - Dummy argument
         """
-        print("SDDSAS")
         b=max(0,self._first-self._f2)
         e=min(self._last-self._f2,ina._header._nh)
 
-        print(b,"=b e=",e,self._first,self._last)
         if b>=0 and e <= ina._header._nh:
             for k,typ in self._types.items():  
                 if typ == "dataInt":
                     mn,mx,sm,nzero=calcIntStats(ina._header.getKey(k)[b:e])
-                    print("stats out ",mn,mx,sm)
                 elif typ == "dataFloat":
                     mn,mx,sm,nzero=calcRealStats(ina._header.getKey(k)[b:e])
                 else:
@@ -180,7 +176,7 @@ if __name__ == "__main__":
             mnS=" "*(10-len(mn))
             mx=str(v._mx)
             mxS=" "*(10-len(mx))
-            pct=str(int(v._nzero/nh*10000)/100)
+            pct=str(int(10000-v._nzero/nh*10000)/100)
             avg=v._sm/nh
             pN=" "*(10-len(pct))
             print("%s %s %s %s %s %s %s %s %s"%(k,sp,mn,mnS,mx,mxS,pct,pN,avg))

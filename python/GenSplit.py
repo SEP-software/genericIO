@@ -208,7 +208,7 @@ class serialRegSpace(regSpace):
                 writeThread.join()
             outputVec=self._job.swapIOBufferPtrsOut()
             if hasOutput:
-                writeThread=threading.Thread(target=writeRegFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
+                writeThread=threading.Thread(target=writeFunc,args=(outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
                 writeThread.start()
             pct=int(i*10000/len(self._nw))/100.
             if pct>printNext:

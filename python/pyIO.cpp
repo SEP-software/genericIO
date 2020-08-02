@@ -25,6 +25,11 @@ namespace SEP
               .value("usageInOut", usage_code::usageInOut)
               .value("usageScr", usage_code::usageScr);
 
+          py::enum_<file_type>(clsGeneric, "file_type")
+              .value("invalidFile", file_type::invalidFile)
+              .value("regularFile", file_type::regularFile)
+              .value("irregularFile", file_type::irregularFile);
+
           py::enum_<dataType>(clsGeneric, "dataType")
               .value("dataFloat", dataType::DATA_FLOAT)
               .value("dataByte", dataType ::DATA_BYTE)
@@ -798,7 +803,10 @@ namespace SEP
                    (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
                        const std::string &, const std::string, const int)) &
                        genericIO::getRegFile)
-
+              .def("getFileType",
+                   (SEP::file_type(genericIO::*)(
+                       const std::string &)) &
+                       genericIO::getFileType)
               .def("getIrregFile",
                    (std::shared_ptr<SEP::genericIrregFile>(genericIO::*)(
                        const std::string &, const SEP::usage_code, const int)) &

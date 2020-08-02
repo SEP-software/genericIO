@@ -132,6 +132,8 @@ if __name__ == "__main__":
     if args.io:
         ioIn=genericIO.io(args.io)
 
+    if file_type.irregularFile!=ioIn.getFileType():
+        raise "File is not an irregular file"
     inFile=ioIn.getIrregFile(args.input)
 
     nh=inFile.getHyperHeader().axes[1].n
@@ -177,7 +179,6 @@ if __name__ == "__main__":
             mnS=" "*(10-len(mn))
             mx=str(v._mx)
             mxS=" "*(10-len(mx))
-            print(v._nzero)
             pct=str(float(int(10000-v._nzero/nh*10000)/100))
             avg=v._sm/nh
             pN=" "*(10-len(pct))

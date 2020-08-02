@@ -637,6 +637,9 @@ class irregFile:
             elif self.usage == "usageOut":
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
+            print("WHAT ",
+                self.tag, usageConvert[
+                    self.usage], ndimMax)
             self.cppMode = ioM.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)

@@ -18,9 +18,9 @@ usageConvert = {"usageIn": pyGenericIO.usage_code.usageIn,
                 "usageScr": pyGenericIO.usage_code.usageScr}
 
 fileType ={
-    "invalidFile": pyGenericIO.file_type.invalidFile,
-    "regularFile": pyGenericIO.file_type.regularFile,
-    "irregularFile": pyGenericIO.file_type.irregularFile}
+    "invalidFile": file_type.invalidFile,
+    "regularFile": file_type.regularFile,
+    "irregularFile": file_type.irregularFile}
 
 
 ioModes = pyGenericIO.ioModes([""])

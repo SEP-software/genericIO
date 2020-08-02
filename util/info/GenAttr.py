@@ -51,7 +51,7 @@ class helix2cart:
             hlx+=cart[i]*self._b[i]
         return hlx
 
-class attrJob(GenJob.regSpace):
+class attrJobReg(GenJob.regSpace):
     def __init__(self,inputType):
         """Intialize object
 
@@ -92,7 +92,46 @@ class attrJob(GenJob.regSpace):
         self._nzero+=nzero
         self._lock.release()
 
-        
+class attrJobIrreg(GenJob.irregSpace):
+    def __init__(self,inputType):
+        """Intialize object
+
+            inputType - Input type
+        """
+        super().__init__(self.calcStats,0,0,inputType=inputType,hasOutput=False)
+        self._lock=threading.Lock() 
+        self._mn=1e99
+        self._mx=-1e99
+        self._imin=-1
+        self._imax=-1
+        self._sm=0
+        self._sqs=0
+        self._nzero=0
+    def calcStats(self,ina,dummy):
+        """Convert a buffer from one type to another
+
+        ina - Input vector
+        dummy - Dummy argument
+        """
+
+        n123=ina._traces.getHyper().getN123()
+        inN=np.reshape(ina._traces.getNdArray(),(n123,))
+
+        if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
+            mn,imin,mx,imax,sm,sqs,nzero=calcComplexStats(inN)
+        else:
+           mn,imin,mx,imax,sm,sqs,nzero= calcRealStats(inN)
+        self._lock.acquire()
+        if mn< self._mn:
+            self._mn=mn
+            self._imin=imin
+        if mx > self._mx:
+            self._mx=mx
+            self._imax=imax 
+        self._sm+=sm
+        self._sqs+=sqs
+        self._nzero+=nzero
+        self._lock.release()
 @numba.jit(nopython=True, parallel=True,locals={'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
 def calcRealStats(inA):
     """
@@ -166,15 +205,24 @@ if __name__ == "__main__":
     if args.io:
         ioIn=genericIO.io(args.io)
     
+    fileType=ioIn.getFileType(args.input)
+    if fileType == "invalidFile":
+        raise Exception("Invalid file of selected IO")
 
-
-    inFile=ioIn.getRegFile(args.input)
-    job=attrJob(inFile.getStorageType())
-    job.setCompleteHyperOut(inFile.getHyper())
-    job.setInputFile(inFile)
-    split=GenSplit.serialRegSpace(job, args.memory)
-    split.loop(args.print_pct)
-    
+    if fileType=="regularFile":
+        inFile=ioIn.getRegFile(args.input)
+        job=attrJobReg(inFile.getStorageType())
+        job.setCompleteHyperOut(inFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialRegSpace(job, args.memory)
+        split.loop(args.print_pct)
+    else:
+        inFile=ioIn.getIrregFile(args.input)
+        job=attrJobIrreg(inFile.getStorageType())
+        job.setCompleteHyperOut(inFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialIrregDataSpace(job, args.memory)
+        split.loop(args.print_pct) 
     hx=helix2cart(inFile.getHyper().getNs())
 
     n123=inFile.getHyper().getN123()

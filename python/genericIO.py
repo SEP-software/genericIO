@@ -1050,6 +1050,8 @@ class io:
 
     def getFileType(self):
         """Return fileType"""
+        x=self.cppMode.getFileType()
+        print(x)
         return fileType[self.cppMode.getFileType()]
 
     def getInt(self, tag, *arg):

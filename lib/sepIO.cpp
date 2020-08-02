@@ -1,6 +1,6 @@
 
 #include "sepIO.h"
-#include <string>
+#include <cstring>
 #include <fstream> // std::ifstream
 using namespace SEP;
 sepIO::sepIO(const int argc, char **argv)
@@ -32,23 +32,23 @@ sepIO::getIrregFileTag(const std::string &tag, const std::string &name,
 
 SEP::file_type getFileType(const std::string &name)
 {
-  {
-    std::ifstream inps;
-    inps.open(name, std::ifstream::in);
-    if (!inps)
-      return SEP::invalidFile;
-    if (NULL == auxin(name.c_str()))
-      return SEP::invalidFile;
-    int n;
-    char tmp[1024];
-    if (0 == auxpar("n1", "d", &n, name.c_str()) ||
-        0 == auxin("in", "s", tmp, name.c_str()))
-      return auxpar::invalidFile;
 
-    if (0 == auxin("hff", "s", tmp, name.c_str()))
-      return auxpar::regularFile;
-    if (strcmp("-1", tmp) == 0)
-      return SEP::regularFile;
+  std::ifstream inps;
+  inps.open(name, std::ifstream::in);
+  if (!inps)
+    return SEP::invalidFile;
+  if (NULL == auxin(name.c_str()))
+    return SEP::invalidFile;
+  int n;
+  char tmp[1024];
+  if (0 == auxpar("n1", "d", &n, name.c_str()) ||
+      0 == auxpar("in", "s", tmp, name.c_str()))
+    return auxpar::invalidFile;
 
-    return SEP::irregularFile;
-  }
+  if (0 == auxpar("hff", "s", tmp, name.c_str()))
+    return SEP::regularFile;
+  if (strcmp("-1", tmp) == 0)
+    return SEP::regularFile;
+
+  return SEP::irregularFile;
+}

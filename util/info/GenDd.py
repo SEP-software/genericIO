@@ -6,7 +6,8 @@ import GenSplit
 import numpy as np
 from numba import jit,prange
 
-class ddJob(GenJob.regSpace):
+
+class ddJobReg(GenJob.regSpace):
     def __init__(self,inputType,outputType,real):
         """Intialize object
 
@@ -28,6 +29,56 @@ class ddJob(GenJob.regSpace):
         n123=ina.getHyper().getN123()
         inN=np.reshape(ina.getNdArray(),(n123,))
         outN=np.reshape(outa.getNdArray(),(n123,))
+
+        if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
+            if self._outputType=="dataShort":
+                complex2Short(inN,outN,self._real)
+            elif self._outputType=="dataInt":
+                complex2Int(inN,outN,self._real)
+            elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
+                complex2Real(inN,outN,self._real)
+            elif self._outputType=="dataComplex" or self._outputType=="dataComplexDouble":
+                complex2Complex(inN,outN)
+            elif self._outType=="dataByte":
+                complex2Byte(inN,outN,self._real)
+            else:
+                print("Uknown conversion %s"%self._outputType)
+        else:
+            if self._outputType=="dataShort":
+                real2Short(inN,outN)
+            elif self._outputType=="dataInt":
+                real2Int(inN,outN)
+            elif self._outputType=="dataFloat" or self._outputType=="dataDouble":
+                real2Real(inN,outN)
+            elif self._outputType=="dataComplex" or self._dataType=="dataComplexDouble":
+                real2Complex(inN,outN,self_real)
+            elif self._outputType=="dataByte":
+                real2Byte(inN,outN)
+            else:
+                print("Unknown conversion %s to %s"%(self._inputType,self._outputType))
+
+class ddJobIrreg(GenJob.irregSpace):
+    def __init__(self,inputType,outputType,real):
+        """Intialize object
+
+            inputType - Input type
+            outputType - Output type
+            real - Convert real (rather than imaginary) of complex number to/from 
+        """
+        super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
+        self._real=real
+
+    
+    def convertBuf(self,ina,outa):
+        """Convert a buffer from one type to another
+
+        ina - Input vector
+        outa - Output vector
+        """
+
+        n123=ina.getHyper().getN123()
+        inN=np.reshape(ina._traces.getNdArray(),(n123,))
+        outN=np.reshape(outa._traces.getNdArray(),(n123,))
 
         if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
             if self._outputType=="dataShort":
@@ -165,9 +216,32 @@ if __name__ == "__main__":
     job.setInputFile(inFile)
     split=GenSplit.serialRegSpace(job, args.memory)
     split.loop(args.print_pct)
+        
+        
+    fileType=ioIn.getFileType(args.input)
 
+    if fileType == "invalidFile":
+        raise Exception("Invalid file of selected IO")
 
-
+    if fileType=="regularFile":
+        inFile=ioIn.getRegFile(args.input)
+        outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
+        job=ddJobReg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job.setOutputFile(outFile)
+        job.setCompleteHyperOut(outFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialRegSpace(job, args.memory)
+        split.loop(args.print_pct)
+    else:
+        inFile=ioIn.getIrregFile(args.input)
+        outFile=genericIO.irregFile(fromFile=inFile)
+        outFile.storage=args.storage
+        job=ddJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job.setOutputFile(outFile)
+        job.setCompleteHyperOut(outFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialIrregDataSpace(job, args.memory)
+        split.loop(args.print_pct) 
 
 
 

@@ -43,7 +43,7 @@ SEP::file_type getFileType(const std::string &name)
   char tmp[1024];
   if (0 == auxpar("n1", "d", &n, name.c_str()) ||
       0 == auxpar("in", "s", tmp, name.c_str()))
-    return auxpar::invalidFile;
+    return SEP::invalidFile;
 
   if (0 == auxpar("hff", "s", tmp, name.c_str()))
     return SEP::regularFile;

@@ -132,7 +132,7 @@ class attrJobIrreg(GenJob.irregSpace):
         self._sqs+=sqs
         self._nzero+=nzero
         self._lock.release()
-@numba.jit(nopython=True, parallel=True,locals={'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
+@numba.jit(nopython=True,locals={'sm': numba.float64,"sqs":numba.float64,"nzero":numba.int64})
 def calcRealStats(inA):
     """
       Return min,max,sum,sumsq,nzeros
@@ -194,7 +194,7 @@ if __name__ == "__main__":
     parser.add_argument('input', metavar='Input', type=str,
                         help='Input file')                 
     parser.add_argument("--io", type=str,choices=[@GEN_IO_TYPES@], help='IO type. Defaults to defaultIO')
-    parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=20)
+    parser.add_argument("--memory",type=int,help="Memory in terms of GB",default=.4)
     parser.add_argument("--want",type=str,choices=["all","min","max","mean","rms","norm","short"],
     default="all")
     parser.add_argument("--print_pct",type=float,help="Print progress every X pct (above 100 means no printing)",default=101)
@@ -230,8 +230,8 @@ if __name__ == "__main__":
         print("rms=%f"%(math.sqrt(job._sqs/n123)))
         print("mean=%f"%(job._sm/n123))
         print("norm=%f"%(math.sqrt(job._sqs)/n123))
-        print("maximum value =%f at "%(job._mx,hx.toCart(job._imax)))
-        print("minimum value =%f at "%(job._mn,hx.toCart(job._imin)))
+        print("maximum value =%f at "%job._mx,hx.toCart(job._imax))
+        print("minimum value =%f at "%job._mn,hx.toCart(job._imin))
         print("number of nonzero sammples=",job._nzero)
         print("total number of samples=",n123)
     elif args.want=="min":

@@ -843,10 +843,8 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
   {
     bool found = false;
     iread = 1;
-    fprintf(stderr, "outer loop %d %d \n", idone, iread);
     while (!found && idone + iread < itrs.size())
     {
-      fprintf(stderr, "middle loop %d %d \n", idone, iread);
       if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999)
       {
         found = true;
@@ -863,11 +861,8 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
       }
       else
         iread += 1;
-      fprintf(stderr, "middle end %d %d \n", idone, iread);
     }
-    fprintf(stderr, "outer end loop %d %d \n", idone, iread);
   }
-  fprintf(stderr, "seeking to %d reading %d \n", itrs[idone][1], iread);
   sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
 
   int ierr = sreed(_tag.c_str(), temp, iread * n1);

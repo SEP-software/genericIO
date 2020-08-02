@@ -178,7 +178,7 @@ if __name__ == "__main__":
             mx=str(v._mx)
             mxS=" "*(10-len(mx))
             print(v._nzero)
-            pct=str(int(10000-v._nzero/nh*10000)/100)
+            pct=str(float(int(10000-v._nzero/nh*10000)/100))
             avg=v._sm/nh
             pN=" "*(10-len(pct))
             print("%s %s %s %s %s %s %s %s %s"%(k,sp,mn,mnS,mx,mxS,pct,pN,avg))

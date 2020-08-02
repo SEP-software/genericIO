@@ -74,7 +74,7 @@ if __name__ == "__main__":
     if args.io:
         ioIn=genericIO.io(args.io)
     
-    if "irregularFile" !=ioIn.getFileType():
+    if "irregularFile" !=ioIn.getFileType(args.input):
         raise "File is not an irregular file"
 
     inFile=ioIn.getIrregFile(args.input)

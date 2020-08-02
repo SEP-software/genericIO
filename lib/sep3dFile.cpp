@@ -849,7 +849,9 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
       {
         found = true;
         sseek_block(_tag.c_str(), itrs[idone][1], n1, 0);
-        fprintf(stderr, "SEEK TO %d read %d\n", itrs[idone][1], iread);
+
+        fprintf(stderr, "SEEK TO %d read %d n1=%d seek=%d\n", itrs[idone][1], iread, n1,
+                sseek(_tag.c_str(), 0, 1));
         if (iread * n1 != sreed(_tag.c_str(), temp, iread * n1))
           throw SEPException("trouble reading data");
         for (int i = 0; i < iread; i++)

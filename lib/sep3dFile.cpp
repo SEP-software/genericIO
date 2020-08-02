@@ -859,12 +859,12 @@ void sep3dFile::readArrangeTraces(std::vector<std::vector<int>> &itrs,
                  n1);
         }
         idone += iread;
+        iread = 0;
       }
       else
         iread += 1;
       fprintf(stderr, "middle end %d %d \n", idone, iread);
     }
-    iread = 0;
     fprintf(stderr, "outer end loop %d %d \n", idone, iread);
   }
   fprintf(stderr, "seeking to %d reading %d \n", itrs[idone][1], iread);

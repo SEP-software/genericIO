@@ -18,7 +18,7 @@ usageConvert = {"usageIn": pyGenericIO.usage_code.usageIn,
                 "usageScr": pyGenericIO.usage_code.usageScr}
 
 fileType ={
-    "invalid": pyGenericIO.file_type.invalid,
+    "invalidFile": pyGenericIO.file_type.invalidFile,
     "regularFile": pyGenericIO.file_type.regularFile,
     "irregularFile": pyGenericIO.file_type.irregularFile}
 
@@ -1051,7 +1051,7 @@ class io:
     def getFileType(self):
         """Return fileType"""
         return self.cppMode.getFileType()
-        
+
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""
         if(len(arg) == 1):

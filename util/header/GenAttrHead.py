@@ -132,7 +132,7 @@ if __name__ == "__main__":
     if args.io:
         ioIn=genericIO.io(args.io)
 
-    if file_type.irregularFile!=ioIn.getFileType():
+    if pyGenericIO.file_type.irregularFile!=ioIn.getFileType():
         raise "File is not an irregular file"
     inFile=ioIn.getIrregFile(args.input)
 

@@ -776,7 +776,6 @@ class irregFile:
         nw, fw, jw = SepVector.fixWindow(axes,**kw)
         if nw[0] != axes[0].n:
             raise Exception("Right now can no handle windowing the first axis")
-        print("WINDOWS",nw,fw,jw)
         if self.storage == "dataFloat":
             head,v,grid=self.cppMode.readFloatTraceWindow(nw,fw,jw)
             vec=SepVector.floatVector(fromCpp=v)
@@ -869,7 +868,6 @@ class irregFile:
             n1-=2
         elif typ[klast]=="dataByte":
             n1-=3
-        print("CHECK",n1,klast,off[klast])
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)

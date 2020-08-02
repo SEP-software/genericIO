@@ -30,7 +30,7 @@ sepIO::getIrregFileTag(const std::string &tag, const std::string &name,
   return x;
 }
 
-SEP::file_type getFileType(const std::string &name)
+SEP::file_type sepIO::getFileType(const std::string &name)
 {
 
   std::ifstream inps;

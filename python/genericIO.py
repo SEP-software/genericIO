@@ -1048,11 +1048,9 @@ class io:
         """Return type"""
         return self.cppMode.getType()
 
-    def getFileType(self):
+    def getFileType(self,nm):
         """Return fileType"""
-        x=self.cppMode.getFileType()
-        print(x)
-        return fileType[self.cppMode.getFileType()]
+        return fileType[self.cppMode.getFileType(nm)]
 
     def getInt(self, tag, *arg):
         """Get integer from a given IO"""

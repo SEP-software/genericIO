@@ -208,7 +208,7 @@ namespace SEP
                    "Write a stream of floats")
 
               .def("putDescriptionString",
-                   (void (genericRegFile::*)(const std::string &)) &
+                   (void (genericRegFile::*)(const std::string &, const std::string &)) &
                        genericRegFile::putDescriptionString,
                    "Put the  description into the file")
               .def("getDescriptionString",

@@ -225,20 +225,20 @@ class regFile:
         """Remove the given dataset"""
         self.cppMode.remove()
     
-    def addHistory(self,fle):
+def addHistory(self,fle):
         """
             fle - File(s) to read description from
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            self.cppMode.putDescriptionString(fle.cppMode.getDescriptionString())
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString(f.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString(v.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":
@@ -715,15 +715,15 @@ class irregFile:
             fle - File(s) to read description from
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            self.cppMode.putDescriptionString("FILE:"+fle.tag+"\n"+fle.cppMode.getDescriptionString())
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString("FILE:"+fle.tag+"\n"+f.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString("FILE:"+v+"\n"+v.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def __repr__(self):
         """Print information about file"""
         x="Irregular file type=%s \t "%self._type
@@ -764,17 +764,16 @@ class irregFile:
         """
             fle - File(s) to read description from
         """
-        print("XXX=",fle.cppMode.getDescriptionString())
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            self.cppMode.putDescriptionString(fle.cppMode.getDescriptionString())
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString(f.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString(v.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

@@ -230,15 +230,15 @@ class regFile:
             fle - File(s) to read description from
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
+            self.cppMode.putDescriptionString(fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f.cppMode.getDescriptionString())
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":
@@ -765,15 +765,15 @@ class irregFile:
             fle - File(s) to read description from
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            self.cppMode.putDescriptionString("FILE:"+fle.tag+"\n"+fle.cppMode.getDescriptionString())
+            self.cppMode.putDescriptionString(fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString("FILE:"+fle.tag+"\n"+f.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(f.cppMode.getDescriptionString())
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString("FILE:"+v+"\n"+v.cppMode.getDescriptionString())
+                    self.cppMode.putDescriptionString(v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

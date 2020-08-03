@@ -575,8 +575,10 @@ Json::Value sep3dFile::getDescription()
   std::stringstream stream;
   Json::Value j;
   j["History"] = d;
+  std::cerr << "in loop " << std::endl;
   while (std::getline(stream, tmp, delim))
   {
+    std::cerr << "add line " << tmp << std::endl;
     j.append(tmp);
   }
 

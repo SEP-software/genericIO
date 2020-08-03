@@ -559,6 +559,7 @@ void sep3dFile::message(const std::string &arg) const
 // Get description
 Json::Value sep3dFile::getDescription()
 {
+  std::cerr << "in ge scriotion" << std::endl;
   char *tmp_ch;
   int nsz = 100000;
   int nout = nsz * 2;

@@ -558,6 +558,7 @@ class irregFile:
             self.copyDataDescription(kw["dataIn"])
             self.cppMode.putHeaderKeyTypes(header.getKeyTypes())
             self.cppMode.putHeaderKeyList(header._keyOrder)
+            self._keyOrder=header._keyOrder
             hyp=Hypercube.hypercube(ns=[1000,header._nh])
             self.cppMode.setHyperHeader(hyp.cppMode)
             if header._gridHyper:
@@ -632,6 +633,7 @@ class irregFile:
             self.cppMode.setHyperData(vec._traces.getHyper().cppMode)
             hyp=Hypercube.hypercube(ns=[1000,vec._header._nh])
             self.cppMode.setHyperHeader(hyp.cppMode)
+            self._keyOrder=vec._header._keyOrder
 
             self.cppMode.setHyper(vec.getHyper().cppMode)
             self.cppMode.setDataType(storageConvert[self.storage])
@@ -649,6 +651,7 @@ class irregFile:
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)
+            self._keyOrder=self.cppMode.getHeaderKeyList()
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
     def getDataDescription(self):

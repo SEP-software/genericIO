@@ -848,9 +848,7 @@ class irregFile:
         if self.storage == "dataFloat":
             self.cppMode.writeFloatTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataInt":
-            print("IM data int")
             self.cppMode.writeIntTraceWindow(nw, fw, jw, head.cppMode,vec._traces.cppMode,grid.cppMode)
-            pri("through write")
         elif self.storage == "dataByte":
             self.cppMode.writeByteTraceWindow(nw, fw, jw,head.cppMode, vec._traces.cppMode,grid.cppMode)
         elif self.storage == "dataShort":

@@ -575,6 +575,7 @@ Json::Value sep3dFile::getDescription()
   std::stringstream stream;
   stream.str(d);
   std::cerr << "in loop " << std::endl;
+  Json::Value j;
   while (std::getline(stream, tmp, delim))
   {
     std::cerr << "add line " << tmp << std::endl;

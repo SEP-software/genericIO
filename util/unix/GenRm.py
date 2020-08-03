@@ -23,8 +23,15 @@ if __name__ == "__main__":
         io=genericIO.io(args.io)  
 
 
-for f in args.files:        
-    inFile=io.getRegFile(f)
+for f in args.files:  
+    fileType=ioIn.getFileType(f)
+
+    if fileType == "invalidFile":
+        raise Exception("Invalid file of selected IO") 
+    elif fileType == "regFile":     
+        inFile=io.getRegFile(f)
+    else:
+        inFIle=io.getIrregFile(f)
     inFile.remove()
 
 

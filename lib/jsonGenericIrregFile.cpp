@@ -11,20 +11,24 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
                                            const std::string &tag,
                                            const int reelH, const int traceH,
                                            const std::string &progName,
-                                           const int ndim) {
+                                           const int ndim)
+{
   _usage = usage;
   setupJson(arg, tag);
   _reelH = reelH;
   _traceH = traceH;
 
-  if (!_newFile) {
+  if (!_newFile)
+  {
     readDescription(ndim);
     std::shared_ptr<myFileIO> x(
         new myFileIO(getDataFileName(), usage, reelH, traceH,
                      jsonArgs.get("esize", 4).asInt(),
                      jsonArgs.get("swapData", false).asBool(), getHyper()));
     myio = x;
-  } else {
+  }
+  else
+  {
     std::string datapath = std::string("./");
     if (const char *env_p = std::getenv("DATAPATH"))
       datapath = std::string(env_p);
@@ -37,40 +41,51 @@ jsonGenericIrregFile::jsonGenericIrregFile(const Json::Value &arg,
 }
 
 // A Function to a vector of length [n][2] based on the second
-bool sortFuncJSON(std::vector<int> i, std::vector<int> j) {
+bool sortFuncJSON(std::vector<int> i, std::vector<int> j)
+{
   return (i[1] < j[1]);
 }
 
 void jsonGenericIrregFile::setupJson(const Json::Value &arg,
                                      const std::string &tag,
-                                     const std::string desFileDefault) {
+                                     const std::string desFileDefault)
+{
   _tag = tag;
 
-  if (arg[tag].isNull()) {
+  if (arg[tag].isNull())
+  {
     _jsonFile = _tag + desFileDefault;
-  } else {
+  }
+  else
+  {
     _jsonFile = arg[tag].asString();
   }
   _newFile = true;
   if (_usage == usageIn)
     _newFile = false;
-  else if (_usage == usageInOut) {
+  else if (_usage == usageInOut)
+  {
     std::ifstream f(getJSONFileName());
     _newFile = !f.good();
     f.close();
   }
 
-  if (_usage == usageIn || !_newFile) {
+  if (_usage == usageIn || !_newFile)
+  {
     std::ifstream inps;
     inps.open(getJSONFileName(), std::ifstream::in);
-    if (!inps) {
+    if (!inps)
+    {
       std::cerr << std::string("Trouble opening1 " + getJSONFileName())
                 << std::endl;
       throw std::exception();
     }
-    try {
+    try
+    {
       inps >> jsonArgs;
-    } catch (int x) {
+    }
+    catch (int x)
+    {
       std::cerr << std::string("Trouble parsing JSON file " + getJSONFileName())
                 << std::endl;
       throw std::exception();
@@ -79,9 +94,27 @@ void jsonGenericIrregFile::setupJson(const Json::Value &arg,
     //  _binary = _dataFile;
   }
 }
+
+std::string jsonGenericIrregFile::grabHistory()
+{
+
+  std::string tmp = " ";
+  return tmp;
+}
+
+/*!
+   Put history from a file
+
+   \param hist - History file to add to afile 
+
+*/
+std::string jsonGenericIrregFile::putHistory(const std::string &hist)
+{
+}
 std::string jsonGenericIrregFile::getJSONFileName() const { return _jsonFile; }
 std::string jsonGenericIrregFile::getDataFileName() const { return _dataFile; }
-int jsonGenericIrregFile::getInt(const std::string &arg) const {
+int jsonGenericIrregFile::getInt(const std::string &arg) const
+{
   int x;
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
@@ -89,18 +122,21 @@ int jsonGenericIrregFile::getInt(const std::string &arg) const {
   x = jsonArgs.get(arg, 1).asInt();
   return x;
 }
-int jsonGenericIrregFile::getInt(const std::string &arg, const int def) const {
+int jsonGenericIrregFile::getInt(const std::string &arg, const int def) const
+{
   int x = jsonArgs.get(arg, def).asInt();
   return x;
 }
 float jsonGenericIrregFile::getFloat(const std::string &arg,
-                                     const float def) const {
+                                     const float def) const
+{
   float x;
   x = jsonArgs.get(arg, def).asFloat();
   return x;
 }
 
-float jsonGenericIrregFile::getFloat(const std::string &arg) const {
+float jsonGenericIrregFile::getFloat(const std::string &arg) const
+{
   float x;
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
@@ -108,7 +144,8 @@ float jsonGenericIrregFile::getFloat(const std::string &arg) const {
   x = jsonArgs.get(arg, 1.).asFloat();
   return x;
 }
-std::string jsonGenericIrregFile::getString(const std::string &arg) const {
+std::string jsonGenericIrregFile::getString(const std::string &arg) const
+{
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
@@ -116,20 +153,24 @@ std::string jsonGenericIrregFile::getString(const std::string &arg) const {
   return jsonArgs.get(arg, "").asString();
 }
 std::string jsonGenericIrregFile::getString(const std::string &arg,
-                                            const std::string &def) const {
+                                            const std::string &def) const
+{
   return jsonArgs.get(arg, def).asString();
 }
-bool jsonGenericIrregFile::getBool(const std::string &arg, bool def) const {
+bool jsonGenericIrregFile::getBool(const std::string &arg, bool def) const
+{
   return jsonArgs.get(arg, def).asBool();
 }
-bool jsonGenericIrregFile::getBool(const std::string &arg) const {
+bool jsonGenericIrregFile::getBool(const std::string &arg) const
+{
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
   return jsonArgs.get(arg, false).asBool();
 }
 std::vector<int> jsonGenericIrregFile::getInts(const std::string &arg,
-                                               const int nvals) const {
+                                               const int nvals) const
+{
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
@@ -142,12 +183,16 @@ std::vector<int> jsonGenericIrregFile::getInts(const std::string &arg,
 }
 std::vector<int>
 jsonGenericIrregFile::getInts(const std::string &arg,
-                              const std::vector<int> &defs) const {
+                              const std::vector<int> &defs) const
+{
   std::vector<int> x;
-  if (jsonArgs[arg].isNull()) {
+  if (jsonArgs[arg].isNull())
+  {
     for (int i = 0; i < defs.size(); i++)
       x.push_back(defs[i]);
-  } else {
+  }
+  else
+  {
     const Json::Value vals = jsonArgs[arg];
     for (int i = 0; i < defs.size(); i++)
       x.push_back(vals[i].asInt());
@@ -155,7 +200,8 @@ jsonGenericIrregFile::getInts(const std::string &arg,
   return x;
 }
 std::vector<float> jsonGenericIrregFile::getFloats(const std::string &arg,
-                                                   const int nvals) const {
+                                                   const int nvals) const
+{
   if (jsonArgs[arg].isNull())
     error(std::string("trouble grabbing parameter ") + arg +
           std::string(" from parameters"));
@@ -168,12 +214,16 @@ std::vector<float> jsonGenericIrregFile::getFloats(const std::string &arg,
 }
 std::vector<float>
 jsonGenericIrregFile::getFloats(const std::string &arg,
-                                const std::vector<float> &defs) const {
+                                const std::vector<float> &defs) const
+{
   std::vector<float> x;
-  if (jsonArgs[arg].isNull()) {
+  if (jsonArgs[arg].isNull())
+  {
     for (int i = 0; i < defs.size(); i++)
       x.push_back(defs[i]);
-  } else {
+  }
+  else
+  {
     const Json::Value vals = jsonArgs[arg];
     for (int i = 0; i < defs.size(); i++)
       x.push_back(vals[i].asFloat());
@@ -181,38 +231,46 @@ jsonGenericIrregFile::getFloats(const std::string &arg,
   return x;
 }
 
-void jsonGenericIrregFile::putInt(const std::string &par, const int val) {
+void jsonGenericIrregFile::putInt(const std::string &par, const int val)
+{
   jsonArgs[par] = val;
 }
-void jsonGenericIrregFile::putFloat(const std::string &par, const float val) {
+void jsonGenericIrregFile::putFloat(const std::string &par, const float val)
+{
   jsonArgs[par] = val;
 }
 void jsonGenericIrregFile::putString(const std::string &par,
-                                     const std::string &val) {
+                                     const std::string &val)
+{
   jsonArgs[par] = val;
 }
-void jsonGenericIrregFile::putBool(const std::string &par, const bool val) {
+void jsonGenericIrregFile::putBool(const std::string &par, const bool val)
+{
   jsonArgs[par] = val;
 }
 void jsonGenericIrregFile::putInts(const std::string &par,
-                                   const std::vector<int> &val) {
+                                   const std::vector<int> &val)
+{
   Json::Value vals;
   for (int i = 0; i < val.size(); i++)
     vals.append(val[i]);
   jsonArgs[par] = vals;
 }
 void jsonGenericIrregFile::putFloats(const std::string &par,
-                                     const std::vector<float> &val) {
+                                     const std::vector<float> &val)
+{
   Json::Value vals;
   for (int i = 0; i < val.size(); i++)
     vals.append(val[i]);
   jsonArgs[par] = vals;
 }
-void jsonGenericIrregFile::readDescription(const int ndimMax) {
+void jsonGenericIrregFile::readDescription(const int ndimMax)
+{
   int ndim;
   bool breakIt = false;
   int iax = 9;
-  while (iax >= 1 && !breakIt) {
+  while (iax >= 1 && !breakIt)
+  {
     std::string tmp;
     int n = getInt("n" + std::to_string(iax), 1);
     float o = getFloat("o" + std::to_string(iax), 0.);
@@ -227,7 +285,8 @@ void jsonGenericIrregFile::readDescription(const int ndimMax) {
   ndim = iax;
 
   std::vector<axis> axes;
-  for (int i = 1; i <= ndim; i++) {
+  for (int i = 1; i <= ndim; i++)
+  {
     int n = getInt(std::string("n") + std::to_string(i), 1);
     float o = getFloat(std::string("o") + std::to_string(i), 0.);
     float d = getFloat(std::string("d") + std::to_string(i), 1.);
@@ -251,17 +310,21 @@ void jsonGenericIrregFile::readDescription(const int ndimMax) {
   std::shared_ptr<hypercube> hyper(new hypercube(axes));
   setHyper(hyper);
 }
-void jsonGenericIrregFile::setHistory(const Json::Value &input) {
+void jsonGenericIrregFile::setHistory(const Json::Value &input)
+{
   Json::Value hist;
-  if (!input["history"].isNull()) {
+  if (!input["history"].isNull())
+  {
     hist = input["history"];
   }
   Json::Value last;
   for (Json::Value::const_iterator itr = input.begin(); itr != input.end();
-       itr++) {
+       itr++)
+  {
     std::string key = itr.key().toStyledString();
     Json::Value value = (*itr);
-    if (key == std::string("history")) {
+    if (key == std::string("history"))
+    {
       last[key] = value;
     }
   }
@@ -269,70 +332,88 @@ void jsonGenericIrregFile::setHistory(const Json::Value &input) {
   jsonArgs["history"] = hist;
 }
 
-void jsonGenericIrregFile::writeDescription() {
+void jsonGenericIrregFile::writeDescription()
+{
   std::shared_ptr<hypercube> hyper = getHyper();
   std::vector<axis> axes = hyper->returnAxes(hyper->getNdim());
-  for (int i = 1; i <= axes.size(); i++) {
+  for (int i = 1; i <= axes.size(); i++)
+  {
     putInt(std::string("n") + std::to_string(i), axes[i - 1].n);
     putFloat(std::string("o") + std::to_string(i), axes[i - 1].o);
     putFloat(std::string("d") + std::to_string(i), axes[i - 1].d);
     putString(std::string("label") + std::to_string(i), axes[i - 1].label);
   }
 }
-void jsonGenericIrregFile::close() {
+void jsonGenericIrregFile::close()
+{
   myio->close();
-  if (_usage == usageOut || _usage == usageInOut) {
+  if (_usage == usageOut || _usage == usageInOut)
+  {
     std::ofstream outps;
     outps.open(getJSONFileName(), std::ofstream::out);
-    if (!outps) {
+    if (!outps)
+    {
       std::cerr << std::string("Trouble opening for write") + getJSONFileName()
                 << std::endl;
       throw std::exception();
     }
-    try {
+    try
+    {
       outps << jsonArgs;
-    } catch (int x) {
+    }
+    catch (int x)
+    {
       std::cerr << std::string("Trouble writing JSON file ") + getJSONFileName()
                 << std::endl;
       throw std::exception();
     }
   }
 }
-void jsonGenericIrregFile::message(const std::string &errm) const {
+void jsonGenericIrregFile::message(const std::string &errm) const
+{
   std::cerr << errm << std::endl;
 }
-void jsonGenericIrregFile::error(const std::string &errm) const {
+void jsonGenericIrregFile::error(const std::string &errm) const
+{
   std::cerr << errm << std::endl;
   throw std::exception();
 }
-std::vector<std::string> jsonGenericIrregFile::getHeaderKeyList() const {
+std::vector<std::string> jsonGenericIrregFile::getHeaderKeyList() const
+{
   std::vector<std::string> lst;
-  for (int i = 0; i < _keys.size(); i++) {
+  for (int i = 0; i < _keys.size(); i++)
+  {
     lst.push_back(_keys[i]);
   }
   return lst;
 }
 
 std::map<std::string, std::string>
-jsonGenericIrregFile::getHeaderKeyTypes() const {
+jsonGenericIrregFile::getHeaderKeyTypes() const
+{
   std::map<std::string, std::string> lst;
-  for (auto k = _keyType.begin(); k != _keyType.end(); k++) {
+  for (auto k = _keyType.begin(); k != _keyType.end(); k++)
+  {
     lst[k->first] = k->second;
   }
   return lst;
 }
 
 void jsonGenericIrregFile::putHeaderKeyList(
-    const std::vector<std::string> &keylist) {
+    const std::vector<std::string> &keylist)
+{
   _keys.clear();
-  for (int i = 0; i < keylist.size(); i++) {
+  for (int i = 0; i < keylist.size(); i++)
+  {
     _keys.push_back(keylist[i]);
   }
 }
 void jsonGenericIrregFile::putHeaderKeyTypes(
-    const std::map<std::string, std::string> &typs) {
+    const std::map<std::string, std::string> &typs)
+{
   _keyType.clear();
-  for (auto k = typs.begin(); k != typs.end(); k++) {
+  for (auto k = typs.begin(); k != typs.end(); k++)
+  {
     _keyType[k->first] = k->second;
   }
 }
@@ -341,7 +422,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
                                        const std::vector<int> &fwind,
-                                       const std::vector<int> &jwind) {
+                                       const std::vector<int> &jwind)
+{
   std::vector<std::vector<int>> headerLocs =
       readHeaderLocs(nwind, fwind, jwind);
   size_t idone = 0;
@@ -352,12 +434,15 @@ jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> headers(
       new byte2DReg(4 * _keys.size(), headerLocs.size()));
   std::shared_ptr<int1DReg> drns(new int1DReg(headerLocs.size()));
-  while (idone < headerLocs.size()) {
+  while (idone < headerLocs.size())
+  {
     int ifirst = headerLocs[idone][1];
     bool found = false;
     int imore = 1;
-    while (!found && ifirst + imore < headerLocs.size()) {
-      if (headerLocs[idone][1] != idone + ifirst) {
+    while (!found && ifirst + imore < headerLocs.size())
+    {
+      if (headerLocs[idone][1] != idone + ifirst)
+      {
         found = true;
         int ii = idone + 1;
         // if (0 !=
@@ -365,11 +450,13 @@ jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
         // throw SEPException(std::string("Trouble reading headers"));
         extractDRN(headers, idone, imore, drns, headBuf);
         idone += imore;
-      } else
+      }
+      else
         imore += 1;
     }
   }
-  if (idone != headerLocs.size()) {
+  if (idone != headerLocs.size())
+  {
     int ii = idone + 1;
     int imore = headerLocs.size() - idone;
     // if (0 != sep_get_val_headers(_tag.c_str(), &ii, &imore,
@@ -383,10 +470,12 @@ jsonGenericIrregFile::readHeaderWindow(const std::vector<int> &nwind,
 void jsonGenericIrregFile::extractDRN(std::shared_ptr<byte2DReg> outV,
                                       const int ifirst, const int ntransfer,
                                       std::shared_ptr<int1DReg> drns,
-                                      std::shared_ptr<byte2DReg> &temp) {
+                                      std::shared_ptr<byte2DReg> &temp)
+{
   int end = 0, beg = 4 * _keys.size();
   int n1out = beg, n1in = beg;
-  if (_drn >= 0) {
+  if (_drn >= 0)
+  {
     beg = 4 * _drn;
     end = 4 * (_keys.size() - _drn);
     n1in += 4;
@@ -395,7 +484,8 @@ void jsonGenericIrregFile::extractDRN(std::shared_ptr<byte2DReg> outV,
   unsigned char *in = temp->getVals();
   unsigned char *out = outV->getVals();
   int *rns = drns->getVals();
-  for (int i = 0; i < ntransfer; i++) {
+  for (int i = 0; i < ntransfer; i++)
+  {
     memcpy(out + n1out * (ifirst + i), in + n1in * i, beg);
     if (_drn >= 0)
       memcpy(rns + ifirst + i, in + n1in * i + beg, 4);
@@ -407,9 +497,11 @@ void jsonGenericIrregFile::extractDRN(std::shared_ptr<byte2DReg> outV,
 std::vector<std::vector<int>>
 jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
                                      const std::vector<int> &fwind,
-                                     const std::vector<int> &jwind) {
+                                     const std::vector<int> &jwind)
+{
 
-  if (_haveGrid) {
+  if (_haveGrid)
+  {
     std::vector<int> ng, nw = nwind, fw = fwind, jw = jwind;
 
     nw[0] = 1;
@@ -433,8 +525,10 @@ jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
         ireal++;
     std::vector<std::vector<int>> headPos(ireal, std::vector<int>(2));
     ireal = 0;
-    for (auto i = 0; i < n123; i++) {
-      if (grid[i] >= 0) {
+    for (auto i = 0; i < n123; i++)
+    {
+      if (grid[i] >= 0)
+      {
         headPos[ireal][0] = ireal;
         headPos[ireal][1] = grid[i] - 1;
         ireal++;
@@ -442,7 +536,9 @@ jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
     }
     std::sort(headPos.begin(), headPos.end(), sortFuncJSON);
     return headPos;
-  } else {
+  }
+  else
+  {
     std::vector<int> bs(1, 1);
     std::vector<int> ns = _hyperHeader->getNs();
     for (auto i = 1; i < ns.size(); i++)
@@ -450,7 +546,8 @@ jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
 
     std::vector<std::vector<int>> headPos(bs[ns.size()], std::vector<int>(2));
 
-    for (auto i = 0; i < headPos.size(); i++) {
+    for (auto i = 0; i < headPos.size(); i++)
+    {
       headPos[i][0] = i;
       headPos[i][1] = i;
     }
@@ -458,18 +555,23 @@ jsonGenericIrregFile::readHeaderLocs(const std::vector<int> &nwind,
   }
 }
 void jsonGenericIrregFile::readArrangeTraces(
-    std::vector<std::vector<int>> &itrs, const int n1, void *temp, void *data) {
+    std::vector<std::vector<int>> &itrs, const int n1, void *temp, void *data)
+{
 
   int idone = 0;
-  while (idone < itrs.size()) {
+  while (idone < itrs.size())
+  {
     bool found = false;
     int iread = 1;
-    while (!found && idone + iread < itrs.size()) {
-      if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999) {
+    while (!found && idone + iread < itrs.size())
+    {
+      if (itrs[idone + iread][1] != itrs[idone][1] + iread || iread > 9999)
+      {
         found = true;
         //   if (iread * n1 != sreed(_tag.c_str(), temp, iread * n1))
         //    throw SEPException("trouble reading data");
-        for (int i = 0; i < iread; i++) {
+        for (int i = 0; i < iread; i++)
+        {
           memcpy((char *)data + itrs[idone + i][0] * n1, (char *)temp + i * n1,
                  n1);
         }
@@ -484,7 +586,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<float2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
                                            const std::vector<int> &fwind,
-                                           const std::vector<int> &jwind) {
+                                           const std::vector<int> &jwind)
+{
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Attempt to read float from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
@@ -495,7 +598,8 @@ jsonGenericIrregFile::readFloatTraceWindow(const std::vector<int> &nwind,
       new float2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -511,7 +615,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
                                          const std::vector<int> &fwind,
-                                         const std::vector<int> &jwind) {
+                                         const std::vector<int> &jwind)
+{
   if (getDataType() != DATA_INT)
     throw SEPException("Attempt to read int from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
@@ -522,7 +627,8 @@ jsonGenericIrregFile::readIntTraceWindow(const std::vector<int> &nwind,
   int n1 = _hyperData->getAxis(1).n;
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -537,7 +643,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<double2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
                                             const std::vector<int> &fwind,
-                                            const std::vector<int> &jwind) {
+                                            const std::vector<int> &jwind)
+{
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
@@ -549,7 +656,8 @@ jsonGenericIrregFile::readDoubleTraceWindow(const std::vector<int> &nwind,
   int n1 = _hyperData->getAxis(1).n;
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -563,7 +671,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<byte2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
                                           const std::vector<int> &fwind,
-                                          const std::vector<int> &jwind) {
+                                          const std::vector<int> &jwind)
+{
 
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
@@ -574,7 +683,8 @@ jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
   std::shared_ptr<byte2DReg> data(new byte2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -587,11 +697,13 @@ jsonGenericIrregFile::readByteTraceWindow(const std::vector<int> &nwind,
   return std::make_tuple(std::get<0>(head_drn), data, nullptr);
 }
 
-Json::Value jsonGenericIrregFile::getDataDescription() {
+Json::Value jsonGenericIrregFile::getDataDescription()
+{
   Json::Value x;
   return x;
 }
-void jsonGenericIrregFile::putDataDescription(const Json::Value &desc) {
+void jsonGenericIrregFile::putDataDescription(const Json::Value &desc)
+{
   if (desc["a"].asInt() == 4)
     ;
   ;
@@ -601,7 +713,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complex2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
                                              const std::vector<int> &fwind,
-                                             const std::vector<int> &jwind) {
+                                             const std::vector<int> &jwind)
+{
   if (getDataType() != DATA_COMPLEX)
     throw SEPException("Attempt to read int from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
@@ -612,7 +725,8 @@ jsonGenericIrregFile::readComplexTraceWindow(const std::vector<int> &nwind,
       new complex2DReg(_hyperData->getAxis(1).n, ntr));
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -628,7 +742,8 @@ std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<complexDouble2DReg>,
            std::shared_ptr<byte1DReg>>
 jsonGenericIrregFile::readComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
-    const std::vector<int> &jwind) {
+    const std::vector<int> &jwind)
+{
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Attempt to read int from a non-float file");
   auto head_drn = readHeaderWindow(nwind, fwind, jwind);
@@ -640,7 +755,8 @@ jsonGenericIrregFile::readComplexDoubleTraceWindow(
   int n1 = _hyperData->getAxis(1).n;
 
   std::vector<std::vector<int>> headPos(ntr, std::vector<int>(2));
-  for (int i = 0; i < ntr; i++) {
+  for (int i = 0; i < ntr; i++)
+  {
     headPos[i][0] = i;
     headPos[i][1] = (*drn->_mat)[i];
   }
@@ -653,7 +769,8 @@ jsonGenericIrregFile::readComplexDoubleTraceWindow(
 void jsonGenericIrregFile::addtDRN(std::shared_ptr<byte2DReg> inV,
                                    const int ifirst, const int ntransfer,
                                    std::shared_ptr<int1DReg> drns,
-                                   std::shared_ptr<byte2DReg> &outV) {
+                                   std::shared_ptr<byte2DReg> &outV)
+{
   int n1in = inV->getHyper()->getAxis(1).n * 4;
   int n1out = outV->getHyper()->getAxis(1).n * 4;
 
@@ -661,7 +778,8 @@ void jsonGenericIrregFile::addtDRN(std::shared_ptr<byte2DReg> inV,
   unsigned char *out = outV->getVals();
 
   int *rns = drns->getVals();
-  for (int i = 0; i < ntransfer; i++) {
+  for (int i = 0; i < ntransfer; i++)
+  {
     memcpy(out + n1out * i, in + n1in * i, n1in);
     memcpy(out + n1out * i + n1in, rns + i, 4);
   }
@@ -672,7 +790,8 @@ void jsonGenericIrregFile::writeGrid(const std::vector<int> &nwind,
                                      const std::shared_ptr<byte2DReg> &headers,
                                      const std::shared_ptr<byte1DReg> &byte
 
-) {
+)
+{
 
   long long first = 0, last = 0;
   long long sz = 1;
@@ -680,7 +799,8 @@ void jsonGenericIrregFile::writeGrid(const std::vector<int> &nwind,
   if (!_haveGrid)
     throw SEPException("Can not write dataset that doesn't have a grid");
   std::vector<int> ns = _hyper->getNs();
-  for (auto i = 0; i < nwind.size(); i++) {
+  for (auto i = 0; i < nwind.size(); i++)
+  {
     first += fwind[i] * sz;
     last += (fwind[i] + jwind[i] * nwind[i]) * sz;
     sz = sz * (long long)nwind[i];
@@ -688,7 +808,8 @@ void jsonGenericIrregFile::writeGrid(const std::vector<int> &nwind,
   if (_writeLastG + 1 != first)
     throw SEPException("Non-consecutive read of grid");
   int n2h = 0;
-  for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
+  for (auto i = 0; i < byte->getHyper()->getN123(); i++)
+  {
     if ((*byte->_mat)[i] > 0)
       n2h += 1;
   }
@@ -697,8 +818,10 @@ void jsonGenericIrregFile::writeGrid(const std::vector<int> &nwind,
         "Number of headers does not match number of non-zero grid elements");
   int ih = 0;
   std::shared_ptr<int1DReg> grid(new int1DReg(byte->getHyper()->getN123()));
-  for (auto i = 0; i < byte->getHyper()->getN123(); i++) {
-    if ((*byte->_mat)[i] != 0) {
+  for (auto i = 0; i < byte->getHyper()->getN123(); i++)
+  {
+    if ((*byte->_mat)[i] != 0)
+    {
       ih++;
       (*grid->_mat)[i] = _writeLastH + ih;
     }
@@ -716,12 +839,14 @@ void jsonGenericIrregFile::writeHeaderWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<int1DReg> &drn,
     const std::shared_ptr<byte2DReg> &headers,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
 
   writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
 
-  if (_inOrder) {
+  if (_inOrder)
+  {
     int ifirst = _writeLastH + 1;
     int nblock = ns[1];
 
@@ -731,11 +856,13 @@ void jsonGenericIrregFile::writeHeaderWindow(
     // throw SEPException("Trouble writing headers");
   }
 
-  else {
+  else
+  {
     std::shared_ptr<byte2DReg> temp(
         new byte2DReg(ns[0] + 4, std::min(100000, ns[1])));
     int idone = 0;
-    while (idone < ns[1]) {
+    while (idone < ns[1])
+    {
       int nblock = (ns[1] - idone, 100000);
       int ifirst = _writeLastH + idone + 1;
       // if (0 !=
@@ -753,7 +880,8 @@ void jsonGenericIrregFile::writeComplexDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, std::shared_ptr<byte2DReg> &headers,
     std::shared_ptr<complexDouble2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
 
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Expecting datatype complex double");
@@ -777,7 +905,8 @@ void jsonGenericIrregFile::writeComplexTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
     const std::shared_ptr<complex2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
   if (getDataType() != DATA_COMPLEXDOUBLE)
     throw SEPException("Expecting datatype complex ");
 
@@ -799,7 +928,8 @@ void jsonGenericIrregFile::writeDoubleTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
     const std::shared_ptr<double2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
   if (getDataType() != DATA_DOUBLE)
     throw SEPException("Expecting datatype double");
 
@@ -822,7 +952,8 @@ void jsonGenericIrregFile::writeIntTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
     const std::shared_ptr<int2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
   if (getDataType() != DATA_INT)
     throw SEPException("Expecting datatype int");
 
@@ -845,7 +976,8 @@ void jsonGenericIrregFile::writeFloatTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
     const std::shared_ptr<float2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
   if (getDataType() != DATA_FLOAT)
     throw SEPException("Expecting datatype complex double");
 
@@ -869,7 +1001,8 @@ void jsonGenericIrregFile::writeByteTraceWindow(
     const std::vector<int> &nwind, const std::vector<int> &fwind,
     const std::vector<int> &jwind, const std::shared_ptr<byte2DReg> &headers,
     const std::shared_ptr<byte2DReg> &data,
-    const std::shared_ptr<byte1DReg> &grid) {
+    const std::shared_ptr<byte1DReg> &grid)
+{
   if (getDataType() != DATA_BYTE)
     throw SEPException("Expecting datatype byte");
 
@@ -897,13 +1030,15 @@ Set that the data is out of order
 */
 void jsonGenericIrregFile::setOutOfOrder() { _inOrder = false; }
 
-std::string jsonGenericIrregFile::getJSONFileBaseName() const {
+std::string jsonGenericIrregFile::getJSONFileBaseName() const
+{
 
   char seperator = '/';
   std::string filePath = getJSONFileName();
   std::size_t sepPos = filePath.rfind(seperator);
 
-  if (sepPos != std::string::npos) {
+  if (sepPos != std::string::npos)
+  {
     return filePath.substr(sepPos + 1, filePath.size());
   }
   return filePath;

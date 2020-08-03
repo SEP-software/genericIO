@@ -8,19 +8,21 @@
 #include "google/cloud/status_or.h"
 #include "google/cloud/storage/client.h"
 #include "json.h"
-namespace SEP {
-/*!
+namespace SEP
+{
+  /*!
 Object for handling regular files broken into blocks and written to objects on
 GCP
 */
-class gcpBuffersRegFile : public buffersRegFile {
- public:
-  // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
-  /*!
+  class gcpBuffersRegFile : public buffersRegFile
+  {
+  public:
+    // sepRegFile::sepRegFile(const std::string tag,usage_code usage){
+    /*!
       Initialize the default GCP boject
   */
-  gcpBuffersRegFile() { ; }
-  /*!
+    gcpBuffersRegFile() { ; }
+    /*!
     Initialize GCP regular file
       \param arg  JSON arguments
       \param usage Usage for file
@@ -28,50 +30,64 @@ class gcpBuffersRegFile : public buffersRegFile {
       \param progName Program name
       \param ndimMax Minimum number of dimensions
 */
-  gcpBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
-                    const std::string &tag, const std::string &progName,
-                    const int ndimMax);
-  /*!
+    gcpBuffersRegFile(const Json::Value &arg, const SEP::usage_code usage,
+                      const std::string &tag, const std::string &progName,
+                      const int ndimMax);
+    /*!
     Setup GCP environment
 
     \param arg  Arguments (JSON) which describes file
     \param tag Tag associated with file
     */
-  void setupGCP(const Json::Value &arg, const std::string &tag);
+    void setupGCP(const Json::Value &arg, const std::string &tag);
 
-  /*!
+    /*!
    Remove Description and directory
    */
-  virtual void removeDescDir() override;
+    virtual void removeDescDir() override;
 
-  /*!
+    /*!
     Close file
     */
 
-  virtual void close();
-  /*!
+    virtual void close();
+    /*!
       Create buffers
   */
-  void createBuffers();
+    void createBuffers();
 
-  std::string getEnvVar(std::string const &key,
-                        std::string const &defaultV) const {
-    char *val = getenv(key.c_str());
-    return val == NULL ? defaultV : std::string(val);
-  }
+    std::string getEnvVar(std::string const &key,
+                          std::string const &defaultV) const
+    {
+      char *val = getenv(key.c_str());
+      return val == NULL ? defaultV : std::string(val);
+    }
+    /*!
+   Grab the history from a file
 
- protected:
-  google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;
+*/
+    virtual std::string grabHistory() override;
 
- private:
-  /*!
+    /*!
+   Put history from a file
+
+   \param hist - History file to add to afile 
+
+*/
+    virtual std::string putHistory(const std::string &hist) override;
+
+  protected:
+    google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;
+
+  private:
+    /*!
 Setup GCP
 */
-  void setupGCP();
-  std::string _bucket;  ///< Name of the bucker
-  std::string _dir;     ///< Directory
+    void setupGCP();
+    std::string _bucket; ///< Name of the bucker
+    std::string _dir;    ///< Directory
 
-};  // namespace SEP
+  }; // namespace SEP
 
-}  // namespace SEP
+} // namespace SEP
 #endif

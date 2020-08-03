@@ -2,18 +2,14 @@
 using namespace SEP;
 void genericIO::filesClose()
 {
-  std::cerr << "in files close" << std::endl;
   for (auto i = _regFiles.begin(); i != _regFiles.end(); ++i)
   {
-    fprintf(stderr, "in loop 1 \n");
     i->second->close();
   }
   for (auto i = _irregFiles.begin(); i != _irregFiles.end(); ++i)
   {
-    fprintf(stderr, "in loop 2 \n");
     i->second->close();
   }
-  fprintf(stderr, "through \n");
 }
 std::shared_ptr<SEP::genericRegFile>
 genericIO::getRegFile(const std::string &name, const SEP::usage_code usage,

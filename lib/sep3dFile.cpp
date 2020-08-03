@@ -245,18 +245,13 @@ std::vector<float> sep3dFile::getFloats(const std::string &arg,
 
 void sep3dFile::close()
 {
-  fprintf(stderr, "in close \n");
   // Close the tag
   if (_tag == std::string("in"))
   {
     sep_3d_close();
   }
   else
-  {
-    fprintf(stderr, "should be closing %s\n", _tag.c_str());
     sep3dClose(_tag.c_str());
-  }
-  fprintf(stderr, "out of close \n");
 }
 // Hopefully never called instead SEPException
 void sep3dFile::error(const std::string &err) const

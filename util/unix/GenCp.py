@@ -62,7 +62,6 @@ if __name__ == "__main__":
     if args.ioOut:
         ioOut=genericIO.io(args.ioOut)
 
-    inFile=ioIn.getRegFile(args.input)
 
     fileType=ioIn.getFileType(args.input)
 

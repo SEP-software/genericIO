@@ -309,7 +309,9 @@ class irregSpace(space):
         if not inbuf.getHyper().checkSame(hyperOut):
             raise SEPException("Must override if output buffer hypercube is not the same is input")
         #Should be doing more checks like grid and headers are the same
-        return inbuf.clone()
+        x=SepIrregVector.vector(header=inbuf._header.clone(),traces=SepVector.getSepVector(
+            fromHyper=inbuf._hyper.clone(),storage=self._outputType)
+        return x
 
     def processBuffer(self,bufIn,hyperOut,iwind):
         """Process buffer (perform the work)

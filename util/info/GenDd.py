@@ -228,7 +228,7 @@ if __name__ == "__main__":
     else:
         inFile=ioIn.getIrregFile(args.input)
         outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile)
-        outFile.storage=args.storage
+        outFile.setDataType(args.storage)
         job=ddJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
         job.setOutputFile(outFile)
         job.setCompleteHyperOut(outFile.getHyper())

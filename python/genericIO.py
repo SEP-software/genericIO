@@ -196,7 +196,6 @@ class regFile:
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
 
-
     def __repr__(self):
         """Print information about file"""
         x="Regular file type=%s \t "%self._type
@@ -674,6 +673,11 @@ class irregFile:
         if not isinstance(frm,irregFile):
             raise Exception("Expecting from to be an irregFile got ",type(frm))
         self.cppMode.putDataDescriptionString(frm.cppMode.getDataDescriptionString())
+    
+    def setDataType(self,typ):
+        """Set the data type for vector"""
+        self.storage=typ
+        self.cppMode.setDataType(storageConvert[self.storage])
 
     def __repr__(self):
         """Print information about file"""

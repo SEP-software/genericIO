@@ -634,7 +634,8 @@ void sep3dFile::putDescription(const std::string &title,
   stream << desc;
   std::string tmp = std::string("FROM ") + title + "\n";
   char delim = '\n'; // Ddefine the delimiter to split by
-  std::cerr << "what3 1" << std::endl;
+  std::cerr << "what3 1 "
+            << "=tag tmp=" << tmp << std::endl;
   auxputhead(_tag.c_str(), tmp.c_str());
   std::cerr << "what4 1" << std::endl;
 

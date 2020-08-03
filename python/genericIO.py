@@ -637,10 +637,10 @@ class irregFile:
             elif self.usage == "usageOut":
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
-            print("WHAT ",ioM,
-                self.tag, usageConvert[
-                    self.usage], ndimMax)
-            self.cppMode = ioM.getIrregFile(
+            ioU=ioM
+            if type(ioU)== genericIO.io:
+                ioU=ioU.cppMode
+            self.cppMode = ioU.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)

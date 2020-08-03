@@ -81,7 +81,6 @@ class ddJobIrreg(GenJob.irregSpace):
         n123=ina.getHyper().getN123()
         inN=np.reshape(ina._traces.getNdArray(),(n123,))
         outN=np.reshape(outa._traces.getNdArray(),(n123,))
-        print("LOOP VIEEW",outa._header._keyOrder)
         if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
             if self._outputType=="dataShort":
                 complex2Short(inN,outN,self._real)

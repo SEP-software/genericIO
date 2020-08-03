@@ -570,10 +570,20 @@ Json::Value sep3dFile::getDescription()
   tmp_ch = new char[nout];
   grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
   std::string d = tmp_ch;
-  std::cerr << "what is going on" << d << std::endl;
-  delete[] tmp_ch;
+  char delim = '\n'; // Ddefine the delimiter to split by
+  std::string tmp;
+  std::stringstream stream;
   Json::Value j;
-  j["SEPFILE"] = d;
+  j["History"] = d;
+  while (std::getline(stream, tmp, delim))
+  {
+    j.append(tmp);
+  }
+
+  // std::cerr << "what is going on" << d << std::endl;
+  delete[] tmp_ch;
+  // Json::Value j;
+  // j["SEPFILE"] = d;
   return j;
 }
 

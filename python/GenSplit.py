@@ -261,11 +261,13 @@ class serialIrregSpace(space):
             if i!= len(self._nw)-1 and hasInput:
                 readThread=pool.apply_async(readFunc, (self._job._inputFile,self._nw[i+1],self._fw[i+1],self._jw[i+1]))
             vecOut=self._job.processBuffer(vecIn, self._hyperOut.subCube(self._nw[i],self._fw[i],self._jw[i]),i)
-
+            print("IN Loop")
             if i!=0 and hasOutput:
+                print("before 12")
                 writeThread.get()
 
             if hasOutput:
+                print("Out put  ")
                 outputVec=vecOut.clone()
                 writeThread=pool.apply_async(writeFunc,(self._job._outputFile,outputVec,self._nw[i],self._fw[i],self._jw[i]))
             pct=int((i+1)*10000/len(self._nw))/100.

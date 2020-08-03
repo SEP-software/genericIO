@@ -760,13 +760,20 @@ class irregFile:
         """Remove the given dataset"""
         self.cppMode.remove()
         
-    def addHistory(self,fle,des):
+    def addHistory(self,fle):
         """
-            fle - File to read description from
-            des - Description to add to copied info
+            fle - File(s) to read description from
         """
-        self.cppMode.putDescriptionString(des,fle.cppMode.getDescriptionString())      
-    
+        if isinstance(fle,regFile) or isinstance(fle,irregFile):
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
+        elif isinstance(fle,list):
+            for f in fle:
+                if isinstance(f,regFile) or isinstance(f,irregFile):
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
+        elif isinstance(fle,dict):
+            for f,v in fle.items():
+                if isinstance(v,regFile) or isinstance(v,irregFile):
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

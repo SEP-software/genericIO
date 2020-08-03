@@ -6,7 +6,7 @@ import GenSplit
 import numpy as np
 from numba import jit,prange
 
-class cpJob(genJob.regSpace):
+class cpJobReg(genJob.regSpace):
     def __init__(self,fileType):
         """Intialize object
             fileType - Type of data
@@ -22,7 +22,23 @@ class cpJob(genJob.regSpace):
         """
         outa.scaleAdd(ina,0.,1.)
        
+class cpJobIrreg(genJob.irregSpace):
+    def __init__(self,fileType):
+        """Intialize object
+            fileType - Type of data
         
+        """
+        super().__init__(self.cpBuf,0,0,inputType=fileType,outputType=fileType)
+ 
+    
+    def cpBuf(self,ina,outa):
+        """Copy a vector 
+        ina - Input vector
+        outa - Output vector
+        """
+        outa.scaleAdd(ina,0.,1.)
+        outa._header=ina._heder
+         
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Copy file')
     parser.add_argument('input', metavar='Input', type=str,
@@ -46,16 +62,30 @@ if __name__ == "__main__":
         ioOut=genericIO.io(args.ioOut)
 
     inFile=ioIn.getRegFile(args.input)
-    
 
-    outFile=genericIO.regFile(ioOut,args.output,storage=inFile.getStorageType(),fromHyper=inFile.getHyper())
-    job=cpJob(inFile.getStorageType())
-    job.setOutputFile(outFile)
-    job.setCompleteHyperOut(outFile.getHyper())
-    job.setInputFile(inFile)
-    split=GenSplit.serialRegSpace(job, args.memory)
-    split.loop(args.print_pct)
+    fileType=ioIn.getFileType(args.input)
 
+    if fileType == "invalidFile":
+        raise Exception("Invalid file of selected IO")
+
+    if fileType=="regularFile":
+        inFile=ioIn.getRegFile(args.input)
+        outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
+        job=cpJobReg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job.setOutputFile(outFile)
+        job.setCompleteHyperOut(outFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialRegSpace(job, args.memory)
+        split.loop(args.print_pct)
+    else:
+        inFile=ioIn.getIrregFile(args.input)
+        outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile)
+        job=cpJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job.setOutputFile(outFile)
+        job.setCompleteHyperOut(outFile.getHyper())
+        job.setInputFile(inFile)
+        split=GenSplit.serialIrregDataSpace(job, args.memory)
+        split.loop(args.print_pct) 
 
 
 

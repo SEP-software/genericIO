@@ -6,7 +6,7 @@ import GenSplit
 import numpy as np
 from numba import jit,prange
 
-class cpJobReg(genJob.regSpace):
+class cpJobReg(GenJob.regSpace):
     def __init__(self,fileType):
         """Intialize object
             fileType - Type of data
@@ -22,7 +22,7 @@ class cpJobReg(genJob.regSpace):
         """
         outa.scaleAdd(ina,0.,1.)
        
-class cpJobIrreg(genJob.irregSpace):
+class cpJobIrreg(GenJob.irregSpace):
     def __init__(self,fileType):
         """Intialize object
             fileType - Type of data

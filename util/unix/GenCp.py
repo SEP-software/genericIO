@@ -71,7 +71,7 @@ if __name__ == "__main__":
     if fileType=="regularFile":
         inFile=ioIn.getRegFile(args.input)
         outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
-        job=cpJobReg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job=cpJobReg(inFile.getStorageType())
         job.setOutputFile(outFile)
         job.setCompleteHyperOut(outFile.getHyper())
         job.setInputFile(inFile)
@@ -80,7 +80,7 @@ if __name__ == "__main__":
     else:
         inFile=ioIn.getIrregFile(args.input)
         outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile)
-        job=cpJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
+        job=cpJobIrreg(inFile.getStorageType())
         job.setOutputFile(outFile)
         job.setCompleteHyperOut(outFile.getHyper())
         job.setInputFile(inFile)

@@ -225,7 +225,7 @@ class regFile:
         """Remove the given dataset"""
         self.cppMode.remove()
     
-def addHistory(self,fle):
+    def addHistory(self,fle):
         """
             fle - File(s) to read description from
         """

@@ -598,7 +598,6 @@ class irregFile:
             self.cppMode.putHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
             self.cppMode.putHeaderKeyList(fle.cppMode.getHeaderKeyList())
             self._keyOrder=fle.cppMode.getHeaderKeyList()
-            print("I SEE THE LIST AS",fle.cppMode.getHeaderKeyList())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.setHyperData(fle.cppMode.getHyperData())
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
@@ -884,9 +883,6 @@ class irregFile:
             n1-=2
         elif typ[klast]=="dataByte":
             n1-=3
-        print("CREATING HEADER ",n1,headS._nh,off)
-        print("key order",headS._keyOrder)
-        print("off",off)
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)

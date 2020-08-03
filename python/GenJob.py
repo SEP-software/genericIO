@@ -312,7 +312,6 @@ class irregSpace(space):
         #Should be doing more checks like grid and headers are the same
         tr=SepVector.getSepVector(
             inbuf._hyper,storage=self._outputType)
-        print(tr)
         x=SepIrregVector.vector(header=inbuf._header.clone(),traces=tr)
         return x
 

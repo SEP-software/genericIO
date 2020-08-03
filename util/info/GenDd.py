@@ -108,7 +108,6 @@ class ddJobIrreg(GenJob.irregSpace):
                 real2Byte(inN,outN)
             else:
                 print("Unknown conversion %s to %s"%(self._inputType,self._outputType))
-        print("THROUGH")
 @jit(nopython=True, parallel=True)
 def complex2Short(inA,outA,realFlag):
     if realFlag:

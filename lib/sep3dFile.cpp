@@ -1268,29 +1268,23 @@ void sep3dFile::writeIntTraceWindow(const std::vector<int> &nwind,
                                     const std::shared_ptr<int2DReg> &data,
                                     const std::shared_ptr<byte1DReg> &grid)
 {
-  std::cerr << "4 in write trace wndow 1 " << std::endl;
   if (getDataType() != DATA_INT)
     throw SEPException("Expecting datatype int");
   if (_haveGrid)
     writeGrid(nwind, fwind, jwind, headers, grid);
   std::vector<int> ns = headers->getHyper()->getNs();
-  std::cerr << "5 in write trace wndow 1 " << std::endl;
 
   int ifirst = _writeLastH + 1;
   int nblock = ns[1];
-  std::cerr << "6 in write trace wndow 1 " << std::endl;
 
-  fprintf(stderr, "what this %d %d \n", ifirst, nblock);
   if (0 !=
       sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
     throw SEPException("Trouble writing headers");
-  std::cerr << "7 in write trace wndow 1 " << std::endl;
 
   if (4 * ns[1] * data->getHyper()->getAxis(1).n !=
       srite(_tag.c_str(), data->getVals(),
             4 * ns[1] * data->getHyper()->getAxis(1).n))
     throw SEPException("Trouble writing data");
-  std::cerr << "8 in write trace wndow 1 " << std::endl;
 }
 void sep3dFile::writeFloatTraceWindow(const std::vector<int> &nwind,
                                       const std::vector<int> &fwind,

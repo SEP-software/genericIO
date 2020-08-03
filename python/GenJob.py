@@ -1,5 +1,6 @@
 import Hypercube
 import SepVector
+import SepIrregVector
 import copy
 
 esizeFromType={"dataFloat":4,"dataDouble":8,"dataInt":4,"dataComplex":8,"dataShort":2,"dataComplexDouble":16,"dataByte":1} 

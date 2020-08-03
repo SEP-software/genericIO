@@ -37,7 +37,7 @@ class cpJobIrreg(GenJob.irregSpace):
         outa - Output vector
         """
         outa._traces.scaleAdd(ina._traces,0.,1.)
-        outa._header=ina._heder
+        outa._header=ina._header
          
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Copy file')

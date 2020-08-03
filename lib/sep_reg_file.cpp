@@ -832,9 +832,9 @@ void sepRegFile::putDescription(const std::string &title,
   stream << desc;
   std::string tmp = std::string("FROM ") + title;
   char delim = '\n'; // Ddefine the delimiter to split by
-  auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
+  auxputhead(_tag.c_str(), tmp.c_str());
   while (std::getline(stream, tmp, delim))
   {
-    auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
+    auxputhead(_tag.c_str(), tmp.c_str());
   }
 }

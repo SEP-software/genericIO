@@ -596,6 +596,7 @@ class irregFile:
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
             self.cppMode.putHeaderKeyTypes(fle.cppMode.getHeaderKeyTypes())
             self.cppMode.putHeaderKeyList(fle.cppMode.getHeaderKeyList())
+            print("I SEE THE LIST AS",fle.cppMode.getHeaderKeyList())
             self.cppMode.setDataType(storageConvert[self.storage])
             self.cppMode.setHyperData(fle.cppMode.getHyperData())
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())

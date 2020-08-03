@@ -225,7 +225,7 @@ if __name__ == "__main__":
         split.loop(args.print_pct)
     else:
         inFile=ioIn.getIrregFile(args.input)
-        outFile=genericIO.irregFile(ioOut,args.output)
+        outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile)
         outFile.storage=args.storage
         job=ddJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
         job.setOutputFile(outFile)

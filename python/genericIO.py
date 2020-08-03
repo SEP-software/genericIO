@@ -812,7 +812,7 @@ class irregFile:
             vec=SepVector.doubleVector(fromCpp=v)
         else:
             print("Unknown or unhandled storage type "%self.storage)
-        header=self.byte2DToHeader(head,grid=grid,keyOrder=self._keyOrder)
+        header=self.byte2DToHeader(head,grid=grid)
         return SepIrregVector.vector(traces=vec,header=header)
 
     def readHeaderWindow(self, **kw):

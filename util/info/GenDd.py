@@ -73,7 +73,7 @@ class ddJobIrreg(GenJob.irregSpace):
         """Make the output buffer given the input
            often should be overwritten. Only works by
            default if inbuf exists and has the hypercube as hyperOut"""
-        return SepIrregVector.vector(header=self._header.clone(),hyper=self._hyper.clone())
+        return SepIrregVector.vector(header=inbuf._header.clone(),hyper=inbuf._hyper.clone())
 
     def convertBuf(self,ina,outa):
         """Convert a buffer from one type to another

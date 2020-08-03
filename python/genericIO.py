@@ -111,6 +111,7 @@ class regFile:
                         fromVector - Vector
                         usage - Defaults to IN for from file OUT for everything else
                         ndims - Minimum dimensions for the file
+                        hist  - History to copy to file
         """
         self.tag = tag
         self.usage = None
@@ -165,6 +166,8 @@ class regFile:
                         self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
             self.cppMode.setDataType(storageConvert[self.storage])
+            if "hist" in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
         elif "fromVector" in kw:
             if not isinstance(kw["fromVector"], SepVector.vector):
@@ -182,6 +185,8 @@ class regFile:
                     self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromVector"].getCpp().getHyper())
             self.cppMode.setDataType(storageConvert[self.storage])
+            if "hist" in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
         else:  # Assuming from file
             if not self.usage:
@@ -219,8 +224,21 @@ class regFile:
     def remove(self):
         """Remove the given dataset"""
         self.cppMode.remove()
-        
-         
+    
+    def addHistory(self,fle):
+        """
+            fle - File(s) to read description from
+        """
+        if isinstance(fle,regFile) or isinstance(fle,irregFile):
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
+        elif isinstance(fle,list):
+            for f in fle:
+                if isinstance(f,regFile) or isinstance(f,irregFile):
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
+        elif isinstance(fle,dict):
+            for f,v in fle.items():
+                if isinstance(v,regFile) or isinstance(v,irregFile):
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":
@@ -464,6 +482,7 @@ class irregFile:
                         headerHyper - Hypercube for the headers
                         keys - Dictionary of keys and types
                         gridHyper - Hypercube for the grid
+                        hist - History to copy into file (regFile,irregFile,list,dict)
         """
         self.tag = tag
         self.usage = None
@@ -541,6 +560,8 @@ class irregFile:
                 self.cppMode.setHyper(kw["headerHyper"].cppMode)
                 self.cppMode.setHaveGrid(False)
             self.cppMode.setDataType(storageConvert[self.storage])
+            if "hist"  in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
         elif "fromHeader" in kw:
             header=kw["fromHeader"]
@@ -573,6 +594,8 @@ class irregFile:
                 self.cppMode.setInOrder(False)
             
             self.cppMode.setDataType(storageConvert[self.storage])
+            if "hist"  in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
         elif "fromFile" in kw:
             fle=kw["fromFile"]
@@ -603,6 +626,8 @@ class irregFile:
             self.cppMode.setHaveGrid(fle.cppMode.getHaveGrid())
             self.cppMode.setHyper(fle.cppMode.getHyper())
             self.cppMode.setHyperHeader(fle.cppMode.getHyperHeader())
+            if "hist"  in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
 
         elif "fromVector" in kw:
@@ -636,6 +661,8 @@ class irregFile:
 
             self.cppMode.setHyper(vec.getHyper().cppMode)
             self.cppMode.setDataType(storageConvert[self.storage])
+            if "hist"  in kw:
+                self.addHistory(kw["hist"])
             self.cppMode.writeDescription()
         else:  # Assuming from file
             if not self.usage:
@@ -683,7 +710,20 @@ class irregFile:
         """Set the data type for vector"""
         self.storage=typ
         self.cppMode.setDataType(storageConvert[self.storage])
-
+    def addHistory(self,fle):
+        """
+            fle - File(s) to read description from
+        """
+        if isinstance(fle,regFile) or isinstance(fle,irregFile):
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
+        elif isinstance(fle,list):
+            for f in fle:
+                if isinstance(f,regFile) or isinstance(f,irregFile):
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString())
+        elif isinstance(fle,dict):
+            for f,v in fle.items():
+                if isinstance(v,regFile) or isinstance(v,irregFile):
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString())
     def __repr__(self):
         """Print information about file"""
         x="Irregular file type=%s \t "%self._type
@@ -720,7 +760,13 @@ class irregFile:
         """Remove the given dataset"""
         self.cppMode.remove()
         
-         
+    def addHistory(self,fle,des):
+        """
+            fle - File to read description from
+            des - Description to add to copied info
+        """
+        self.cppMode.putDescriptionString(des,fle.cppMode.getDescriptionString())      
+    
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

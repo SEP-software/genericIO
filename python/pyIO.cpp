@@ -811,10 +811,10 @@ namespace SEP
                    (std::shared_ptr<SEP::genericIrregFile>(genericIO::*)(
                        const std::string &, const SEP::usage_code, const int)) &
                        genericIO::getIrregFile)
-
               .def("fileDebug", (void (genericIO::*)(const std::string, const float *,
                                                      const int, const int)) &
                                     genericIO::fileDebug)
+
               .def("fileDebug", (void (genericIO::*)(const std::string, const float *,
                                                      const int, const int, const int)) &
                                     genericIO::fileDebug)

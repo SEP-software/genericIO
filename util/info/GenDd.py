@@ -208,7 +208,7 @@ if __name__ == "__main__":
     if args.ioOut:
         ioOut=genericIO.io(args.ioOut)
 
-        
+    
     fileType=ioIn.getFileType(args.input)
 
     if fileType == "invalidFile":
@@ -216,7 +216,8 @@ if __name__ == "__main__":
 
     if fileType=="regularFile":
         inFile=ioIn.getRegFile(args.input)
-        outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())
+        outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,
+          hist=inFile,fromHyper=inFile.getHyper())
         job=ddJobReg(inFile.getStorageType(),outFile.getStorageType(),args.real)
         job.setOutputFile(outFile)
         job.setCompleteHyperOut(outFile.getHyper())
@@ -225,7 +226,7 @@ if __name__ == "__main__":
         split.loop(args.print_pct)
     else:
         inFile=ioIn.getIrregFile(args.input)
-        outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile)
+        outFile=genericIO.irregFile(ioOut,args.output,fromFile=inFile,hist=inFile)
         outFile.setDataType(args.storage)
         job=ddJobIrreg(inFile.getStorageType(),outFile.getStorageType(),args.real)
         job.setOutputFile(outFile)

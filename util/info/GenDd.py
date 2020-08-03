@@ -2,6 +2,7 @@
 import argparse
 import genericIO
 import GenJob
+import SepIrregVector
 import GenSplit
 import numpy as np
 from numba import jit,prange

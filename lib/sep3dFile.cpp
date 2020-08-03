@@ -569,6 +569,7 @@ Json::Value sep3dFile::getDescription()
   tmp_ch = new char[nout];
   grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
   std::string d = tmp_ch;
+  std::cerr << "what is going on" << d << std::endl;
   delete[] tmp_ch;
   Json::Value j;
   j["SEPFILE"] = d;

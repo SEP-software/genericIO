@@ -76,7 +76,7 @@ std::string sepRegFile::grabHistory()
   {
     char *buf = new char[sz];
     int nout;
-    grab_history(_tag.c_str, buf, sz, &nout);
+    grab_history(_tag.c_str(), buf, sz, &nout);
     if (nout < sz)
     {
       out = buf;

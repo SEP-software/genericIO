@@ -52,16 +52,7 @@ std::string memoryRegFile::getString(const std::string &arg,
     return def;
   return _dict.at(arg);
 }
-std::string memoryRegFile::grabHistory()
-{
 
-  std::string tmp = " ";
-  return tmp;
-}
-
-std::string memoryRegFile::putHistory(const std::string &hist)
-{
-}
 bool memoryRegFile::getBool(const std::string &arg, const bool def) const
 {
   if (0 == _dict.count(arg))

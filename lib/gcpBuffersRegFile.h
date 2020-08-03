@@ -62,19 +62,6 @@ GCP
       char *val = getenv(key.c_str());
       return val == NULL ? defaultV : std::string(val);
     }
-    /*!
-   Grab the history from a file
-
-*/
-    virtual std::string grabHistory() override;
-
-    /*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-    virtual std::string putHistory(const std::string &hist) override;
 
   protected:
     google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;

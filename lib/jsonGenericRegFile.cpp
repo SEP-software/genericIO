@@ -86,27 +86,6 @@ void jsonGenericRegFile::setupJson(const Json::Value &arg,
   }
 }
 
-/*!
-   Grab the history from a file
-
-*/
-std::string jsonGenericRegFile::grabHistory()
-{
-
-  std::string tmp = " ";
-  return tmp;
-}
-
-/*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-std::string jsonGenericRegFile::putHistory(const std::string &hist)
-{
-}
-
 std::string jsonGenericRegFile::getJSONFileName() const { return _jsonFile; }
 
 std::string jsonGenericRegFile::getJSONFileBaseName() const

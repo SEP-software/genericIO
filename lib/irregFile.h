@@ -82,20 +82,6 @@ namespace SEP
     virtual void readDescription(const int ndim = -1) = 0;
 
     /*!
-   Grab the history from a file
-
-*/
-    virtual std::string grabHistory() = 0;
-
-    /*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-    virtual std::string putHistory(const std::string &hist) = 0;
-
-    /*!
 Write  the description of the file
 */
     virtual void writeDescription() { ; }

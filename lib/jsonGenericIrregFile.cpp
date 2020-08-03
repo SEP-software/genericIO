@@ -94,23 +94,6 @@ void jsonGenericIrregFile::setupJson(const Json::Value &arg,
     //  _binary = _dataFile;
   }
 }
-
-std::string jsonGenericIrregFile::grabHistory()
-{
-
-  std::string tmp = " ";
-  return tmp;
-}
-
-/*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-std::string jsonGenericIrregFile::putHistory(const std::string &hist)
-{
-}
 std::string jsonGenericIrregFile::getJSONFileName() const { return _jsonFile; }
 std::string jsonGenericIrregFile::getDataFileName() const { return _dataFile; }
 int jsonGenericIrregFile::getInt(const std::string &arg) const

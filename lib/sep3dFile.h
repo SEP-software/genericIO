@@ -119,20 +119,6 @@ Get floats from a file
   \param err Message to output
   */
     virtual void error(const std::string &err) const override;
-
-    /*!
-   Grab the history from a file
-
-*/
-    virtual std::string grabHistory() override;
-
-    /*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-    virtual std::string putHistory(const std::string &hist) override;
     /*!
      Put integer to file
 

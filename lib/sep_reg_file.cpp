@@ -65,42 +65,6 @@ void sepRegFile::remove()
   segment = temp;
   std::remove(segment.c_str()); // delete file
 }
-std::string sepRegFile::grabHistory()
-{
-  bool found = false;
-
-  int sz = 99999;
-  std::string out;
-
-  while (!found)
-  {
-    char *buf = new char[sz];
-    int nout;
-    grab_history(_tag.c_str(), buf, sz, &nout);
-    if (nout < sz)
-    {
-      out = buf;
-      found = true;
-    }
-    else
-    {
-      sz *= 5;
-    }
-    delete[] buf;
-  }
-  return out;
-}
-
-std::string sepRegFile::putHistory(const std::string &hist)
-{
-  char delimiter = '\n';
-  std::string token;
-  std::istringstream tokenStream(hist);
-  while (std::getline(tokenStream, token, delimiter))
-  {
-    auxputhead(_tag.c_str(), token.c_str());
-  }
-}
 int sepRegFile::getInt(const std::string &arg) const
 {
   int x;

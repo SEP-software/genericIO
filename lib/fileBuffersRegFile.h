@@ -62,20 +62,6 @@ namespace SEP
     fileBuffersIrregFile(const Json::Value &arg, const SEP::usage_code usage,
                          const std::string &tag, const std::string &progName,
                          const int ndimMax = -1);
-
-    /*!
-   Grab the history from a file
-
-*/
-    virtual std::string grabHistory() override;
-
-    /*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-    virtual std::string putHistory(const std::string &hist) override;
     /*! Close the file */
 
     virtual void close();

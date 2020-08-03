@@ -129,16 +129,6 @@ void gcpBuffersRegFile::removeDescDir()
 
   client.value().DeleteObject(_bucket, _dir + std::string("/desc"));
 }
-std::string gcpBuffersRegFile::grabHistory()
-{
-
-  std::string tmp = " ";
-  return tmp;
-}
-
-std::string gcpBuffersRegFile::putHistory(const std::string &hist)
-{
-}
 void gcpBuffersRegFile::close()
 {
   writeDescription();

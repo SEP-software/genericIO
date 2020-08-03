@@ -676,42 +676,7 @@ void sep3dFile::putHeaderKeyTypes(
     _keyType[k->first] = k->second;
   }
 }
-std::string sep3dFile::grabHistory()
-{
-  bool found = false;
 
-  int sz = 99999;
-  std::string out;
-
-  while (!found)
-  {
-    char *buf = new char[sz];
-    int nout;
-    grab_history(_tag.c_str(), buf, sz, &nout);
-    if (nout < sz)
-    {
-      out = buf;
-      found = true;
-    }
-    else
-    {
-      sz *= 5;
-    }
-    delete[] buf;
-  }
-  return out;
-}
-
-std::string sep3dFile::putHistory(const std::string &hist)
-{
-  char delimiter = '\n';
-  std::string token;
-  std::istringstream tokenStream(hist);
-  while (std::getline(tokenStream, token, delimiter))
-  {
-    auxputhead(_tag.c_str(), token.c_str());
-  }
-}
 std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,
            std::shared_ptr<byte1DReg>>
 sep3dFile::readHeaderWindow(const std::vector<int> &nwind,

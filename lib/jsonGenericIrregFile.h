@@ -94,20 +94,6 @@ Get a string from a file
                                   const std::string &def) const override;
 
     /*!
-   Grab the history from a file
-
-*/
-    virtual std::string grabHistory() override;
-
-    /*!
-   Put history from a file
-
-   \param hist - History file to add to afile 
-
-*/
-    virtual std::string putHistory(const std::string &hist) override;
-
-    /*!
 Get boolean from a file
 
 \param arg Name of the prameter

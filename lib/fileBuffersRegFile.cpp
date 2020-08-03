@@ -96,16 +96,7 @@ fileBuffersIrregFile::fileBuffersIrregFile(const Json::Value &arg,
   jsonArgs["progName"] = progName;
   jsonArgs["name"] = tag;
 }
-std::string fileBuffersIrregFile::grabHistory()
-{
 
-  std::string tmp = " ";
-  return tmp;
-}
-
-std::string fileBuffersIrregFile::putHistory(const std::string &hist)
-{
-}
 void fileBuffersIrregFile::close()
 {
   if (getUsage() == usageOut || getUsage() == usageInOut)

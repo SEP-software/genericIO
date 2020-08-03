@@ -651,7 +651,7 @@ class irregFile:
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)
-            self._keyOrder=self.cppMode.getHeaderKeyLis()
+            self._keyOrder=self.cppMode.getHeaderKeyList()
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
     def getDataDescription(self):

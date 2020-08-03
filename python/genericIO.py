@@ -638,7 +638,7 @@ class irregFile:
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
             ioU=ioM
-            if isinstance(ioU,genericIO.io):
+            if isinstance(ioU,io):
                 ioU=ioU.cppMode
             self.cppMode = ioU.getIrregFile(
                 self.tag, usageConvert[

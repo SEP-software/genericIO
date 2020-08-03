@@ -14,7 +14,13 @@ if __name__ == "__main__":
         io=genericIO.io(args.io)
 
     for f in args.files:
-        print(genericIO.defaultIO.getRegFile(f))
+        fileType=io.getFileType(args.input)
+        if fileType == "invalidFile":
+            raise Exception("Invalid file of selected IO")
+        elif fileType== "regFile":
+            print(genericIO.defaultIO.getRegFile(f))
+        else:
+            print(genericIO.defaultIO.getIrregFile(f))
 
 
 

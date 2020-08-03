@@ -69,13 +69,7 @@ class ddJobIrreg(GenJob.irregSpace):
         super().__init__(self.convertBuf,0,0,inputType=inputType,outputType=outputType)
         self._real=real
 
-    def makeOutputBuffer(self,inbuf,hyperOut):
-        """Make the output buffer given the input
-           often should be overwritten. Only works by
-           default if inbuf exists and has the hypercube as hyperOut"""
-        a= SepIrregVector.vector(header=inbuf._header.clone(),hyper=inbuf._hyper.clone())
-        print(a)
-        return a
+
     def convertBuf(self,ina,outa):
         """Convert a buffer from one type to another
 

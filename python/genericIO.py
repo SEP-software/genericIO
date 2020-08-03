@@ -581,7 +581,10 @@ class irregFile:
             elif self.usage == "usageIn":
                 raise Exception(
                     "Can not have usageIn when creating from a header")    
-            self.cppMode = ioM.getIrregFile(
+            ioU=ioM
+            if isinstance(ioU,io):
+                ioU=ioM.cppMode
+            self.cppMode = ioU.getIrregFile(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             if not isinstance(fle,irregFile):

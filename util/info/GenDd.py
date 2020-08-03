@@ -213,8 +213,7 @@ if __name__ == "__main__":
 
     if fileType == "invalidFile":
         raise Exception("Invalid file of selected IO")
-    faulthandler.disable()
-    faulthandler.enable(all_threads=True)
+
     if fileType=="regularFile":
         inFile=ioIn.getRegFile(args.input)
         outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())

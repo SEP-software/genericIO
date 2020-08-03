@@ -5,6 +5,7 @@ import GenJob
 import GenSplit
 import numpy as np
 from numba import jit,prange
+import faulthandler
 
 class cpJobReg(GenJob.regSpace):
     def __init__(self,fileType):
@@ -67,7 +68,7 @@ if __name__ == "__main__":
 
     if fileType == "invalidFile":
         raise Exception("Invalid file of selected IO")
-
+    faulthandler.enable()
     if fileType=="regularFile":
         inFile=ioIn.getRegFile(args.input)
         outFile=genericIO.regFile(ioOut,args.output,storage=args.storage,fromHyper=inFile.getHyper())

@@ -36,7 +36,7 @@ class cpJobIrreg(GenJob.irregSpace):
         ina - Input vector
         outa - Output vector
         """
-        outa.scaleAdd(ina,0.,1.)
+        outa._traces=scaleAdd(ina._traces,0.,1.)
         outa._header=ina._heder
          
 if __name__ == "__main__":

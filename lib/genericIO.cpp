@@ -12,6 +12,7 @@ void genericIO::filesClose()
     std::cerr << "looping irreg " << i->first << std::endl;
     i->second->close();
   }
+  std::cerr << "closing done " << std::endl;
 }
 std::shared_ptr<SEP::genericRegFile>
 genericIO::getRegFile(const std::string &name, const SEP::usage_code usage,

@@ -79,6 +79,7 @@ class ddJobIrreg(GenJob.irregSpace):
         n123=ina.getHyper().getN123()
         inN=np.reshape(ina._traces.getNdArray(),(n123,))
         outN=np.reshape(outa._traces.getNdArray(),(n123,))
+        print("type check",outa._traces)
 
         if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
             if self._outputType=="dataShort":

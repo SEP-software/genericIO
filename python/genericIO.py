@@ -924,7 +924,8 @@ class irregFile:
 
         if drn:
             header._drn=int1DVector(fromCpp==drn)
-        for k,v in off.items():
+        for k in self._keyOrder:
+            v=off[k]
             if typ[k]=="dataByte":
                 key=SepVector.byteVector(fromCpp=self.cppMode.extractByte(head,v))
             if typ[k]=="dataShort":

@@ -573,13 +573,12 @@ Json::Value sep3dFile::getDescription()
   char delim = '\n'; // Ddefine the delimiter to split by
   std::string tmp;
   std::stringstream stream;
-  Json::Value j;
-  j["History"] = d;
+  stream.str(d);
   std::cerr << "in loop " << std::endl;
   while (std::getline(stream, tmp, delim))
   {
     std::cerr << "add line " << tmp << std::endl;
-    j.append(tmp);
+    j["History"].append(tmp);
   }
 
   // std::cerr << "what is going on" << d << std::endl;

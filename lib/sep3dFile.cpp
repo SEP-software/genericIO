@@ -1280,6 +1280,7 @@ void sep3dFile::writeIntTraceWindow(const std::vector<int> &nwind,
   int nblock = ns[1];
   std::cerr << "6 in write trace wndow 1 " << std::endl;
 
+  fprintf(stderr, "what this %d %d \n", ifirst, nblock);
   if (0 !=
       sep_put_val_headers(_tag.c_str(), &ifirst, &nblock, headers->getVals()))
     throw SEPException("Trouble writing headers");

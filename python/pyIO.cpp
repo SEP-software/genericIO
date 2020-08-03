@@ -545,7 +545,7 @@ namespace SEP
                        genericIrregFile::putDataDescriptionString,
                    "Put the data description into the file")
               .def("putDescriptionString",
-                   (void (genericRegFile::*)(const std::string &, const std::string &)) &
+                   (void (genericIrregFile::*)(const std::string &, const std::string &)) &
                        genericIrregFile::putDescriptionString,
                    "Put the  description into the file")
               .def("getDescriptionString",

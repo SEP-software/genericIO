@@ -80,7 +80,6 @@ class ddJobIrreg(GenJob.irregSpace):
         n123=ina.getHyper().getN123()
         inN=np.reshape(ina._traces.getNdArray(),(n123,))
         outN=np.reshape(outa._traces.getNdArray(),(n123,))
-        print("type check",outa._traces)
 
         if self._inputType=="dataComplex" or self._inputType=="dataComplexDouble":
             if self._outputType=="dataShort":
@@ -108,7 +107,7 @@ class ddJobIrreg(GenJob.irregSpace):
                 real2Byte(inN,outN)
             else:
                 print("Unknown conversion %s to %s"%(self._inputType,self._outputType))
-
+        print("THROUGH")
 @jit(nopython=True, parallel=True)
 def complex2Short(inA,outA,realFlag):
     if realFlag:

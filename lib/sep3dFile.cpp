@@ -704,12 +704,12 @@ std::string sep3dFile::grabHistory()
 
 std::string sep3dFile::putHistory(const std::string &hist)
 {
-  char delimeter = '\n';
+  char delimiter = '\n';
   std::string token;
   std::istringstream tokenStream(hist);
   while (std::getline(tokenStream, token, delimiter))
   {
-    auxputlin(_tag.c_str(), token.c_str());
+    auxputhead(_tag.c_str(), token.c_str());
   }
 }
 std::tuple<std::shared_ptr<byte2DReg>, std::shared_ptr<int1DReg>,

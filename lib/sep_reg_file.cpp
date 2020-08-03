@@ -93,12 +93,12 @@ std::string sepRegFile::grabHistory()
 
 std::string sepRegFile::putHistory(const std::string &hist)
 {
-  char delimeter = '\n';
+  char delimiter = '\n';
   std::string token;
   std::istringstream tokenStream(hist);
   while (std::getline(tokenStream, token, delimiter))
   {
-    auxputlin(_tag.c_str(), token.c_str());
+    auxputhead(_tag.c_str(), token.c_str());
   }
 }
 int sepRegFile::getInt(const std::string &arg) const

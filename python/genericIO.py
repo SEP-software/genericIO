@@ -651,7 +651,7 @@ class irregFile:
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)
-            self._keyOrder=self.cppMode.getHeaderKeyList()
+            self._keyOrder=self.cppMode.getHeaderKeyLis()
             inv_map = {v: k for k, v in storageConvert.items()}
             self.storage = inv_map[self.cppMode.getDataType()]
     def getDataDescription(self):
@@ -919,7 +919,8 @@ class irregFile:
             gridS=SepVector.byteVector(fromCpp=grid)
             header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,grid=gridS,gridHyper=self.getHyper())
         else:
-            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n)
+            header=SepIrregVector.headerBlock(nh=headS.getHyper().getAxis(2).n,
+             keyOrder=self._keyOrder)
 
         if drn:
             header._drn=int1DVector(fromCpp==drn)

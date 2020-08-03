@@ -629,14 +629,20 @@ void sep3dFile::putDescription(const std::string &title,
                                const Json::Value &desc)
 {
   std::stringstream stream;
+  std::cerr << "what 1" << std::endl;
   stream << desc;
   std::string tmp = std::string("FROM ") + title;
   char delim = '\n'; // Ddefine the delimiter to split by
+  std::cerr << "what3 1" << std::endl;
+
   auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
+  std::cerr << "what4 1" << std::endl;
+
   while (std::getline(stream, tmp, delim))
   {
     auxputhead(_tag.c_str(), "%s\n", tmp.c_str());
   }
+  std::cerr << "what5 1" << std::endl;
 }
 
 std::vector<std::string> sep3dFile::getHeaderKeyList() const

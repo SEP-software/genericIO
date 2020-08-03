@@ -879,7 +879,7 @@ class irregFile:
             n1-=2
         elif typ[klast]=="dataByte":
             n1-=3
-        print("CREATING HEADER ",n1,headS._nh)
+        print("CREATING HEADER ",n1,headS._nh,off)
         head=SepVector.getSepVector(storage="dataByte",ns=[n1,headS._nh])
         for k,v in off.items():     
             x=SepVector.getSepVector(headS._keys[k]._vals)

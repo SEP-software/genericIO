@@ -832,11 +832,9 @@ void sepRegFile::putDescription(const std::string &title,
   stream << desc;
   std::string tmp = std::string("FROM ") + title;
   char delim = '\n'; // Ddefine the delimiter to split by
-  std::cerr << "ssda  1" << std::endl;
   auxputhead(_tag.c_str(), tmp.c_str());
   while (std::getline(stream, tmp, delim))
   {
-    std::cerr << tmp << " =line" << std::endl;
     auxputhead(_tag.c_str(), tmp.c_str());
   }
 }

@@ -628,6 +628,7 @@ void sep3dFile::putDataDescription(const Json::Value &desc)
 void sep3dFile::putDescription(const std::string &title,
                                const Json::Value &desc)
 {
+  std::cerr << "before put" << std::endl;
   std::stringstream stream;
   std::cerr << "what 1" << std::endl;
   stream << desc;

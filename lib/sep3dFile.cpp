@@ -641,7 +641,7 @@ void sep3dFile::putDescription(const std::string &title,
 {
   std::stringstream stream;
   stream << desc;
-  std::string m = "BEG OF OLD\t" + title + "\n-------------------------\n";
+  std::string m = std::string("BEG OF OLD\t") + title + std::string("\n-------------------------\n");
 
   std::string tmp = std::string("FROM ") + title + "\n";
   Json::Value lines = desc["History"];

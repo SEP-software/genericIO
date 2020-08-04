@@ -767,7 +767,7 @@ class irregFile:
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
             print("XX",fle.tag,fle.cppMode.getDescriptionString())
-            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString().decode("ISO-8859-1", "replace"))
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):

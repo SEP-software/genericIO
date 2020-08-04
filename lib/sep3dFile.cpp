@@ -559,7 +559,6 @@ void sep3dFile::message(const std::string &arg) const
 // Get description
 Json::Value sep3dFile::getDescription()
 {
-  std::cerr << "in ge scriotion" << std::endl;
   char *tmp_ch;
   int nsz = 100000;
   int nout = nsz * 2;
@@ -640,18 +639,17 @@ void sep3dFile::putDataDescription(const Json::Value &desc)
 void sep3dFile::putDescription(const std::string &title,
                                const Json::Value &desc)
 {
-  std::cerr << "in put description" << std::endl;
   std::stringstream stream;
   stream << desc;
   std::string tmp = std::string("FROM ") + title + "\n";
   Json::Value lines = desc["History"];
-  std::cerr << "in put " << std::endl;
   for (Json::ValueIterator itr = lines.begin(); itr != lines.end(); itr++)
   {
     std::string tmp = (*itr).asString();
-    std::cerr << "in loop " << tmp << std::endl;
     auxputhead(_tag.c_str(), tmp.c_str());
   }
+  std::string m = "END OF OLD\n-------------------------\n";
+  auxputhead(_tag.c_str(), m.c_str());
 }
 
 std::vector<std::string> sep3dFile::getHeaderKeyList() const

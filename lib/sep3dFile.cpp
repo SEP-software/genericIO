@@ -643,7 +643,7 @@ void sep3dFile::putDescription(const std::string &title,
   std::stringstream stream;
   stream << desc;
   std::string tmp = std::string("FROM ") + title + "\n";
-  Json::Value lines = (*json)["History"];
+  Json::Value lines = desc["History"];
   std::cerr << "in put " << std::endl;
   for (Json::ValueIterator itr = lines.begin(); itr != lines.end(); itr++)
   {

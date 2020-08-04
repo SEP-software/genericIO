@@ -640,6 +640,8 @@ void sep3dFile::putDataDescription(const Json::Value &desc)
 void sep3dFile::putDescription(const std::string &title,
                                const Json::Value &desc)
 {
+  return;
+  std::cerr << "in put description" << std::endl;
   std::stringstream stream;
   stream << desc;
   std::string tmp = std::string("FROM ") + title + "\n";

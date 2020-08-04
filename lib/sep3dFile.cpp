@@ -563,11 +563,11 @@ Json::Value sep3dFile::getDescription()
   char *tmp_ch;
   int nsz = 100000;
   int nout = nsz * 2;
-  tmp_ch = new char[1];
+  tmp_ch = new char[100000];
   grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
   nsz = nout + 1;
   delete[] tmp_ch;
-  tmp_ch = new char[nout];
+  tmp_ch = new char[nsz];
   grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
   std::string d = tmp_ch;
   char delim = '\n'; // Ddefine the delimiter to split by

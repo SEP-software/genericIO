@@ -647,7 +647,7 @@ void sep3dFile::putDescription(const std::string &title,
   std::cerr << "in put " << std::endl;
   for (Json::ValueIterator itr = lines.begin(); itr != lines.end(); itr++)
   {
-    std::string tmp = *itr.asString();
+    std::string tmp = (*itr).asString();
     std::cerr << "in loop " << tmp << std::endl;
     auxputhead(_tag.c_str(), tmp.c_str());
   }

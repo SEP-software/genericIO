@@ -767,18 +767,15 @@ class irregFile:
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
             print("XX",fle.tag,fle.cppMode.getDescriptionString())
-            self.cppMode.putDescriptionString(fle.tag,unicode(fle.cppMode.getDescriptionString(),
-            errors="ignore"))
+            self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString().encode("ascii"))
         elif isinstance(fle,list):
             for f in fle:
                 if isinstance(f,regFile) or isinstance(f,irregFile):
-                    self.cppMode.putDescriptionString(f.tag,unicode(f.cppMode.getDescriptionString(),
-                    errors="ignore"))
+                    self.cppMode.putDescriptionString(f.tag,f.cppMode.getDescriptionString().encode("ascii"))
         elif isinstance(fle,dict):
             for f,v in fle.items():
                 if isinstance(v,regFile) or isinstance(v,irregFile):
-                    self.cppMode.putDescriptionString(f,unicode(v.cppMode.getDescriptionString(),
-                    errors="ignore"))
+                    self.cppMode.putDescriptionString(f,v.cppMode.getDescriptionString().encode("ascii"))
     def getEsize(self):
         """Return element size"""
         if  self.storage=="dataByte":

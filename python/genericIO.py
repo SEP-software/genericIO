@@ -766,7 +766,6 @@ class irregFile:
             fle - File(s) to read description from
         """
         if isinstance(fle,regFile) or isinstance(fle,irregFile):
-            print("XX",fle.tag,fle.cppMode.getDescriptionString())
             self.cppMode.putDescriptionString(fle.tag,fle.cppMode.getDescriptionString())
         elif isinstance(fle,list):
             for f in fle:

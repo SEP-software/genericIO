@@ -574,11 +574,9 @@ Json::Value sep3dFile::getDescription()
   std::string tmp;
   std::stringstream stream;
   stream.str(d);
-  std::cerr << "in loop " << std::endl;
   Json::Value j;
   while (std::getline(stream, tmp, delim))
   {
-    std::cerr << "add line " << tmp << std::endl;
     j["History"].append(tmp);
   }
 
@@ -642,21 +640,17 @@ void sep3dFile::putDataDescription(const Json::Value &desc)
 void sep3dFile::putDescription(const std::string &title,
                                const Json::Value &desc)
 {
-  std::cerr << "before put" << std::endl;
   std::stringstream stream;
-  std::cerr << "what 1" << std::endl;
   stream << desc;
   std::string tmp = std::string("FROM ") + title + "\n";
-  char delim = '\n'; // Ddefine the delimiter to split by
-  std::cerr << "what3 1 " << _tag << "=tag tmp=" << tmp << std::endl;
-  auxputhead(_tag.c_str(), tmp.c_str());
-  std::cerr << "what4 1" << std::endl;
-
-  while (std::getline(stream, tmp, delim))
+  Json::Value lines = (*json)["History"];
+  std::cerr << "in put " << std::endl;
+  for (Json::ValueIterator itr = lines.begin(); itr != lines.end(); itr++)
   {
+    std::string tmp = *itr.asString();
+    std::cerr << "in loop " << tmp << std::endl;
     auxputhead(_tag.c_str(), tmp.c_str());
   }
-  std::cerr << "what5 1" << std::endl;
 }
 
 std::vector<std::string> sep3dFile::getHeaderKeyList() const

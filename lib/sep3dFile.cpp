@@ -650,7 +650,7 @@ void sep3dFile::putDescription(const std::string &title,
     std::string tmp = (*itr).asString();
     auxputhead(_tag.c_str(), tmp.c_str());
   }
-  std::string m = "END OF OLD\n-------------------------\n";
+  m = "END OF OLD\n-------------------------\n";
   auxputhead(_tag.c_str(), m.c_str());
 }
 

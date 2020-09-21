@@ -73,9 +73,7 @@ if(BUILD_GCP)
 else(BUILD_GCP)
 
 endif(BUILD_GCP)
-if(NOT TARGET sepVector)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
-endif(NOT TARGET sepVector)
+
 if(SEPLIB_BUILD)
 
   set(GEN_IO_TYPES "${GEN_IO_TYPES} ,\"SEP\"")
@@ -131,7 +129,9 @@ if(BUILD_TEST)
 else()
 
 endif(BUILD_TEST)
-
+if(NOT TARGET sepVector)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
+endif(NOT TARGET sepVector)
 add_subdirectory(lib)
 if(BUILD_SEGYIO)
   set(PYTHON_INSTALL_LAYOUT /opt/segy/python)

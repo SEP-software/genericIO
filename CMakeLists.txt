@@ -132,6 +132,9 @@ endif(BUILD_TEST)
 if(NOT TARGET sepVector)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
 endif(NOT TARGET sepVector)
+
+
+
 add_subdirectory(lib)
 if(BUILD_SEGYIO)
   set(PYTHON_INSTALL_LAYOUT /opt/segy/python)

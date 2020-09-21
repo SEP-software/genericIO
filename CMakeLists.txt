@@ -43,6 +43,9 @@ set(genericIO_VERSION_STRING
 
 set(genericIO_VERSION ${genericIO_VERSION_STRING})
 include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
+  execute_process(COMMAND git submodule update --init --recursive --
+                          external/segyio
+                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(NOT SUBPACKAGE)
 

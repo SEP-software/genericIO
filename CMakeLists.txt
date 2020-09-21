@@ -73,7 +73,9 @@ if(BUILD_GCP)
 else(BUILD_GCP)
 
 endif(BUILD_GCP)
-
+if(NOT TARGET sepVector)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
+endif(NOT TARGET sepVector)
 if(SEPLIB_BUILD)
 
   set(GEN_IO_TYPES "${GEN_IO_TYPES} ,\"SEP\"")
@@ -117,9 +119,7 @@ configure_file(genericIOConfig.cmake.in genericIOConfig.cmake @ONLY)
 
 set(SUBPACKAGE true)
 
-if(NOT TARGET sepVector)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/sepVector)
-endif(NOT TARGET sepVector)
+
 
 if(NOT TARGET buffers)
 add_subdirectory(external/buffers)

@@ -2,10 +2,6 @@
 	path = external/sepVector
 	url = http://cees-gitlab.Stanford.EDU/bob/sepVector.git
         ignore = dirty
-[submodule "external/buffers"]
-	path = external/buffers
-	url = http://cees-gitlab.Stanford.EDU/bob/buffers.git
-        ignore = dirty
 [submodule "external/segyio"]
 	path = external/segyio
 	url = https://github.com/equinor/segyio.git

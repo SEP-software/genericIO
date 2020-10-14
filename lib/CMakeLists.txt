@@ -63,7 +63,7 @@ if(BUILD_GCP)
   set(INCLUDES ${INCLUDE} gcpBuffersIO.h gcpBuffersRegFile.h)
 endif(BUILD_GCP)
 
-add_library(genericCpp ${SOURCES} ${INCLUDES})
+add_library(genericCpp  SHARED ${SOURCES} ${INCLUDES})
 
 target_include_directories(
   genericCpp

@@ -69,7 +69,8 @@ target_include_directories(
   genericCpp
   PUBLIC $<INSTALL_INTERFACE:include>
          $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+         )
 
 target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 

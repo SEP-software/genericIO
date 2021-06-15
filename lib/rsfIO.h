@@ -16,14 +16,14 @@ Initialize IO with command line arguments
 */
   rsfIO(int argc, char **argv);
   /*!
-   Return a genericRegFile object
+   Return a genericReg object
 
   \param tag Tag used to access dataset
   \param name Name of dataset
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-  virtual std::shared_ptr<genericRegFile> getRegFileTag(
+  virtual std::shared_ptr<genericReg> getRegFileTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
   /*!

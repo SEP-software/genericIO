@@ -11,25 +11,25 @@ void genericIO::filesClose()
     i->second->close();
   }
 }
-std::shared_ptr<SEP::genericRegFile>
-genericIO::getRegFile(const std::string &name, const SEP::usage_code usage,
+std::shared_ptr<SEP::genericReg>
+genericIO::getReg(const std::string &name, const SEP::usage_code usage,
                       const int ndimMax)
 {
   std::shared_ptr<paramObj> par = getParamObj();
   std::string filename = par->getString(name, name);
-  return getRegFileTag(name, filename, usage, ndimMax);
+  return getRegTag(name, filename, usage, ndimMax);
 }
 
-std::shared_ptr<SEP::genericRegFile>
-genericIO::getDocRegFile(const std::string &name, const std::string &doc,
+std::shared_ptr<SEP::genericReg>
+genericIO::getDocReg(const std::string &name, const std::string &doc,
                          const SEP::usage_code usage, const int ndimMax)
 {
   std::shared_ptr<paramObj> par = getParamObj();
   std::string filename = par->getString(name, name);
-  std::shared_ptr<SEP::genericRegFile> v;
+  std::shared_ptr<SEP::genericReg> v;
   try
   {
-    v = getRegFileTag(name, filename, usage, ndimMax);
+    v = getRegTag(name, filename, usage, ndimMax);
   }
   catch (SEPException &x)
   {
@@ -48,14 +48,14 @@ void genericIO::removeRegFile(const std::string fle)
   _regFiles.erase(fle);
 }
 
-std::shared_ptr<SEP::genericRegFile>
+std::shared_ptr<SEP::genericReg>
 genericIO::getDocRegFile(const std::string &name, const std::string &doc,
                          const std::string usage, const int ndimMax)
 {
-  std::shared_ptr<SEP::genericRegFile> v;
+  std::shared_ptr<SEP::genericReg> v;
   try
   {
-    v = getRegFile(name, usage, ndimMax);
+    v = getReg(name, usage, ndimMax);
   }
   catch (SEPException &x)
   {
@@ -83,7 +83,7 @@ void genericIO::fileDebug(const std::string nm, const float *data, const int n1,
   axs.push_back(SEP::axis(n3));
   std::shared_ptr<hypercube> hyper2(new hypercube(axs));
 
-  std::shared_ptr<SEP::genericRegFile> fle = getRegFile(nm, SEP::usageOut);
+  std::shared_ptr<SEP::genericReg> fle = getReg(nm, SEP::usageOut);
   fle->setHyper(hyper2);
   fle->writeDescription();
   fle->writeFloatStream(data, (long long)n1 * (long long)n2 * (long long)n3);
@@ -96,15 +96,15 @@ void genericIO::fileDebug(const std::string nm, const float *data, const int n1,
   axs.push_back(SEP::axis(n2));
   std::shared_ptr<hypercube> hyper2(new hypercube(axs));
 
-  std::shared_ptr<SEP::genericRegFile> fle = getRegFile(nm, SEP::usageOut);
+  std::shared_ptr<SEP::genericReg> fle = getReg(nm, SEP::usageOut);
   fle->setHyper(hyper2);
   fle->writeDescription();
   fle->writeFloatStream(data, (long long)n1 * (long long)n2);
 }
 
-void genericIO::addFileDescription(const std::shared_ptr<genericRegFile> fileIn,
+void genericIO::addFileDescription(const std::shared_ptr<genericReg> fileIn,
                                    const std::string &title,
-                                   std::shared_ptr<genericRegFile> fileOut)
+                                   std::shared_ptr<genericReg> fileOut)
 {
   Json::Value val = fileIn->getDescription();
   fileOut->putDescription(title, val);

@@ -11,7 +11,7 @@ namespace SEP
   /*!
    Regular file described by JSON
 */
-  class jsonGenericRegFile : public genericRegFile
+  class jsonGenericRegFile : public genericReg  
   {
   public:
     /*!

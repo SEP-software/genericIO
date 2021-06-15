@@ -26,9 +26,9 @@ namespace SEP
               .value("usageScr", usage_code::usageScr);
 
           py::enum_<file_type>(clsGeneric, "file_type")
-              .value("invalidFile", file_type::invalidFile)
-              .value("regularFile", file_type::regularFile)
-              .value("irregularFile", file_type::irregularFile);
+              .value("invalidFile", file_type::invalid)
+              .value("regularFile", file_type::regular)
+              .value("irregularFile", file_type::irregular);
 
           py::enum_<dataType>(clsGeneric, "dataType")
               .value("dataFloat", dataType::DATA_FLOAT)
@@ -122,287 +122,287 @@ namespace SEP
                        dictParams::addParams,
                    "Add parameters");
 
-          py::class_<genericRegFile, paramObj, std::shared_ptr<genericRegFile>>(
-              clsGeneric, "genericRegFile")
-              // .def(py::init<>(), "Initlialize a genericRegFile (don't use this)")
+          py::class_<genericReg, paramObj, std::shared_ptr<genericReg>>(
+              clsGeneric, "genericReg")
+              // .def(py::init<>(), "Initlialize a genericReg (don't use this)")
               .def("putInt",
-                   (void (genericRegFile::*)(const std::string &, const int) const) &
-                       genericRegFile::putInt,
+                   (void (genericReg::*)(const std::string &, const int) const) &
+                       genericReg::putInt,
                    "Write an integer parameters")
-              .def("remove", (void (genericRegFile::*)()) & genericRegFile::remove,
+              .def("remove", (void (genericReg::*)()) & genericReg::remove,
                    "Remove  all data  associated with the file")
               .def("putFloat",
-                   (void (genericRegFile::*)(const std::string &, const float) const) &
-                       genericRegFile::putFloat,
+                   (void (genericReg::*)(const std::string &, const float) const) &
+                       genericReg::putFloat,
                    "Write a float parameters")
 
               .def("putString",
-                   (void (genericRegFile::*)(const std::string &, const std::string)
+                   (void (genericReg::*)(const std::string &, const std::string)
                         const) &
-                       genericRegFile::putFloat,
+                       genericReg::putFloat,
                    "Write a string parameters")
 
               .def("putBool",
-                   (void (genericRegFile::*)(const std::string &, const bool) const) &
-                       genericRegFile::putBool,
+                   (void (genericReg::*)(const std::string &, const bool) const) &
+                       genericReg::putBool,
                    "Write a boolean parameters")
 
               .def("putInts",
-                   (void (genericRegFile::*)(const std::string &,
+                   (void (genericReg::*)(const std::string &,
                                              const std::vector<int> &) const) &
-                       genericRegFile::putInts,
+                       genericReg::putInts,
                    "Write  a vector or integer parameters")
 
               .def("putFloats",
-                   (void (genericRegFile::*)(const std::string &,
+                   (void (genericReg::*)(const std::string &,
                                              const std::vector<float> &) const) &
-                       genericRegFile::putFloats,
+                       genericReg::putFloats,
                    "Write  a vector or float parameters")
 
               .def("readByteStream",
-                   (void (genericRegFile ::*)(unsigned char *, const long long)) &
-                       genericRegFile::readByteStream,
+                   (void (genericReg ::*)(unsigned char *, const long long)) &
+                       genericReg::readByteStream,
                    "Read a stream of unisigned chars")
 
               .def("readFloatStream",
-                   (void (genericRegFile ::*)(float *, const long long)) &
-                       genericRegFile::readFloatStream,
+                   (void (genericReg ::*)(float *, const long long)) &
+                       genericReg::readFloatStream,
                    "Read a stream of floats")
               .def("readDoubleStream",
-                   (void (genericRegFile ::*)(double *, const long long)) &
-                       genericRegFile::readDoubleStream,
+                   (void (genericReg ::*)(double *, const long long)) &
+                       genericReg::readDoubleStream,
                    "Read a stream of doubles")
               .def("readIntStream",
-                   (void (genericRegFile ::*)(int *, const long long)) &
-                       genericRegFile::readIntStream,
+                   (void (genericReg ::*)(int *, const long long)) &
+                       genericReg::readIntStream,
                    "Read a stream of ints")
               .def("getBinary",
-                   (std::string(genericRegFile ::*)() const) &
-                       genericRegFile::getBinary,
+                   (std::string(genericReg ::*)() const) &
+                       genericReg::getBinary,
                    "Return binary location")
               .def("readComplexStream",
-                   (void (genericRegFile ::*)(std::complex<float> *, const long long)) &
-                       genericRegFile::readComplexStream,
+                   (void (genericReg ::*)(std::complex<float> *, const long long)) &
+                       genericReg::readComplexStream,
                    "Read a stream of complex numbers")
               .def("writeByteStream",
-                   (void (genericRegFile ::*)(const unsigned char *, const long long)) &
-                       genericRegFile::writeByteStream,
+                   (void (genericReg ::*)(const unsigned char *, const long long)) &
+                       genericReg::writeByteStream,
                    "Write a stream of complex")
               .def("writeComplexStream",
-                   (void (genericRegFile ::*)(const std::complex<float> *,
+                   (void (genericReg ::*)(const std::complex<float> *,
                                               const long long)) &
-                       genericRegFile::writeComplexStream,
+                       genericReg::writeComplexStream,
                    "Write a stream of complex")
               .def("writeComplexDoubleStream",
-                   (void (genericRegFile ::*)(const std::complex<double> *,
+                   (void (genericReg ::*)(const std::complex<double> *,
                                               const long long)) &
-                       genericRegFile::writeComplexDoubleStream,
+                       genericReg::writeComplexDoubleStream,
                    "Write a stream of complex doubles")
               .def("writeFloatStream",
-                   (void (genericRegFile ::*)(const float *, const long long)) &
-                       genericRegFile::writeFloatStream,
+                   (void (genericReg ::*)(const float *, const long long)) &
+                       genericReg::writeFloatStream,
                    "Write a stream of floats")
               .def("writeDoubleStream",
-                   (void (genericRegFile ::*)(const double *, const long long)) &
-                       genericRegFile::writeDoubleStream,
+                   (void (genericReg ::*)(const double *, const long long)) &
+                       genericReg::writeDoubleStream,
                    "Write a stream of floats")
 
               .def("putDescriptionString",
-                   (void (genericRegFile::*)(const std::string &, const std::string &)) &
-                       genericRegFile::putDescriptionString,
+                   (void (genericReg::*)(const std::string &, const std::string &)) &
+                       genericReg::putDescriptionString,
                    "Put the  description into the file")
               .def("getDescriptionString",
-                   (std::string(genericRegFile::*)()) &
-                       genericRegFile::getDescriptionString,
+                   (std::string(genericReg::*)()) &
+                       genericReg::getDescriptionString,
                    "Get the  description from the file")
 
-              .def("close", (void (genericRegFile ::*)()) & genericRegFile::close,
+              .def("close", (void (genericReg ::*)()) & genericReg::close,
                    "Close file")
               .def("readByteWindow",
-                   (void (genericRegFile ::*)(
+                   (void (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, unsigned char *)) &
-                       genericRegFile::readByteWindow,
+                       genericReg::readByteWindow,
                    "Read a window of unsigned chars")
               .def("readFloatWindow",
-                   (void (genericRegFile ::*)(const std::vector<int> &,
+                   (void (genericReg ::*)(const std::vector<int> &,
                                               const std::vector<int> &,
                                               const std::vector<int> &, float *)) &
-                       genericRegFile::readFloatWindow,
+                       genericReg::readFloatWindow,
                    "Read a window of floats")
               .def("readIntWindow",
-                   (void (genericRegFile ::*)(const std::vector<int> &,
+                   (void (genericReg ::*)(const std::vector<int> &,
                                               const std::vector<int> &,
                                               const std::vector<int> &, int *)) &
-                       genericRegFile::readIntWindow,
+                       genericReg::readIntWindow,
                    "Read a window of ints")
               .def("readDoubleWindow",
-                   (void (genericRegFile ::*)(const std::vector<int> &,
+                   (void (genericReg ::*)(const std::vector<int> &,
                                               const std::vector<int> &,
                                               const std::vector<int> &, double *)) &
-                       genericRegFile::readDoubleWindow,
+                       genericReg::readDoubleWindow,
                    "Read a window of doubles")
               .def("writeFloatStream",
-                   (bool (genericRegFile ::*)(const std::shared_ptr<floatHyper>)) &
-                       genericRegFile::writeFloatStream,
+                   (bool (genericReg ::*)(const std::shared_ptr<floatHyper>)) &
+                       genericReg::writeFloatStream,
                    "Write a float stream into a sepVector")
 
               .def("writeDoubleStream",
-                   (bool (genericRegFile ::*)(const std::shared_ptr<doubleHyper>)) &
-                       genericRegFile::writeDoubleStream,
+                   (bool (genericReg ::*)(const std::shared_ptr<doubleHyper>)) &
+                       genericReg::writeDoubleStream,
                    "Write a double stream into a sepVector")
               .def("writeComplexStream",
-                   (bool (genericRegFile ::*)(const std::shared_ptr<complexHyper>)) &
-                       genericRegFile::writeComplexStream,
+                   (bool (genericReg ::*)(const std::shared_ptr<complexHyper>)) &
+                       genericReg::writeComplexStream,
                    "Write a complex stream into a sepVector")
               .def("writeComplexDoubleStream",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::shared_ptr<complexDoubleHyper>)) &
-                       genericRegFile::writeComplexDoubleStream,
+                       genericReg::writeComplexDoubleStream,
                    "Write a complex double stream into a sepVector")
               .def("writeByteStream",
-                   (bool (genericRegFile ::*)(const std::shared_ptr<byteHyper>)) &
-                       genericRegFile::writeByteStream,
+                   (bool (genericReg ::*)(const std::shared_ptr<byteHyper>)) &
+                       genericReg::writeByteStream,
                    "Write a byte stream into a sepVector")
               .def("readFloatStream",
-                   (bool (genericRegFile ::*)(std::shared_ptr<floatHyper>)) &
-                       genericRegFile::readFloatStream,
+                   (bool (genericReg ::*)(std::shared_ptr<floatHyper>)) &
+                       genericReg::readFloatStream,
                    "Read  a float stream into a sepVector")
               .def("readDoubleStream",
-                   (bool (genericRegFile ::*)(std::shared_ptr<doubleHyper>)) &
-                       genericRegFile::readDoubleStream,
+                   (bool (genericReg ::*)(std::shared_ptr<doubleHyper>)) &
+                       genericReg::readDoubleStream,
                    "Read  a double stream into a sepVector")
               .def("readIntStream",
-                   (bool (genericRegFile ::*)(std::shared_ptr<intHyper>)) &
-                       genericRegFile::readIntStream,
+                   (bool (genericReg ::*)(std::shared_ptr<intHyper>)) &
+                       genericReg::readIntStream,
                    "Read  a int stream into a sepVector")
               .def("readComplexStream",
-                   (bool (genericRegFile ::*)(std::shared_ptr<complexHyper>)) &
-                       genericRegFile::readComplexStream,
+                   (bool (genericReg ::*)(std::shared_ptr<complexHyper>)) &
+                       genericReg::readComplexStream,
                    "Read  a complex stream into a sepVector")
               .def("readByteStream",
-                   (bool (genericRegFile ::*)(std::shared_ptr<byteHyper>)) &
-                       genericRegFile::readByteStream,
+                   (bool (genericReg ::*)(std::shared_ptr<byteHyper>)) &
+                       genericReg::readByteStream,
                    "Read  a byte stream into a sepVector")
               .def("readFloatWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<floatHyper>)) &
-                       genericRegFile::readFloatWindow,
+                       genericReg::readFloatWindow,
                    "Read  a window of floats  into a sepVector")
               .def("readIntWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<intHyper>)) &
-                       genericRegFile::readIntWindow,
+                       genericReg::readIntWindow,
                    "Read  a window of ints  into a sepVector")
               .def("readDoubleWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<doubleHyper>)) &
-                       genericRegFile::readDoubleWindow,
+                       genericReg::readDoubleWindow,
                    "Read  a window of doubles  into a sepVector")
               .def("readByteWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<byteHyper>)) &
-                       genericRegFile::readByteWindow,
+                       genericReg::readByteWindow,
                    "Read  a window of bytes  into a sepVector")
               .def("writeByteWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<byteHyper>)) &
-                       genericRegFile::writeByteWindow,
+                       genericReg::writeByteWindow,
                    "Write  a window of bytes  from a sepVector")
               .def("writeFloatWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const std::shared_ptr<floatHyper>)) &
-                       genericRegFile::writeFloatWindow,
+                       genericReg::writeFloatWindow,
                    "Write  a window of floats  into a sepVector")
               .def("writeIntWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const std::shared_ptr<intHyper>)) &
-                       genericRegFile::writeIntWindow,
+                       genericReg::writeIntWindow,
                    "Write  a window of int  into a sepVector")
 
               .def("writeComplexWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const std::shared_ptr<complexHyper>)) &
-                       genericRegFile::writeComplexWindow,
+                       genericReg::writeComplexWindow,
                    "Write  a window of complex float  into a sepVector")
               .def("writeComplexDoubleWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &,
                        const std::shared_ptr<complexDoubleHyper>)) &
-                       genericRegFile::writeComplexDoubleWindow,
+                       genericReg::writeComplexDoubleWindow,
                    "Write  a window of complex double  into a sepVector")
 
               .def("readComplexWindow",
-                   (void (genericRegFile ::*)(
+                   (void (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::complex<float> *)) &
-                       genericRegFile::readComplexWindow,
+                       genericReg::readComplexWindow,
                    "Read a window of complex")
               .def("readComplexWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<complexHyper>)) &
-                       genericRegFile::readComplexWindow,
+                       genericReg::readComplexWindow,
                    "Read  a window of complex  into a sepVector")
               .def("readComplexDoubleWindow",
-                   (void (genericRegFile ::*)(
+                   (void (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::complex<double> *)) &
-                       genericRegFile::readComplexDoubleWindow,
+                       genericReg::readComplexDoubleWindow,
                    "Read a window of complex doubles")
               .def("readComplexDoubleWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, std::shared_ptr<complexDoubleHyper>)) &
-                       genericRegFile::readComplexDoubleWindow,
+                       genericReg::readComplexDoubleWindow,
                    "Read  a window of complex doubles into a sepVector")
               .def("writeFloatWindow",
-                   (void (genericRegFile ::*)(
+                   (void (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const float *)) &
-                       genericRegFile::writeFloatWindow,
+                       genericReg::writeFloatWindow,
                    "Write a window of floats")
 
               .def("writeComplexWindow",
-                   (void (genericRegFile ::*)(
+                   (void (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const std::complex<float> *)) &
-                       genericRegFile::writeComplexWindow,
+                       genericReg::writeComplexWindow,
                    "Write a window of complex")
               .def("writeComplexWindow",
-                   (bool (genericRegFile ::*)(
+                   (bool (genericReg ::*)(
                        const std::vector<int> &, const std::vector<int> &,
                        const std::vector<int> &, const std::shared_ptr<complexHyper>)) &
-                       genericRegFile::writeComplexWindow,
+                       genericReg::writeComplexWindow,
                    "Write  a window of complex floats  into a sepVector")
-              .def("readDescription", (void (genericRegFile::*)(const int)) &
-                                          genericRegFile::readDescription)
+              .def("readDescription", (void (genericReg::*)(const int)) &
+                                          genericReg::readDescription)
               .def("writeDescription",
-                   (void (genericRegFile::*)()) & genericRegFile::writeDescription)
+                   (void (genericReg::*)()) & genericReg::writeDescription)
 
               .def("setHyper",
-                   (void (genericRegFile::*)(std::shared_ptr<SEP::hypercube>)) &
-                       genericRegFile::setHyper)
+                   (void (genericReg::*)(std::shared_ptr<SEP::hypercube>)) &
+                       genericReg::setHyper)
               .def("getHyper",
-                   (std::shared_ptr<hypercube>(genericRegFile::*)()) &
-                       genericRegFile::getHyper,
+                   (std::shared_ptr<hypercube>(genericReg::*)()) &
+                       genericReg::getHyper,
                    "Get the hypercube")
-              .def_property("_hyper", &genericRegFile::getHyper,
-                            &genericRegFile::setHyper,
+              .def_property("_hyper", &genericReg::getHyper,
+                            &genericReg::setHyper,
                             py::return_value_policy::reference)
               .def("getDataType",
-                   (dataType(genericRegFile::*)()) & genericRegFile::getDataType)
-              .def("setDataType", (void (genericRegFile::*)(const dataType)) &
-                                      genericRegFile::setDataType);
+                   (dataType(genericReg::*)()) & genericReg::getDataType)
+              .def("setDataType", (void (genericReg::*)(const dataType)) &
+                                      genericReg::setDataType);
 
           py::class_<genericIrregFile, std::shared_ptr<genericIrregFile>>(
               clsGeneric, "genericIrregFile")
@@ -795,14 +795,14 @@ namespace SEP
 
           py::class_<genericIO, std::shared_ptr<genericIO>>(clsGeneric, "genericIO")
 
-              .def("getRegFile",
-                   (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
+              .def("getReg",
+                   (std::shared_ptr<SEP::genericReg>(genericIO::*)(
                        const std::string &, const SEP::usage_code, const int)) &
-                       genericIO::getRegFile)
-              .def("getRegFile",
-                   (std::shared_ptr<SEP::genericRegFile>(genericIO::*)(
+                       genericIO::getReg)
+              .def("getReg",
+                   (std::shared_ptr<SEP::genericReg>(genericIO::*)(
                        const std::string &, const std::string, const int)) &
-                       genericIO::getRegFile)
+                       genericIO::getReg)
               .def("getFileType",
                    (SEP::file_type(genericIO::*)(
                        const std::string &)) &

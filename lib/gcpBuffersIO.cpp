@@ -4,7 +4,7 @@
 #include <iostream>  // std::cout
 using namespace SEP;
 
-std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
+std::shared_ptr<genericReg> gcpBuffersIO::getRegTag(
     const std::string &tag, const std::string &name, const usage_code usage,
      const int ndimMax) {
   if (!_init && !_sentError) {
@@ -16,7 +16,7 @@ std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericRegFile> x(
+  std::shared_ptr<jsonGenericReg> x(
       new gcpBuffersRegFile(jsonArgs, usage, name, _progName,ndimMax));
   addRegFile(tag, x);
   return x;

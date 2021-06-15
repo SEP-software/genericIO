@@ -14,10 +14,10 @@ int main(int argc, char** argv) {
   std::string out = par->getString(std::string("out"));
 
   std::string inDir = par->getString(std::string("indir"));
-  std::shared_ptr<genericRegFile> inp =
-      modes.getIO("BUFFERS")->getRegFile(inDir, usageIn);
+  std::shared_ptr<genericReg> inp =
+      modes.getIO("BUFFERS")->getReg(inDir, usageIn);
 
-  std::shared_ptr<genericRegFile> outp = io->getRegFile(out, usageOut);
+  std::shared_ptr<genericReg> outp = io->getReg(out, usageOut);
 
   std::shared_ptr<hypercube> hyperIn = inp->getHyper();
 

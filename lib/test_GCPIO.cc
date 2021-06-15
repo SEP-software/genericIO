@@ -63,7 +63,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
 
   std::shared_ptr<genericIO> gcp = io->getIO("GCPBUFFERS");
   {
-    std::shared_ptr<genericRegFile> fle0, fle1;
+    std::shared_ptr<genericReg> fle0, fle1;
 
     ASSERT_NO_THROW(fle0 = gcp->getRegFile(bucket1, SEP::usageOut));
     std::dynamic_pointer_cast<gcpBuffersRegFile>(fle0)->setBlocking(block);
@@ -86,7 +86,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
   }
 
   {
-    std::shared_ptr<genericRegFile> fle0, fle1;
+    std::shared_ptr<genericReg> fle0, fle1;
     ASSERT_NO_THROW(fle1 = gcp->getRegFile(bucket1, SEP::usageIn));
     ASSERT_NO_THROW(fle1->readDescription(4));
 
@@ -115,7 +115,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
     std::shared_ptr<SEP::IO::ZfpCompression> z(
         new SEP::IO::ZfpCompression(SEP::DATA_FLOAT, zpars));
 
-    std::shared_ptr<genericRegFile> fle0, fle1;
+    std::shared_ptr<genericReg> fle0, fle1;
     ASSERT_NO_THROW(fle1 = gcp->getRegFile(bucket2, SEP::usageOut));
     std::dynamic_pointer_cast<gcpBuffersRegFile>(fle1)->setBlocking(block);
     std::dynamic_pointer_cast<gcpBuffersRegFile>(fle1)->setCompression(z);
@@ -139,7 +139,7 @@ TEST(TESTBucketCreation, gcpBuffers) {
     std::cerr<<"after close"<<std::endl;
   }
   {
-    std::shared_ptr<genericRegFile> fle0, fle1;
+    std::shared_ptr<genericReg> fle0, fle1;
     fle1 = gcp->getRegFile(bucket2, SEP::usageIn);
     ASSERT_NO_THROW(fle1->readDescription(4));
 

@@ -52,8 +52,8 @@ void jsonGenericIO::initJsonPars(const int argc, char **argv) {
   _param = x;
   setValid(true);
 }
-std::shared_ptr<genericRegFile>
-jsonGenericIO::getRegFileTag(const std::string &tag, const std::string &name,
+std::shared_ptr<genericReg>
+jsonGenericIO::getRegTag(const std::string &tag, const std::string &name,
                              const usage_code usage, const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;

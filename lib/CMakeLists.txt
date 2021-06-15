@@ -47,9 +47,10 @@ if(USE_SEP)
       ${SOURCES}
       sepIO.cpp
       sep3dFile.cpp
+      sep_reg.cpp
       sep_reg_file.cpp
       sep_params.cpp)
-  set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)
+  set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg.h sep_reg_file.h)
 endif(USE_SEP)
 
 if(USE_RSF)

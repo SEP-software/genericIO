@@ -28,6 +28,8 @@ void ioModes::setup(const int argc,  char **argv) {
   _ios["FILEBUFFERS"] = m;
 
 #ifdef USE_GCP
+ // std::shared_ptr<sepRegGCPObject> y2(new sepRegObject(argc,argv));
+ // _ios["SEPREGGCPOBJECT"]=y2;
   std::shared_ptr<gcpBuffersIO> y(new gcpBuffersIO(argc, argv));
   _ios["GCPBUFFERS"] = y;
 #endif
@@ -62,18 +64,18 @@ std::shared_ptr<genericIO> ioModes::getIO(const std::string &def) {
                        std::string(" io has not been defined and/or built"));
   return _ios[def];
 }
-std::shared_ptr<genericRegFile> ioModes::getRegFileTag(
+std::shared_ptr<genericReg> ioModes::getRegTag(
     const std::string &tag, const std::string &ioname, const std::string &name,
     usage_code usage) {
   if (_ios.count(ioname) == 0)
     _par->error(ioname + " io has not been ioname and/or built");
   if (!_ios[ioname]->getValid())
     _par->error(ioname + std::string(" has not been initialized correctly"));
-  return _ios[ioname]->getRegFile(name, usage);
+  return _ios[ioname]->getReg(name, usage);
 }
-std::shared_ptr<genericRegFile> ioModes::getGenericRegFile(
+std::shared_ptr<genericReg> ioModes::getGenericReg(
     const std::string &name, const usage_code usage) {
-  return _defaultIO->getRegFile(name, usage);
+  return _defaultIO->getReg(name, usage);
 }
 
 std::shared_ptr<genericIO> ioModes::getInputIO() {

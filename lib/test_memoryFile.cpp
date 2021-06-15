@@ -48,7 +48,7 @@ TEST(initial, createBufferf) {
 
   io = modes.getIO("memory");
 
-  std::shared_ptr<genericRegFile> file;
+  std::shared_ptr<genericReg> file;
   ASSERT_NO_THROW(file = io->getRegFile("outputTest", usageOut));
 }
 TEST(initial, correctType) {
@@ -58,7 +58,7 @@ TEST(initial, correctType) {
 
   io = modes.getIO("memory");
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);
   EXPECT_NE(flM, nullptr);
@@ -71,7 +71,7 @@ TEST(writeFloat, hyperMustBeSet) {
 
   io = modes.getIO("memory");
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   std::vector<float> buf1 = createArrayF(10, 10, 10);
 
   ASSERT_ANY_THROW(file->writeFloatStream(buf1.data(), 1000));
@@ -85,7 +85,7 @@ TEST(writeFloat, All) {
   io = modes.getIO("memory");
   std::shared_ptr<hypercube> hyper(new hypercube(10, 10, 10));
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   file->setHyper(hyper);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);
@@ -111,7 +111,7 @@ TEST(writeFloat, parts) {
   io = modes.getIO("memory");
   std::shared_ptr<hypercube> hyper(new hypercube(10, 10, 10));
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   file->setHyper(hyper);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);
@@ -137,7 +137,7 @@ TEST(writeFloat, wind) {
   io = modes.getIO("memory");
   std::shared_ptr<hypercube> hyper(new hypercube(10, 10, 10));
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   file->setHyper(hyper);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);
@@ -170,7 +170,7 @@ TEST(readFloat, All) {
   io = modes.getIO("memory");
   std::shared_ptr<hypercube> hyper(new hypercube(10, 10, 10));
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   file->setHyper(hyper);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);
@@ -194,7 +194,7 @@ TEST(readFloat, Window) {
   io = modes.getIO("memory");
   std::shared_ptr<hypercube> hyper(new hypercube(10, 10, 10));
 
-  std::shared_ptr<genericRegFile> file = io->getRegFile("outputTest", usageOut);
+  std::shared_ptr<genericReg> file = io->getRegFile("outputTest", usageOut);
   file->setHyper(hyper);
   std::shared_ptr<memoryRegFile> flM =
       std::dynamic_pointer_cast<memoryRegFile>(file);

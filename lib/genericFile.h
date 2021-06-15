@@ -26,15 +26,15 @@ namespace SEP
     usageScr    ///< Scratch file (remove at end)
   };
   /*!
-   Generic regular file object (virtual)
+   Generic regular  object (virtual)
 */
-  class genericRegFile : public paramObj
+  class genericReg : public paramObj
   {
   public:
     /*!
    Default initialization
 */
-    genericRegFile() { _type = DATA_UNKNOWN; }
+    genericReg() { _type = DATA_UNKNOWN; }
 
     /*!
     Remove file from system
@@ -722,7 +722,7 @@ Write  the description of the file
 
     virtual void putDescriptionString(const std::string &title,
                                       const std::string &descrp);
-    virtual ~genericRegFile() { ; }
+    virtual ~genericReg() { ; }
 
     /*!
   Return binary location

@@ -8,7 +8,7 @@ memoryIO::memoryIO(std::map<std::string, std::string> dict) {
   setValid(true);
 }
 
-std::shared_ptr<genericRegFile> memoryIO::getRegFileTag(
+std::shared_ptr<genericReg> memoryIO::getRegTag(
     const std::string &tag, const std::string &name,
     const SEP::usage_code usage, const int ndimMax) {
   std::shared_ptr<memoryRegFile> x(new memoryRegFile(name, usage));

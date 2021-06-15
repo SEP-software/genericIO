@@ -11,7 +11,7 @@ sepIO::sepIO(const int argc, char **argv)
   _type = "SEP";
 }
 
-std::shared_ptr<genericRegFile>
+std::shared_ptr<genericReg>
 sepIO::getRegFileTag(const std::string &tag, const std::string &name,
                      const SEP::usage_code usage, const int ndimMax)
 {

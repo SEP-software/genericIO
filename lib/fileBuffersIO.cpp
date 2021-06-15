@@ -4,7 +4,7 @@
 #include <iostream>  // std::cout
 using namespace SEP;
 
-std::shared_ptr<genericRegFile> fileBuffersIO::getRegFileTag(
+std::shared_ptr<genericReg> fileBuffersIO::getRegTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax) {
   if (!_init && !_sentError) {

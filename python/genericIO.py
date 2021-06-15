@@ -157,11 +157,11 @@ class regFile:
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
             if isinstance(ioM,io):
-                self.cppMode = ioM.cppMode.getRegFile(
+                self.cppMode = ioM.cppMode.getReg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)
             else:
-                self.cppMode = ioM.getRegFile(
+                self.cppMode = ioM.getReg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())

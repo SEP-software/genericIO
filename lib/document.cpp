@@ -205,7 +205,7 @@ std::vector<float> document::getFloats(const std::string &par, const int nf,
   return x;
 }
 
-std::shared_ptr<genericRegFile> document::getRegFile(
+std::shared_ptr<genericReg> document::getRegFile(
     std::shared_ptr<genericIO> io, const std::string &par,
     const std::string &des, usage_code usage) {
   if (usage == usageIn)
@@ -215,7 +215,7 @@ std::shared_ptr<genericRegFile> document::getRegFile(
   else
     _pars.push_back(paramO(par, std::string("file"), des));
 
-  std::shared_ptr<genericRegFile> x;
+  std::shared_ptr<genericReg> x;
   try {
     x = io->getRegFile(par, usage);
 

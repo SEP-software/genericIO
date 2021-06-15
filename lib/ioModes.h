@@ -77,7 +77,7 @@ class ioModes {
      \param usage Usage for  file
      */
 
-  std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag,
+  std::shared_ptr<genericReg> getRegTag(const std::string &tag,
                                                 const std::string &ioname,
                                                 const std::string &name,
                                                 const usage_code usage);
@@ -107,7 +107,7 @@ class ioModes {
     \param Usage for file
     */
 
-  std::shared_ptr<genericRegFile> getGenericRegFile(const std::string &name,
+  std::shared_ptr<genericReg> getGenericReg(const std::string &name,
                                                     const usage_code usage);
   /*
     Return the default IO type

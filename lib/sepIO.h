@@ -29,7 +29,7 @@ Initialize IO with command line arguments
   \param ndimMax Output file should have ndimMax axes
 */
     virtual std::shared_ptr<SEP::genericReg>
-    getRegFileTag(const std::string &tag, const std::string &name,
+    getRegTag(const std::string &tag, const std::string &name,
                   const SEP::usage_code usage, const int ndim = -1) override;
     /*!
  Return a genericIrregFile object
@@ -41,7 +41,7 @@ Initialize IO with command line arguments
 
 */
     virtual std::shared_ptr<SEP::genericIrregFile>
-    getIrregFileTag(const std::string &tag, const std::string &name,
+    getIrregTag(const std::string &tag, const std::string &name,
                     const SEP::usage_code usage, const int ndimMax = -1) override;
 
     /*!
@@ -49,7 +49,7 @@ Initialize IO with command line arguments
 
     \param name  Return file type (invalid,regularFile,irregularFile)
   */
-    virtual SEP::file_type getFileType(const std::string &name) override;
+    virtual SEP::file_type getType(const std::string &name) override;
   };
 } // namespace SEP
 #endif

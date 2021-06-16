@@ -12,7 +12,7 @@ sepIO::sepIO(const int argc, char **argv)
 }
 
 std::shared_ptr<genericReg>
-sepIO::getRegFileTag(const std::string &tag, const std::string &name,
+sepIO::getRegTag(const std::string &tag, const std::string &name,
                      const SEP::usage_code usage, const int ndimMax)
 {
   std::shared_ptr<sepRegFile> x(new sepRegFile(name, usage));
@@ -22,7 +22,7 @@ sepIO::getRegFileTag(const std::string &tag, const std::string &name,
   return x;
 }
 std::shared_ptr<genericIrregFile>
-sepIO::getIrregFileTag(const std::string &tag, const std::string &name,
+sepIO::getIrregTag(const std::string &tag, const std::string &name,
                        const SEP::usage_code usage, const int ndimMax)
 {
   std::shared_ptr<sep3dFile> x(new sep3dFile(name, usage, ndimMax));
@@ -30,15 +30,15 @@ sepIO::getIrregFileTag(const std::string &tag, const std::string &name,
   return x;
 }
 
-SEP::file_type sepIO::getFileType(const std::string &name)
+SEP::file_type sepIO::getType(const std::string &name)
 {
 
   std::ifstream inps;
   inps.open(name, std::ifstream::in);
   if (!inps)
-    return SEP::invalidFile;
+    return SEP::invalid;
   if (NULL == auxin(name.c_str()))
-    return SEP::invalidFile;
+    return SEP::invalid;
   int n;
   char tmp[1024];
   if (0 == auxpar("n1", "d", &n, name.c_str()) ||
@@ -48,7 +48,7 @@ SEP::file_type sepIO::getFileType(const std::string &name)
   if (0 == auxpar("hff", "s", tmp, name.c_str()))
     return SEP::regularFile;
   if (strcmp("-1", tmp) == 0)
-    return SEP::regularFile;
+    return SEP::regular;
 
-  return SEP::irregularFile;
+  return SEP::irregular;
 }

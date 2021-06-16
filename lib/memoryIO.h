@@ -47,7 +47,7 @@ Initialize IO with command line arguments
 
     \param name  Return file type (invalid,regularFile,irregularFile)
   */
-    virtual SEP::file_type getFileType(const std::string &name) override
+    virtual SEP::file_type getType(const std::string &name) override
     {
       return SEP::regular;
     }

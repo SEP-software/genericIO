@@ -81,7 +81,7 @@ namespace SEP
 
     \param name  Return file type (invalid,regularFile,irregularFile)
   */
-    virtual SEP::file_type getFileType(const std::string &name) = 0;
+    virtual SEP::file_type getType(const std::string &name) = 0;
 
     /*!
      Return a genericReg object

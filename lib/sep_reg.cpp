@@ -323,7 +323,7 @@ void sepReg::putDescription(const std::string &title,
     auxputhead(_tag.c_str(), tmp.c_str());
   }
 }
-}
+
 Json::Value sepReg::getDescription()
 {
   char *tmp_ch;

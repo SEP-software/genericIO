@@ -21,7 +21,7 @@ sepIO::getRegTag(const std::string &tag, const std::string &name,
 
   return x;
 }
-std::shared_ptr<genericIrregFile>
+std::shared_ptr<genericIrreg>
 sepIO::getIrregTag(const std::string &tag, const std::string &name,
                        const SEP::usage_code usage, const int ndimMax)
 {

@@ -60,11 +60,7 @@ Get a string from a file
 
     virtual std::string getString(const std::string &arg,
                                   const std::string &def) const override;
-    /*! Seek to a given position inot a file
-  \param iv Relative location
-  \param whence (0, begining; 1, current; 2, end )
-  */
-    virtual void seekTo(const long long iv, const int whence) override;
+
     /*!
 Get boolean from a file
 

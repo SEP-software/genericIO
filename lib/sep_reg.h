@@ -125,15 +125,7 @@ Get floats from a file
   */
     virtual void error(const std::string &err) const override;
 
- /*!
-    Read the description of the file
-*/
-    virtual void readDescription(const int ndimMax = -1) override;
 
-    /*!
-Write  the description of the file
-*/
-    virtual void writeDescription() override;
 
     /*!
    Put integer to file
@@ -195,6 +187,8 @@ Write  the description of the file
     */
     void putDescription(const std::string &title,
                         const Json::Value &desc) override;
+
+   ~sepReg(){;}
 
   protected:
     std::string _tag; ///< Tag associated with dataset

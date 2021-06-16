@@ -393,15 +393,7 @@ nwind,fwind,jwind - Window parameters
      headers - Headers
      grid - Grid
      */
-     /*!
-    Read the description of the file
-*/
-    virtual void readDescription(const int ndimMax = -1) override;
 
-    /*!
-Write  the description of the file
-*/
-    virtual void writeDescription() override;
     void writeGrid(const std::vector<int> &nwind, const std::vector<int> &fwind,
                    const std::vector<int> &jwind,
                    const std::shared_ptr<byte2DReg> &headers,

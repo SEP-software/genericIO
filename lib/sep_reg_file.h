@@ -242,6 +242,7 @@ Read a portion of file based on window parameters
   Close a file
   */
     virtual void close() override;
+
  
 
 void seekTo(const long long iv, const int whence);

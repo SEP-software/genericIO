@@ -200,7 +200,7 @@ Write  the description of the file
     /*!
   Close a file
   */
-                           ~sepReg(){;}
+ ~sepReg(){;}
 
   protected:
     std::string _tag; ///< Tag associated with dataset

@@ -17,10 +17,7 @@ namespace SEP
 
     }
 
-    /*!
-     Remove file
-     */
-    virtual void remove() override;
+
     /*!
  Get an integer from a file
 

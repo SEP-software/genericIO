@@ -187,8 +187,20 @@ Get floats from a file
     */
     void putDescription(const std::string &title,
                         const Json::Value &desc) override;
+                        
+                            /*!
+    Read the description of the file
+*/
+    virtual void readDescription(const int ndim = -1) override;
 
-   ~sepReg(){;}
+    /*!
+Write  the description of the file
+*/
+    virtual void writeDescription() override;
+    /*!
+  Close a file
+  */
+                           ~sepReg(){;}
 
   protected:
     std::string _tag; ///< Tag associated with dataset

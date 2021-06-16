@@ -241,7 +241,9 @@ Read a portion of file based on window parameters
     /*!
   Close a file
   */
-    virtual void close() override;
+    virtual void close() override{
+        ;
+    }
  
      /*!
     Read the description of the file

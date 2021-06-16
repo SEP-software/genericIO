@@ -323,3 +323,21 @@ void sepReg::putDescription(const std::string &title,
     auxputhead(_tag.c_str(), tmp.c_str());
   }
 }
+}
+Json::Value sepReg::getDescription()
+{
+  char *tmp_ch;
+  int nsz = 100000;
+  int nout = nsz * 2;
+  tmp_ch = new char[1];
+  grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
+  nsz = nout + 1;
+  delete[] tmp_ch;
+  tmp_ch = new char[nout];
+  grab_history(_tag.c_str(), tmp_ch, nsz, &nout);
+  std::string d = tmp_ch;
+  delete[] tmp_ch;
+  Json::Value j;
+  j["SEPFILE"] = d;
+  return j;
+}

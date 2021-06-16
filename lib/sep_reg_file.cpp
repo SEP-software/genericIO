@@ -611,4 +611,12 @@ void sepRegFile::seekTo(const long long iv, const int whence)
   sseek(_tag.c_str(), iv, whence);
 }
 
-
+void sepRegFile::close()
+{
+  if (_tag == std::string("in"))
+  {
+    hclose();
+  }
+  else
+    auxclose(_tag.c_str());
+}

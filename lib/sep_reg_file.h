@@ -243,15 +243,9 @@ Read a portion of file based on window parameters
   */
     virtual void close() override;
  
-     /*!
-    Read the description of the file
-*/
-    virtual void readDescription(const int ndimMax = -1) override;
+
 void seekTo(const long long iv, const int whence);
-    /*!
-Write  the description of the file
-*/
-    virtual void writeDescription() override;
+
 
   };
 } // namespace SEP

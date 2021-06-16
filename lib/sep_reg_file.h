@@ -243,20 +243,15 @@ Read a portion of file based on window parameters
   */
     virtual void close() override;
  
+     /*!
+    Read the description of the file
+*/
+    virtual void readDescription(const int ndimMax = -1) override;
 
     /*!
-     Grab the history of a given file */
-    virtual Json::Value getDescription() override;
-
-    /*!
-    Put the content of JSON value into descrption file
-
-    \param  title How to refer to in the file
-
-    \param desc Description
-    */
-    void putDescription(const std::string &title,
-                        const Json::Value &desc) override;
+Write  the description of the file
+*/
+    virtual void writeDescription() override;
 
   };
 } // namespace SEP

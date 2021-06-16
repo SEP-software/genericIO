@@ -247,7 +247,7 @@ Read a portion of file based on window parameters
     Read the description of the file
 */
     virtual void readDescription(const int ndimMax = -1) override;
-
+void sepRegFile::seekTo(const long long iv, const int whence);
     /*!
 Write  the description of the file
 */

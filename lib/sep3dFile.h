@@ -11,7 +11,7 @@ extern "C"
 }
 namespace SEP
 {
-  class sep3dFile : public genericIrregFile
+  class sep3dFile : public genericIrreg
   {
   public:
     sep3dFile() { ; }

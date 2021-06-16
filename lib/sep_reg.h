@@ -181,10 +181,6 @@ Write  the description of the file
     virtual void putFloats(const std::string &par,
                            const std::vector<float> &val) override;
 
-    /*!
-     Grab the history of a given file */
-    virtual Json::Value getDescription() override;
-
 
     /*!
      Grab the history of a given file */

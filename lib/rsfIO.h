@@ -23,7 +23,7 @@ Initialize IO with command line arguments
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-  virtual std::shared_ptr<genericReg> getRegFileTag(
+  virtual std::shared_ptr<genericReg> getRegTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
   /*!
@@ -35,7 +35,7 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<genericIrregFile> getIrregFileTag(
+  virtual std::shared_ptr<genericIrreg> getIrregTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override {
     throw SEPException(std::string("Undefined getIrregFileTag"));

@@ -38,7 +38,7 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-    virtual std::shared_ptr<SEP::genericIrregFile> getIrregFileTag(
+    virtual std::shared_ptr<SEP::genericIrreg> getIrregTag(
         const std::string &tag, const std::string &name,
         const SEP::usage_code usage, const int ndimMax = -1) override;
 

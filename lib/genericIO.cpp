@@ -49,7 +49,7 @@ void genericIO::removeRegFile(const std::string fle)
 }
 
 std::shared_ptr<SEP::genericReg>
-genericIO::getDocRegFile(const std::string &name, const std::string &doc,
+genericIO::getDocReg(const std::string &name, const std::string &doc,
                          const std::string usage, const int ndimMax)
 {
   std::shared_ptr<SEP::genericReg> v;
@@ -65,14 +65,14 @@ genericIO::getDocRegFile(const std::string &name, const std::string &doc,
   return v;
 }
 
-std::shared_ptr<SEP::genericIrregFile>
-genericIO::getIrregFile(const std::string &name, const SEP::usage_code usage,
+std::shared_ptr<SEP::genericIrreg>
+genericIO::getIrreg(const std::string &name, const SEP::usage_code usage,
                         const int ndimMax)
 {
   std::shared_ptr<paramObj> par = getParamObj();
   std::string filename = par->getString(name, name);
 
-  return getIrregFileTag(name, filename, usage, ndimMax);
+  return getIrregTag(name, filename, usage, ndimMax);
 }
 void genericIO::fileDebug(const std::string nm, const float *data, const int n1,
                           const int n2, const int n3)

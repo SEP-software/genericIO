@@ -33,9 +33,9 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<genericIrregFile> getIrregFileTag(
+  virtual std::shared_ptr<genericIrreg> getIrregTag(
       const std::string &tag, const std::string &name, const usage_code usage) {
-    throw(SEPException(std::string("getIrregFileTag undefined for segyIO")));
+    throw(SEPException(std::string("getIrregTag undefined for segyIO")));
   }
   /*!
 Delete SEGYIO object

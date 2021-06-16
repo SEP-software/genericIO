@@ -70,8 +70,8 @@ jsonGenericIO::getRegTag(const std::string &tag, const std::string &name,
   return x;
 }
 
-std::shared_ptr<genericIrregFile>
-jsonGenericIO::getIrregFileTag(const std::string &tag, const std::string &name,
+std::shared_ptr<genericIrreg>
+jsonGenericIO::getIrregTag(const std::string &tag, const std::string &name,
                                const usage_code usage, const int ndimMax) {
   if (!_init && !_sentError) {
     _sentError = true;

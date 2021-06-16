@@ -19,13 +19,13 @@
 namespace SEP
 {
 
-  class genericIrregFile
+  class genericIrreg
   {
   public:
     /*!
    Default initialization
 */
-    genericIrregFile() { _type = DATA_UNKNOWN; }
+    genericIrreg() { _type = DATA_UNKNOWN; }
     /*!
   Remove file from system
   */
@@ -300,7 +300,7 @@ Get a string from a file
     /*!
     Delete irregularFile
     */
-    virtual ~genericIrregFile() { ; }
+    virtual ~genericIrreg() { ; }
 
     /*!
      Return headerKeys

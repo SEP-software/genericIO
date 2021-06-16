@@ -28,7 +28,7 @@ class gcpBuffersIO : public jsonGenericIO {
     \param usage Usage for file (in,out,scratch)
     \param ndimMax Output file should have ndimMax axes
   */
-  virtual std::shared_ptr<genericReg> getRegFileTag(
+  virtual std::shared_ptr<genericReg> getRegTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
   /*!
@@ -40,7 +40,7 @@ class gcpBuffersIO : public jsonGenericIO {
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<genericIrregFile> getIrregFileTag(
+  virtual std::shared_ptr<genericIrregFile> getIrregTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
   /*!

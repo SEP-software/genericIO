@@ -26,7 +26,7 @@ std::shared_ptr<genericReg> fileBuffersIO::getRegTag(
   return x;
 }
 
-std::shared_ptr<genericIrregFile> fileBuffersIO::getIrregFileTag(
+std::shared_ptr<genericIrreg> fileBuffersIO::getIrregTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax) {
   if (!_init && !_sentError) {

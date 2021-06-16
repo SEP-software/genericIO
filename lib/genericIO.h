@@ -60,8 +60,8 @@ namespace SEP
   \param ndimMax Output file should have ndimMax axes
 
 */
-    std::shared_ptr<SEP::genericIrregFile>
-    getIrregFile(const std::string &name, const SEP::usage_code usage,
+    std::shared_ptr<SEP::genericIrreg>
+    getIrreg(const std::string &name, const SEP::usage_code usage,
                  const int ndimMax = -1);
 
     /*!
@@ -92,7 +92,7 @@ namespace SEP
     \param ndimMax Output file should have ndimMax axes
   */
     virtual std::shared_ptr<SEP::genericReg>
-    getDocRegFile(const std::string &name, const std::string &doc,
+    getDocReg(const std::string &name, const std::string &doc,
                   const std::string usage, const int ndimMax = -1);
 
     /*!
@@ -132,8 +132,8 @@ namespace SEP
   \param ndimMax Output file should have ndimMax axes
 
 */
-    virtual std::shared_ptr<SEP::genericIrregFile>
-    getIrregFileTag(const std::string &tag, const std::string &name,
+    virtual std::shared_ptr<SEP::genericIrreg>
+    getIrregTag(const std::string &tag, const std::string &name,
                     const SEP::usage_code usage, const int ndimMax = -1) = 0;
 
     /*!
@@ -162,7 +162,7 @@ namespace SEP
 
    \param fle File to add the list of files
 */
-    void addIrregFile(std::string name, std::shared_ptr<genericIrregFile> fle)
+    void addIrregFile(std::string name, std::shared_ptr<genericIrreg> fle)
     {
       _irregFiles[name] = fle;
     }
@@ -223,7 +223,7 @@ namespace SEP
 
           \param name Tag for the file
   */
-    std::shared_ptr<genericIrregFile> getIrregFile(const std::string x)
+    std::shared_ptr<genericIrreg> getIrreg(const std::string x)
     {
       if (_irregFiles.count(x) == 0)
         _param->error(std::string("Requested unknown file ") + x);
@@ -284,7 +284,7 @@ namespace SEP
   protected:
     std::map<std::string, std::shared_ptr<genericReg>>
         _regFiles; ///< All active tags for regular files
-    std::map<std::string, std::shared_ptr<genericIrregFile>>
+    std::map<std::string, std::shared_ptr<genericIrreg>>
         _irregFiles;                  ///< All active tags for irregular files
     std::shared_ptr<paramObj> _param; ///< IO handler for this IO type
     bool _valid;                      ///< Whether or not IO type is valid

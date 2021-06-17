@@ -27,7 +27,7 @@ gcpBuffersRegFile::gcpBuffersRegFile(const Json::Value &arg,
   _usage = usage;
   jsonArgs["progName"] = progName;
   jsonArgs["name"] = tag;
-  _type = "GCP Buffers";
+  _type =SEP::DATA_UNKNOWN;
   _binary = "Multiple objects";
 }
 

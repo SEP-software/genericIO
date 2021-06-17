@@ -21,7 +21,7 @@ std::shared_ptr<genericReg> gcpBuffersIO::getRegTag(
   addRegFile(tag, x);
   return x;
 }
-std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
+std::shared_ptr<genericIrreg> gcpBuffersIO::getIrregTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax
     ) {

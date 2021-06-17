@@ -40,7 +40,7 @@ class gcpBuffersIO : public jsonGenericIO {
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<genericIrregFile> getIrregTag(
+  virtual std::shared_ptr<genericIrreg> getIrregTag(
       const std::string &tag, const std::string &name, const usage_code usage,
       const int ndimMax = -1) override;
   /*!

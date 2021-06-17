@@ -64,7 +64,7 @@ GCP
     }
 
   protected:
-    google::cloud::v0::StatusOr<google::cloud::storage::Client> _client;
+    google::cloud::StatusOr<google::cloud::storage::Client> _client;
 
   private:
     /*!

@@ -60,7 +60,7 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
     exit(1);
   }
   namespace gcs = google::cloud::storage;
-  google::cloud::v0::StatusOr<gcs::Client> client =
+  google::cloud::StatusOr<gcs::Client> client =
       gcs::Client::CreateDefaultClient();
   if (!client)
     throw(SEPException(std::string("Trouble creating default client")));
@@ -124,7 +124,7 @@ void gcpBuffersRegFile::setupGCP(const Json::Value &arg,
 void gcpBuffersRegFile::removeDescDir()
 {
   namespace gcs = google::cloud::storage;
-  google::cloud::v0::StatusOr<gcs::Client> client =
+  google::cloud::StatusOr<gcs::Client> client =
       gcs::Client::CreateDefaultClient();
 
   client.value().DeleteObject(_bucket, _dir + std::string("/desc"));
@@ -139,7 +139,7 @@ void gcpBuffersRegFile::close()
         _client.value().WriteObject(_bucket, _dir + std::string("/desc"));
     stream << jsonArgs;
     stream.Close();
-    google::cloud::v0::StatusOr<gcs::ObjectMetadata> metadata =
+    google::cloud::StatusOr<gcs::ObjectMetadata> metadata =
         std::move(stream).metadata();
     if (!metadata)
     {

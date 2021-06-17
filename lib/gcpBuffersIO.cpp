@@ -16,7 +16,7 @@ std::shared_ptr<genericReg> gcpBuffersIO::getRegTag(
       throw std::exception();
      }
    */
-  std::shared_ptr<jsonGenericReg> x(
+  std::shared_ptr<jsonGenericRegFile> x(
       new gcpBuffersRegFile(jsonArgs, usage, name, _progName,ndimMax));
   addRegFile(tag, x);
   return x;

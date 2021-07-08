@@ -14,14 +14,14 @@ Initialize IO with command line arguments
   _type="SEGY";
 }
   /*!
-   Return a genericRegFile object
+   Return a genericReg object
 
   \param tag Tag used to access dataset
   \param name Name of dataset
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-  virtual std::shared_ptr<genericRegFile> getRegFileTag(const std::string &tag,
+  virtual std::shared_ptr<genericReg> getRegFileTag(const std::string &tag,
                                                         const std::string &name,
                                                         const usage_code usage);
   /*!
@@ -33,9 +33,9 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-  virtual std::shared_ptr<genericIrregFile> getIrregFileTag(
+  virtual std::shared_ptr<genericIrreg> getIrregTag(
       const std::string &tag, const std::string &name, const usage_code usage) {
-    throw(SEPException(std::string("getIrregFileTag undefined for segyIO")));
+    throw(SEPException(std::string("getIrregTag undefined for segyIO")));
   }
   /*!
 Delete SEGYIO object

@@ -11,7 +11,7 @@ extern "C"
 }
 namespace SEP
 {
-  class sep3dFile : public genericIrregFile
+  class sep3dFile : public genericIrreg
   {
   public:
     sep3dFile() { ; }
@@ -393,6 +393,7 @@ nwind,fwind,jwind - Window parameters
      headers - Headers
      grid - Grid
      */
+
     void writeGrid(const std::vector<int> &nwind, const std::vector<int> &fwind,
                    const std::vector<int> &jwind,
                    const std::shared_ptr<byte2DReg> &headers,

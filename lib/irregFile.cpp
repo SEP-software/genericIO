@@ -2,11 +2,11 @@
 #include "string.h"
 using namespace SEP;
 
-void genericIrregFile::setHyper(const std::shared_ptr<SEP::hypercube> &hyp)
+void genericIrreg::setHyper(const std::shared_ptr<SEP::hypercube> &hyp)
 {
   _hyper = hyp->clone();
 }
-std::string genericIrregFile::getDataTypeString()
+std::string genericIrreg::getDataTypeString()
 {
   dataType x = getDataType();
 
@@ -37,7 +37,7 @@ std::string genericIrregFile::getDataTypeString()
     return std::string("dataUndefined");
   }
 }
-int genericIrregFile::getDataEsize()
+int genericIrreg::getDataEsize()
 {
   dataType x = getDataType();
 
@@ -66,7 +66,7 @@ int genericIrregFile::getDataEsize()
   }
 }
 
-std::string genericIrregFile::getDescriptionString()
+std::string genericIrreg::getDescriptionString()
 {
 
   Json::Value x = getDescription();
@@ -74,14 +74,14 @@ std::string genericIrregFile::getDescriptionString()
   return fast.write(x);
 }
 
-std::string genericIrregFile::getDataDescriptionString()
+std::string genericIrreg::getDataDescriptionString()
 {
   Json::Value x = getDataDescription();
   Json::FastWriter fast;
   return fast.write(x);
 }
 std::pair<std::map<std::string, int>, std::map<std::string, int>>
-genericIrregFile::createOffsetMap() const
+genericIrreg::createOffsetMap() const
 {
 
   std::vector<std::string> keyList = getHeaderKeyList();
@@ -114,7 +114,7 @@ genericIrregFile::createOffsetMap() const
 }
 
 std::shared_ptr<byte1DReg>
-genericIrregFile::extractByte(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractByte(std::shared_ptr<byte2DReg> buf,
                               const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -130,7 +130,7 @@ genericIrregFile::extractByte(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<short1DReg>
-genericIrregFile::extractShort(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractShort(std::shared_ptr<byte2DReg> buf,
                                const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -146,7 +146,7 @@ genericIrregFile::extractShort(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<int1DReg>
-genericIrregFile::extractInt(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractInt(std::shared_ptr<byte2DReg> buf,
                              const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -162,7 +162,7 @@ genericIrregFile::extractInt(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<float1DReg>
-genericIrregFile::extractFloat(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractFloat(std::shared_ptr<byte2DReg> buf,
                                const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -178,7 +178,7 @@ genericIrregFile::extractFloat(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<complex1DReg>
-genericIrregFile::extractComplex(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractComplex(std::shared_ptr<byte2DReg> buf,
                                  const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -194,7 +194,7 @@ genericIrregFile::extractComplex(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<double1DReg>
-genericIrregFile::extractDouble(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractDouble(std::shared_ptr<byte2DReg> buf,
                                 const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -210,7 +210,7 @@ genericIrregFile::extractDouble(std::shared_ptr<byte2DReg> buf,
   return out;
 }
 std::shared_ptr<complexDouble1DReg>
-genericIrregFile::extractComplexDouble(std::shared_ptr<byte2DReg> buf,
+genericIrreg::extractComplexDouble(std::shared_ptr<byte2DReg> buf,
                                        const int off) const
 {
   char *inb = (char *)buf->getVals();
@@ -225,7 +225,7 @@ genericIrregFile::extractComplexDouble(std::shared_ptr<byte2DReg> buf,
   }
   return out;
 }
-void genericIrregFile::insertValue(void *outv, void *inv, const int off,
+void genericIrreg::insertValue(void *outv, void *inv, const int off,
                                    const int sz, const int n1,
                                    const int n2) const
 {
@@ -238,7 +238,7 @@ void genericIrregFile::insertValue(void *outv, void *inv, const int off,
     memcpy(outb + n1 * i + off, inb + i * sz, sz);
   }
 }
-void genericIrregFile::putDescriptionString(const std::string &title,
+void genericIrreg::putDescriptionString(const std::string &title,
                                             const std::string &descrp)
 {
   Json::Value x;
@@ -250,7 +250,7 @@ void genericIrregFile::putDescriptionString(const std::string &title,
   putDescription(title, x);
 }
 
-void genericIrregFile::putDataDescriptionString(const std::string &descrp)
+void genericIrreg::putDataDescriptionString(const std::string &descrp)
 {
   Json::Value x;
   Json::Reader reader;
@@ -258,7 +258,7 @@ void genericIrregFile::putDataDescriptionString(const std::string &descrp)
     throw SEPException("trouble parsing string");
   putDataDescription(x);
 }
-void genericIrregFile::checkWindow(const std::vector<int> &nwind,
+void genericIrreg::checkWindow(const std::vector<int> &nwind,
                                    const std::vector<int> &fwind,
                                    const std::vector<int> &jwind,
                                    std::shared_ptr<SEP::hypercube> hyper)
@@ -280,7 +280,7 @@ void genericIrregFile::checkWindow(const std::vector<int> &nwind,
   }
 }
 
-void genericIrregFile::setHaveGrid(const bool gr)
+void genericIrreg::setHaveGrid(const bool gr)
 {
   if (_writeLastH != 0)
   {

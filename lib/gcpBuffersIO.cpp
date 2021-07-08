@@ -4,7 +4,7 @@
 #include <iostream>  // std::cout
 using namespace SEP;
 
-std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
+std::shared_ptr<genericReg> gcpBuffersIO::getRegTag(
     const std::string &tag, const std::string &name, const usage_code usage,
      const int ndimMax) {
   if (!_init && !_sentError) {
@@ -21,7 +21,7 @@ std::shared_ptr<genericRegFile> gcpBuffersIO::getRegFileTag(
   addRegFile(tag, x);
   return x;
 }
-std::shared_ptr<genericIrregFile> gcpBuffersIO::getIrregFileTag(
+std::shared_ptr<genericIrreg> gcpBuffersIO::getIrregTag(
     const std::string &tag, const std::string &name, const usage_code usage,
     const int ndimMax
     ) {

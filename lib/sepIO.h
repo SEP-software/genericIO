@@ -21,15 +21,15 @@ Initialize IO with command line arguments
 */
     sepIO(const int argc, char **argv);
     /*!
-   Return a genericRegFile object
+   Return a genericReg object
 
   \param tag Tag used to access dataset
   \param name Name of dataset
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-    virtual std::shared_ptr<SEP::genericRegFile>
-    getRegFileTag(const std::string &tag, const std::string &name,
+    virtual std::shared_ptr<SEP::genericReg>
+    getRegTag(const std::string &tag, const std::string &name,
                   const SEP::usage_code usage, const int ndim = -1) override;
     /*!
  Return a genericIrregFile object
@@ -40,8 +40,8 @@ Initialize IO with command line arguments
 \param ndimMax Output file should have ndimMax axes
 
 */
-    virtual std::shared_ptr<SEP::genericIrregFile>
-    getIrregFileTag(const std::string &tag, const std::string &name,
+    virtual std::shared_ptr<SEP::genericIrreg>
+    getIrregTag(const std::string &tag, const std::string &name,
                     const SEP::usage_code usage, const int ndimMax = -1) override;
 
     /*!
@@ -49,7 +49,7 @@ Initialize IO with command line arguments
 
     \param name  Return file type (invalid,regularFile,irregularFile)
   */
-    virtual SEP::file_type getFileType(const std::string &name) override;
+    virtual SEP::file_type getType(const std::string &name) override;
   };
 } // namespace SEP
 #endif

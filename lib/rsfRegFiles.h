@@ -59,7 +59,7 @@ class rsfBasic : public basicIO {
    RSF implementation of a generic file
    */
 
-class rsfRegFile : public genericRegFile {
+class rsfRegFile : public genericReg {
  public:
   /*!
     Initialize RSF reg file

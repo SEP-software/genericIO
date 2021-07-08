@@ -9,7 +9,7 @@ namespace SEP
   Regular file object for in memory (more of a testing class)
 
 */
-  class memoryRegFile : public SEP::genericRegFile
+  class memoryRegFile : public SEP::genericReg
   {
   public:
     /*!

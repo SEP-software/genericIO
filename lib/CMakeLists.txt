@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
+
 project(Generic-cpp)
 
 #find_package(Boost 1.40 COMPONENTS program_options unit_test_framework REQUIRED)
@@ -47,9 +48,10 @@ if(USE_SEP)
       ${SOURCES}
       sepIO.cpp
       sep3dFile.cpp
+      sep_reg.cpp
       sep_reg_file.cpp
       sep_params.cpp)
-  set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg_file.h)
+  set(INCLUDES ${INCLUDES} sep_params.h sepIO.h sep3dFile.h sep_reg.h sep_reg_file.h)
 endif(USE_SEP)
 
 if(USE_RSF)
@@ -69,7 +71,8 @@ target_include_directories(
   genericCpp
   PUBLIC $<INSTALL_INTERFACE:include>
          $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/../>
-         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+         )
 
 target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 

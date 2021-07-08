@@ -47,7 +47,7 @@ class document {
   std::vector<float> getFloats(const std::string &par, const int nf,
                                const std::string &des);
 
-  std::shared_ptr<genericRegFile> getRegFile(std::shared_ptr<genericIO> io,
+  std::shared_ptr<genericReg> getRegFile(std::shared_ptr<genericIO> io,
                                              const std::string &par,
                                              const std::string &des,
                                              SEP::usage_code usage);

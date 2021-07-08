@@ -37,15 +37,15 @@ Initialize IO JSON parameters
   */
     Json::Value getArgs() { return jsonArgs; }
     /*!
-   Return a genericRegFile object
+   Return a genericReg object
 
   \param tag Tag used to access dataset
   \param name Name of dataset
   \param usage Usage for file (in,out,scratch)
   \param ndimMax Output file should have ndimMax axes
 */
-    virtual std::shared_ptr<genericRegFile>
-    getRegFileTag(const std::string &tag, const std::string &name,
+    virtual std::shared_ptr<genericReg>
+    getRegTag(const std::string &tag, const std::string &name,
                   const usage_code usage, const int ndimMax = -1) override;
     /*!
    Return a genericIrregFile object
@@ -58,17 +58,17 @@ Initialize IO JSON parameters
 
 */
 
-    virtual std::shared_ptr<genericIrregFile>
-    getIrregFileTag(const std::string &tag, const std::string &name,
+    virtual std::shared_ptr<genericIrreg>
+    getIrregTag(const std::string &tag, const std::string &name,
                     const usage_code usage, const int ndimMax = -1) override;
     /*!
      Return file type
 
     \param name  Return file type (invalid,regularFile,irregularFile)
   */
-    virtual SEP::file_type getFileType(const std::string &name) override
+    virtual SEP::file_type getType(const std::string &name) override
     {
-      return SEP::regularFile;
+      return SEP::regular;
     }
 
     /*!

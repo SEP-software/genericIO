@@ -13,7 +13,7 @@ namespace SEP
   /*!
    Irregular file described by JSON
 */
-  class jsonGenericIrregFile : public genericIrregFile
+  class jsonGenericIrregFile : public genericIrreg
   {
   public:
     // sepRegFile::sepRegFile(const std::string tag,usage_code usage){

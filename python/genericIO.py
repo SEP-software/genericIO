@@ -157,11 +157,11 @@ class regFile:
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
             if isinstance(ioM,io):
-                self.cppMode = ioM.cppMode.getRegFile(
+                self.cppMode = ioM.cppMode.getReg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)
             else:
-                self.cppMode = ioM.getRegFile(
+                self.cppMode = ioM.getReg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromHyper"].getCpp())
@@ -532,11 +532,11 @@ class irregFile:
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
             if isinstance(ioM,io):
-                self.cppMode = ioM.cppMode.getIrregFile(
+                self.cppMode = ioM.cppMode.getIrreg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)
             else:
-                self.cppMode = ioM.getIrregFile(
+                self.cppMode = ioM.getIrreg(
                     self.tag, usageConvert[
                         self.usage], ndimMax)                
             if "headerHyper" not in kw:
@@ -1118,7 +1118,7 @@ class io:
         """Return type"""
         return self.cppMode.getType()
 
-    def getFileType(self,nm):
+    def getType(self,nm):
         """Return fileType"""
         return fileTypeInv[self.cppMode.getFileType(nm)]
 

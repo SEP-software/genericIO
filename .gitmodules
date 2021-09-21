@@ -6,3 +6,6 @@
 	path = external/segyio
 	url = https://github.com/equinor/segyio.git
         ignore = dirty
+[submodule "external/buffers"]
+	path = external/buffers
+	url = http://cees-gitlab.stanford.edu/bob/buffers.git

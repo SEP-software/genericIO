@@ -8,4 +8,4 @@
         ignore = dirty
 [submodule "external/buffers"]
 	path = external/buffers
-	url = http://cees-gitlab.Stanford.EDU/bob/buffers.git
+	url = http://cees-gitlab.stanford.edu/bob/buffers.git

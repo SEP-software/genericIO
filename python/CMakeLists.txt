@@ -7,6 +7,19 @@ set(CMAKE_INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 # This is a CMake example for Python
 
+set(PYREQ scikit-build)
+foreach (PACKAGE IN LISTS ${PYREQ})
+ execute_process(
+    COMMAND Python3:Interpreter -c "import ${PACKAGE}"
+    RESULT_VARIABLE EXIT_CODE
+    OUTPUT_QUIET
+)
+if (NOT ${EXIT_CODE} EQUAL 0)
+  message(FATAL_ERROR " Required ${PACKAGE} python3 package not installed")
+  endif()
+
+endforeach()
+
 
   pybind11_add_module(pyGenericIO MODULE pyIO.cpp)
   target_include_directories(

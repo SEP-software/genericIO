@@ -180,7 +180,7 @@ class regFile:
                 raise Exception(
                     "Can not have usageIn when creating from Hypercube")
             
-            self.cppMode = ioM.getRegFile(
+            self.cppMode = ioM.getReg(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.setHyper(kw["fromVector"].getCpp().getHyper())
@@ -194,7 +194,7 @@ class regFile:
             elif self.usage == "usageOut":
                 raise Exception(
                     "Can not specify usageOut when creating from a file")
-            self.cppMode = ioM.getRegFile(
+            self.cppMode = ioM.getReg(
                 self.tag, usageConvert[
                     self.usage], ndimMax)
             self.cppMode.readDescription(ndimMax)

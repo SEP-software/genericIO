@@ -74,30 +74,16 @@ else(BUILD_GCP)
 
 endif(BUILD_GCP)
 
-if(SEPLIB_BUILD)
+if(BUILD_SEP)
 
   set(GEN_IO_TYPES "${GEN_IO_TYPES} ,\"SEP\"")
 
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../../sep3d
-                      ${CMAKE_CURRENT_SOURCE_DIR}/../../sep
-                      ${CMAKE_CURRENT_SOURCE_DIR}/../../include
-                      ${CMAKE_CURRENT_BINARY_DIR}/../../)
   set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} sep3d sep)
   set(USE_SEP true)
-else(SEPLIB_BUILD)
-  if(BUILD_SEP)
-    find_package(SEPlib)
-  endif(BUILD_SEP)
-  set(EXTERNAL_TARGETS)
-  if(SEPlib_FOUND)
-    message("INSTALLING WITH SEPLIB  DIR ${SEPlib_INCLUDE_DIRS}")
-    include_directories(${SEPlib_INCLUDE_DIRS})
-    set(EXTERNAL_TARGETS ${EXTERNAL_TARGETS} sep3d sep)
-    set(USE_SEP true)
-  else()
+else(BUILD_SEP)
     message("NOT INSTALLING WITH SEPlib")
   endif()
-endif(SEPLIB_BUILD)
+endif(BUILD_SEP)
 
 if(USE_SEP)
   set(DEFAULTIO "SEP")

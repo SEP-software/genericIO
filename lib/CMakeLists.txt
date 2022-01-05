@@ -74,13 +74,10 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
          )
 
-mesSAGE("eeee ${EXTERNAL_TARGETS}")
 target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 
-if(NOT SUPPORT_LIBRARIES_BUILD)
   install(FILES ${INCLUDES} DESTINATION include)
   install(TARGETS genericCpp DESTINATION lib EXPORT genericIOExports)
-endif(NOT SUPPORT_LIBRARIES_BUILD)
 
 if(BUILD_TEST)
   add_executable(testMemoryFile test_memoryFile.cpp)

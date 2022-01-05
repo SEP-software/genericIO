@@ -82,7 +82,6 @@ if(BUILD_SEP)
   set(USE_SEP true)
 else(BUILD_SEP)
     message("NOT INSTALLING WITH SEPlib")
-  endif()
 endif(BUILD_SEP)
 message("EXTERBAK ${EXTERNAL_TARGETS}")
 

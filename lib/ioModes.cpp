@@ -40,6 +40,7 @@ void ioModes::setup(const int argc,  char **argv) {
 #endif
 #ifdef USE_SEP
 
+   std::cerr<<"IN SEP INIT"<<std::endl;
   std::shared_ptr<sepIO> c(new sepIO(argc, argv));
   _ios["SEP"] = c;
 #else
@@ -49,6 +50,7 @@ void ioModes::setup(const int argc,  char **argv) {
   _ios["memory"] = e;
 
   _defaultType = DEFAULTIO;
+  std::cerr<<"THE TYPE "<<_defaultType<<std::endl;
   _defaultIO = _ios[_defaultType];
 
   std::shared_ptr<paramObj> _par = getParamObj();

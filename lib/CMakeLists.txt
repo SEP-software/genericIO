@@ -74,6 +74,7 @@ target_include_directories(
          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
          )
 
+mesSAGE("eeee ${EXTERNAL_TARGETS}")
 target_link_libraries(genericCpp sepVector buffers ${EXTERNAL_TARGETS})
 
 if(NOT SUPPORT_LIBRARIES_BUILD)

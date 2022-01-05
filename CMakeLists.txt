@@ -83,7 +83,6 @@ if(BUILD_SEP)
 else(BUILD_SEP)
     message("NOT INSTALLING WITH SEPlib")
 endif(BUILD_SEP)
-message("EXTERBAK ${EXTERNAL_TARGETS}")
 
 if(USE_SEP)
   set(DEFAULTIO "SEP")

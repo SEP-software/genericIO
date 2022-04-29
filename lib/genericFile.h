@@ -15,7 +15,6 @@
 #include "ioTypes.h"
 #include "json.h"
 #include "paramObj.h"
-#include "sepVectorConfig.h"
 namespace SEP
 {
   enum usage_code

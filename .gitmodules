@@ -1,6 +1,6 @@
 [submodule "external/sepVector"]
 	path = external/sepVector
-	url = http://cees-gitlab.Stanford.EDU/bob/sepVector.git
+	url = https://github.com/SEP-software/sepVector.git
         ignore = dirty
 [submodule "external/segyio"]
 	path = external/segyio
@@ -8,5 +8,5 @@
         ignore = dirty
 [submodule "external/buffers"]
 	path = external/buffers
-	url = http://cees-gitlab.stanford.edu/bob/buffers.git
+	url = https://github.com/SEP-software/buffers.git
 	ignore = dirty
